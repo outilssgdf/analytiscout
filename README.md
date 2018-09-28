@@ -14,14 +14,14 @@ Un jeu d'outils en Java pour faciliter la conversion des données de l'internet S
 - Passer le fichier au convertisseur (via la servlet)
 
 ## Le résultat
-On obtient une archive zip avec des fichiers :
+On obtient une archive zip avec plein de fichiers :
 - tout.csv : Fichier CSV importable dans Gmail créant un groupe par unité
 - maitrises.cvs : Fichier CSV importable dans Gmail avec les coordonnées des chefs et cheftaines
-<unité>_enfants.cvs : Fichier CSV importable dans Gmail pour une unité avec les coordonnées des parents sous la forme "Papa de..." et "Maman de..."
-<unité>_parents.cvs : Fichier CSV importable dans Gmail pour une unité avec les coordonnées des parents avec leurs noms
-chefs_<unité>.txt : Fichiers textes contenant les adresses email des chefs et cheftaines
-parents.txt : Fichiers textes contenant les adresses email des parents
-parents_<unité>.txt : Fichiers textes contenant les adresses email des parents pour une unité
+- <unité>_enfants.cvs : Fichier CSV importable dans Gmail pour une unité avec les coordonnées des parents sous la forme "Papa de..." et "Maman de..."
+- <unité>_parents.cvs : Fichier CSV importable dans Gmail pour une unité avec les coordonnées des parents avec leurs noms
+- chefs_<unité>.txt : Fichiers textes contenant les adresses email des chefs et cheftaines
+- parents.txt : Fichiers textes contenant les adresses email des parents
+- parents_<unité>.txt : Fichiers textes contenant les adresses email des parents pour une unité
 
 ## Outils
 - Java 8

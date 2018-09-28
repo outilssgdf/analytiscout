@@ -7,11 +7,9 @@
   <url>https://github.com/sbouchex/outilssgdf</url>
   <packaging>pom</packaging>
   <modules>
-    <module>convertisseur-extraction</module>
-    <module>exemple-convertisseur</module>
-    <module>servlet-extraction</module>
+    <module>extraction-exemple</module>
+    <module>extraction-servlet</module>
     <module>extraction-embeddedtomcat</module>
     <module>extraction-convertisseur</module>
-    <module>extraction-servlet</module>
   </modules>
 </project>

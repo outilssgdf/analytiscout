@@ -4,8 +4,11 @@
     <title>Conversion et check de données intranet SGDF</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="http://malsup.github.com/jquery.form.js"></script> 
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.css"/>
+ 	<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.js"></script>
   </head>
   <body>
+  <H1>Outils de conversion et v&eacute;rification de donn&eacute;es intranet SGDF</H1>
   <h2>Extraction</h2>
     
 <script type="text/javascript">
@@ -14,26 +17,57 @@
 		$('#formCheck').ajaxForm({
 				   "formId": "formCheck",
 			        "method": "POST",
-			        "url": "/extraction/api/v1/check",
-			        "success": function (data) {
-			        	alert("data check"); 
-			        }
+			        "url": "/extractionsgdf/api/v1/check",
+					"success" : function(data, statut) {
+						var dataset = [];
+					  	jQuery.each(data, function(i, val)
+				    	{
+				    		var d = [];
+				    		d.push(val.unite);
+				    		d.push(val.nom);
+				    		d.push(val.probleme);
+				    		dataset.push(d);
+				    	})
+				    	$('#checkTable').DataTable( {
+				        	data: dataset,
+				        	paging: true,
+				        	searching: true,
+				        	bInfo : false,
+				        	columns: [
+				           	 { title: "Unit&eacute;" },
+				           	 { title: "Nom" },
+				           	 { title: "Erreur" },
+				        	]
+				    	} );
+					}
 	       });
 	}); 
 </script>
 
-<form id="formConversion" method="post" action="/extraction/api/v1/convert" enctype="multipart/form-data">
-    Select image to upload:
+<form id="formConversion" method="post" action="/extractionsgdf/api/v1/convert" enctype="multipart/form-data">
+    S&eacute;lectionnez un fichier xlsx à convertir :
     <input type="file" name="fichier" id="fileToUpload">
     <input type="submit" value="Conversion" name="submit">
 </form>
 
-<h2>Check</h2>
+<BR>
+<HR>
+<h2>Vérification</h2>
 <form id="formCheck" method="post" enctype="multipart/form-data">
-    Select image to upload:
+    S&eacute;lectionnez un fichier xlsx à vérifier :
     <input type="file" name="fichier" id="fileToUpload">
     <input type="submit" value="Check" name="submit">
-</form>
-
+</form><BR>
+<table id="checkTable" width="100%" cellspacing="0">
+    	<thead>
+	        <tr>
+	            <th>Unit&eacute;</th>
+	            <th>Nom</th>
+	            <th>Erreur</th>
+	        </tr>
+    	</thead>
+    	<tbody>
+    	</tbody>
+	</table>
 </body>
 </html>

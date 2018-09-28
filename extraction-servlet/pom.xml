@@ -10,7 +10,7 @@
   <artifactId>extraction-servlet</artifactId>
   <name>extraction-servlet</name>
   <build>
-  	<finalName>extraction</finalName>
+  	<finalName>extractionsgdf</finalName>
 	</build>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

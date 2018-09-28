@@ -48,7 +48,7 @@ public class TomcatEmbedded {
 			
 		    String c = System.getProperty("user.dir");
 		    String root = c+"/../extraction-servlet/src/main/webapp";
-			Context rootCtx = tomcat.addWebapp("/extraction", root);
+			Context rootCtx = tomcat.addWebapp("/extractionsgdf", root);
 			rootCtx.getServletContext().setAttribute(Globals.ALT_DD_ATTR, root+"/WEB-INF/web.xml");
 
 			tomcat.start();

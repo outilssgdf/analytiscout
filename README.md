@@ -6,7 +6,7 @@ Un jeu d'outils en Java pour faciliter la conversion des données de l'internet S
 - extraction-convertisseur : Code permettant de construire une structure java avec les données intranet
 - exemple-convertisseur : Exemple d'utilisation en ligne de commande
 - extraction-servlet : Servlet utilisant la librairie d'extraction (une page html est disponible ainsi qu'une API swagger)
-- extraction-embeddedtomcat : Tomcat embedded lançant la servlet sur le port 8080 (sous l'url http://127.0.0.1:8080/extraction)
+- extraction-embeddedtomcat : Tomcat embedded lançant la servlet sur le port 8080 (sous l'url http://127.0.0.1:8080/extractionsgdf)
 
 ## Comment convertir un fichier "adhérents" ?
 - Utiliser le menu d'extraction de l'intranet (VOUS SAVEZ CE QUE VOUS FAITES ICI)
@@ -27,3 +27,9 @@ On obtient une archive zip avec plein de fichiers :
 - Java 8
 - Maven
 - Eclipse
+
+## Build
+- git clone https://github.com/sbouchex/outilssgdf.git
+- cd outilssgdf
+- mvn install
+- Le .war est "extraction-servlet/target/extractionsgdf.war"

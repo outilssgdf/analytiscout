@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Conversion et check de données intranet SGDF</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="http://malsup.github.com/jquery.form.js"></script> 
+  </head>
+  <body>
+  <h2>Extraction</h2>
+    
+<script type="text/javascript">
+
+	$(document).ready(function() { 
+		$('#formCheck').ajaxForm({
+				   "formId": "formCheck",
+			        "method": "POST",
+			        "url": "/extraction/api/v1/check",
+			        "success": function (data) {
+			        	alert("data check"); 
+			        }
+	       });
+	}); 
+</script>
+
+<form id="formConversion" method="post" action="/extraction/api/v1/convert" enctype="multipart/form-data">
+    Select image to upload:
+    <input type="file" name="fichier" id="fileToUpload">
+    <input type="submit" value="Conversion" name="submit">
+</form>
+
+<h2>Check</h2>
+<form id="formCheck" method="post" enctype="multipart/form-data">
+    Select image to upload:
+    <input type="file" name="fichier" id="fileToUpload">
+    <input type="submit" value="Check" name="submit">
+</form>
+
+</body>
+</html>

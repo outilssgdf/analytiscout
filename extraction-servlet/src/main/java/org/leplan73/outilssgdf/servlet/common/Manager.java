@@ -29,7 +29,7 @@ public class Manager implements ServletContextListener {
 		}
         beanConfig.setBasePath("/extraction/api");
         beanConfig.setResourcePackage(Server.class.getPackage().getName());
-        beanConfig.setDescription("Outils de convertion SGDF API");
+        beanConfig.setDescription("Outils de convertion SGDF");
         beanConfig.setScan( true );
  	}
     

@@ -16,7 +16,7 @@
             <param-name>jersey.config.server.provider.packages</param-name>
             <param-value>
             	io.swagger.jaxrs.listing,
-            	org.leplan73.outilssgdf.war
+            	org.leplan73.outilssgdf.servlet.war
             </param-value>
         </init-param>
         <init-param>

@@ -65,6 +65,7 @@ public class Adherent extends Hashtable<Integer, String> {
 		
 		String mobileIndividu1 = (String)this.get(colonnes.getMobileIndividu1Id());
 		String mobileIndividu2 = (String)this.get(colonnes.getMobileIndividu2Id());
+		String bureauIndividu = (String)this.get(colonnes.getBureauIndividu());
 		String mobilePere = (String)this.get(colonnes.getMobilePereId());
 		String mobileMere = (String)this.get(colonnes.getMobileMereId());
 		String emailIndividu1 = (String)this.get(colonnes.getEmailIndividuId());
@@ -76,10 +77,10 @@ public class Adherent extends Hashtable<Integer, String> {
 		boolean indiv1Mere = mobileMere != null && mobileIndividu1 != null ? mobileIndividu1.compareTo(mobileMere) == 0 : false;
 		boolean indiv2Pere = mobilePere != null && mobileIndividu2 != null ? mobileIndividu2.compareTo(mobilePere) == 0 : false;
 		boolean indiv2Mere = mobileMere != null && mobileIndividu2 != null ? mobileIndividu2.compareTo(mobileMere) == 0 : false;
-		boolean indivPere1 = emailPere != null && emailIndividu1 != null ? emailIndividu1.compareTo(emailPere) == 0 : false;
-		boolean indivMere1 = emailMere != null && emailIndividu1 != null ? emailIndividu1.compareTo(emailMere) == 0 : false;
-		boolean indivPere2 = emailPere != null && emailIndividu2 != null ? emailIndividu2.compareTo(emailPere) == 0 : false;
-		boolean indivMere2 = emailMere != null && emailIndividu2 != null ? emailIndividu2.compareTo(emailMere) == 0 : false;
+		boolean indivPere1 = emailPere != null && emailIndividu1 != null ? emailIndividu1.compareToIgnoreCase(emailPere) == 0 : false;
+		boolean indivMere1 = emailMere != null && emailIndividu1 != null ? emailIndividu1.compareToIgnoreCase(emailMere) == 0 : false;
+		boolean indivPere2 = emailPere != null && emailIndividu2 != null ? emailIndividu2.compareToIgnoreCase(emailPere) == 0 : false;
+		boolean indivMere2 = emailMere != null && emailIndividu2 != null ? emailIndividu2.compareToIgnoreCase(emailMere) == 0 : false;
 		
 		if (indiv1Pere)checks.add(new Check(unite.nom(), nomIndividu + " : " + prenomIndividu, "mobileIndividu1 == mobilePere"));
 		if (indiv1Mere) checks.add(new Check(unite.nom(), nomIndividu + " : " + prenomIndividu, "mobileIndividu1 == mobileMere"));
@@ -104,14 +105,24 @@ public class Adherent extends Hashtable<Integer, String> {
 			String mobileIndividu1 = (String)this.get(colonnes.getMobileIndividu1Id());
 			String emailIndividu = (String)this.get(colonnes.getEmailIndividuId());
 			
-			if (code >= Consts.CODE_VIOLETS || code == Consts.CODE_RESPONSABLE_FARFADETS)
+			if (code >= Consts.CODE_VIOLETS || code == Consts.CODE_RESPONSABLE_FARFADETS || code == Consts.CODE_PARENTS_FARFADETS)
 			{
 				if (nomIndividu != null && prenomIndividu != null)
 				{
 					os.print(prenomIndividu + " " + nomIndividu);
 					os.print(prenomIndividu);
 					os.print(nomIndividu);
-					os.print("Direction");
+					if (code == Consts.CODE_RESPONSABLE_FARFADETS)
+					{
+						os.print("Direction ::: Parents Farfadets");
+					}
+					else
+					{
+						if (code == Consts.CODE_PARENTS_FARFADETS)
+							os.print("Parents Farfadets");
+						else
+							os.print("Direction");
+					}
 					os.print(emailIndividu != null ? (emailIndividu.toLowerCase()) : "");
 					if (mobileIndividu1 != null)
 					{
@@ -123,30 +134,8 @@ public class Adherent extends Hashtable<Integer, String> {
 						os.print("");
 						os.print("");
 					}
-					return true;
 				}
-			}
-			else if (code == Consts.CODE_RESPONSABLE_FARFADETS)
-			{
-				if (nomIndividu != null && prenomIndividu != null)
-				{
-					os.print(prenomIndividu + " " + nomIndividu);
-					os.print(prenomIndividu);
-					os.print(nomIndividu);
-					os.print("Parents Farfadets");
-					os.print(emailIndividu != null ? (emailIndividu.toLowerCase()) : "");
-					if (mobileIndividu1 != null)
-					{
-						os.print("Mobile");
-						os.print(mobileIndividu1);
-					}
-					else
-					{
-						os.print("");
-						os.print("");
-					}
-					return true;
-				}
+				return true;
 			}
 			else
 			{
@@ -155,7 +144,7 @@ public class Adherent extends Hashtable<Integer, String> {
 					os.print(prenomIndividu + " " + nomIndividu);
 					os.print(prenomIndividu);
 					os.print(nomIndividu);
-					os.print("Maitrise ::: Chefs " + unitAdherent);
+					os.print("Maitrises ::: Chefs " + unitAdherent);
 					os.print(emailIndividu != null ? (emailIndividu.toLowerCase()) : "");
 					if (mobileIndividu1 != null)
 					{

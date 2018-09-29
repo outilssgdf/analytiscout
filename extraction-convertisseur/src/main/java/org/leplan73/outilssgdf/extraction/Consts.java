@@ -8,7 +8,7 @@ public class Consts {
 	static final public int CODE_RESPONSABLES = 200;
 	static final public int CODE_RESPONSABLE_FARFADETS = 270;
 	static final public int CODE_PARENTS_FARFADETS = 271;
-	static final public int CODE_VIOLETS = 200;
+	static final public int CODE_VIOLETS = 300;
 	
 	static final public String GROUPE_PARENTS = "Parents";
 }

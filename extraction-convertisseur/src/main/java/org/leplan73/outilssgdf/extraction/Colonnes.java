@@ -25,6 +25,7 @@ public class Colonnes extends TreeMap<Integer, String> {
 	private int emailMereId = -1;
 	private int mobileMereId = -1;
 	private int fonctionCodeId = -1;
+	private int bureauIndividu = -1;
 	
 	public void calculCodes() throws ExtractionException
 	{
@@ -57,6 +58,10 @@ public class Colonnes extends TreeMap<Integer, String> {
 			else if (this.get(key).compareTo("Individu.TelephonePortable2") == 0)
 			{
 				mobileIndividu2 = key;
+			}
+			else if (this.get(key).compareTo("Individu.TelephoneBureau") == 0)
+			{
+				bureauIndividu = key;
 			}
 			else if (this.get(key).compareTo("Individu.CourrielPersonnel") == 0)
 			{
@@ -105,6 +110,7 @@ public class Colonnes extends TreeMap<Integer, String> {
 		if (uniteId == -1) throw new ExtractionException("Erreur uniteId");
 		if (nomIndividuId == -1) throw new ExtractionException("Erreur nomIndividuId");
 		if (prenomIndividuId == -1) throw new ExtractionException("Erreur prenomIndividuId");
+		if (bureauIndividu == -1) throw new ExtractionException("Erreur bureauIndividuId");
 		if (emailIndividuId == -1) throw new ExtractionException("Erreur emailIndividuId");
 		if (emailIndividu2Id == -1) throw new ExtractionException("Erreur emailIndividu2Id");
 		if (mobileIndividu1 == -1) throw new ExtractionException("Erreur mobileIndividu1");
@@ -186,5 +192,9 @@ public class Colonnes extends TreeMap<Integer, String> {
 
 	public int getMobileIndividu2Id() {
 		return mobileIndividu2;
+	}
+
+	public int getBureauIndividu() {
+		return bureauIndividu;
 	}
 }

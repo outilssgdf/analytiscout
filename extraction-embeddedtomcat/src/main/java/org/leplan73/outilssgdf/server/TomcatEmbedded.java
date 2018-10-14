@@ -1,7 +1,8 @@
 package org.leplan73.outilssgdf.server;
 
-import java.net.URL;
-import java.net.URLClassLoader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 
 import org.apache.catalina.Context;
 import org.apache.catalina.Globals;
@@ -9,7 +10,8 @@ import org.apache.catalina.LifecycleException;
 import org.apache.catalina.Service;
 import org.apache.catalina.connector.Connector;
 import org.apache.catalina.startup.Tomcat;
-import org.apache.log4j.PropertyConfigurator;
+import org.apache.logging.log4j.core.config.ConfigurationSource;
+import org.apache.logging.log4j.core.config.Configurator;
 
 public class TomcatEmbedded {
 
@@ -31,15 +33,19 @@ public class TomcatEmbedded {
 	public void startServer()
 	{
 		// Debug trace if needed
-        URL configFileResource = URLClassLoader.getSystemResource("logging.properties");
-        if (configFileResource == null) {
-        	
-        	// Standard logging configuration file
-        	configFileResource = URLClassLoader.getSystemResource("org/leplan73/outilssgdf/servlet/resources/logging.properties");
-        }
-        if (configFileResource != null) {
-        	PropertyConfigurator.configure(configFileResource);
-        }
+		InputStream in = ClassLoader.getSystemResourceAsStream("log4j2.xml");
+		if (in == null) {
+			
+			// Standard logging configuration file
+		in = TomcatEmbedded.class.getResourceAsStream("log4j2.xml");
+		}
+		ConfigurationSource source;
+		try {
+			source = new ConfigurationSource(in);
+			Configurator.initialize(null, source);
+		} catch (FileNotFoundException e1) {
+		} catch (IOException e1) {
+		}
         
         try {
 			Tomcat tomcat = new Tomcat();

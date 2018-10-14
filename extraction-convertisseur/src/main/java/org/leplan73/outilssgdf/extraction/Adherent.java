@@ -2,20 +2,42 @@ package org.leplan73.outilssgdf.extraction;
 
 import java.io.IOException;
 import java.io.PrintStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.util.Date;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.csv.CSVPrinter;
 import org.leplan73.outilssgdf.Check;
 
-public class Adherent extends Hashtable<Integer, String> {
+public class Adherent {
 
-	private static final long serialVersionUID = 1L;
+	protected Map<Integer, String> data_ = new Hashtable<Integer, String>();
 	
-	private int code_;
-	private String codePapa_;
-	private String codeMaman_;
-	private String unite_;
+	protected int code_;
+	protected String codePapa_;
+	protected String codeMaman_;
+	protected String unite_;
+	protected Colonnes colonnes_;
+	protected long age_ = -1;
+	protected String groupe_;
+	
+	public Adherent(Colonnes colonnes)
+	{
+		colonnes_ = colonnes;
+	}
+	
+	public void add(int key, String text)
+	{
+		data_.put(key, text);
+	}
+	
+	public String get(Integer key) {
+		return data_.get(key);
+	}
 	
 	@Override
 	public int hashCode()
@@ -23,9 +45,66 @@ public class Adherent extends Hashtable<Integer, String> {
 		return code_;
 	}
 	
+	public Integer getCode()
+	{
+		return code_;
+	}
+	
 	public String getUnite()
 	{
 		return unite_;
+	}
+	
+	public String getGroupe()
+	{
+		return groupe_;
+	}
+	
+	public long getAge()
+	{
+		return age_;
+	}
+	
+	public String getDatedenaissance()
+	{
+		return this.get(colonnes_.getDatedeNaissanceId());
+	}
+	
+	public String getNom()
+	{
+		return this.get(colonnes_.getNomIndividuId());
+	}
+	
+	public String getPrenom()
+	{
+		return this.get(colonnes_.getPrenomIndividuId());
+	}
+	
+	public int getFonction()
+	{
+		return Integer.valueOf(this.get(colonnes_.getFonctionCodeId()));
+	}
+	
+	public int getJeune()
+	{
+		int fonction = Integer.valueOf(this.get(colonnes_.getFonctionCodeId()));
+		return fonction < 200 ? 1 : 0;
+	}
+	
+	public int getChef()
+	{
+		int fonction = Integer.valueOf(this.get(colonnes_.getFonctionCodeId()));
+		return fonction >= 200 ? 1 : 0;
+	}
+	
+	public String getChamp(String nom)
+	{
+		return data_.get(colonnes_.get(nom));
+	}
+	
+	public String getStructure()
+	{
+		return this.get(colonnes_.getStructureNom());
 	}
 	
 	public String getCodePapa()
@@ -48,17 +127,35 @@ public class Adherent extends Hashtable<Integer, String> {
 		codeMaman_ = codeMaman;
 	}
 	
-	public void init(Colonnes colonnes)
+	public void init()
 	{
-		String code = this.get(colonnes.getCodeAdherentId());
+		String code = this.get(colonnes_.getCodeAdherentId());
 		code_ = Integer.valueOf(code);
-		unite_ = (String)this.get(colonnes.getUniteId());
+		unite_ = (String)this.get(colonnes_.getUniteId());
+		
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		try {
+			Date dn = simpleDateFormat.parse(get(colonnes_.getDatedeNaissanceId()));
+			
+			long aj = Instant.now().toEpochMilli();
+			
+			long diff = ((aj - dn.getTime())/1000);
+			diff = diff/(3600*365*24);
+			
+			age_ = diff;
+		} catch (ParseException e) {
+		}
+	}
+	
+	public void setGroupe(String groupe)
+	{
+		groupe_ = groupe;
 	}
 	
 	public void check(Colonnes colonnes, Unite unite, List<Check> checks)
 	{
 		String unitAdherent = (String)this.get(colonnes.getUniteId());
-		if (unite != null && unitAdherent.compareTo(unite.nom()) != 0) return;
+		if (unite != null && unitAdherent.compareTo(unite.getNom()) != 0) return;
 
 		String nomIndividu = (String)this.get(colonnes.getNomIndividuId());
 		String prenomIndividu = (String)this.get(colonnes.getPrenomIndividuId());
@@ -82,20 +179,20 @@ public class Adherent extends Hashtable<Integer, String> {
 		boolean indivPere2 = emailPere != null && emailIndividu2 != null ? emailIndividu2.compareToIgnoreCase(emailPere) == 0 : false;
 		boolean indivMere2 = emailMere != null && emailIndividu2 != null ? emailIndividu2.compareToIgnoreCase(emailMere) == 0 : false;
 		
-		if (indiv1Pere)checks.add(new Check(unite.nom(), nomIndividu + " : " + prenomIndividu, "mobileIndividu1 == mobilePere"));
-		if (indiv1Mere) checks.add(new Check(unite.nom(), nomIndividu + " : " + prenomIndividu, "mobileIndividu1 == mobileMere"));
-		if (indiv2Pere) checks.add(new Check(unite.nom(), nomIndividu + " : " + prenomIndividu, "mobileIndividu2 == mobilePere"));
-		if (indiv2Mere) checks.add(new Check(unite.nom(), nomIndividu + " : " + prenomIndividu, "mobileIndividu2 == mobileMere"));
+		if (indiv1Pere)checks.add(new Check(unite.getNom(), nomIndividu + " : " + prenomIndividu, "mobileIndividu1 == mobilePere"));
+		if (indiv1Mere) checks.add(new Check(unite.getNom(), nomIndividu + " : " + prenomIndividu, "mobileIndividu1 == mobileMere"));
+		if (indiv2Pere) checks.add(new Check(unite.getNom(), nomIndividu + " : " + prenomIndividu, "mobileIndividu2 == mobilePere"));
+		if (indiv2Mere) checks.add(new Check(unite.getNom(), nomIndividu + " : " + prenomIndividu, "mobileIndividu2 == mobileMere"));
 		
-		if (indivPere1) checks.add(new Check(unite.nom(), nomIndividu + " : " + prenomIndividu, "emailIndividu1 == emailPere"));
-		if (indivMere1) checks.add(new Check(unite.nom(), nomIndividu + " : " + prenomIndividu, "emailIndividu1 == emailMere"));
-		if (indivPere2) checks.add(new Check(unite.nom(), nomIndividu + " : " + prenomIndividu, "emailIndividu2 == emailPere"));
-		if (indivMere2) checks.add(new Check(unite.nom(), nomIndividu + " : " + prenomIndividu, "emailIndividu2 == emailMere"));
+		if (indivPere1) checks.add(new Check(unite.getNom(), nomIndividu + " : " + prenomIndividu, "emailIndividu1 == emailPere"));
+		if (indivMere1) checks.add(new Check(unite.getNom(), nomIndividu + " : " + prenomIndividu, "emailIndividu1 == emailMere"));
+		if (indivPere2) checks.add(new Check(unite.getNom(), nomIndividu + " : " + prenomIndividu, "emailIndividu2 == emailPere"));
+		if (indivMere2) checks.add(new Check(unite.getNom(), nomIndividu + " : " + prenomIndividu, "emailIndividu2 == emailMere"));
 	}
 	
 	public boolean listeChefCvs(Colonnes colonnes, Unite unite, CSVPrinter os) throws IOException {
 		String unitAdherent = (String)this.get(colonnes.getUniteId());
-		if (unite != null && unitAdherent.compareTo(unite.nom()) != 0) return false;
+		if (unite != null && unitAdherent.compareTo(unite.getNom()) != 0) return false;
 		
 		int code = Integer.parseInt((String)this.get(colonnes.getFonctionCodeId()));
 		if (code >= Consts.CODE_RESPONSABLES)
@@ -165,7 +262,7 @@ public class Adherent extends Hashtable<Integer, String> {
 	
 	public void listeEmailChef(Colonnes colonnes, Unite unite, PrintStream os) {
 		String unitAdherent = (String)this.get(colonnes.getUniteId());
-		if (unite != null && unitAdherent.compareTo(unite.nom()) != 0) return;
+		if (unite != null && unitAdherent.compareTo(unite.getNom()) != 0) return;
 		
 		int code = Integer.parseInt((String)this.get(colonnes.getFonctionCodeId()));
 		if (code >= Consts.CODE_RESPONSABLES)
@@ -178,7 +275,7 @@ public class Adherent extends Hashtable<Integer, String> {
 
 	public void listeEmail(Colonnes colonnes, Unite unite, PrintStream os) {
 		String unitAdherent = (String)this.get(colonnes.getUniteId());
-		if (unite != null && unitAdherent.compareTo(unite.nom()) != 0) return;
+		if (unite != null && unitAdherent.compareTo(unite.getNom()) != 0) return;
 		
 		String emailPere = (String)this.get(colonnes.getEmailPereId());
 		String emailMere = (String)this.get(colonnes.getEmailMereId());

@@ -6,10 +6,16 @@
   <version>0.0.1-SNAPSHOT</version>
   <url>https://github.com/sbouchex/outilssgdf</url>
   <packaging>pom</packaging>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+  </properties>
   <modules>
     <module>extraction-exemple</module>
     <module>extraction-servlet</module>
     <module>extraction-embeddedtomcat</module>
     <module>extraction-convertisseur</module>
+    <module>extraction-cmdline</module>
   </modules>
 </project>

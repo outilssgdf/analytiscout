@@ -52,6 +52,20 @@
 
 <BR>
 <HR>
+<h2>Génération</h2>
+<form method="post" action="/extractionsgdf/api/v1/telecharge">
+   <p>
+       <label for="pseudo">identifiant :</label>
+       <input type="text" name="identifiant" id="identifiant" />
+       
+       <br />
+       <label for="pass">Votre mot de passe :</label>
+       <input type="password" name="password" id="password" />
+       <input type="submit" value="Envoyer" />
+   </p>
+</form>
+<BR>
+<HR>
 <h2>Vérification</h2>
 <form id="formCheck" method="post" enctype="multipart/form-data">
     S&eacute;lectionnez un fichier xlsx à vérifier :

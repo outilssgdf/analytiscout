@@ -9,14 +9,35 @@
   </parent>
   <artifactId>extraction-servlet</artifactId>
   <name>extraction-servlet</name>
+  <packaging>war</packaging>
   <build>
-  	<finalName>extractionsgdf</finalName>
+  
+    <plugins>
+         <plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-jar-plugin</artifactId>
+    <version>3.1.0</version>
+    <executions>
+        <execution>
+            <id>jar-services-provided</id>
+            <phase>compile</phase>
+            <goals>
+                <goal>jar</goal>
+            </goals>
+        </execution>
+    </executions>
+</plugin>
+
+<plugin>
+      <artifactId>maven-war-plugin</artifactId>
+    	<version>3.2.2</version>
+      <configuration>
+        <attachClasses>true</attachClasses>
+          <warName>extractionsgdf</warName>
+      </configuration>
+    </plugin>
+    </plugins>
 	</build>
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
-  </properties>
   <dependencies>
     <dependency>
     	<groupId>org.leplan73</groupId>
@@ -91,6 +112,18 @@
        <artifactId>javax.servlet-api</artifactId>
        <version>3.1.0</version>
     </dependency>
+<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-jul -->
+<dependency>
+    <groupId>org.apache.logging.log4j</groupId>
+    <artifactId>log4j-jul</artifactId>
+    <version>2.11.1</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-slf4j-impl -->
+<dependency>
+    <groupId>org.apache.logging.log4j</groupId>
+    <artifactId>log4j-slf4j-impl</artifactId>
+    <version>2.11.1</version>
+</dependency>
     	
 		<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-juli -->
 <dependency>
@@ -106,5 +139,4 @@
     <version>8.5.34</version>
 </dependency>
   </dependencies>
-  <packaging>war</packaging>
 </project>

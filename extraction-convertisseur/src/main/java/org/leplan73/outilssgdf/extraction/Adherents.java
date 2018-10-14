@@ -1,39 +1,24 @@
 package org.leplan73.outilssgdf.extraction;
 
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 
 import org.leplan73.outilssgdf.Check;
 
-public class Adherents extends HashSet<Adherent> {
+public class Adherents extends HashMap<Integer,Adherent> {
 	
 	private static final long serialVersionUID = 1L;
 	
-	public Set<Unite> unites(Colonnes colonnes)
-	{
-		Set<Unite> unites = new TreeSet<Unite>();
-		this.forEach(adherent ->
-		{
-			int idUnite = colonnes.getUniteId();
-			String unite = adherent.get(idUnite);
-			unites.add(new Unite(unite));
-		});
-		return unites;
-	}
-
 	public void check(Colonnes colonnes, final Unite unite, List<Check> checks) {
-		this.forEach(adherent ->
+		this.forEach((id,adherent) ->
 		{
-			if (!adherent.isEmpty())
 			adherent.check(colonnes, unite, checks);
 		});
 	}
 
 	public Parents parents(Colonnes colonnes) {
 		Parents parents = new Parents();
-		this.forEach(adherent ->
+		this.forEach((id,adherent) ->
 		{
 			Parent pere = new Parent();
 			if (pere.init(colonnes, adherent, true))

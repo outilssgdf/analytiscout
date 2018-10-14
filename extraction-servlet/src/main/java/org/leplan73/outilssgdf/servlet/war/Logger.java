@@ -1,18 +1,17 @@
 package org.leplan73.outilssgdf.servlet.war;
 
-import org.apache.juli.logging.Log;
-import org.apache.juli.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
 
 public class Logger {
 
-	static private Log logger_;
+	static private org.apache.logging.log4j.Logger logger_;
 	
 	static public void init()
 	{
-		logger_ = LogFactory.getLog("org.leplan73.outilssgdf.war");
+		logger_ = LogManager.getLogger("org.leplan73.outilssgdf.war");
 	}
 	
-	static public Log get() {
+	static public org.apache.logging.log4j.Logger get() {
 		return logger_;
 	}
 }

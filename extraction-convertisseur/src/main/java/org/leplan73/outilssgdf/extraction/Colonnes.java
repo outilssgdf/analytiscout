@@ -1,12 +1,14 @@
 package org.leplan73.outilssgdf.extraction;
 
+import java.util.Map;
 import java.util.TreeMap;
 
 import org.leplan73.outilssgdf.ExtractionException;
 
-public class Colonnes extends TreeMap<Integer, String> {
-	
-	private static final long serialVersionUID = 1L;
+public class Colonnes {
+
+	private Map<Integer, String> ids_ = new TreeMap<Integer, String>();
+	private Map<String, Integer> map_ = new TreeMap<String, Integer>();
 	
 	private int codeAdherentId = -1;
 	private int uniteId = -1;
@@ -26,83 +28,100 @@ public class Colonnes extends TreeMap<Integer, String> {
 	private int mobileMereId = -1;
 	private int fonctionCodeId = -1;
 	private int bureauIndividu = -1;
+	private int datedenaissanceId = -1;
+
+	private int stuctureNom = -1;
+
+	public void add(int id, String nom) {
+		ids_.put(id, nom);
+		map_.put(nom, id);
+	}
 	
 	public void calculCodes() throws ExtractionException
 	{
-		this.forEach((key, value) ->
+		ids_.forEach((key, value) ->
 		{
-			if (this.get(key).compareTo("Fonction.Code") == 0)
+			if (ids_.get(key).compareTo("Structure.Nom") == 0)
+			{
+				stuctureNom = key;
+			}
+			if (ids_.get(key).compareTo("Fonction.Code") == 0)
 			{
 				fonctionCodeId = key;
 			}
-			else if (this.get(key).compareTo("Individu.CodeAdherent") == 0)
+			else if (ids_.get(key).compareTo("Individu.CodeAdherent") == 0)
 			{
 				codeAdherentId = key;
 			}
-			else if (this.get(key).compareTo("Structure.Nom") == 0)
+			else if (ids_.get(key).compareTo("Structure.Nom") == 0)
 			{
 				uniteId = key;
 			}
-			else if (this.get(key).compareTo("Individu.Nom") == 0)
+			else if (ids_.get(key).compareTo("Individu.Nom") == 0)
 			{
 				nomIndividuId = key;
 			}
-			else if (this.get(key).compareTo("Individu.Prenom") == 0)
+			else if (ids_.get(key).compareTo("Individu.Prenom") == 0)
 			{
 				prenomIndividuId = key;
 			}
-			else if (this.get(key).compareTo("Individu.TelephonePortable1") == 0)
+			else if (ids_.get(key).compareTo("Individu.TelephonePortable1") == 0)
 			{
 				mobileIndividu1 = key;
 			}
-			else if (this.get(key).compareTo("Individu.TelephonePortable2") == 0)
+			else if (ids_.get(key).compareTo("Individu.TelephonePortable2") == 0)
 			{
 				mobileIndividu2 = key;
 			}
-			else if (this.get(key).compareTo("Individu.TelephoneBureau") == 0)
+			else if (ids_.get(key).compareTo("Individu.TelephoneBureau") == 0)
 			{
 				bureauIndividu = key;
 			}
-			else if (this.get(key).compareTo("Individu.CourrielPersonnel") == 0)
+			else if (ids_.get(key).compareTo("Individu.CourrielPersonnel") == 0)
 			{
 				emailIndividuId = key;
 			}
-			else if (this.get(key).compareTo("Individu.CourrielProfessionnel") == 0)
+			else if (ids_.get(key).compareTo("Individu.CourrielProfessionnel") == 0)
 			{
 				emailIndividu2Id = key;
 			}
-			else if (this.get(key).compareTo("Pere.Nom") == 0)
+			else if (ids_.get(key).compareTo("Pere.Nom") == 0)
 			{
 				nomPereId = key;
 			}
-			else if (this.get(key).compareTo("Pere.Prenom") == 0)
+			else if (ids_.get(key).compareTo("Pere.Prenom") == 0)
 			{
 				prenomPereId = key;
 			}
-			else if (this.get(key).compareTo("Pere.CourrielPersonnel") == 0)
+			else if (ids_.get(key).compareTo("Pere.CourrielPersonnel") == 0)
 			{
 				emailPereId = key;
 			}
-			else if (this.get(key).compareTo("Pere.TelephonePortable1") == 0)
+			else if (ids_.get(key).compareTo("Pere.TelephonePortable1") == 0)
 			{
 				mobilePereId = key;
 			}
-			else if (this.get(key).compareTo("Mere.Nom") == 0)
+			else if (ids_.get(key).compareTo("Mere.Nom") == 0)
 			{
 				nomMereId = key;
 			}
-			else if (this.get(key).compareTo("Mere.Prenom") == 0)
+			else if (ids_.get(key).compareTo("Mere.Prenom") == 0)
 			{
 				prenomMereId = key;
 			}
-			else if (this.get(key).compareTo("Mere.CourrielPersonnel") == 0)
+			else if (ids_.get(key).compareTo("Mere.CourrielPersonnel") == 0)
 			{
 				emailMereId = key;
 			}
-			else if (this.get(key).compareTo("Mere.TelephonePortable1") == 0)
+			else if (ids_.get(key).compareTo("Mere.TelephonePortable1") == 0)
 			{
 				mobileMereId = key;
 			}
+			else if (ids_.get(key).compareTo("Individu.DateNaissance") == 0)
+			{
+				datedenaissanceId = key;
+			}
+			
 		});
 		
 		// Quelques tests...
@@ -124,6 +143,11 @@ public class Colonnes extends TreeMap<Integer, String> {
 		if (emailMereId == -1) throw new ExtractionException("Erreur emailMereId");
 		if (mobileMereId == -1) throw new ExtractionException("Erreur mobileMereId");
 		if (fonctionCodeId == -1) throw new ExtractionException("Erreur fonctionCodeId");
+		if (datedenaissanceId == -1) throw new ExtractionException("Erreur datedenaissanceId");
+	}
+
+	public int getDatedeNaissanceId() {
+		return datedenaissanceId;
 	}
 
 	public int getFonctionCodeId() {
@@ -196,5 +220,14 @@ public class Colonnes extends TreeMap<Integer, String> {
 
 	public int getBureauIndividu() {
 		return bureauIndividu;
+	}
+	
+	public Integer get(String code)
+	{
+		return map_.get(code);
+	}
+
+	public int getStructureNom() {
+		return stuctureNom ;
 	}
 }

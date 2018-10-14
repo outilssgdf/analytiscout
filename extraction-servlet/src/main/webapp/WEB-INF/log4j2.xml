@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+  <Appenders>
+	<Console name="console" target="SYSTEM_OUT">
+		<PatternLayout pattern="%-5p %d [%t] %C{1} %x - %m\n"/>
+	</Console>
+  </Appenders>
+  <Loggers>
+    <Logger name="org.leplan73.outilssgdf" level="debug" additivity="false">
+      <AppenderRef ref="console"/>
+    </Logger>
+    <Root level="err">
+      <AppenderRef ref="console"/>
+    </Root>
+  </Loggers>
+</Configuration>

@@ -2,6 +2,7 @@ package org.leplan73.outilssgdf.cmd;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
@@ -9,13 +10,6 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.TreeMap;
 
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.DefaultParser;
-import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.Option;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.jdom2.JDOMException;
@@ -24,80 +18,48 @@ import org.leplan73.outilssgdf.ExtractionException;
 import org.leplan73.outilssgdf.extraction.Chefs;
 
 import net.sf.jett.transform.ExcelTransformer;
+import picocli.CommandLine;
+import picocli.CommandLine.Command;
+import picocli.CommandLine.Option;
+import picocli.CommandLine.PicocliException;
 
-public class Analyseur {
+@Command(name = "Analyseur", mixinStandardHelpOptions = true, version = "1.0")
+public class Analyseur extends CommonParamsG {
 
-	public static void main(String[] args) throws ExtractionException, IOException, JDOMException, InvalidFormatException
+	@Option(names = "-batch", required=true, description = "batch")
+	private File batch;
+
+	@Option(names = "-modele", required=true, description = "modele")
+	private File modele;
+
+	@Option(names = "-entree", required=true, description = "entree")
+	private File entree;
+
+	@Option(names = "-sortie", required=true, description = "sortie")
+	private File sortie;
+	
+	public void run() {
 	{
 		Logging.initLogger(Analyseur.class);
 		
 		Logging.logger_.info("Lancement");
-		
-		Options options = new Options();
-		options.addOption( new Option( "debug", "debuggage" ));
-		
-		Option optionBatch = new Option( "batch", "batch");
-		optionBatch.setArgs(1);
-		optionBatch.setArgName("batch");
-		optionBatch.setRequired(true);
-		options.addOption( optionBatch );
-		
-		Option optionModele = new Option( "modele", "modele");
-		optionModele.setArgs(1);
-		optionModele.setArgName("modele");
-		optionModele.setRequired(true);
-		options.addOption( optionModele );
-		
-		Option optionStructure = new Option( "structure", "structure");
-		optionStructure.setArgs(1);
-		optionStructure.setArgName("structure");
-		optionStructure.setRequired(true);
-		options.addOption( optionStructure );
-		
-		Option optionSortie = new Option( "sortie", "sortie");
-		optionSortie.setArgs(1);
-		optionSortie.setArgName("sortie");
-		optionBatch.setRequired(true);
-		options.addOption( optionSortie );
-		
-		Option optionEntree = new Option( "entree", "entree");
-		optionEntree.setArgs(1);
-		optionEntree.setArgName("entree");
-		optionEntree.setRequired(true);
-		options.addOption( optionEntree );
-		
-		CommandLine line = null;
-		CommandLineParser parser = new DefaultParser();
-	    try {
-	        line = parser.parse( options, args );
-	    }
-	    catch( ParseException exp ) {
-	    	Logging.logger_.error( exp.getMessage() );
-	    	
-	    	HelpFormatter formatter = new HelpFormatter();
-	        formatter.printHelp(Analyseur.class.getName(), options);
-	        return;
-	    }
 	    
-	    if (line.hasOption("debug"))
+	    if (debug)
 	    {
 	    	Logging.enableDebug();
 	    }
 	    
-    	int structure = Integer.parseInt(line.getOptionValue(optionStructure.getArgName()));
-	    
-	    String batch = line.getOptionValue(optionBatch.getArgName());
-	    String modele = line.getOptionValue(optionModele.getArgName());
-	    String entree = line.getOptionValue(optionEntree.getArgName());
-	    String sortie = line.getOptionValue(optionSortie.getArgName());
-	    
 	    Logging.logger_.info("Chargement du fichier de traitement");
 		
 		Properties pbatch = new Properties();
-		pbatch.load(new FileInputStream(new File(batch)));
+		try {
+			pbatch.load(new FileInputStream(batch));
 
-		Map<String, ExtracteurHtml> map = new TreeMap<String, ExtracteurHtml>();
-		String fichierAdherents = null;
+		Map<String, ExtracteurHtml> extraMap = new TreeMap<String, ExtracteurHtml>();
+		File fichierAdherents = null;
+
+		File dossierStructure = new File(entree,""+structure);
+		dossierStructure.exists();
 		
 		int index=1;
 		for(;;)
@@ -107,29 +69,30 @@ public class Analyseur {
 			{
 				break;
 			}
+			
 			String nom = pbatch.getProperty("nom."+index,"");
-			String nomFichier = entree+"/"+nom+"_"+structure+"."+generateur;
-
-		    Logging.logger_.info("Chargement du fichier \""+nomFichier+"\"");
+			File fichier = new File(dossierStructure, nom+"."+generateur);
+			
+		    Logging.logger_.info("Chargement du fichier \""+fichier.getName()+"\"");
 		    
 			if (nom.compareTo("tout") == 0)
 			{
-				fichierAdherents = nomFichier;
+				fichierAdherents = fichier;
 			}
 			else
-				map.put(nom, new ExtracteurHtml(nomFichier));
+				extraMap.put(nom, new ExtracteurHtml(fichier.getAbsolutePath()));
 			index++;
 		}
 
-	    Logging.logger_.info("Chargement du fichier \""+fichierAdherents+"\"");
-		 ExtracteurHtml adherents = new ExtracteurHtml(fichierAdherents, map);
+		Logging.logger_.info("Chargement du fichier \""+fichierAdherents.getName()+"\"");
+		ExtracteurHtml adherents = new ExtracteurHtml(fichierAdherents, extraMap);
 		 
-		 Chefs chefs = new Chefs();
-		 chefs.charge(adherents,map);
+		Chefs chefs = new Chefs();
+		chefs.charge(adherents,extraMap);
 
 		FileOutputStream outputStream = new FileOutputStream(sortie);
 
-	    Logging.logger_.info("Generation du fichier \""+sortie+"\" à partir du modèle \""+modele+"\"");		
+	    Logging.logger_.info("Generation du fichier \""+sortie.getName()+"\" à partir du modèle \""+modele.getName()+"\"");
 		ExcelTransformer trans = new ExcelTransformer();
 		Map<String, Object> beans = new HashMap<String, Object>();
 		beans.put("chefs", adherents.getChefsList());
@@ -139,5 +102,32 @@ public class Analyseur {
 		
 		outputStream.flush();
 		outputStream.close();
+		
+		} catch (FileNotFoundException e) {
+		} catch (IOException e) {
+		} catch (InvalidFormatException e) {
+		} catch (ExtractionException e) {
+		} catch (JDOMException e) {
+		}
+		
+		Logging.logger_.info("Terminé");}
 	}
+	
+	public static void main(String[] args) {
+		Analyseur command = new Analyseur();
+		try
+		{
+			new CommandLine(command).parse(args);
+	        command.run();
+		}
+		catch(PicocliException e)
+		{
+			System.out.print("Erreur : " + e.getMessage());
+			CommandLine.usage(command, System.out);
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+    }
 }

@@ -82,17 +82,27 @@ public class Adherent {
 	
 	public int getFonction()
 	{
-		return Integer.valueOf(this.get(colonnes_.getFonctionCodeId()));
+		String code = this.get(colonnes_.getFonctionCodeId());
+		if (code.endsWith("M"))
+			return Integer.valueOf(code.substring(0, 3));
+		else
+			return Integer.valueOf(code);
 	}
 	
 	public int getJeune()
 	{
+		String code = this.get(colonnes_.getFonctionCodeId());
+		if (code.endsWith("M"))
+			return 0;
 		int fonction = Integer.valueOf(this.get(colonnes_.getFonctionCodeId()));
 		return fonction < 200 ? 1 : 0;
 	}
 	
 	public int getChef()
 	{
+		String code = this.get(colonnes_.getFonctionCodeId());
+		if (code.endsWith("M"))
+			return 0;
 		int fonction = Integer.valueOf(this.get(colonnes_.getFonctionCodeId()));
 		return fonction >= 200 ? 1 : 0;
 	}

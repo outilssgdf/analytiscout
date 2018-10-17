@@ -55,10 +55,12 @@ public class ExtractionMain {
 	public final static int FORMATION_STIF = 253;
 	public final static int FORMATION_TECH = 52;
 	
-	public final static int FORMAT_TOUT = 1;
-	public final static int FORMAT_INDIVIDU = 2;
-	public final static int FORMAT_INDIVIDU_PARENTS = 3;
-	public final static int FORMAT_INDIVIDU_JS = 4;
+	public final static int FORMAT_INDIVIDU = 1 << 0;
+	public final static int FORMAT_PARENTS = 1 << 1;
+	public final static int FORMAT_INSCRIPTION = 1 << 2;
+	public final static int FORMAT_ADHESION = 1 << 3;
+	public final static int FORMAT_JS = 1 << 4;
+	public final static int FORMAT_SANS_QF = 1 << 5;
 	
 	public final static int CATEGORIE_TOUT = -1;
 	public final static int CATEGORIE_JEUNE = 0;
@@ -123,6 +125,14 @@ public class ExtractionMain {
         formparams.add(new BasicNameValuePair("ctl00$MainContent$_btnValider","Se connecter"));
         formparams.add(new BasicNameValuePair("eo_version","11.0.20.2"));
         formparams.add(new BasicNameValuePair("eo_style_keys","/wFk"));
+		if (logger_.isDebugEnabled())
+		{
+			formparams.forEach(k ->
+			{
+				logger_.debug("Param : " + k.getName() + " -> " + k.getValue());
+			});
+		}
+		
         entity = new UrlEncodedFormEntity(formparams, Consts.UTF_8);
         httppost.setEntity(entity);
         response = httpclient.execute(httppost);

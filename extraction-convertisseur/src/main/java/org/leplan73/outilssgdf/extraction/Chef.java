@@ -6,13 +6,14 @@ import java.util.TreeMap;
 
 public class Chef extends Adherent {
 
-	private static final String QUALIFICATIONS_EST_TITULAIRE = "Qualifications.EstTitulaire";
+	private static final String EST_TITULAIRE = "Qualifications.EstTitulaire";
 	
 	static public class ChefExtra
 	{
 		public String nom_;
 		public Chef dir_;
 		public Colonnes colonnes2_;
+		public boolean aTitulaire_;
 		
 		public ChefExtra(String nom, Chef dir, Colonnes colonnes)
 		{
@@ -24,6 +25,10 @@ public class Chef extends Adherent {
 				nom_ = nom;
 			dir_ = dir;
 			colonnes2_ = colonnes;
+			if (nom.compareTo("dirsf") == 0)
+				aTitulaire_ = true;
+			if (nom.compareTo("animsf") == 0)
+				aTitulaire_ = true;
 		}
 		
 		private String get(String nom)
@@ -58,7 +63,7 @@ public class Chef extends Adherent {
 		private boolean defini_;
 		
 		public Qualification(ChefExtra extra) {
-			String titulaire = extra.get(QUALIFICATIONS_EST_TITULAIRE);
+			String titulaire = extra.aTitulaire_ ? extra.get(EST_TITULAIRE) : null;
 			titulaire_ = (titulaire != null && titulaire.compareTo("Oui") == 0);
 			defini_ = true;
 		}
@@ -87,8 +92,7 @@ public class Chef extends Adherent {
 		}
 		
 		public Formation(ChefExtra extra) {
-			String titulaire = extra.get(QUALIFICATIONS_EST_TITULAIRE);
-			titulaire_ = (titulaire != null && titulaire.compareTo("Oui") == 0);
+			titulaire_ = true;
 		}
 
 		public boolean getOk()
@@ -108,8 +112,7 @@ public class Chef extends Adherent {
 		private boolean titulaire_;
 		
 		public Diplome(ChefExtra extra) {
-			String titulaire = extra.get(QUALIFICATIONS_EST_TITULAIRE);
-			titulaire_ = (titulaire != null && titulaire.compareTo("Oui") == 0);
+			titulaire_ = true;
 		}
 
 		public Diplome() {
@@ -254,7 +257,7 @@ public class Chef extends Adherent {
 		ChefExtra extra = extras_.get(nom);
 		if (extra != null)
 		{
-			String apf = extra.get(QUALIFICATIONS_EST_TITULAIRE);
+			String apf = extra.get(EST_TITULAIRE);
 			return apf.isEmpty() ? 0 : 1;
 		}
 		return 0;

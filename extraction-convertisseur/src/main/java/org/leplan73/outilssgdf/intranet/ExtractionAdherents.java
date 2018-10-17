@@ -14,6 +14,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.jdom2.JDOMException;
@@ -22,9 +23,12 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import com.jayway.jsonpath.Configuration;
+import com.jayway.jsonpath.JsonPath;
+
 public class ExtractionAdherents extends ExtractionMain {
 
-	public String extract(int structure, int type, String codeFonction, int categorie, int diplome, int qualification, int formation, int format, boolean brut) throws ClientProtocolException, IOException, JDOMException
+	public String extract(int structure, int type, boolean adherents, String codeFonction, int categorie, int diplome, int qualification, int formation, int format, boolean brut) throws ClientProtocolException, IOException, JDOMException
 	{
 		HttpGet httpget = new HttpGet("https://intranet.sgdf.fr/Specialisation/Sgdf/adherents/ExtraireAdherents.aspx");
 		httpget.addHeader("User-Agent","Mozilla/5.0 (Windows NT 6.1; rv:31.0) Gecko/20100101 Firefox/31.0");
@@ -33,31 +37,66 @@ public class ExtractionAdherents extends ExtractionMain {
 	       
 		CloseableHttpResponse response = httpclient.execute(httpget);
 
-       	Map<Integer, Integer> structureMap = new TreeMap<Integer, Integer>();
-
        	HttpEntity entity = response.getEntity();
        	String obj = EntityUtils.toString(entity);
 	    if (logger_.isDebugEnabled())
 	    	logger_.debug(obj);
 	    Document doc = Jsoup.parse(obj);
 	    viewstate = doc.select("#__VIEWSTATE").first().val();
-       	
-       	// Extraction des codes structure internes
-       	Element codes = doc.select("select[id=ctl00_MainContent__selecteur__ddStructure]").first();
-       	Elements codes2 = codes.select("option");
-       	codes2.forEach(code ->
-       	{
-       		String va = code.text();
-       		if (va.compareTo("Toutes") != 0)
-       		{
-	       		va = va.substring(0, va.indexOf(" - "));
-	       		String values = code.attributes().get("value");
-	       		structureMap.put(Integer.valueOf(va), Integer.valueOf(values));
-       		}
-       	});
        	response.close();
        	
-       	int ddStructure = structure != ExtractionMain.STRUCTURE_TOUT ? structureMap.get(structure) : 0;
+    	Map<Integer, Integer> structureMap = new TreeMap<Integer, Integer>();
+    	
+    	Integer ddStructure = null;
+    	Integer tbStructure = null;
+    	String tbAutoCompleteCode = null;
+    	
+       	// Extraction des codes structure "dd" internes (visible avec un profile "Groupe")
+       	Element ddCodes = doc.selectFirst("select[id=ctl00_MainContent__selecteur__ddStructure]");
+       	if (ddCodes != null)
+       	{
+	       	Elements ddCodes2 = ddCodes.select("option");
+	       	ddCodes2.forEach(code ->
+	       	{
+	       		String va = code.text();
+	       		if (va.compareTo("Toutes") != 0)
+	       		{
+		       		va = va.substring(0, va.indexOf(" - "));
+		       		String value = code.attributes().get("value");
+		       		structureMap.put(Integer.valueOf(va), Integer.valueOf(value));
+	       		}
+	       	});
+	       	ddStructure = structure != ExtractionMain.STRUCTURE_TOUT ? structureMap.get(structure) : 0;
+       	}
+       	
+       	if (ddCodes == null)
+       	{
+       		HttpPost httppostStructures = new HttpPost("https://intranet.sgdf.fr/Specialisation/Sgdf/WebServices/AutoComplete.asmx/GetStructures");
+       		httppostStructures.addHeader("User-Agent","Mozilla/5.0 (Windows NT 6.1; rv:31.0) Gecko/20100101 Firefox/31.0");
+       		httppostStructures.addHeader("Content-Type","application/json; charset=UTF-8");
+       		httppostStructures.addHeader("Accept","application/json, text/javascript, */*; q=0.01");
+       		
+       		String query = "{q: \""+structure+"\", id_token: \"undefined\"}";
+       		StringEntity JsonEntity = new StringEntity(query);
+    	    httppostStructures.setEntity(JsonEntity);
+    	    response = httpclient.execute(httppostStructures);
+    	    
+    	    entity = response.getEntity();
+           	obj = EntityUtils.toString(entity);
+    	    if (logger_.isDebugEnabled())
+    	    	logger_.debug(obj);
+           	response.close();
+       		
+       		Object jsonDocument = Configuration.defaultConfiguration().jsonProvider().parse(obj);
+       		if (jsonDocument != null)
+       		{
+       			tbAutoCompleteCode = JsonPath.read(jsonDocument,"$.d");
+       			jsonDocument = Configuration.defaultConfiguration().jsonProvider().parse(tbAutoCompleteCode.toString());
+       			Object nodeId = JsonPath.read(jsonDocument,"$.[0].id");
+       			structureMap.put(structure, Integer.valueOf(nodeId.toString()));
+       		}
+       		tbStructure = structure != ExtractionMain.STRUCTURE_TOUT ? structureMap.get(structure) : 0;
+       	}
 	       
        	HttpPost httppost = new HttpPost("https://intranet.sgdf.fr/Specialisation/Sgdf/adherents/ExtraireAdherents.aspx");
        	httppost.addHeader("User-Agent","Mozilla/5.0 (Windows NT 6.1; rv:31.0) Gecko/20100101 Firefox/31.0");
@@ -79,12 +118,24 @@ public class ExtractionAdherents extends ExtractionMain {
 		formparams.add(new BasicNameValuePair("ctl00$MainContent$_ddlRequetesExistantes","-1"));
 		formparams.add(new BasicNameValuePair("ctl00$MainContent$_tbNomNouvelleRequete",""));
 		formparams.add(new BasicNameValuePair("tl00$MainContent$_selecteur$_hidCodeStructure",""+structure));
-		formparams.add(new BasicNameValuePair("ctl00$MainContent$_selecteur$_ddStructure",""+ ((structure != 0) ? ddStructure  :"0")));
-		formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbRecursif","on"));
+		if (ddStructure != null)
+		{
+			formparams.add(new BasicNameValuePair("ctl00$MainContent$_selecteur$_ddStructure",""+ ddStructure));
+		}
+		if (tbStructure != null)
+		{
+			formparams.add(new BasicNameValuePair("ctl00$MainContent$_selecteur$_tbCode",""+ tbStructure));
+			formparams.add(new BasicNameValuePair("ctl00$MainContent$_selecteur$_autocompleteStructures$_txtAutoComplete",""+ tbStructure));
+			formparams.add(new BasicNameValuePair("ctl00$MainContent$_selecteur$_autocompleteStructures$_hiddenAutoComplete",tbAutoCompleteCode));
+		}
+		if (structure != 0)
+			formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbRecursif","on"));
 		formparams.add(new BasicNameValuePair("ctl00$MainContent$_tbCodesFonctions",codeFonction != null ? codeFonction : "")); 
 		formparams.add(new BasicNameValuePair("ctl00$MainContent$CodesFonctionsSignifications","_rbCFS_FonctionsPrincipales"));
 		formparams.add(new BasicNameValuePair("ctl00$MainContent$_ddCategorieMembre",""+categorie));
 		formparams.add(new BasicNameValuePair("ctl00$MainContent$_ddTypeInscription",""+type));
+		if (adherents)
+			formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbSontAdherents", "on"));
 		formparams.add(new BasicNameValuePair("ctl00$MainContent$_ddSpecialite","-1"));
 		formparams.add(new BasicNameValuePair("ctl00$MainContent$_ddTypeContact","-1"));
 		formparams.add(new BasicNameValuePair("ctl00$MainContent$_ddDiplome",""+diplome));
@@ -97,49 +148,24 @@ public class ExtractionAdherents extends ExtractionMain {
 		formparams.add(new BasicNameValuePair("ctl00$MainContent$_btnExporter.x","53"));
 		formparams.add(new BasicNameValuePair("ctl00$MainContent$_btnExporter.y","13"));
 		formparams.add(new BasicNameValuePair("ctl00$_hidReferenceStatistiqueUtilisation","-1"));
-		if (format == ExtractionMain.FORMAT_TOUT)
-		{
+		if ((format & ExtractionMain.FORMAT_INDIVIDU) == ExtractionMain.FORMAT_INDIVIDU)
 			formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbExtraireIndividu","on"));
+		if ((format & ExtractionMain.FORMAT_PARENTS) == ExtractionMain.FORMAT_PARENTS)
 			formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbExtraireParents","on"));
-			if (type != ExtractionMain.TYPE_INVITE)
-			{
-				formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbExtraireInscription","on"));
-				formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbExtraireAdhesion","on"));
-				formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbExtraireJsInformations","on"));
-			}
-		}
-		if (format == ExtractionMain.FORMAT_INDIVIDU)
+		if ((format & ExtractionMain.FORMAT_INSCRIPTION) == ExtractionMain.FORMAT_INSCRIPTION)
+			formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbExtraireInscription","on"));
+		if ((format & ExtractionMain.FORMAT_ADHESION) == ExtractionMain.FORMAT_ADHESION)
+			formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbExtraireAdhesion","on"));
+		if ((format & ExtractionMain.FORMAT_JS) == ExtractionMain.FORMAT_JS)
+			formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbExtraireJsInformations","on"));
+		if ((format & ExtractionMain.FORMAT_SANS_QF) == ExtractionMain.FORMAT_SANS_QF)
+			formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbInclureQF","on"));
+		if (logger_.isDebugEnabled())
 		{
-			formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbExtraireIndividu","on"));
-			formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbExtraireParents","off"));
-			if (type != ExtractionMain.TYPE_INVITE)
+			formparams.forEach(k ->
 			{
-				formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbExtraireInscription","off"));
-				formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbExtraireAdhesion","off"));
-				formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbExtraireJsInformations","off"));
-			}
-		}
-		if (format == ExtractionMain.FORMAT_INDIVIDU_PARENTS)
-		{
-			formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbExtraireIndividu","on"));
-			formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbExtraireParents","on"));
-			if (type != ExtractionMain.TYPE_INVITE)
-			{
-				formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbExtraireInscription","off"));
-				formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbExtraireAdhesion","off"));
-				formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbExtraireJsInformations","off"));
-			}
-		}
-		else
-		{
-			formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbExtraireIndividu","on"));
-			formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbExtraireParents","off"));
-			if (type != ExtractionMain.TYPE_INVITE)
-			{
-				formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbExtraireInscription","off"));
-				formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbExtraireAdhesion","off"));
-				formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbExtraireJsInformations","on"));
-			}
+				logger_.debug("Param : " + k.getName() + " -> " + k.getValue());
+			});
 		}
 			  
 	    entity = new UrlEncodedFormEntity(formparams, Consts.UTF_8);

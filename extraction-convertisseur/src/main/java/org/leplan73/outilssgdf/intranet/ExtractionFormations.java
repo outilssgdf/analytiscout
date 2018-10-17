@@ -76,38 +76,18 @@ public class ExtractionFormations extends ExtractionMain {
 			formparams.add(new BasicNameValuePair("ctl00$MainContent$_btnExporter.x","53"));
 			formparams.add(new BasicNameValuePair("ctl00$MainContent$_btnExporter.y","13"));
 			formparams.add(new BasicNameValuePair("ctl00$_hidReferenceStatistiqueUtilisation","-1"));
-			if (format == ExtractionMain.FORMAT_TOUT)
-			{
+			if ((format & ExtractionMain.FORMAT_INDIVIDU) == ExtractionMain.FORMAT_INDIVIDU)
 				formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbExtraireIndividu","on"));
+			if ((format & ExtractionMain.FORMAT_PARENTS) == ExtractionMain.FORMAT_PARENTS)
 				formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbExtraireParents","on"));
+			if ((format & ExtractionMain.FORMAT_INSCRIPTION) == ExtractionMain.FORMAT_INSCRIPTION)
 				formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbExtraireInscription","on"));
+			if ((format & ExtractionMain.FORMAT_ADHESION) == ExtractionMain.FORMAT_ADHESION)
 				formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbExtraireAdhesion","on"));
+			if ((format & ExtractionMain.FORMAT_JS) == ExtractionMain.FORMAT_JS)
 				formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbExtraireJsInformations","on"));
-			}
-			if (format == ExtractionMain.FORMAT_INDIVIDU)
-			{
-				formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbExtraireIndividu","on"));
-				formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbExtraireParents","off"));
-				formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbExtraireInscription","off"));
-				formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbExtraireAdhesion","off"));
-				formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbExtraireJsInformations","off"));
-			}
-			if (format == ExtractionMain.FORMAT_INDIVIDU_PARENTS)
-			{
-				formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbExtraireIndividu","on"));
-				formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbExtraireParents","on"));
-				formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbExtraireInscription","off"));
-				formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbExtraireAdhesion","off"));
-				formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbExtraireJsInformations","off"));
-			}
-			else
-			{
-				formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbExtraireIndividu","on"));
-				formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbExtraireParents","off"));
-				formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbExtraireInscription","off"));
-				formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbExtraireAdhesion","off"));
-				formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbExtraireJsInformations","on"));
-			}
+			if ((format & ExtractionMain.FORMAT_SANS_QF) == ExtractionMain.FORMAT_SANS_QF)
+				formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbInclureQF","on"));
 			  
 	        entity = new UrlEncodedFormEntity(formparams, Consts.UTF_8);
 	        httppost.setEntity(entity);

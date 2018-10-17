@@ -40,7 +40,16 @@ public class ExtracteurHtml {
 		charge(fichier);
 	}
 	
+	public ExtracteurHtml(File fichier) throws ExtractionException, IOException, JDOMException {
+		charge(fichier);
+	}
+	
 	public ExtracteurHtml(String fichier, Map<String, ExtracteurHtml> extras) throws ExtractionException, IOException, JDOMException {
+		extras_ = extras;
+		charge(fichier);
+	}
+	
+	public ExtracteurHtml(File fichier, Map<String, ExtracteurHtml> extras) throws ExtractionException, IOException, JDOMException {
 		extras_ = extras;
 		charge(fichier);
 	}
@@ -93,6 +102,13 @@ public class ExtracteurHtml {
 	public void charge(final String path) throws ExtractionException, IOException, JDOMException
 	{
    		FileInputStream excelFile = new FileInputStream(new File(path));
+   		charge(excelFile);
+		excelFile.close();
+	}
+	
+	public void charge(final File fichier) throws ExtractionException, IOException, JDOMException
+	{
+   		FileInputStream excelFile = new FileInputStream(fichier);
    		charge(excelFile);
 		excelFile.close();
 	}

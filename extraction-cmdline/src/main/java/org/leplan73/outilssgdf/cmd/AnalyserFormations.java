@@ -2,6 +2,7 @@ package org.leplan73.outilssgdf.cmd;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
@@ -9,13 +10,6 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.TreeMap;
 
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.DefaultParser;
-import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.Option;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.jdom2.JDOMException;
@@ -24,87 +18,51 @@ import org.leplan73.outilssgdf.ExtractionException;
 import org.leplan73.outilssgdf.extraction.Chefs;
 
 import net.sf.jett.transform.ExcelTransformer;
+import picocli.CommandLine;
+import picocli.CommandLine.Command;
+import picocli.CommandLine.Option;
+import picocli.CommandLine.PicocliException;
 
-public class AnalyserFormations {
+@Command(name = "AnalyserFormations", mixinStandardHelpOptions = true, version = "1.0")
+public class AnalyserFormations extends CommonParamsG {
 
-	public static void main(String[] args) throws ExtractionException, IOException, JDOMException, InvalidFormatException
+	@Option(names = "-batch", required=true, description = "batch")
+	private String batch = "";
+
+	@Option(names = "-modele", required=true, description = "modele")
+	private String modele = "";
+
+	@Option(names = "-entree", required=true, description = "entree")
+	private String entree = "";
+
+	@Option(names = "-formations", description = "formations")
+	private String formations = "";
+
+	@Option(names = "-sortie", required=true, description = "sortie")
+	private String sortie = "";
+	
+	public void run()
 	{
 		Logging.initLogger(AnalyserFormations.class);
 		
 		Logging.logger_.info("Lancement");
-		
-		Options options = new Options();
-		options.addOption( new Option( "debug", "debuggage" ));
-		
-		Option optionBatch = new Option( "batch", "batch");
-		optionBatch.setArgs(1);
-		optionBatch.setArgName("batch");
-		optionBatch.setRequired(true);
-		options.addOption( optionBatch );
-		
-		Option optionModele = new Option( "modele", "modele");
-		optionModele.setArgs(1);
-		optionModele.setArgName("modele");
-		optionModele.setRequired(true);
-		options.addOption( optionModele );
-		
-		Option optionStructure = new Option( "structure", "structure");
-		optionStructure.setArgs(1);
-		optionStructure.setArgName("structure");
-		optionStructure.setRequired(true);
-		options.addOption( optionStructure );
-		
-		Option optionSortie = new Option( "sortie", "sortie");
-		optionSortie.setArgs(1);
-		optionSortie.setArgName("sortie");
-		optionBatch.setRequired(true);
-		options.addOption( optionSortie );
-		
-		Option optionEntree = new Option( "entree", "entree");
-		optionEntree.setArgs(1);
-		optionEntree.setArgName("entree");
-		optionEntree.setRequired(true);
-		options.addOption( optionEntree );
-		
-		Option optionFormations = new Option( "formations", "formations");
-		optionFormations.setArgs(1);
-		optionFormations.setArgName("entree");
-		optionFormations.setRequired(true);
-		options.addOption( optionFormations );
-		
-		CommandLine line = null;
-		CommandLineParser parser = new DefaultParser();
-	    try {
-	        line = parser.parse( options, args );
-	    }
-	    catch( ParseException exp ) {
-	    	Logging.logger_.error( exp.getMessage() );
-	    	
-	    	HelpFormatter formatter = new HelpFormatter();
-	        formatter.printHelp(AnalyserFormations.class.getName(), options);
-	        return;
-	    }
 	    
-	    if (line.hasOption("debug"))
+	    if (debug)
 	    {
 	    	Logging.enableDebug();
 	    }
 	    
-    	int structure = Integer.parseInt(line.getOptionValue(optionStructure.getArgName()));
-	    
-	    String batch = line.getOptionValue(optionBatch.getArgName());
-	    String modele = line.getOptionValue(optionModele.getArgName());
-	    String entree = line.getOptionValue(optionEntree.getArgName());
-	    String sortie = line.getOptionValue(optionSortie.getArgName());
-	    String formations = line.getOptionValue(optionFormations.getArgName());
-	    
 	    Logging.logger_.info("Chargement du fichier de traitement");
 		
 		Properties pbatch = new Properties();
-		pbatch.load(new FileInputStream(new File(batch)));
+		try {
+			pbatch.load(new FileInputStream(new File(batch)));
 
 		Map<String, ExtracteurHtml> map = new TreeMap<String, ExtracteurHtml>();
-		String fichierAdherents = null;
+		File fichierAdherents = null;
+
+		File dossierStructure = new File(entree,""+structure);
+		dossierStructure.exists();
 		
 		int index=1;
 		for(;;)
@@ -114,21 +72,22 @@ public class AnalyserFormations {
 			{
 				break;
 			}
+			
 			String nom = pbatch.getProperty("nom."+index,"");
-			String nomFichier = entree+"/"+nom+"_"+structure+"."+generateur;
+			File fichier = new File(dossierStructure, nom+"."+generateur);
 
-		    Logging.logger_.info("Chargement du fichier \""+nomFichier+"\"");
-		    
+			 Logging.logger_.info("Chargement du fichier \""+fichier.getName()+"\"");
+			    
 			if (nom.compareTo("tout") == 0)
 			{
-				fichierAdherents = nomFichier;
+				fichierAdherents = fichier;
 			}
 			else
-				map.put(nom, new ExtracteurHtml(nomFichier));
+				map.put(nom, new ExtracteurHtml(fichier.getAbsolutePath()));
 			index++;
 		}
 
-	    Logging.logger_.info("Chargement du fichier \""+fichierAdherents+"\"");
+	    Logging.logger_.info("Chargement du fichier \""+fichierAdherents.getName()+"\"");
 		 ExtracteurHtml adherents = new ExtracteurHtml(fichierAdherents, map);
 		 
 		 Chefs chefs = new Chefs();
@@ -147,5 +106,37 @@ public class AnalyserFormations {
 		
 		outputStream.flush();
 		outputStream.close();
+		
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ExtractionException e) {
+			e.printStackTrace();
+		} catch (JDOMException e) {
+			e.printStackTrace();
+		} catch (InvalidFormatException e) {
+			e.printStackTrace();
+		}
+		
+		Logging.logger_.info("Terminé");
 	}
+	
+	public static void main(String[] args) {
+		AnalyserFormations command = new AnalyserFormations();
+		try
+		{
+			new CommandLine(command).parse(args);
+	        command.run();
+		}
+		catch(PicocliException e)
+		{
+			System.out.print("Erreur : " + e.getMessage());
+			CommandLine.usage(command, System.out);
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+    }
 }

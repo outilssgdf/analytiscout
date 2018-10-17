@@ -62,41 +62,6 @@ public class Unite implements Comparable<Unite>
 	{
 		return qualifs_;
 	}
-	
-	public boolean getQualifieanneeok()
-	{
-		return qualifs_ > 0 ? qualifs_ > 0 : false;
-	}
-	
-	public boolean getStagiaireanneeok()
-	{
-		return stagiaireAnnee_ > 0 ? stagiaireAnnee_ > 0 : false;
-	}
-	
-	public int getStagiaireanneetheorique()
-	{
-		return 0;
-	}
-	
-	public int getQualifieanneetheorique()
-	{
-		return 1;
-	}
-	
-	public boolean getDircampok()
-	{
-		return true;
-	}
-	
-	public boolean getQualifiecampok()
-	{
-		return qualifs_ > 0 ? qualifs_ > 0 : false;
-	}
-	
-	public boolean getStagiairecampok()
-	{
-		return stagiaireAnnee_ > 0 ? stagiaireAnnee_ > 0 : false;
-	}
 
 	private int stagiaireAnnee_;
 	public int getStagiaireannee()
@@ -111,7 +76,6 @@ public class Unite implements Comparable<Unite>
 	}
 
 	private int dirs_;
-	
 	public int getDircamp()
 	{
 		return dirs_;
@@ -125,21 +89,6 @@ public class Unite implements Comparable<Unite>
 	public int getStagiairecamp()
 	{
 		return stagiaireAnnee_;
-	}
-	
-	public int getDircamptheorique()
-	{
-		return 1;
-	}
-	
-	public int getQualifiecamptheorique()
-	{
-		return 0;
-	}
-	
-	public int getStagiairecamptheorique()
-	{
-		return 0;
 	}
 	
 	public int getAutrescamp()

@@ -3,20 +3,11 @@ package org.leplan73.outilssgdf.cmd;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.Properties;
 import java.util.zip.ZipOutputStream;
 
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.DefaultParser;
-import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.Option;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
 import org.jdom2.JDOMException;
 import org.leplan73.outilssgdf.ExtracteurHtml;
 import org.leplan73.outilssgdf.ExtractionException;
@@ -24,90 +15,44 @@ import org.leplan73.outilssgdf.formatage.GmailCsvFormatteur;
 import org.leplan73.outilssgdf.intranet.ExtractionAdherents;
 import org.leplan73.outilssgdf.intranet.ExtractionMain;
 
-public class Generateur extends Logging {
+import picocli.CommandLine;
+import picocli.CommandLine.Command;
+import picocli.CommandLine.Option;
+import picocli.CommandLine.PicocliException;
 
-	public static void main(String[] args) {
+@Command(name = "Generateur", mixinStandardHelpOptions = true, version = "1.0")
+public class Generateur extends CommonParamsIntranet {
+
+	@Option(names = "-sortie", required=true, description = "sortie")
+	private File sortie;
+	
+	public void run()
+	{
+		checkParams();
+		
 		Logging.initLogger(Generateur.class);
+		
 		Logging.logger_.info("Lancement");
-				
-		Options options = new Options();
-		options.addOption( new Option( "debug", "debuggage" ));
-		
-		Option optionSortie = new Option( "sortie", "fichier de sortie");
-		optionSortie.setArgs(1);
-		optionSortie.setRequired(true);
-		optionSortie.setArgName("file");
-		options.addOption( optionSortie );
-		
-		Option optionParams = new Option( "params", "fichier de parametres");
-		optionParams.setArgs(1);
-		optionParams.setRequired(true);
-		optionParams.setArgName("params");
-		options.addOption( optionParams );
-		
-		Option optionStructure = new Option( "structure", "structure");
-		optionStructure.setArgs(1);
-		optionStructure.setArgName("structure");
-		options.addOption( optionStructure );
-		
-		CommandLine line = null;
-		CommandLineParser parser = new DefaultParser();
-	    try {
-	        line = parser.parse( options, args );
-	    }
-	    catch( ParseException exp ) {
-	    	Logging.logger_.error( exp.getMessage() );
-	    	
-	    	HelpFormatter formatter = new HelpFormatter();
-	        formatter.printHelp(ExtracteurFormations.class.getName(), options);
-	        return;
-	    }
 	    
-	    if (line.hasOption("debug"))
+	    if (debug)
 	    {
 	    	Logging.enableDebug();
 	    }
-	    String sortie = line.getOptionValue("sortie");
-	    String params = line.getOptionValue("params");
 	    
-	    int structure = ExtractionMain.STRUCTURE_TOUT;
-	    if (line.hasOption(optionStructure.getArgName()))
-	    {
-	    	structure = Integer.valueOf(line.getOptionValue(optionStructure.getArgName()));
-	    }
-
 	    Logging.logger_.info("Chargement du fichier de propriétés");
 	    
-		Properties pfile = new Properties();
 		try {
-			pfile.load(new FileInputStream(new File(params)));
-			
-			String identifiant = pfile.getProperty("identifiant");
-			String motdepasse = pfile.getProperty("motdepasse");
-			if (identifiant == null)
-			{
-				Logging.logger_.error("Pas d'identifiant");
-				return;
-			}
-			if (motdepasse == null)
-			{
-				Logging.logger_.error("Pas de mot de passe");
-				return;
-			}
+			charge();
 			
 			// Connexion
 		    Logging.logger_.info("Connexion");
 			ExtractionAdherents app = new ExtractionAdherents();
-			app.init();
-			if (app.login(identifiant,motdepasse) == false)
-			{
-				Logging.logger_.error("erreur de connexion");
-			}
+			login(app);
 
 			// Extraction des données
 			Logging.logger_.info("Extraction (structure="+structure+")");
-			String donnees = app.extract(structure, ExtractionMain.TYPE_TOUT, null, ExtractionMain.CATEGORIE_TOUT, ExtractionMain.DIPLOME_TOUT,ExtractionMain.QUALIFICATION_TOUT,ExtractionMain.FORMATION_TOUT, ExtractionMain.FORMAT_TOUT,false);
-			app.close();
+			String donnees = app.extract(structure, ExtractionMain.TYPE_TOUT, false, null, ExtractionMain.CATEGORIE_TOUT, ExtractionMain.DIPLOME_TOUT,ExtractionMain.QUALIFICATION_TOUT,ExtractionMain.FORMATION_TOUT, ExtractionMain.FORMAT_INDIVIDU|ExtractionMain.FORMAT_PARENTS,false);
+			logout();
 			
 			// Conversion des données
 			Logging.logger_.info("Conversion");
@@ -116,7 +61,7 @@ public class Generateur extends Logging {
 			GmailCsvFormatteur f = new GmailCsvFormatteur();
 
 			// Génération de l'archive zip
-			Logging.logger_.info("Génération de l'archive "+sortie);
+			Logging.logger_.info("Génération de l'archive "+sortie.getName());
 			ZipOutputStream zipOut = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(sortie)));
 		    f.genereEmail(x.getUnites(), x.getParents(), x.getAdherents(), x.getColonnes(), null, zipOut);
 		    zipOut.flush();
@@ -129,5 +74,25 @@ public class Generateur extends Logging {
 		} catch (ExtractionException e) {
 			Logging.logger_.error(e);
 		}
+		
+		Logging.logger_.info("Terminé");
 	}
+	
+	public static void main(String[] args) {
+		Generateur command = new Generateur();
+		try
+		{
+			new CommandLine(command).parse(args);
+	        command.run();
+		}
+		catch(PicocliException e)
+		{
+			System.out.print("Erreur : " + e.getMessage());
+			CommandLine.usage(command, System.out);
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+    }
 }

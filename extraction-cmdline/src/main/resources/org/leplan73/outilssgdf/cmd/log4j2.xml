@@ -14,8 +14,8 @@
       <AppenderRef ref="fichier"/>
     </Logger>
     <Logger name="org.apache.http" level="info" additivity="false">
-      <AppenderRef ref="console"/>
       <AppenderRef ref="fichier"/>
+      <AppenderRef ref="console"/>
     </Logger>
     <Logger name="org.apache.http.wire" level="error" additivity="false">
       <AppenderRef ref="console"/>

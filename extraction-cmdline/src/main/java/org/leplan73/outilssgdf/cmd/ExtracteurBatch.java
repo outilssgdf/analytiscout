@@ -13,13 +13,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.DefaultParser;
-import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.Option;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.jdom2.Element;
@@ -30,92 +23,45 @@ import org.jdom2.xpath.XPathFactory;
 import org.leplan73.outilssgdf.intranet.ExtractionAdherents;
 import org.leplan73.outilssgdf.intranet.ExtractionMain;
 
-public class ExtracteurBatch {
+import picocli.CommandLine;
+import picocli.CommandLine.Command;
+import picocli.CommandLine.Option;
+import picocli.CommandLine.PicocliException;
 
-	public static void main(String[] args) {
+@Command(name = "ExtracteurBatch", mixinStandardHelpOptions = true, version = "1.0")
+public class ExtracteurBatch extends CommonParamsIntranet {
+
+	@Option(names = "-batch", required=true, description = "batch")
+	private File batch;
+
+	@Option(names = "-sortie", required=true, description = "sortie")
+	private File sortie;
+	
+	public void run() {
+		checkParams();
+		
 		Logging.initLogger(ExtracteurBatch.class);
 		
 		Logging.logger_.info("Lancement");
-				
-		Options options = new Options();
-		options.addOption( new Option( "debug", "debuggage" ));
-		
-		Option optionParams = new Option( "params", "fichier de parametres");
-		optionParams.setArgs(1);
-		optionParams.setRequired(true);
-		optionParams.setArgName("params");
-		options.addOption( optionParams );
-		
-		Option optionBatch = new Option( "batch", "batch");
-		optionBatch.setArgs(1);
-		optionBatch.setArgName("batch");
-		optionBatch.setRequired(true);
-		options.addOption( optionBatch );
-		
-		Option optionSortie = new Option( "sortie", "sortie");
-		optionSortie.setArgs(1);
-		optionSortie.setArgName("sortie");
-		optionBatch.setRequired(true);
-		options.addOption( optionSortie );
-		
-		Option optionStructure = new Option( "structure", "structure");
-		optionStructure.setArgs(1);
-		optionStructure.setArgName("structure");
-		optionStructure.setRequired(true);
-		options.addOption( optionStructure );
-		
-		CommandLine line = null;
-		CommandLineParser parser = new DefaultParser();
-	    try {
-	        line = parser.parse( options, args );
-	    }
-	    catch( ParseException exp ) {
-	    	Logging.logger_.error( exp.getMessage() );
-	    	
-	    	HelpFormatter formatter = new HelpFormatter();
-	        formatter.printHelp(ExtracteurBatch.class.getName(), options);
-	        return;
-	    }
 	    
-	    if (line.hasOption("debug"))
+	    if (debug)
 	    {
 	    	Logging.enableDebug();
 	    }
 	    
-    	int structure = Integer.parseInt(line.getOptionValue(optionStructure.getArgName()));
-	    
-	    String params = line.getOptionValue("params");
-	    String batch = line.getOptionValue(optionBatch.getArgName());
-
 	    Logging.logger_.info("Chargement du fichier de propriétés");
 
-		Properties pfile = new Properties();
 		try {
-			pfile.load(new FileInputStream(new File(params)));
-			
-			String identifiant = pfile.getProperty("identifiant");
-			String motdepasse = pfile.getProperty("motdepasse");
-			if (identifiant == null)
-			{
-				Logging.logger_.error("Pas d'identifiant");
-				return;
-			}
-			if (motdepasse == null)
-			{
-				Logging.logger_.error("Pas de mot de passe");
-				return;
-			}
-		    String sortie = line.getOptionValue("sortie");
+			charge();
 
-		    Logging.logger_.info("Chargement du fichier de traitement");
+			Logging.logger_.info("Chargement du fichier de traitement");
 			
 			Properties pbatch = new Properties();
-			pbatch.load(new FileInputStream(new File(batch)));
+			pbatch.load(new FileInputStream(batch));
 
 		    Logging.logger_.info("Connexion");
 			ExtractionAdherents app = new ExtractionAdherents();
-			app.init();
-			app.login(identifiant,motdepasse);
+			login(app);
 			
 			int index=1;
 			for(;;)
@@ -140,17 +86,21 @@ public class ExtracteurBatch {
 				int format = pbatch.getProperty("format."+index,"").isEmpty() ? ExtractionMain.FORMAT_INDIVIDU : Integer.parseInt(pbatch.getProperty("format."+index));
 				int categorie = pbatch.getProperty("categorie."+index,"").isEmpty() ? ExtractionMain.CATEGORIE_TOUT : Integer.parseInt(pbatch.getProperty("categorie."+index));
 				int type = pbatch.getProperty("type."+index,"").isEmpty() ? ExtractionMain.TYPE_TOUT : Integer.parseInt(pbatch.getProperty("type."+index));
+				boolean adherents = pbatch.getProperty("adherents."+index,"").isEmpty() ? false : Boolean.parseBoolean(pbatch.getProperty("adherents."+index));
 				String nom = pbatch.getProperty("nom."+index,"");
 				String fonction = pbatch.getProperty("fonction."+index);
 				
-				String nomFichier = sortie+"/"+nom+"_"+structure+"."+generateur;
+				File dossierStructure = new File(sortie,""+structure);
+				dossierStructure.mkdirs();
+				
+				File fichier = new File(dossierStructure, nom+"."+generateur);
 				
 				if (generateur.compareTo(ExtractionMain.GENERATEUR_XLS) == 0)
 				{
-					Logging.logger_.info("Extraction du fichier "+index);
+					Logging.logger_.info("Extraction du fichier "+index+" dans "+fichier);
 					
-					Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(nomFichier), "UTF-8"));
-					String donnees = app.extract(structure,type, fonction,categorie, diplome,qualif,formation,format, true);
+					Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fichier), "UTF-8"));
+					String donnees = app.extract(structure,type,adherents,fonction,categorie, diplome,qualif,formation,format, true);
 					out.write(donnees);
 					out.flush();
 					out.close();
@@ -159,10 +109,10 @@ public class ExtracteurBatch {
 				else
 				if (generateur.compareTo(ExtractionMain.GENERATEUR_XML) == 0)
 				{
-					Logging.logger_.info("Extraction du fichier "+index);
+					Logging.logger_.info("Extraction du fichier "+index+" dans "+fichier);
 					
-					Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(nomFichier), "UTF-8"));
-					String donnees = app.extract(structure,type, fonction,categorie, diplome,qualif,formation,format, false);
+					Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fichier), "UTF-8"));
+					String donnees = app.extract(structure,type,adherents,fonction,categorie, diplome,qualif,formation,format, false);
 					out.write(donnees);
 					out.flush();
 					out.close();
@@ -171,11 +121,11 @@ public class ExtracteurBatch {
 				else
 				if (generateur.compareTo(ExtractionMain.GENERATEUR_CSV) == 0)
 				{
-					Logging.logger_.info("Extraction du fichier "+index);
+					Logging.logger_.info("Extraction du fichier "+index+" dans "+fichier);
 					
-					final CSVPrinter out = CSVFormat.DEFAULT.withFirstRecordAsHeader().print(new File(nomFichier), Charset.forName("UTF-8"));
+					final CSVPrinter out = CSVFormat.DEFAULT.withFirstRecordAsHeader().print(fichier, Charset.forName("UTF-8"));
 					
-					String donnees = app.extract(structure,type, null,categorie,diplome,qualif,formation,format, false);
+					String donnees = app.extract(structure,type,adherents,null,categorie,diplome,qualif,formation,format, false);
 					
 					XPathFactory xpfac = XPathFactory.instance();
 					SAXBuilder builder = new SAXBuilder();
@@ -210,11 +160,31 @@ public class ExtracteurBatch {
 				}
 				index++;
 			}
-			app.close();
+			logout();
 		} catch (IOException e) {
 			Logging.logger_.error(e);
 		} catch (JDOMException e) {
 			Logging.logger_.error(e);
 		}
+		
+		Logging.logger_.info("Terminé");
 	}
+	
+	public static void main(String[] args) {
+		ExtracteurBatch command = new ExtracteurBatch();
+		try
+		{
+			new CommandLine(command).parse(args);
+	        command.run();
+		}
+		catch(PicocliException e)
+		{
+			System.out.print("Erreur : " + e.getMessage());
+			CommandLine.usage(command, System.out);
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+    }
 }

@@ -3,7 +3,6 @@ package org.leplan73.outilssgdf.cmd;
 import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -11,15 +10,7 @@ import java.io.Writer;
 import java.nio.charset.Charset;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Properties;
 
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.DefaultParser;
-import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.Option;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.jdom2.Element;
@@ -30,175 +21,69 @@ import org.jdom2.xpath.XPathFactory;
 import org.leplan73.outilssgdf.intranet.ExtractionAdherents;
 import org.leplan73.outilssgdf.intranet.ExtractionMain;
 
-public class Extracteur {
+import picocli.CommandLine;
+import picocli.CommandLine.Command;
+import picocli.CommandLine.Option;
+import picocli.CommandLine.PicocliException;
 
-	public static void main(String[] args) {
+@Command(name = "Extracteur", mixinStandardHelpOptions = true, version = "1.0")
+public class Extracteur extends CommonParamsIntranet {
+
+	@Option(names = "-sortie", required=true, description = "sortie")
+	private File sortie;
+
+	@Option(names = "-diplome", description = "diplome")
+	private Integer diplome = ExtractionMain.DIPLOME_TOUT;
+
+	@Option(names = "-qualif", description = "qualif")
+	private Integer qualif = ExtractionMain.QUALIFICATION_TOUT;
+
+	@Option(names = "-formation", description = "formation")
+	private Integer formation = ExtractionMain.FORMATION_TOUT;
+
+	@Option(names = "-format", description = "format")
+	private Integer format = ExtractionMain.FORMAT_INDIVIDU;
+
+	@Option(names = "-categorie", description = "categorie")
+	private Integer categorie = ExtractionMain.CATEGORIE_TOUT;
+
+	@Option(names = "-fonction", description = "fonction")
+	private String fonction = "";
+
+	@Option(names = "-type", description = "type")
+	private Integer type = ExtractionMain.TYPE_TOUT;
+
+	@Option(names = "-adherents", description = "adherents")
+	private boolean adherents = false;
+
+	@Option(names = "-generateur", description = "generateur")
+	private String generateur = "xls";
+	
+	public void run()
+	{
+		checkParams();
+		
 		Logging.initLogger(Extracteur.class);
-		
+			
 		Logging.logger_.info("Lancement");
-				
-		Options options = new Options();
-		
-		options.addOption( new Option( "debug", "debuggage" ));
-		
-		Option optionSortie = new Option( "sortie", "fichier de sortie");
-		optionSortie.setArgs(1);
-		optionSortie.setRequired(true);
-		optionSortie.setArgName("file");
-		options.addOption( optionSortie );
-		
-		Option optionParams = new Option( "params", "fichier de parametres");
-		optionParams.setArgs(1);
-		optionParams.setRequired(true);
-		optionParams.setArgName("params");
-		options.addOption( optionParams );
-		
-		Option optionDiplome = new Option( "diplome", "diplome");
-		optionDiplome.setArgs(1);
-		optionDiplome.setArgName("diplome");
-		options.addOption( optionDiplome );
-		
-		Option optionQualif = new Option( "qualif", "qualif");
-		optionQualif.setArgs(1);
-		optionQualif.setArgName("qualif");
-		options.addOption( optionQualif );
-		
-		Option optionFormation = new Option( "formation", "formation");
-		optionFormation.setArgs(1);
-		optionFormation.setArgName("formation");
-		options.addOption( optionFormation );
-		
-		Option optionGenerateur = new Option( "generateur", "generateur");
-		optionGenerateur.setArgs(1);
-		optionGenerateur.setRequired(true);
-		optionGenerateur.setArgName("generateur");
-		options.addOption( optionGenerateur );
-		
-		Option optionFormat = new Option( "format", "format");
-		optionFormat.setArgs(1);
-		optionFormat.setArgName("format");
-		options.addOption( optionFormat );
-		
-		Option optionCategorie = new Option( "categorie", "categorie");
-		optionCategorie.setArgs(1);
-		optionCategorie.setArgName("categorie");
-		options.addOption( optionCategorie );
-		
-		Option optionStructure = new Option( "structure", "structure");
-		optionStructure.setArgs(1);
-		optionStructure.setArgName("structure");
-		optionStructure.setRequired(true);
-		options.addOption( optionStructure );
-		
-		Option optionFonction = new Option( "fonction", "fonction");
-		optionFonction.setArgs(1);
-		optionFonction.setArgName("fonction");
-		options.addOption( optionFonction );
-		
-		Option optionType = new Option( "type", "type");
-		optionType.setArgs(1);
-		optionType.setArgName("type");
-		options.addOption( optionType );
-		
-		CommandLine line = null;
-		CommandLineParser parser = new DefaultParser();
-	    try {
-	        line = parser.parse( options, args );
-	    }
-	    catch( ParseException exp ) {
-	    	Logging.logger_.error( exp.getMessage() );
-	    	
-	    	HelpFormatter formatter = new HelpFormatter();
-	        formatter.printHelp(Extracteur.class.getName(), options);
-	        return;
-	    }
 	    
-	    if (line.hasOption("debug"))
+	    if (debug)
 	    {
 	    	Logging.enableDebug();
 	    }
-	    String sortie = line.getOptionValue("sortie");
-	    String params = line.getOptionValue("params");
 	    
-	    String generateur = "cvs";
-	    if (line.hasOption(optionGenerateur.getArgName()))
-		{
-	    	generateur = line.getOptionValue(optionGenerateur.getArgName());
-		}
-	    int format = ExtractionMain.FORMAT_INDIVIDU;
-	    if (line.hasOption(optionFormat.getArgName()))
-		{
-	    	format = Integer.parseInt(line.getOptionValue(optionFormat.getArgName()));
-		}
-	    int structure = ExtractionMain.STRUCTURE_TOUT;
-	    if (line.hasOption(optionStructure.getArgName()))
-		{
-	    	structure = Integer.parseInt(line.getOptionValue(optionStructure.getArgName()));
-		}
-	    int categorie = -1;
-	    if (line.hasOption(optionCategorie.getArgName()))
-		{
-	    	categorie = Integer.parseInt(line.getOptionValue(optionCategorie.getArgName()));
-		}
-	    int diplome = -1;
-	    if (line.hasOption("diplome"))
-	    {
-	    	diplome = Integer.parseInt(line.getOptionValue("diplome"));
-	    }
-	    int qualif = -1;
-	    if (line.hasOption("qualif"))
-	    {
-	    	qualif = Integer.parseInt(line.getOptionValue("qualif"));
-	    }
-	    int formation = -1;
-	    if (line.hasOption("formation"))
-	    {
-	    	formation = Integer.parseInt(line.getOptionValue("formation"));
-	    }
-	    int type = -1;
-	    if (line.hasOption("type"))
-	    {
-	    	type = Integer.parseInt(line.getOptionValue("type"));
-	    }
-	    String fonction = null;
-	    if (line.hasOption("fonction"))
-	    {
-	    	fonction = line.getOptionValue("fonction");	
-	    }
-
-	    Logging.logger_.info("Chargement du fichier de propriétés");
-	    
-		Properties pfile = new Properties();
 		try {
-			pfile.load(new FileInputStream(new File(params)));
-			
-			String identifiant = pfile.getProperty("identifiant");
-			String motdepasse = pfile.getProperty("motdepasse");
-			if (identifiant == null)
-			{
-				Logging.logger_.error("Pas d'identifiant");
-				return;
-			}
-			if (motdepasse == null)
-			{
-				Logging.logger_.error("Pas de mot de passe");
-				return;
-			}
+			charge();
 			
 			if (generateur.compareTo(ExtractionMain.GENERATEUR_XLS) == 0)
 			{
 				Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(sortie), "UTF-8"));
 
-			    Logging.logger_.info("Connexion");
 				ExtractionAdherents app = new ExtractionAdherents();
-				app.init();
-				if (app.login(identifiant,motdepasse) == false)
-				{
-					Logging.logger_.error("erreur de connexion");
-				}
+				login(app);
 			    Logging.logger_.info("Extraction");
-				String donnees = app.extract(structure,type, fonction,categorie,diplome,qualif,formation,format, true);
-				app.close();
+				String donnees = app.extract(structure,type, adherents, fonction,categorie,diplome,qualif,formation,format, true);
+				logout();
 				
 				out.write(donnees);
 				out.flush();
@@ -209,16 +94,11 @@ public class Extracteur {
 			{
 				Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(sortie), "UTF-8"));
 
-			    Logging.logger_.info("Connexion");
 				ExtractionAdherents app = new ExtractionAdherents();
-				app.init();
-				if (app.login(identifiant,motdepasse) == false)
-				{
-					Logging.logger_.error("erreur de connexion");
-				}
+				login(app);
 			    Logging.logger_.info("Extraction");
-				String donnees = app.extract(structure,type, fonction,categorie,diplome,qualif,formation,format, false);
-				app.close();
+				String donnees = app.extract(structure,type, adherents, fonction,categorie,diplome,qualif,formation,format, false);
+				logout();
 				
 				out.write(donnees);
 				out.flush();
@@ -227,13 +107,13 @@ public class Extracteur {
 			else
 			if (generateur.compareTo(ExtractionMain.GENERATEUR_CSV) == 0)
 			{
-				final CSVPrinter out = CSVFormat.DEFAULT.withFirstRecordAsHeader().print(new File(sortie), Charset.forName("UTF-8"));
+				final CSVPrinter out = CSVFormat.DEFAULT.withFirstRecordAsHeader().print(sortie, Charset.forName("UTF-8"));
 				
 				ExtractionAdherents app = new ExtractionAdherents();
-				app.init();
-				app.login(identifiant,motdepasse);
-				String donnees = app.extract(structure,type, fonction,categorie,diplome,qualif,formation,format, false);
-				app.close();
+				login(app);
+			    Logging.logger_.info("Extraction");
+				String donnees = app.extract(structure,type, adherents, fonction,categorie,diplome,qualif,formation,format, false);
+				logout();
 				
 				XPathFactory xpfac = XPathFactory.instance();
 				SAXBuilder builder = new SAXBuilder();
@@ -270,5 +150,25 @@ public class Extracteur {
 		} catch (JDOMException e) {
 			e.printStackTrace();
 		}
+		
+		Logging.logger_.info("Terminé");
 	}
+	
+	public static void main(String[] args) {
+		Extracteur command = new Extracteur();
+		try
+		{
+			new CommandLine(command).parse(args);
+	        command.run();
+		}
+		catch(PicocliException e)
+		{
+			System.out.print("Erreur : " + e.getMessage());
+			CommandLine.usage(command, System.out);
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+    }
 }

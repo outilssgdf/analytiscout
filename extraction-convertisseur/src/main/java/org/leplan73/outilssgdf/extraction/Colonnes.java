@@ -85,38 +85,6 @@ public class Colonnes {
 			{
 				emailIndividu2Id = key;
 			}
-			else if (ids_.get(key).compareTo("Pere.Nom") == 0)
-			{
-				nomPereId = key;
-			}
-			else if (ids_.get(key).compareTo("Pere.Prenom") == 0)
-			{
-				prenomPereId = key;
-			}
-			else if (ids_.get(key).compareTo("Pere.CourrielPersonnel") == 0)
-			{
-				emailPereId = key;
-			}
-			else if (ids_.get(key).compareTo("Pere.TelephonePortable1") == 0)
-			{
-				mobilePereId = key;
-			}
-			else if (ids_.get(key).compareTo("Mere.Nom") == 0)
-			{
-				nomMereId = key;
-			}
-			else if (ids_.get(key).compareTo("Mere.Prenom") == 0)
-			{
-				prenomMereId = key;
-			}
-			else if (ids_.get(key).compareTo("Mere.CourrielPersonnel") == 0)
-			{
-				emailMereId = key;
-			}
-			else if (ids_.get(key).compareTo("Mere.TelephonePortable1") == 0)
-			{
-				mobileMereId = key;
-			}
 			else if (ids_.get(key).compareTo("Individu.DateNaissance") == 0)
 			{
 				datedenaissanceId = key;
@@ -134,14 +102,6 @@ public class Colonnes {
 		if (emailIndividu2Id == -1) throw new ExtractionException("Erreur emailIndividu2Id");
 		if (mobileIndividu1 == -1) throw new ExtractionException("Erreur mobileIndividu1");
 		if (mobileIndividu2 == -1) throw new ExtractionException("Erreur mobileIndividu2");
-		if (nomPereId == -1) throw new ExtractionException("Erreur nomPereId");
-		if (prenomPereId == -1) throw new ExtractionException("Erreur prenomPereId");
-		if (emailPereId == -1) throw new ExtractionException("Erreur emailPereId");
-		if (mobilePereId == -1) throw new ExtractionException("Erreur mobilePereId");
-		if (nomMereId == -1) throw new ExtractionException("Erreur nomMereId");
-		if (prenomMereId == -1) throw new ExtractionException("Erreur prenomMereId");
-		if (emailMereId == -1) throw new ExtractionException("Erreur emailMereId");
-		if (mobileMereId == -1) throw new ExtractionException("Erreur mobileMereId");
 		if (fonctionCodeId == -1) throw new ExtractionException("Erreur fonctionCodeId");
 		if (datedenaissanceId == -1) throw new ExtractionException("Erreur datedenaissanceId");
 	}

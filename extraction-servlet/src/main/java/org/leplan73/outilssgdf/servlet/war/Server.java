@@ -63,7 +63,7 @@ public class Server {
 		ExtractionAdherents app = new ExtractionAdherents();
 		app.init();
 		if (app.login(identifiant,motdepasse) == false) return Response.status(404).build();
-		String donnees = app.extract(ExtractionMain.CATEGORIE_TOUT, ExtractionMain.TYPE_TOUT, null, ExtractionMain.CATEGORIE_TOUT, ExtractionMain.DIPLOME_TOUT,ExtractionMain.QUALIFICATION_TOUT,ExtractionMain.FORMATION_TOUT, ExtractionMain.FORMAT_TOUT,false);
+		String donnees = app.extract(0, true, ExtractionMain.TYPE_TOUT, true, null, ExtractionMain.SPECIALITE_SANS_IMPORTANCE, ExtractionMain.CATEGORIE_TOUT, ExtractionMain.DIPLOME_TOUT,ExtractionMain.QUALIFICATION_TOUT,ExtractionMain.FORMATION_TOUT, ExtractionMain.FORMAT_INDIVIDU,false);
 		app.close();
 		
 		return Response.ok(donnees).type(MediaType.TEXT_PLAIN).header("Content-Disposition","attachment; filename=\"file.xml\"").build();
@@ -79,7 +79,7 @@ public class Server {
 		ExtractionAdherents app = new ExtractionAdherents();
 		app.init();
 		if (app.login(identifiant,motdepasse) == false) return Response.status(404).build();
-		String donnees = app.extract(ExtractionMain.CATEGORIE_TOUT, ExtractionMain.TYPE_TOUT, null, ExtractionMain.CATEGORIE_TOUT, ExtractionMain.DIPLOME_TOUT,ExtractionMain.QUALIFICATION_TOUT,ExtractionMain.FORMATION_TOUT, ExtractionMain.FORMAT_TOUT,false);
+		String donnees = app.extract(0, true, ExtractionMain.TYPE_TOUT, true, null, ExtractionMain.SPECIALITE_SANS_IMPORTANCE, ExtractionMain.CATEGORIE_TOUT, ExtractionMain.DIPLOME_TOUT,ExtractionMain.QUALIFICATION_TOUT,ExtractionMain.FORMATION_TOUT, ExtractionMain.FORMAT_INDIVIDU,false);
 		app.close();
 		
 		ExtracteurHtml x = new ExtracteurHtml();
@@ -107,7 +107,7 @@ public class Server {
 		ExtractionAdherents app = new ExtractionAdherents();
 		app.init();
 		if (app.login(identifiant,motdepasse) == false) return Response.status(404).build();
-		String donnees = app.extract(ExtractionMain.CATEGORIE_TOUT, ExtractionMain.TYPE_TOUT, null, ExtractionMain.CATEGORIE_TOUT, ExtractionMain.DIPLOME_TOUT,ExtractionMain.QUALIFICATION_TOUT,ExtractionMain.FORMATION_TOUT, ExtractionMain.FORMAT_TOUT,false);
+		String donnees = app.extract(0, true, ExtractionMain.TYPE_TOUT, true, null, ExtractionMain.SPECIALITE_SANS_IMPORTANCE, ExtractionMain.CATEGORIE_TOUT, ExtractionMain.DIPLOME_TOUT,ExtractionMain.QUALIFICATION_TOUT,ExtractionMain.FORMATION_TOUT, ExtractionMain.FORMAT_INDIVIDU,false);
 		app.close();
 		
 		ExtracteurHtml x = new ExtracteurHtml();

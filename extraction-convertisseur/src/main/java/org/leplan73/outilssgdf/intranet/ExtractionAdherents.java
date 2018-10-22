@@ -28,7 +28,7 @@ import com.jayway.jsonpath.JsonPath;
 
 public class ExtractionAdherents extends ExtractionMain {
 
-	public String extract(int structure, int type, boolean adherents, String codeFonction, int categorie, int diplome, int qualification, int formation, int format, boolean brut) throws ClientProtocolException, IOException, JDOMException
+	public String extract(int structure, boolean recursif, int type, boolean adherents, String codeFonction, int specialite, int categorie, int diplome, int qualification, int formation, int format, boolean brut) throws ClientProtocolException, IOException, JDOMException
 	{
 		HttpGet httpget = new HttpGet("https://intranet.sgdf.fr/Specialisation/Sgdf/adherents/ExtraireAdherents.aspx");
 		httpget.addHeader("User-Agent","Mozilla/5.0 (Windows NT 6.1; rv:31.0) Gecko/20100101 Firefox/31.0");
@@ -56,17 +56,21 @@ public class ExtractionAdherents extends ExtractionMain {
        	if (ddCodes != null)
        	{
 	       	Elements ddCodes2 = ddCodes.select("option");
-	       	ddCodes2.forEach(code ->
+	       	for (int i=0;i<ddCodes2.size();i++)
 	       	{
-	       		String va = code.text();
-	       		if (va.compareTo("Toutes") != 0)
+	       		Element code = ddCodes2.get(i);
+	       		if (code != null)
 	       		{
-		       		va = va.substring(0, va.indexOf(" - "));
-		       		String value = code.attributes().get("value");
-		       		structureMap.put(Integer.valueOf(va), Integer.valueOf(value));
+		       		String va = code.text();
+		       		if (va.compareTo("Toutes") != 0)
+		       		{
+			       		va = va.substring(0, va.indexOf(" - "));
+			       		String value = code.attributes().get("value");
+			       		structureMap.put(Integer.valueOf(va), Integer.valueOf(value));
+		       		}
 	       		}
-	       	});
-	       	ddStructure = structure != ExtractionMain.STRUCTURE_TOUT ? structureMap.get(structure) : 0;
+	       	}
+	       	ddStructure = (structure != ExtractionMain.STRUCTURE_TOUT) ? structureMap.get(structure) : null;
        	}
        	
        	if (ddCodes == null)
@@ -136,7 +140,7 @@ public class ExtractionAdherents extends ExtractionMain {
 		formparams.add(new BasicNameValuePair("ctl00$MainContent$_ddTypeInscription",""+type));
 		if (adherents)
 			formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbSontAdherents", "on"));
-		formparams.add(new BasicNameValuePair("ctl00$MainContent$_ddSpecialite","-1"));
+		formparams.add(new BasicNameValuePair("ctl00$MainContent$_ddSpecialite",""+specialite));
 		formparams.add(new BasicNameValuePair("ctl00$MainContent$_ddTypeContact","-1"));
 		formparams.add(new BasicNameValuePair("ctl00$MainContent$_ddDiplome",""+diplome));
 		formparams.add(new BasicNameValuePair("ctl00$MainContent$_ddQualification",""+qualification));

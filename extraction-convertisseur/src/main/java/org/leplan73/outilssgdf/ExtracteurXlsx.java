@@ -126,11 +126,9 @@ public class ExtracteurXlsx {
 		unites_ = new Unites();
 		adherents_.forEach((code,ad) ->
 		{
-			ad.setGroupe(groupef);
 			String unite = ad.getUnite();
 			Unite uniteObj = unites_.computeIfAbsent(unite, k -> new Unite(unite,0));
 			uniteObj.ajouter(ad.getJeune(), ad.getChef());
-			uniteObj.setGroupe(groupef);
 		});
 	}
 }

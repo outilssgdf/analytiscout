@@ -7,7 +7,7 @@ public class CommonParamsG {
 	@Option(names = "-debug", description = "debug")
 	protected boolean debug = false;
 
-	@Option(names = "-structure", required=true, description = "structure")
-	protected Integer structure;
+	@Option(names = "-structure", required=true, description = "Structure à extraire", arity = "1..*", split = ",")
+	protected int[] structures;
 
 }

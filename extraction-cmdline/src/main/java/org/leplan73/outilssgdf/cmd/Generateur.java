@@ -6,8 +6,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.time.Instant;
 import java.util.zip.ZipOutputStream;
 
+import org.fusesource.jansi.AnsiConsole;
 import org.jdom2.JDOMException;
 import org.leplan73.outilssgdf.ExtracteurHtml;
 import org.leplan73.outilssgdf.ExtractionException;
@@ -17,17 +19,20 @@ import org.leplan73.outilssgdf.intranet.ExtractionMain;
 
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
+import picocli.CommandLine.Help.Ansi;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.PicocliException;
 
 @Command(name = "Generateur", mixinStandardHelpOptions = true, version = "1.0")
 public class Generateur extends CommonParamsIntranet {
 
-	@Option(names = "-sortie", required=true, description = "sortie")
+	@Option(names = "-sortie", required=true, description = "Fichier de sortie")
 	private File sortie;
 	
 	public void run()
 	{
+		Instant now = Instant.now();
+		
 		checkParams();
 		
 		Logging.initLogger(Generateur.class);
@@ -39,19 +44,16 @@ public class Generateur extends CommonParamsIntranet {
 	    	Logging.enableDebug();
 	    }
 	    
-	    Logging.logger_.info("Chargement du fichier de propriétés");
-	    
 		try {
 			charge();
 			
 			// Connexion
-		    Logging.logger_.info("Connexion");
 			ExtractionAdherents app = new ExtractionAdherents();
 			login(app);
 
 			// Extraction des données
-			Logging.logger_.info("Extraction (structure="+structure+")");
-			String donnees = app.extract(structure, ExtractionMain.TYPE_TOUT, false, null, ExtractionMain.CATEGORIE_TOUT, ExtractionMain.DIPLOME_TOUT,ExtractionMain.QUALIFICATION_TOUT,ExtractionMain.FORMATION_TOUT, ExtractionMain.FORMAT_INDIVIDU|ExtractionMain.FORMAT_PARENTS,false);
+			Logging.logger_.info("Extraction (structure="+structures[0]+")");
+			String donnees = app.extract(structures[0], true, ExtractionMain.TYPE_TOUT, true, null, ExtractionMain.SPECIALITE_SANS_IMPORTANCE, ExtractionMain.CATEGORIE_TOUT, ExtractionMain.DIPLOME_TOUT,ExtractionMain.QUALIFICATION_TOUT,ExtractionMain.FORMATION_TOUT, ExtractionMain.FORMAT_INDIVIDU|ExtractionMain.FORMAT_PARENTS,false);
 			logout();
 			
 			// Conversion des données
@@ -75,10 +77,12 @@ public class Generateur extends CommonParamsIntranet {
 			Logging.logger_.error(e);
 		}
 		
-		Logging.logger_.info("Terminé");
+		long d = now.getEpochSecond() - Instant.now().getEpochSecond();
+		Logging.logger_.info("Terminé en "+d+" seconds");
 	}
 	
 	public static void main(String[] args) {
+		AnsiConsole.systemInstall();
 		Generateur command = new Generateur();
 		try
 		{
@@ -87,12 +91,13 @@ public class Generateur extends CommonParamsIntranet {
 		}
 		catch(PicocliException e)
 		{
-			System.out.print("Erreur : " + e.getMessage());
-			CommandLine.usage(command, System.out);
+			System.out.println("Erreur : " + e.getMessage());
+			CommandLine.usage(command, System.out, Ansi.ON);
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
 		}
+		AnsiConsole.systemUninstall();
     }
 }

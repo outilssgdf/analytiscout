@@ -3,7 +3,9 @@ package org.leplan73.outilssgdf.cmd;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.time.Instant;
 
+import org.fusesource.jansi.AnsiConsole;
 import org.jdom2.JDOMException;
 import org.leplan73.outilssgdf.ExtracteurHtml;
 import org.leplan73.outilssgdf.ExtractionException;
@@ -14,6 +16,7 @@ import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.PicocliException;
+import picocli.CommandLine.Help.Ansi;
 
 @Command(name = "GenerateurFormations", mixinStandardHelpOptions = true, version = "1.0")
 public class GenerateurFormations extends CommonParamsIntranet {
@@ -26,6 +29,7 @@ public class GenerateurFormations extends CommonParamsIntranet {
 	
 	public void run()
 	{
+		Instant now = Instant.now();
 		checkParams();
 		
 		Logging.initLogger(GenerateurFormations.class);
@@ -37,8 +41,6 @@ public class GenerateurFormations extends CommonParamsIntranet {
 	    	Logging.enableDebug();
 	    }
 	    
-	    Logging.logger_.info("Chargement du fichier de propriétés");
-	    
 		try {
 			charge();
 			
@@ -48,8 +50,8 @@ public class GenerateurFormations extends CommonParamsIntranet {
 		    login(app);
 
 			// Extraction des données
-			Logging.logger_.info("Extraction \"Responsables\" (structure="+structure+")");
-			String donnees = app.extract(structure, null, ExtractionMain.CATEGORIE_RESPONSABLE, ExtractionMain.FORMAT_INDIVIDU|ExtractionMain.FORMAT_PARENTS);
+			Logging.logger_.info("Extraction \"Responsables\" (structure="+structures+")");
+			String donnees = app.extract(structures[0], null, ExtractionMain.CATEGORIE_RESPONSABLE, ExtractionMain.FORMAT_INDIVIDU|ExtractionMain.FORMAT_PARENTS);
 			app.close();
 			
 			// Conversion des données
@@ -58,8 +60,8 @@ public class GenerateurFormations extends CommonParamsIntranet {
 			x.charge(new ByteArrayInputStream(donnees.getBytes(Charset.forName("UTF-8"))));
 			
 			// Extraction des données
-			Logging.logger_.info("Extraction \"Compas\" (structure="+structure+")");
-			String donneesCompas = app.extract(structure, "140", ExtractionMain.CATEGORIE_RESPONSABLE, ExtractionMain.FORMAT_INDIVIDU|ExtractionMain.FORMAT_PARENTS);
+			Logging.logger_.info("Extraction \"Compas\" (structure="+structures+")");
+			String donneesCompas = app.extract(structures[0], "140", ExtractionMain.CATEGORIE_RESPONSABLE, ExtractionMain.FORMAT_INDIVIDU|ExtractionMain.FORMAT_PARENTS);
 			logout();
 			
 			// Conversion des données
@@ -76,10 +78,12 @@ public class GenerateurFormations extends CommonParamsIntranet {
 			Logging.logger_.error(e);
 		}
 		
-		Logging.logger_.info("Terminé");
+		long d = now.getEpochSecond() - Instant.now().getEpochSecond();
+		Logging.logger_.info("Terminé en "+d+" seconds");
 	}
 	
 	public static void main(String[] args) {
+		AnsiConsole.systemInstall();
 		GenerateurFormations command = new GenerateurFormations();
 		try
 		{
@@ -88,12 +92,13 @@ public class GenerateurFormations extends CommonParamsIntranet {
 		}
 		catch(PicocliException e)
 		{
-			System.out.print("Erreur : " + e.getMessage());
-			CommandLine.usage(command, System.out);
+			System.out.println("Erreur : " + e.getMessage());
+			CommandLine.usage(command, System.out, Ansi.ON);
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
 		}
+		AnsiConsole.systemUninstall();
     }
 }

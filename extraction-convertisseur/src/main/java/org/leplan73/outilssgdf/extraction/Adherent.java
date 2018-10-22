@@ -23,7 +23,6 @@ public class Adherent {
 	protected String unite_;
 	protected Colonnes colonnes_;
 	protected long age_ = -1;
-	protected String groupe_;
 	
 	public Adherent(Colonnes colonnes)
 	{
@@ -55,11 +54,6 @@ public class Adherent {
 		return unite_;
 	}
 	
-	public String getGroupe()
-	{
-		return groupe_;
-	}
-	
 	public long getAge()
 	{
 		return age_;
@@ -80,6 +74,12 @@ public class Adherent {
 		return this.get(colonnes_.getPrenomIndividuId());
 	}
 	
+	public boolean getMarin()
+	{
+		String code = this.get(colonnes_.getFonctionCodeId());
+		return code.endsWith("M");
+	}
+	
 	public int getFonction()
 	{
 		String code = this.get(colonnes_.getFonctionCodeId());
@@ -93,18 +93,27 @@ public class Adherent {
 	{
 		String code = this.get(colonnes_.getFonctionCodeId());
 		if (code.endsWith("M"))
-			return 0;
-		int fonction = Integer.valueOf(this.get(colonnes_.getFonctionCodeId()));
-		return fonction < 200 ? 1 : 0;
+			code = code.substring(0, 3);
+		int fonction = Integer.valueOf(code);
+		return fonction < Consts.CODE_RESPONSABLES ? 1 : 0;
+	}
+	
+	public int getCompa()
+	{
+		String code = this.get(colonnes_.getFonctionCodeId());
+		if (code.endsWith("M"))
+			code = code.substring(0, 3);
+		int fonction = Integer.valueOf(code);
+		return (fonction ==  Consts.CODE_COMPAS_T1T2 || fonction == Consts.CODE_COMPAS_T3) ? 1 : 0;
 	}
 	
 	public int getChef()
 	{
 		String code = this.get(colonnes_.getFonctionCodeId());
 		if (code.endsWith("M"))
-			return 0;
-		int fonction = Integer.valueOf(this.get(colonnes_.getFonctionCodeId()));
-		return fonction >= 200 ? 1 : 0;
+			code = code.substring(0, 3);
+		int fonction = Integer.valueOf(code);
+		return fonction >= Consts.CODE_RESPONSABLES ? 1 : 0;
 	}
 	
 	public String getChamp(String nom)
@@ -155,11 +164,6 @@ public class Adherent {
 			age_ = diff;
 		} catch (ParseException e) {
 		}
-	}
-	
-	public void setGroupe(String groupe)
-	{
-		groupe_ = groupe;
 	}
 	
 	public void check(Colonnes colonnes, Unite unite, List<Check> checks)

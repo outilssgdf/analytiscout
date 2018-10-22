@@ -66,6 +66,11 @@ public class ExtractionMain {
 	public final static int CATEGORIE_JEUNE = 0;
 	public final static int CATEGORIE_RESPONSABLE = 1;
 	
+	public final static int SPECIALITE_SANS_IMPORTANCE = -1;
+	public final static int SPECIALITE_MARINE = 622;
+	public final static int SPECIALITE_SANS = 624;
+	public final static int SPECIALITE_VENT_DU_LARGE = 623;
+	
 	public final static int TYPE_TOUT = -1;
 	public final static int TYPE_INSCRIT = 0;
 	public final static int TYPE_INVITE = 1;

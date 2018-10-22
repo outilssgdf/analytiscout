@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -12,16 +13,18 @@ import java.util.TreeMap;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.fusesource.jansi.AnsiConsole;
 import org.jdom2.JDOMException;
 import org.leplan73.outilssgdf.ExtracteurHtml;
 import org.leplan73.outilssgdf.ExtractionException;
-import org.leplan73.outilssgdf.extraction.Chefs;
+import org.leplan73.outilssgdf.extraction.AdherentFormes;
 
 import net.sf.jett.transform.ExcelTransformer;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.PicocliException;
+import picocli.CommandLine.Help.Ansi;
 
 @Command(name = "AnalyserFormations", mixinStandardHelpOptions = true, version = "1.0")
 public class AnalyserFormations extends CommonParamsG {
@@ -43,6 +46,7 @@ public class AnalyserFormations extends CommonParamsG {
 	
 	public void run()
 	{
+		Instant now = Instant.now();
 		Logging.initLogger(AnalyserFormations.class);
 		
 		Logging.logger_.info("Lancement");
@@ -61,7 +65,7 @@ public class AnalyserFormations extends CommonParamsG {
 		Map<String, ExtracteurHtml> map = new TreeMap<String, ExtracteurHtml>();
 		File fichierAdherents = null;
 
-		File dossierStructure = new File(entree,""+structure);
+		File dossierStructure = new File(entree,""+structures);
 		dossierStructure.exists();
 		
 		int index=1;
@@ -90,7 +94,7 @@ public class AnalyserFormations extends CommonParamsG {
 	    Logging.logger_.info("Chargement du fichier \""+fichierAdherents.getName()+"\"");
 		 ExtracteurHtml adherents = new ExtracteurHtml(fichierAdherents, map);
 		 
-		 Chefs chefs = new Chefs();
+		 AdherentFormes chefs = new AdherentFormes();
 		 chefs.charge(adherents,map);
 
 		FileOutputStream outputStream = new FileOutputStream(sortie);
@@ -119,7 +123,8 @@ public class AnalyserFormations extends CommonParamsG {
 			e.printStackTrace();
 		}
 		
-		Logging.logger_.info("Terminé");
+		long d = now.getEpochSecond() - Instant.now().getEpochSecond();
+		Logging.logger_.info("Terminé en "+d+" seconds");
 	}
 	
 	public static void main(String[] args) {
@@ -131,12 +136,13 @@ public class AnalyserFormations extends CommonParamsG {
 		}
 		catch(PicocliException e)
 		{
-			System.out.print("Erreur : " + e.getMessage());
-			CommandLine.usage(command, System.out);
+			System.out.println("Erreur : " + e.getMessage());
+			CommandLine.usage(command, System.out, Ansi.ON);
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
 		}
+		AnsiConsole.systemUninstall();
     }
 }

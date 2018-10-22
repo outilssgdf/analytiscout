@@ -2,9 +2,9 @@ package org.leplan73.outilssgdf.cmd;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -12,16 +12,20 @@ import java.util.TreeMap;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.fusesource.jansi.AnsiConsole;
 import org.jdom2.JDOMException;
 import org.leplan73.outilssgdf.ExtracteurHtml;
 import org.leplan73.outilssgdf.ExtractionException;
-import org.leplan73.outilssgdf.extraction.Chefs;
+import org.leplan73.outilssgdf.extraction.AdherentFormes;
+import org.leplan73.outilssgdf.extraction.General;
+import org.leplan73.outilssgdf.extraction.Global;
 
 import net.sf.jett.transform.ExcelTransformer;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.PicocliException;
+import picocli.CommandLine.Help.Ansi;
 
 @Command(name = "Analyseur", mixinStandardHelpOptions = true, version = "1.0")
 public class Analyseur extends CommonParamsG {
@@ -38,8 +42,9 @@ public class Analyseur extends CommonParamsG {
 	@Option(names = "-sortie", required=true, description = "sortie")
 	private File sortie;
 	
-	public void run() {
+	public void run() throws IOException, ExtractionException, JDOMException, InvalidFormatException
 	{
+		Instant now = Instant.now();
 		Logging.initLogger(Analyseur.class);
 		
 		Logging.logger_.info("Lancement");
@@ -52,13 +57,12 @@ public class Analyseur extends CommonParamsG {
 	    Logging.logger_.info("Chargement du fichier de traitement");
 		
 		Properties pbatch = new Properties();
-		try {
-			pbatch.load(new FileInputStream(batch));
+		pbatch.load(new FileInputStream(batch));
 
 		Map<String, ExtracteurHtml> extraMap = new TreeMap<String, ExtracteurHtml>();
 		File fichierAdherents = null;
 
-		File dossierStructure = new File(entree,""+structure);
+		File dossierStructure = new File(entree,""+structures[0]);
 		dossierStructure.exists();
 		
 		int index=1;
@@ -87,8 +91,11 @@ public class Analyseur extends CommonParamsG {
 		Logging.logger_.info("Chargement du fichier \""+fichierAdherents.getName()+"\"");
 		ExtracteurHtml adherents = new ExtracteurHtml(fichierAdherents, extraMap);
 		 
-		Chefs chefs = new Chefs();
-		chefs.charge(adherents,extraMap);
+		AdherentFormes compas = new AdherentFormes();
+		compas.charge(adherents,extraMap);
+		
+		General general = new General();
+		Global global = new Global(adherents.getGroupe(), adherents.getMarins());
 
 		FileOutputStream outputStream = new FileOutputStream(sortie);
 
@@ -96,24 +103,22 @@ public class Analyseur extends CommonParamsG {
 		ExcelTransformer trans = new ExcelTransformer();
 		Map<String, Object> beans = new HashMap<String, Object>();
 		beans.put("chefs", adherents.getChefsList());
+		beans.put("compas", adherents.getCompasList());
 		beans.put("unites", adherents.getUnitesList());
+		beans.put("general", general);
+		beans.put("global", global);
 		Workbook workbook = trans.transform(new FileInputStream(modele), beans);
 		workbook.write(outputStream);
 		
 		outputStream.flush();
 		outputStream.close();
 		
-		} catch (FileNotFoundException e) {
-		} catch (IOException e) {
-		} catch (InvalidFormatException e) {
-		} catch (ExtractionException e) {
-		} catch (JDOMException e) {
-		}
-		
-		Logging.logger_.info("Terminé");}
+		long d = now.getEpochSecond() - Instant.now().getEpochSecond();
+		Logging.logger_.info("Terminé en "+d+" seconds");
 	}
 	
 	public static void main(String[] args) {
+		AnsiConsole.systemInstall();
 		Analyseur command = new Analyseur();
 		try
 		{
@@ -122,12 +127,13 @@ public class Analyseur extends CommonParamsG {
 		}
 		catch(PicocliException e)
 		{
-			System.out.print("Erreur : " + e.getMessage());
-			CommandLine.usage(command, System.out);
+			System.out.println("Erreur : " + e.getMessage());
+			CommandLine.usage(command, System.out, Ansi.ON);
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
 		}
+		AnsiConsole.systemUninstall();
     }
 }

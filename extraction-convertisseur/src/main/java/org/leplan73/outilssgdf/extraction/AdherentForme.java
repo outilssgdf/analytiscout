@@ -4,36 +4,50 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class Chef extends Adherent {
+public class AdherentForme extends Adherent {
 
-	private static final String EST_TITULAIRE = "Qualifications.EstTitulaire";
+	private static final String QUALIF_EST_TITULAIRE = "Qualifications.EstTitulaire";
+	private static final String QUALIF_FIN_VALIDITE = "Qualifications.DateFinValidite";
+
+	private static final String FORMATION_DATEFIN = "Formations.DateFin";
+	private static final String DIPLOME_DATE_OBTENTION = "Diplomes.DateObtention";
 	
 	static public class ChefExtra
 	{
 		public String nom_;
-		public Chef dir_;
+		public AdherentForme dir_;
 		public Colonnes colonnes2_;
-		public boolean aTitulaire_;
+		public boolean isQualif_;
 		
-		public ChefExtra(String nom, Chef dir, Colonnes colonnes)
+		public ChefExtra(String nom, AdherentForme dir, Colonnes colonnes)
 		{
+			// Noms similaires
 			if (nom.contains("appro") == true)
 			{
 				nom_ = "appro";
 			}
 			else
 				nom_ = nom;
+			if (nom.contains("apf") == true)
+			{
+				nom_ = "apf";
+			}
+			else
+				nom_ = nom;
+
+			// Détections
+			if (nom.compareTo("dirsf") == 0)
+				isQualif_ = true;
+			if (nom.compareTo("animsf") == 0)
+				isQualif_ = true;
+			
 			dir_ = dir;
 			colonnes2_ = colonnes;
-			if (nom.compareTo("dirsf") == 0)
-				aTitulaire_ = true;
-			if (nom.compareTo("animsf") == 0)
-				aTitulaire_ = true;
 		}
 		
 		private String get(String nom)
 		{
-			return dir_ != null ? dir_.get(colonnes2_.get(nom)) : "";
+			return dir_ != null ? colonnes2_.get(nom) != null ? dir_.get(colonnes2_.get(nom)) : "" : "";
 		}
 		
 		@Override
@@ -43,7 +57,7 @@ public class Chef extends Adherent {
 		}
 	};
 	
-	public Chef(Adherent adherent) {
+	public AdherentForme(Adherent adherent) {
 		super(adherent.colonnes_);
 		
 		data_ = adherent.data_;
@@ -53,7 +67,6 @@ public class Chef extends Adherent {
 		unite_ = adherent.unite_;
 		colonnes_ = adherent.colonnes_;
 		age_ = adherent.age_;
-		groupe_ = adherent.groupe_;
 	}
 	
 	private Map<String, Qualification> qualifs_ = new TreeMap<String, Qualification>();
@@ -61,19 +74,32 @@ public class Chef extends Adherent {
 	{
 		private boolean titulaire_;
 		private boolean defini_;
+		private String fin_validite_;
 		
 		public Qualification(ChefExtra extra) {
-			String titulaire = extra.aTitulaire_ ? extra.get(EST_TITULAIRE) : null;
+			fin_validite_ = extra.get(QUALIF_FIN_VALIDITE) != null ? extra.get(QUALIF_FIN_VALIDITE).isEmpty() ? "Pas de date" : extra.get(QUALIF_FIN_VALIDITE) : "Pas de date";
+			String titulaire = extra.isQualif_ ? extra.get(QUALIF_EST_TITULAIRE) : null;
 			titulaire_ = (titulaire != null && titulaire.compareTo("Oui") == 0);
 			defini_ = true;
 		}
 
 		public Qualification() {
+			fin_validite_ = "";
 		}
 
 		public boolean getOk()
 		{
 			return defini_;
+		}
+
+		public boolean getTitulaire()
+		{
+			return titulaire_;
+		}
+		
+		public String getFinvalidite()
+		{
+			return fin_validite_;
 		}
 		
 		public String getEsttitulaire()
@@ -86,6 +112,7 @@ public class Chef extends Adherent {
 	public class Formation
 	{
 		private boolean titulaire_;
+		private String datefin_;
 		
 		public Formation()
 		{
@@ -93,11 +120,17 @@ public class Chef extends Adherent {
 		
 		public Formation(ChefExtra extra) {
 			titulaire_ = true;
+			datefin_ = extra.get(FORMATION_DATEFIN);
 		}
 
 		public boolean getOk()
 		{
 			return titulaire_;
+		}
+		
+		public String getDatefin()
+		{
+			return datefin_;
 		}
 		
 		public String getEsttitulaire()
@@ -110,9 +143,11 @@ public class Chef extends Adherent {
 	public class Diplome
 	{
 		private boolean titulaire_;
+		private String dateobtention_;
 		
 		public Diplome(ChefExtra extra) {
 			titulaire_ = true;
+			dateobtention_ = extra.get(DIPLOME_DATE_OBTENTION);
 		}
 
 		public Diplome() {
@@ -121,6 +156,11 @@ public class Chef extends Adherent {
 		public boolean getOk()
 		{
 			return titulaire_;
+		}
+		
+		public String getDateobtention()
+		{
+			return dateobtention_;
 		}
 		
 		public String getEsttitulaire()
@@ -136,7 +176,15 @@ public class Chef extends Adherent {
 		extras.forEach(extra ->
 		{
 			extras_.put(extra.nom_, extra);
-			qualifs_.put(extra.nom_, new Qualification(extra));
+			
+			if (extra.isQualif_)
+			{
+				Qualification q = qualifs_.get(extra.nom_);
+				if ((q == null) || (q != null && q.getTitulaire() == false))
+				{
+					qualifs_.put(extra.nom_, new Qualification(extra));
+				}
+			}
 			formations_.put(extra.nom_, new Formation(extra));
 			diplomes_.put(extra.nom_, new Diplome(extra));
 		});
@@ -257,10 +305,9 @@ public class Chef extends Adherent {
 		ChefExtra extra = extras_.get(nom);
 		if (extra != null)
 		{
-			String apf = extra.get(EST_TITULAIRE);
+			String apf = extra.get(QUALIF_EST_TITULAIRE);
 			return apf.isEmpty() ? 0 : 1;
 		}
 		return 0;
 	}
-
 }

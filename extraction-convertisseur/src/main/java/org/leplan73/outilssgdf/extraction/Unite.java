@@ -20,6 +20,16 @@ public class Unite implements Comparable<Unite>
 	private int staf_;
 	private int buchettes_;
 	
+	public boolean getAvecdesjeunes()
+	{
+		return jeunes_ > 0;
+	}
+	
+	public double getRatio()
+	{
+		return (double)chefs_ / (double)jeunes_;
+	}
+	
 	public int getJeunes()
 	{
 		return jeunes_;
@@ -51,11 +61,6 @@ public class Unite implements Comparable<Unite>
 	{
 		return nom_;
 	}
-	
-	public String getGroupe()
-	{
-		return groupe_;
-	}
 
 	private int qualifs_;
 	public int getQualifieannee()
@@ -70,7 +75,8 @@ public class Unite implements Comparable<Unite>
 	}
 
 	private int autresAnnee_;
-	public int getAutresannee()
+	
+	public int getAutrescamp()
 	{
 		return autresAnnee_;
 	}
@@ -83,17 +89,12 @@ public class Unite implements Comparable<Unite>
 	
 	public int getQualifiecamp()
 	{
-		return qualifs_-1;
+		return (fonction_ >= 210 && fonction_ < 230) ? qualifs_-1 : 0 ;
 	}
 	
 	public int getStagiairecamp()
 	{
 		return stagiaireAnnee_;
-	}
-	
-	public int getAutrescamp()
-	{
-		return 0;
 	}
 
 	public int compareTo(String o) {
@@ -108,12 +109,6 @@ public class Unite implements Comparable<Unite>
 	@Override
 	public String toString() {
 		return nom_;
-	}
-
-	private String groupe_;
-	public void setGroupe(String groupe)
-	{
-		groupe_ = groupe;
 	}
 
 	public int getApf() {

@@ -16,9 +16,9 @@ import org.jdom2.input.SAXBuilder;
 import org.jdom2.xpath.XPathExpression;
 import org.jdom2.xpath.XPathFactory;
 import org.leplan73.outilssgdf.extraction.Adherent;
+import org.leplan73.outilssgdf.extraction.AdherentForme;
+import org.leplan73.outilssgdf.extraction.AdherentForme.ChefExtra;
 import org.leplan73.outilssgdf.extraction.Adherents;
-import org.leplan73.outilssgdf.extraction.Chef;
-import org.leplan73.outilssgdf.extraction.Chef.ChefExtra;
 import org.leplan73.outilssgdf.extraction.Colonnes;
 import org.leplan73.outilssgdf.extraction.Consts;
 import org.leplan73.outilssgdf.extraction.Parents;
@@ -31,6 +31,9 @@ public class ExtracteurHtml {
 	protected Parents parents_;
 	protected Colonnes colonnes_;
 	protected Unites unites_;
+	protected String groupe_;
+	protected boolean marins_;
+	
 	private Map<String, ExtracteurHtml> extras_;
 	
 	public ExtracteurHtml() throws ExtractionException, IOException, JDOMException {
@@ -75,13 +78,22 @@ public class ExtracteurHtml {
 		return unites;
 	}
 	
-	public List<Chef> getChefsList() {
-		List<Chef> adhrerents = new ArrayList<Chef>();
+	public List<AdherentForme> getChefsList() {
+		List<AdherentForme> adherents = new ArrayList<AdherentForme>();
 		adherents_.forEach((k,v) -> {
 			if (v.getChef() == 1)
-				adhrerents.add((Chef)v);
+				adherents.add((AdherentForme)v);
 		});
-		return adhrerents;
+		return adherents;
+	}
+	
+	public List<AdherentForme> getCompasList() {
+		List<AdherentForme> adherents = new ArrayList<AdherentForme>();
+		adherents_.forEach((k,v) -> {
+			if (v.getCompa() == 1)
+				adherents.add((AdherentForme)v);
+		});
+		return adherents;
 	}
 	
 	public Unites getUnites()
@@ -99,6 +111,16 @@ public class ExtracteurHtml {
 		return colonnes_;
 	}
 	
+	public String getGroupe()
+	{
+		return groupe_;
+	}
+	
+	public boolean getMarins()
+	{
+		return marins_;
+	}
+	
 	public void charge(final String path) throws ExtractionException, IOException, JDOMException
 	{
    		FileInputStream excelFile = new FileInputStream(new File(path));
@@ -111,14 +133,6 @@ public class ExtracteurHtml {
    		FileInputStream excelFile = new FileInputStream(fichier);
    		charge(excelFile);
 		excelFile.close();
-	}
-	
-	private int construitColonnes(final InputStream stream) throws ExtractionException, JDOMException, IOException
-	{
-		SAXBuilder builder = new SAXBuilder();
-		
-		org.jdom2.Document docx = builder.build(stream);
-		return construitColonnes(docx);
 	}
 	
 	private int construitColonnes(final org.jdom2.Document docx) throws ExtractionException, JDOMException, IOException
@@ -146,27 +160,24 @@ public class ExtracteurHtml {
         return nbColumns;
 	}
 	
-	private void complete(String groupe)
+	private void complete()
 	{
 		parents_ = adherents_.parents(colonnes_);
 		parents_.complete();
 		
-		final String groupef = groupe;
 		unites_ = new Unites();
 		adherents_.forEach((code,ad) ->
 		{
-			ad.setGroupe(groupef);
 			String unite = ad.getUnite();
 			Unite uniteObj = unites_.computeIfAbsent(unite, k -> new Unite(unite,0));
 			uniteObj.ajouter(ad.getJeune(), ad.getChef());
-			uniteObj.setGroupe(groupef);
 		});
 		
 		adherents_.forEach((code,ad) ->
 		{
 			if (ad.getChef() > 0)
 			{
-				Chef chef = (Chef)ad;
+				AdherentForme chef = (AdherentForme)ad;
 				String unite = ad.getUnite();
 				Unite uniteObj = unites_.computeIfAbsent(unite, k -> new Unite(unite, ad.getFonction()));
 				
@@ -221,76 +232,23 @@ public class ExtracteurHtml {
 	
 	public void charge(List<InputStream> streams) throws ExtractionException, IOException, JDOMException
 	{
-		int nbColumns = streams.size() >= 1 ? construitColonnes(streams.get(0)) : 0;
-		
 		// Chargement des lignes d'adherents
         adherents_ = new Adherents();
 
-        String groupe = null;
-		
 		for (InputStream stream : streams) 
 		{
-			stream.reset();
-        	XPathFactory xpfac = XPathFactory.instance();
-    		SAXBuilder builder = new SAXBuilder();
-			org.jdom2.Document docx = builder.build(stream);
-	        
-	        XPathExpression<?> xpa = xpfac.compile("tbody/tr[position() > 1]/td");
-	        
-	        List<?> results = xpa.evaluate(docx);
-	        
-	        int index = 0;
-	        Adherent adherent = null;
-			Iterator<?> iter = results.iterator();
-			while (iter.hasNext())
-			{
-				if (index % nbColumns == 0)
-				{
-					adherent = new Adherent(colonnes_);
-				}
-				
-				Object result = iter.next();
-				Element resultElement = (Element) result;
-	            adherent.add(index % nbColumns, resultElement.getText());
-	            index++;
-	        	if (index % nbColumns == 0)
-	        	{
-	            	adherent.init();
-					int code = adherent.getCode();
-					if (adherent.getFonction() == Consts.CODE_VIOLETS)
-					{
-						groupe = adherent.getUnite();
-					}
-					if (adherent.getChef() == 1)
-					{
-						Chef chef = new Chef(adherent);
-						chef.init();
-						adherents_.put(adherent.getCode(), chef);
-						
-						List<ChefExtra> extras2 = new ArrayList<ChefExtra>();
-						if (extras_ != null)
-						{
-							extras_.forEach((k,v) ->
-							{
-								Adherent qdir = v.getAdherents().get(code);
-								if (qdir != null)
-								{
-									extras2.add(new ChefExtra(k, (Chef)qdir, v.getColonnes()));
-								}
-							});
-							chef.addExtras(extras2);
-						}
-					}
-					else
-						adherents_.put(adherent.getCode(), adherent);
-	        		adherent = null;
-	        	}
-			}
+			chargeStream(stream);
 		}
-		complete(groupe);
+		complete();
 	}
 	
 	public void charge(final InputStream stream) throws ExtractionException, IOException, JDOMException
+	{
+		chargeStream(stream);
+		complete();
+	}
+	
+	private void chargeStream(final InputStream stream) throws JDOMException, IOException, ExtractionException
 	{
 		XPathFactory xpfac = XPathFactory.instance();
 		SAXBuilder builder = new SAXBuilder();
@@ -305,8 +263,8 @@ public class ExtracteurHtml {
         
         List<?> results = xpa.evaluate(docx);
         
+        int codeMax = -1;
         int index = 0;
-        String groupe = null;
         Adherent adherent = null;
 		Iterator<?> iter = results.iterator();
 		while (iter.hasNext())
@@ -324,13 +282,21 @@ public class ExtracteurHtml {
         	{
             	adherent.init();
 				int code = adherent.getCode();
-				if (adherent.getFonction() == Consts.CODE_VIOLETS)
+				if (adherent.getFonction() >= Consts.CODE_VIOLETS)
 				{
-					groupe = adherent.getUnite();
+					if (adherent.getFonction() > codeMax)
+					{
+						codeMax = adherent.getFonction();
+						groupe_ = adherent.getUnite();
+					}
+				}
+				if (adherent.getMarin())
+				{
+					marins_ = true;
 				}
 				if (adherent.getChef() == 1)
 				{
-					Chef chef = new Chef(adherent);
+					AdherentForme chef = new AdherentForme(adherent);
 					chef.init();
 					adherents_.put(adherent.getCode(), chef);
 					
@@ -342,10 +308,30 @@ public class ExtracteurHtml {
 							Adherent qdir = v.getAdherents().get(code);
 							if (qdir != null)
 							{
-								extras2.add(new ChefExtra(k, (Chef)qdir, v.getColonnes()));
+								extras2.add(new ChefExtra(k, (AdherentForme)qdir, v.getColonnes()));
 							}
 						});
 						chef.addExtras(extras2);
+					}
+				}
+				else if (adherent.getCompa() == 1)
+				{
+					AdherentForme compa = new AdherentForme(adherent);
+					compa.init();
+					adherents_.put(adherent.getCode(), compa);
+					
+					List<ChefExtra> extras2 = new ArrayList<ChefExtra>();
+					if (extras_ != null)
+					{
+						extras_.forEach((k,v) ->
+						{
+							Adherent qdir = v.getAdherents().get(code);
+							if (qdir != null)
+							{
+								extras2.add(new ChefExtra(k, (AdherentForme)qdir, v.getColonnes()));
+							}
+						});
+						compa.addExtras(extras2);
 					}
 				}
 				else
@@ -353,7 +339,5 @@ public class ExtracteurHtml {
         		adherent = null;
         	}
 		}
-        
-		complete(groupe);
 	}
 }

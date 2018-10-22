@@ -6,15 +6,15 @@ import java.util.List;
 import java.util.Map;
 
 import org.leplan73.outilssgdf.ExtracteurHtml;
-import org.leplan73.outilssgdf.extraction.Chef.ChefExtra;
+import org.leplan73.outilssgdf.extraction.AdherentForme.ChefExtra;
 
-public class Chefs extends HashMap<Integer,Chef>
+public class AdherentFormes extends HashMap<Integer,AdherentForme>
 {
 	private static final long serialVersionUID = 1L;
 	
-	private List<Chef> chefs_ = new ArrayList<Chef>();
+	private List<AdherentForme> chefs_ = new ArrayList<AdherentForme>();
 	
-	public void addChef(int id, Chef chef)
+	public void addChef(int id, AdherentForme chef)
 	{
 		this.put(id, chef);
 		chefs_.add(chef);
@@ -29,7 +29,7 @@ public class Chefs extends HashMap<Integer,Chef>
 			{
 				extras.forEach((k,v) ->
 				{
-					Chef qdir = (Chef)v.getAdherents().get(chef.getCode());
+					AdherentForme qdir = (AdherentForme)v.getAdherents().get(chef.getCode());
 					extras2.add(new ChefExtra(k, qdir, v.getColonnes()));
 				});
 			}

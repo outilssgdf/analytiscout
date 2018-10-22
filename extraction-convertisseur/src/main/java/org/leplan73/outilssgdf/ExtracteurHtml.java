@@ -34,7 +34,7 @@ public class ExtracteurHtml {
 	protected String groupe_;
 	protected boolean marins_;
 	
-	private Map<String, ExtracteurHtml> extras_;
+	private Map<String, ExtracteurExtraHtml> extras_;
 	
 	public ExtracteurHtml() throws ExtractionException, IOException, JDOMException {
 	}
@@ -47,12 +47,12 @@ public class ExtracteurHtml {
 		charge(fichier);
 	}
 	
-	public ExtracteurHtml(String fichier, Map<String, ExtracteurHtml> extras) throws ExtractionException, IOException, JDOMException {
+	public ExtracteurHtml(String fichier, Map<String, ExtracteurExtraHtml> extras) throws ExtractionException, IOException, JDOMException {
 		extras_ = extras;
 		charge(fichier);
 	}
 	
-	public ExtracteurHtml(File fichier, Map<String, ExtracteurHtml> extras) throws ExtractionException, IOException, JDOMException {
+	public ExtracteurHtml(File fichier, Map<String, ExtracteurExtraHtml> extras) throws ExtractionException, IOException, JDOMException {
 		extras_ = extras;
 		charge(fichier);
 	}
@@ -248,6 +248,27 @@ public class ExtracteurHtml {
 		complete();
 	}
 	
+	private List<ChefExtra> extra(int code)
+	{
+		if (extras_ != null)
+		{
+			List<ChefExtra> extra = new ArrayList<ChefExtra>();
+			extras_.forEach((nom,map) -> 
+			{
+				List<AdherentForme> adherents = map.getAdherents();
+				adherents.forEach(adherent ->
+				{
+					if (adherent.getCode() == code)
+					{
+						extra.add(new ChefExtra(nom, adherent, map.getColonnes()));
+					}
+				});
+			});
+			return extra;
+		}
+		return null;
+	}
+	
 	private void chargeStream(final InputStream stream) throws JDOMException, IOException, ExtractionException
 	{
 		XPathFactory xpfac = XPathFactory.instance();
@@ -300,17 +321,9 @@ public class ExtracteurHtml {
 					chef.init();
 					adherents_.put(adherent.getCode(), chef);
 					
-					List<ChefExtra> extras2 = new ArrayList<ChefExtra>();
+					List<ChefExtra> extras2 = extra(code);
 					if (extras_ != null)
 					{
-						extras_.forEach((k,v) ->
-						{
-							Adherent qdir = v.getAdherents().get(code);
-							if (qdir != null)
-							{
-								extras2.add(new ChefExtra(k, (AdherentForme)qdir, v.getColonnes()));
-							}
-						});
 						chef.addExtras(extras2);
 					}
 				}

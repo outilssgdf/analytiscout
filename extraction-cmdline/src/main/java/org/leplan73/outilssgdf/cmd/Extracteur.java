@@ -165,7 +165,7 @@ public class Extracteur extends CommonParamsIntranet {
 			e.printStackTrace();
 		}
 		
-		long d = now.getEpochSecond() - Instant.now().getEpochSecond();
+		long d = Instant.now().getEpochSecond() - now.getEpochSecond();
 		Logging.logger_.info("Terminé en "+d+" seconds");
 	}
 	

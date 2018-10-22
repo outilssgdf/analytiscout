@@ -75,12 +75,14 @@ public class AdherentForme extends Adherent {
 		private boolean titulaire_;
 		private boolean defini_;
 		private String fin_validite_;
+		private String nom_;
 		
 		public Qualification(ChefExtra extra) {
 			fin_validite_ = extra.get(QUALIF_FIN_VALIDITE) != null ? extra.get(QUALIF_FIN_VALIDITE).isEmpty() ? "Pas de date" : extra.get(QUALIF_FIN_VALIDITE) : "Pas de date";
 			String titulaire = extra.isQualif_ ? extra.get(QUALIF_EST_TITULAIRE) : null;
 			titulaire_ = (titulaire != null && titulaire.compareTo("Oui") == 0);
 			defini_ = true;
+			nom_ = extra.nom_;
 		}
 
 		public Qualification() {
@@ -106,6 +108,12 @@ public class AdherentForme extends Adherent {
 		{
 			return titulaire_ ? "Oui" : "Non";
 		}
+		
+		@Override
+		public String toString()
+		{
+			return "nom="+nom_+", titulaire="+titulaire_+", fin_validite="+fin_validite_;
+		}
 	}
 	
 	private Map<String, Formation> formations_ = new TreeMap<String, Formation>();
@@ -113,6 +121,7 @@ public class AdherentForme extends Adherent {
 	{
 		private boolean titulaire_;
 		private String datefin_;
+		private String nom_;
 		
 		public Formation()
 		{
@@ -121,6 +130,7 @@ public class AdherentForme extends Adherent {
 		public Formation(ChefExtra extra) {
 			titulaire_ = true;
 			datefin_ = extra.get(FORMATION_DATEFIN);
+			nom_ = extra.nom_;
 		}
 
 		public boolean getOk()
@@ -137,6 +147,12 @@ public class AdherentForme extends Adherent {
 		{
 			return titulaire_ ? "Oui" : "Non";
 		}
+		
+		@Override
+		public String toString()
+		{
+			return "nom="+nom_+", titulaire="+titulaire_+", datefin="+datefin_;
+		}
 	}
 	
 	private Map<String, Diplome> diplomes_ = new TreeMap<String, Diplome>();
@@ -144,10 +160,12 @@ public class AdherentForme extends Adherent {
 	{
 		private boolean titulaire_;
 		private String dateobtention_;
+		private String nom_;
 		
 		public Diplome(ChefExtra extra) {
 			titulaire_ = true;
 			dateobtention_ = extra.get(DIPLOME_DATE_OBTENTION);
+			nom_ = extra.nom_;
 		}
 
 		public Diplome() {
@@ -167,6 +185,12 @@ public class AdherentForme extends Adherent {
 		{
 			return titulaire_ ? "Oui" : "Non";
 		}
+		
+		@Override
+		public String toString()
+		{
+			return "nom="+nom_+", titulaire="+titulaire_+", dateobtention="+dateobtention_;
+		}
 	}
 	
 	private Map<String, ChefExtra> extras_ = new TreeMap<String, ChefExtra>();
@@ -180,10 +204,15 @@ public class AdherentForme extends Adherent {
 			if (extra.isQualif_)
 			{
 				Qualification q = qualifs_.get(extra.nom_);
-				if ((q == null) || (q != null && q.getTitulaire() == false))
+				if (q == null)
 				{
 					qualifs_.put(extra.nom_, new Qualification(extra));
 				}
+				else
+					if (q.getTitulaire() == false)
+					{
+						qualifs_.put(extra.nom_, new Qualification(extra));
+					}
 			}
 			formations_.put(extra.nom_, new Formation(extra));
 			diplomes_.put(extra.nom_, new Diplome(extra));

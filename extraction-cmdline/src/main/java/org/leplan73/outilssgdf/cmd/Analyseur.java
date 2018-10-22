@@ -14,6 +14,7 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.fusesource.jansi.AnsiConsole;
 import org.jdom2.JDOMException;
+import org.leplan73.outilssgdf.ExtracteurExtraHtml;
 import org.leplan73.outilssgdf.ExtracteurHtml;
 import org.leplan73.outilssgdf.ExtractionException;
 import org.leplan73.outilssgdf.extraction.AdherentFormes;
@@ -23,9 +24,9 @@ import org.leplan73.outilssgdf.extraction.Global;
 import net.sf.jett.transform.ExcelTransformer;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
+import picocli.CommandLine.Help.Ansi;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.PicocliException;
-import picocli.CommandLine.Help.Ansi;
 
 @Command(name = "Analyseur", mixinStandardHelpOptions = true, version = "1.0")
 public class Analyseur extends CommonParamsG {
@@ -59,7 +60,7 @@ public class Analyseur extends CommonParamsG {
 		Properties pbatch = new Properties();
 		pbatch.load(new FileInputStream(batch));
 
-		Map<String, ExtracteurHtml> extraMap = new TreeMap<String, ExtracteurHtml>();
+		Map<String, ExtracteurExtraHtml> extraMap = new TreeMap<String, ExtracteurExtraHtml>();
 		File fichierAdherents = null;
 
 		File dossierStructure = new File(entree,""+structures[0]);
@@ -84,7 +85,7 @@ public class Analyseur extends CommonParamsG {
 				fichierAdherents = fichier;
 			}
 			else
-				extraMap.put(nom, new ExtracteurHtml(fichier.getAbsolutePath()));
+				extraMap.put(nom, new ExtracteurExtraHtml(fichier.getAbsolutePath()));
 			index++;
 		}
 
@@ -113,7 +114,7 @@ public class Analyseur extends CommonParamsG {
 		outputStream.flush();
 		outputStream.close();
 		
-		long d = now.getEpochSecond() - Instant.now().getEpochSecond();
+		long d = Instant.now().getEpochSecond() - now.getEpochSecond();
 		Logging.logger_.info("Terminé en "+d+" seconds");
 	}
 	

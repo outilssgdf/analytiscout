@@ -78,7 +78,7 @@ public class GenerateurFormations extends CommonParamsIntranet {
 			Logging.logger_.error(e);
 		}
 		
-		long d = now.getEpochSecond() - Instant.now().getEpochSecond();
+		long d = Instant.now().getEpochSecond() - now.getEpochSecond();
 		Logging.logger_.info("Terminé en "+d+" seconds");
 	}
 	

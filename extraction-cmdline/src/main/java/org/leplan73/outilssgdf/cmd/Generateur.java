@@ -60,11 +60,11 @@ public class Generateur extends CommonParamsIntranet {
 			Logging.logger_.info("Conversion");
 			ExtracteurHtml x = new ExtracteurHtml();
 			x.charge(new ByteArrayInputStream(donnees.getBytes(Charset.forName("UTF-8"))));
-			GmailCsvFormatteur f = new GmailCsvFormatteur();
 
 			// Génération de l'archive zip
 			Logging.logger_.info("Génération de l'archive "+sortie.getName());
 			ZipOutputStream zipOut = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(sortie)));
+			GmailCsvFormatteur f = new GmailCsvFormatteur();
 		    f.genereEmail(x.getUnites(), x.getParents(), x.getAdherents(), x.getColonnes(), null, zipOut);
 		    zipOut.flush();
 		    zipOut.close();

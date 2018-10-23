@@ -89,7 +89,38 @@ public class Colonnes {
 			{
 				datedenaissanceId = key;
 			}
-			
+			else if (ids_.get(key).compareTo("Pere.Nom") == 0)
+			{
+				nomPereId = key;
+			}
+			else if (ids_.get(key).compareTo("Pere.Prenom") == 0)
+			{
+				prenomPereId = key;
+			}
+			else if (ids_.get(key).compareTo("Pere.CourrielPersonnel") == 0)
+			{
+				emailPereId = key;
+			}
+			else if (ids_.get(key).compareTo("Pere.TelephonePortable1") == 0)
+			{
+				mobilePereId = key;
+			}
+			else if (ids_.get(key).compareTo("Mere.Nom") == 0)
+			{
+				nomMereId = key;
+			}
+			else if (ids_.get(key).compareTo("Mere.Prenom") == 0)
+			{
+				prenomMereId = key;
+			}
+			else if (ids_.get(key).compareTo("Mere.CourrielPersonnel") == 0)
+			{
+				emailMereId = key;
+			}
+			else if (ids_.get(key).compareTo("Mere.TelephonePortable1") == 0)
+			{
+				mobileMereId = key;
+			}
 		});
 		
 		// Quelques tests...

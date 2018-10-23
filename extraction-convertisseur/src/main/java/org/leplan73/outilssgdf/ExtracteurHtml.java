@@ -182,39 +182,59 @@ public class ExtracteurHtml {
 				Unite uniteObj = unites_.computeIfAbsent(unite, k -> new Unite(unite, ad.getFonction()));
 				
 				uniteObj.setFonction(ad.getFonction());
-				
-				boolean animsf = chef.getQualif("animsf").getOk();
+
 				boolean dirsf = chef.getQualif("dirsf").getOk();
+				boolean animsfQualifie = chef.getQualif("animsf").getDefini() && chef.getQualif("animsf").getTitulaire();
+				boolean animsfNonQualifie = chef.getQualif("animsf").getDefini() && !chef.getQualif("animsf").getTitulaire();
 				
 				boolean apf = chef.getFormation("apf").getOk();
 				boolean tech = chef.getFormation("tech").getOk(); 
 				boolean appro = chef.getFormation("appro").getOk();
 				boolean appro_anim = chef.getFormation("appro_anim").getOk();
 				boolean appro_accueil = chef.getFormation("appro_accueil").getOk();
-				if (dirsf || appro || appro_accueil || appro_anim)
+				
+				boolean aqualif = false; 
+				if (dirsf)
 				{
-					if (dirsf) uniteObj.addDirsf();
-					else
-					{
-						if (appro) uniteObj.addAppro(true);
-						if (appro_accueil) uniteObj.addAppro(false);
-						if (appro_anim) uniteObj.addAppro(true);
-					}
+					uniteObj.addDirsf();
+					aqualif=true;
 				}
-				else
+				if (animsfQualifie)
 				{
-					if (animsf) uniteObj.addAnimsf();
-					else
-					if (tech)
-					{
-						uniteObj.addTech();
-					}
-					else
-					{
-						if (apf) uniteObj.addApf();
-						else uniteObj.addAutres();
-					}
+					uniteObj.addAnimsf();
+					aqualif=true;
 				}
+				if (animsfNonQualifie)
+				{
+					uniteObj.addStagiaire();
+					aqualif=true;
+				}
+				if (appro)
+				{
+					uniteObj.addAppro(true);
+					aqualif=true;
+				}
+				if (appro_accueil)
+				{
+					uniteObj.addAppro(false);
+					aqualif=true;
+				}
+				if (appro_anim)
+				{
+					uniteObj.addAppro(true);
+					aqualif=true;
+				}
+				if (tech)
+				{
+					uniteObj.addTech();
+					aqualif=true;
+				}
+				if (apf)
+				{
+					uniteObj.addApf();
+					aqualif=true;
+				}
+				if (!aqualif) uniteObj.addAutres();
 				
 				if (chef.getFormation("cham").getOk()) uniteObj.addCham();
 				if (chef.getFormation("staf").getOk()) uniteObj.addStaf();
@@ -333,17 +353,9 @@ public class ExtracteurHtml {
 					compa.init();
 					adherents_.put(adherent.getCode(), compa);
 					
-					List<ChefExtra> extras2 = new ArrayList<ChefExtra>();
+					List<ChefExtra> extras2 = extra(code);
 					if (extras_ != null)
 					{
-						extras_.forEach((k,v) ->
-						{
-							Adherent qdir = v.getAdherents().get(code);
-							if (qdir != null)
-							{
-								extras2.add(new ChefExtra(k, (AdherentForme)qdir, v.getColonnes()));
-							}
-						});
 						compa.addExtras(extras2);
 					}
 				}

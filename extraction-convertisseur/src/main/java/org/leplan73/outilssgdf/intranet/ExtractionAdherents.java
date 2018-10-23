@@ -133,7 +133,7 @@ public class ExtractionAdherents extends ExtractionMain {
 			formparams.add(new BasicNameValuePair("ctl00$MainContent$_selecteur$_autocompleteStructures$_hiddenAutoComplete",tbAutoCompleteCode));
 		}
 		if (structure != 0)
-			formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbRecursif","on"));
+			formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbRecursif",recursif ? "on" : "off"));
 		formparams.add(new BasicNameValuePair("ctl00$MainContent$_tbCodesFonctions",codeFonction != null ? codeFonction : "")); 
 		formparams.add(new BasicNameValuePair("ctl00$MainContent$CodesFonctionsSignifications","_rbCFS_FonctionsPrincipales"));
 		formparams.add(new BasicNameValuePair("ctl00$MainContent$_ddCategorieMembre",""+categorie));

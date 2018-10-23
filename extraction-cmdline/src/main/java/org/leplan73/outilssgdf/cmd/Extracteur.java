@@ -62,7 +62,7 @@ public class Extracteur extends CommonParamsIntranet {
 	@Option(names = "-type", description = "Filtrage sur le type (Valeur par défaut: ${DEFAULT-VALUE}) (Valeurs possibles : -1=tout, 0=inscrit, 1=invite, 2=pré-inscrit)")
 	private int type = ExtractionMain.TYPE_TOUT;
 
-	@Option(names = "-adherents", description = "Adherents uniquement (Valeur par défaut: ${DEFAULT-VALUE})")
+	@Option(names = "-adherents", description = "Adhérents uniquement (Valeur par défaut: ${DEFAULT-VALUE})")
 	private boolean adherents = false;
 
 	@Option(names = "-generateur", description = "Format de génération des données (Valeur par défaut: ${DEFAULT-VALUE}) (Valeurs possibles : cvs, xls ou xml)")

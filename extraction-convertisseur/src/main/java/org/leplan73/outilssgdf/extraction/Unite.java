@@ -68,11 +68,7 @@ public class Unite implements Comparable<Unite>
 		return qualifs_;
 	}
 
-	private int stagiaireAnnee_;
-	public int getStagiaireannee()
-	{
-		return stagiaireAnnee_;
-	}
+	private int stagiaires_;
 
 	private int autresAnnee_;
 	
@@ -81,20 +77,19 @@ public class Unite implements Comparable<Unite>
 		return autresAnnee_;
 	}
 
-	private int dirs_;
 	public int getDircamp()
 	{
-		return dirs_;
+		return dirsf_;
 	}
 	
 	public int getQualifiecamp()
 	{
-		return (fonction_ >= 210 && fonction_ < 230) ? qualifs_-1 : 0 ;
+		return (fonction_ >= 210 && fonction_ < 230) ? animsf_ : 0 ;
 	}
 	
-	public int getStagiairecamp()
+	public int getStagiairesf()
 	{
-		return stagiaireAnnee_;
+		return stagiaires_;
 	}
 
 	public int compareTo(String o) {
@@ -115,9 +110,12 @@ public class Unite implements Comparable<Unite>
 		return apf_;
 	}
 
+	public void addStagiaire() {
+		stagiaires_++;
+	}
+
 	public void addApf() {
 		this.apf_++;
-		stagiaireAnnee_++;
 	}
 
 	public int getTech() {
@@ -126,7 +124,6 @@ public class Unite implements Comparable<Unite>
 
 	public void addTech() {
 		this.tech_++;
-		qualifs_++;
 	}
 
 	public int getAppro() {
@@ -135,11 +132,6 @@ public class Unite implements Comparable<Unite>
 
 	public void addAppro(boolean dir) {
 		this.appro_++;
-		if (dir)
-		{
-			dirs_++;
-		}
-		qualifs_++;
 	}
 
 	public int getPsc1() {
@@ -178,13 +170,12 @@ public class Unite implements Comparable<Unite>
 		this.bafd_++;
 	}
 
-	public int getAnimsf() {
+	public int getQualifiesf() {
 		return animsf_;
 	}
 
 	public void addAnimsf() {
 		this.animsf_++;
-		qualifs_++;
 	}
 
 	public int getDirsf() {
@@ -193,8 +184,6 @@ public class Unite implements Comparable<Unite>
 
 	public void addDirsf() {
 		this.dirsf_++;
-		dirs_++;
-		qualifs_++;
 	}
 
 	public int getCham() {

@@ -79,7 +79,7 @@ public class AdherentForme extends Adherent {
 		
 		public Qualification(ChefExtra extra) {
 			fin_validite_ = extra.get(QUALIF_FIN_VALIDITE) != null ? extra.get(QUALIF_FIN_VALIDITE).isEmpty() ? "Pas de date" : extra.get(QUALIF_FIN_VALIDITE) : "Pas de date";
-			String titulaire = extra.isQualif_ ? extra.get(QUALIF_EST_TITULAIRE) : null;
+			String titulaire = extra.get(QUALIF_EST_TITULAIRE);
 			titulaire_ = (titulaire != null && titulaire.compareTo("Oui") == 0);
 			defini_ = true;
 			nom_ = extra.nom_;
@@ -90,6 +90,11 @@ public class AdherentForme extends Adherent {
 		}
 
 		public boolean getOk()
+		{
+			return defini_ && titulaire_;
+		}
+
+		public boolean getDefini()
 		{
 			return defini_;
 		}
@@ -120,6 +125,7 @@ public class AdherentForme extends Adherent {
 	public class Formation
 	{
 		private boolean titulaire_;
+		private boolean defini_;
 		private String datefin_;
 		private String nom_;
 		
@@ -131,11 +137,17 @@ public class AdherentForme extends Adherent {
 			titulaire_ = true;
 			datefin_ = extra.get(FORMATION_DATEFIN);
 			nom_ = extra.nom_;
+			defini_ = true;
 		}
 
 		public boolean getOk()
 		{
 			return titulaire_;
+		}
+
+		public boolean getDefini()
+		{
+			return defini_;
 		}
 		
 		public String getDatefin()
@@ -159,6 +171,7 @@ public class AdherentForme extends Adherent {
 	public class Diplome
 	{
 		private boolean titulaire_;
+		private boolean defini_;
 		private String dateobtention_;
 		private String nom_;
 		
@@ -166,6 +179,7 @@ public class AdherentForme extends Adherent {
 			titulaire_ = true;
 			dateobtention_ = extra.get(DIPLOME_DATE_OBTENTION);
 			nom_ = extra.nom_;
+			defini_ = true;
 		}
 
 		public Diplome() {
@@ -174,6 +188,11 @@ public class AdherentForme extends Adherent {
 		public boolean getOk()
 		{
 			return titulaire_;
+		}
+
+		public boolean getDefini()
+		{
+			return defini_;
 		}
 		
 		public String getDateobtention()
@@ -217,6 +236,12 @@ public class AdherentForme extends Adherent {
 			formations_.put(extra.nom_, new Formation(extra));
 			diplomes_.put(extra.nom_, new Diplome(extra));
 		});
+	}
+	
+	@Override
+	public String toString()
+	{
+		return getPrenom() + " - " + getNom();
 	}
 	
 	public Qualification getQualif(String nom)

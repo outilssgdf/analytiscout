@@ -1,5 +1,9 @@
 package org.leplan73.outilssgdf.extraction;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -72,13 +76,14 @@ public class AdherentForme extends Adherent {
 	private Map<String, Qualification> qualifs_ = new TreeMap<String, Qualification>();
 	public class Qualification
 	{
+		private static final String PAS_DE_DATE = "Pas de date";
 		private boolean titulaire_;
 		private boolean defini_;
 		private String fin_validite_;
 		private String nom_;
 		
 		public Qualification(ChefExtra extra) {
-			fin_validite_ = extra.get(QUALIF_FIN_VALIDITE) != null ? extra.get(QUALIF_FIN_VALIDITE).isEmpty() ? "Pas de date" : extra.get(QUALIF_FIN_VALIDITE) : "Pas de date";
+			fin_validite_ = extra.get(QUALIF_FIN_VALIDITE) != null ? extra.get(QUALIF_FIN_VALIDITE).isEmpty() ? PAS_DE_DATE : extra.get(QUALIF_FIN_VALIDITE) : PAS_DE_DATE;
 			String titulaire = extra.get(QUALIF_EST_TITULAIRE);
 			titulaire_ = (titulaire != null && titulaire.compareTo("Oui") == 0);
 			defini_ = true;
@@ -118,6 +123,25 @@ public class AdherentForme extends Adherent {
 		public String toString()
 		{
 			return "nom="+nom_+", titulaire="+titulaire_+", fin_validite="+fin_validite_;
+		}
+		
+		public void complete()
+		{
+			DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+			try
+			{
+				if (fin_validite_.compareTo(PAS_DE_DATE) != 0)
+				{
+					Date date = df.parse(fin_validite_);
+					Date aj = new Date();
+					if (date.before(aj))
+					{
+						titulaire_ = false;
+						fin_validite_ = "";
+					}
+				}
+			} catch (ParseException e) {
+			}
 		}
 	}
 	
@@ -165,6 +189,11 @@ public class AdherentForme extends Adherent {
 		{
 			return "nom="+nom_+", titulaire="+titulaire_+", datefin="+datefin_;
 		}
+		
+		public void complete()
+		{
+			
+		}
 	}
 	
 	private Map<String, Diplome> diplomes_ = new TreeMap<String, Diplome>();
@@ -210,6 +239,11 @@ public class AdherentForme extends Adherent {
 		{
 			return "nom="+nom_+", titulaire="+titulaire_+", dateobtention="+dateobtention_;
 		}
+		
+		public void complete()
+		{
+			
+		}
 	}
 	
 	private Map<String, ChefExtra> extras_ = new TreeMap<String, ChefExtra>();
@@ -225,16 +259,21 @@ public class AdherentForme extends Adherent {
 				Qualification q = qualifs_.get(extra.nom_);
 				if (q == null)
 				{
-					qualifs_.put(extra.nom_, new Qualification(extra));
+					qualifs_.put(extra.nom_, q = new Qualification(extra));
 				}
 				else
 					if (q.getTitulaire() == false)
 					{
-						qualifs_.put(extra.nom_, new Qualification(extra));
+						qualifs_.put(extra.nom_, q = new Qualification(extra));
 					}
+				q.complete();
 			}
-			formations_.put(extra.nom_, new Formation(extra));
-			diplomes_.put(extra.nom_, new Diplome(extra));
+			Formation f = null;
+			formations_.put(extra.nom_, f = new Formation(extra));
+			f.complete();
+			Diplome d = null;
+			diplomes_.put(extra.nom_, d = new Diplome(extra));
+			d.complete();
 		});
 	}
 	

@@ -236,6 +236,11 @@ public class ExtracteurHtml {
 				}
 				if (!aqualif) uniteObj.addAutres();
 				
+				if (animsfQualifie || dirsf)
+				{
+					uniteObj.addQualifAnnee();
+				}
+				
 				if (chef.getFormation("cham").getOk()) uniteObj.addCham();
 				if (chef.getFormation("staf").getOk()) uniteObj.addStaf();
 				

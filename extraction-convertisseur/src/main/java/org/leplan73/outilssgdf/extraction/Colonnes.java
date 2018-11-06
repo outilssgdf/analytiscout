@@ -128,13 +128,7 @@ public class Colonnes {
 		if (uniteId == -1) throw new ExtractionException("Erreur uniteId");
 		if (nomIndividuId == -1) throw new ExtractionException("Erreur nomIndividuId");
 		if (prenomIndividuId == -1) throw new ExtractionException("Erreur prenomIndividuId");
-		if (bureauIndividu == -1) throw new ExtractionException("Erreur bureauIndividuId");
-		if (emailIndividuId == -1) throw new ExtractionException("Erreur emailIndividuId");
-		if (emailIndividu2Id == -1) throw new ExtractionException("Erreur emailIndividu2Id");
-		if (mobileIndividu1 == -1) throw new ExtractionException("Erreur mobileIndividu1");
-		if (mobileIndividu2 == -1) throw new ExtractionException("Erreur mobileIndividu2");
 		if (fonctionCodeId == -1) throw new ExtractionException("Erreur fonctionCodeId");
-		if (datedenaissanceId == -1) throw new ExtractionException("Erreur datedenaissanceId");
 	}
 
 	public int getDatedeNaissanceId() {

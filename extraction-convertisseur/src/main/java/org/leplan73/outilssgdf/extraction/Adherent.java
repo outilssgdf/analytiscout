@@ -35,7 +35,7 @@ public class Adherent {
 	}
 	
 	public String get(Integer key) {
-		return data_.get(key);
+		return key != -1 ? data_.get(key) : null;
 	}
 	
 	@Override
@@ -154,14 +154,15 @@ public class Adherent {
 		
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		try {
-			Date dn = simpleDateFormat.parse(get(colonnes_.getDatedeNaissanceId()));
-			
-			long aj = Instant.now().toEpochMilli();
-			
-			long diff = ((aj - dn.getTime())/1000);
-			diff = diff/(3600*365*24);
-			
-			age_ = diff;
+			String date = get(colonnes_.getDatedeNaissanceId());
+			if (date != null)
+			{
+				Date dn = simpleDateFormat.parse(date);
+				long aj = Instant.now().toEpochMilli();
+				long diff = ((aj - dn.getTime())/1000);
+				diff = diff/(3600*365*24);
+				age_ = diff;
+			}
 		} catch (ParseException e) {
 		}
 	}

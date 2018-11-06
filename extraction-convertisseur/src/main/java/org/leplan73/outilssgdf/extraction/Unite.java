@@ -68,25 +68,13 @@ public class Unite implements Comparable<Unite>
 		return qualifs_;
 	}
 
-	private int stagiaires_;
-
-	private int autresAnnee_;
-	
+	private int autresCamp_;
 	public int getAutrescamp()
 	{
-		return autresAnnee_;
+		return autresCamp_;
 	}
 
-	public int getDircamp()
-	{
-		return dirsf_;
-	}
-	
-	public int getQualifiecamp()
-	{
-		return (fonction_ >= 210 && fonction_ < 230) ? animsf_ : 0 ;
-	}
-	
+	private int stagiaires_;
 	public int getStagiairesf()
 	{
 		return stagiaires_;
@@ -147,7 +135,7 @@ public class Unite implements Comparable<Unite>
 	}
 
 	public void addAutres() {
-		this.autresAnnee_++;
+		this.autresCamp_++;
 	}
 
 	public void addAfps() {
@@ -176,6 +164,10 @@ public class Unite implements Comparable<Unite>
 
 	public void addAnimsf() {
 		this.animsf_++;
+	}
+
+	public void addQualifAnnee() {
+		this.qualifs_++;
 	}
 
 	public int getDirsf() {

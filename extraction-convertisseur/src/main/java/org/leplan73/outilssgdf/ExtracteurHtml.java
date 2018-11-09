@@ -169,19 +169,19 @@ public class ExtracteurHtml {
 		adherents_.forEach((code,ad) ->
 		{
 			String unite = ad.getUnite();
-			Unite uniteObj = unites_.computeIfAbsent(unite, k -> new Unite(unite,0));
+			Unite uniteObj = unites_.computeIfAbsent(unite, k -> new Unite(unite, ad.getFonction()));
 			uniteObj.ajouter(ad.getJeune(), ad.getChef());
 		});
 		
 		adherents_.forEach((code,ad) ->
 		{
+			String unite = ad.getUnite();
+			Unite uniteObj = unites_.computeIfAbsent(unite, k -> new Unite(unite, ad.getFonction()));
+			uniteObj.setCode(ad.getFonction());
+			
 			if (ad.getChef() > 0)
 			{
 				AdherentForme chef = (AdherentForme)ad;
-				String unite = ad.getUnite();
-				Unite uniteObj = unites_.computeIfAbsent(unite, k -> new Unite(unite, ad.getFonction()));
-				
-				uniteObj.setFonction(ad.getFonction());
 
 				boolean dirsf = chef.getQualif("dirsf").getOk();
 				boolean animsfQualifie = chef.getQualif("animsf").getDefini() && chef.getQualif("animsf").getTitulaire();
@@ -193,13 +193,18 @@ public class ExtracteurHtml {
 				boolean appro_anim = chef.getFormation("appro_anim").getOk();
 				boolean appro_accueil = chef.getFormation("appro_accueil").getOk();
 				
-				boolean aqualif = false; 
+				boolean aqualif = false;
+				boolean aqualifsf = false; 
 				if (dirsf)
 				{
-					uniteObj.addDirsf();
-					aqualif=true;
+					if (uniteObj.getDirsf() == 0)
+					{
+						uniteObj.addDirsf();
+						aqualif=true;
+						aqualifsf=true;
+					}
 				}
-				if (animsfQualifie)
+				if (animsfQualifie && !aqualifsf)
 				{
 					uniteObj.addAnimsf();
 					aqualif=true;

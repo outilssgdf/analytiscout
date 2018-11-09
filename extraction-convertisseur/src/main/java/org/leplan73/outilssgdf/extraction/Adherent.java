@@ -23,6 +23,7 @@ public class Adherent {
 	protected String unite_;
 	protected Colonnes colonnes_;
 	protected long age_ = -1;
+	protected long ageCamp_ = -1;
 	
 	public Adherent(Colonnes colonnes)
 	{
@@ -162,6 +163,11 @@ public class Adherent {
 				long diff = ((aj - dn.getTime())/1000);
 				diff = diff/(3600*365*24);
 				age_ = diff;
+				
+				Date debutCamp = simpleDateFormat.parse(Consts.DATE_DEBUT_CAMP);
+				long diffCamp = ((debutCamp.getTime() - dn.getTime())/1000);
+				diffCamp = diffCamp/(3600*365*24);
+				ageCamp_ = diffCamp;
 			}
 		} catch (ParseException e) {
 		}

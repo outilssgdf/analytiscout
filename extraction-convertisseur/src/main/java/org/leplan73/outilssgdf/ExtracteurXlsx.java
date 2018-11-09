@@ -121,13 +121,11 @@ public class ExtracteurXlsx {
 		parents_ = adherents_.parents(colonnes_);
 		parents_.complete();
 		
-		final String groupef = groupe;
-		
 		unites_ = new Unites();
 		adherents_.forEach((code,ad) ->
 		{
 			String unite = ad.getUnite();
-			Unite uniteObj = unites_.computeIfAbsent(unite, k -> new Unite(unite,0));
+			Unite uniteObj = unites_.computeIfAbsent(unite, k -> new Unite(unite, ad.getFonction()));
 			uniteObj.ajouter(ad.getJeune(), ad.getChef());
 		});
 	}

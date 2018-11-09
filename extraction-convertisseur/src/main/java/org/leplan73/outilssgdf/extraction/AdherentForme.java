@@ -16,6 +16,48 @@ public class AdherentForme extends Adherent {
 	private static final String FORMATION_DATEFIN = "Formations.DateFin";
 	private static final String DIPLOME_DATE_OBTENTION = "Diplomes.DateObtention";
 	
+	public AdherentForme(Adherent adherent) {
+		super(adherent.colonnes_);
+		
+		data_ = adherent.data_;
+		code_ = adherent.code_;
+		codePapa_ = adherent.codePapa_;
+		codeMaman_ = adherent.codeMaman_;
+		unite_ = adherent.unite_;
+		colonnes_ = adherent.colonnes_;
+		age_ = adherent.age_;
+		ageCamp_ = adherent.age_;
+	}
+	
+	public String getAgeok()
+	{
+		if (getQualif_dirsf() > 0)
+		{
+			if (this.getFonction() < Consts.CODE_COMPAS)
+			{
+				if (this.getFonction() < Consts.CODE_PIOK)
+				{
+					if (ageCamp_ < 19)
+						return "Non";
+					else
+						return "Oui";
+				}
+				else
+				{
+					if (ageCamp_ < 21)
+						return "Non";
+					else
+						return "Oui";
+				}
+			}
+		}
+		return "";
+	}
+	
+	private Map<String, Qualification> qualifs_ = new TreeMap<String, Qualification>();
+	private Map<String, Formation> formations_ = new TreeMap<String, Formation>();
+	private Map<String, ChefExtra> extras_ = new TreeMap<String, ChefExtra>();
+	
 	static public class ChefExtra
 	{
 		public String nom_;
@@ -61,19 +103,6 @@ public class AdherentForme extends Adherent {
 		}
 	};
 	
-	public AdherentForme(Adherent adherent) {
-		super(adherent.colonnes_);
-		
-		data_ = adherent.data_;
-		code_ = adherent.code_;
-		codePapa_ = adherent.codePapa_;
-		codeMaman_ = adherent.codeMaman_;
-		unite_ = adherent.unite_;
-		colonnes_ = adherent.colonnes_;
-		age_ = adherent.age_;
-	}
-	
-	private Map<String, Qualification> qualifs_ = new TreeMap<String, Qualification>();
 	public class Qualification
 	{
 		private static final String PAS_DE_DATE = "Pas de date";
@@ -97,6 +126,11 @@ public class AdherentForme extends Adherent {
 		public boolean getOk()
 		{
 			return defini_ && titulaire_;
+		}
+
+		public boolean getPasok()
+		{
+			return defini_ && !titulaire_;
 		}
 
 		public boolean getDefini()
@@ -145,7 +179,6 @@ public class AdherentForme extends Adherent {
 		}
 	}
 	
-	private Map<String, Formation> formations_ = new TreeMap<String, Formation>();
 	public class Formation
 	{
 		private boolean titulaire_;
@@ -245,8 +278,6 @@ public class AdherentForme extends Adherent {
 			
 		}
 	}
-	
-	private Map<String, ChefExtra> extras_ = new TreeMap<String, ChefExtra>();
 
 	public void addExtras(List<ChefExtra> extras)
 	{

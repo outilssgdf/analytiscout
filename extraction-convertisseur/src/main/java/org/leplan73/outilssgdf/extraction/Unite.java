@@ -5,7 +5,7 @@ public class Unite implements Comparable<Unite>
 	private String nom_;
 	private int jeunes_;
 	private int chefs_;
-	private int fonction_;
+	private int code_=999;
 	
 	private int apf_;
 	private int tech_;
@@ -40,9 +40,9 @@ public class Unite implements Comparable<Unite>
 		return chefs_;
 	}
 	
-	public int getFonction()
+	public int getCode()
 	{
-		return fonction_;
+		return code_;
 	}
 	
 	public void ajouter(int jeune, int chef)
@@ -54,7 +54,7 @@ public class Unite implements Comparable<Unite>
 	public Unite(String nom, int fonction)
 	{
 		nom_ = nom;
-		fonction_ = fonction;
+		code_ = fonction;
 	}
 	
 	public String getNom()
@@ -92,6 +92,44 @@ public class Unite implements Comparable<Unite>
 	@Override
 	public String toString() {
 		return nom_;
+	}
+
+	public int getDircampth() {
+		return code_ < Consts.CODE_COMPAS ? 1 : 0;
+	}
+
+	public int getAnimscampth() {
+		return code_ < Consts.CODE_COMPAS ? (jeunes_/12+1) : 0;
+	}
+
+	public int getAnimsqualifiescamp() {
+		return code_ < Consts.CODE_COMPAS ? (code_ < Consts.CODE_PIOK ? animsf_ : animsf_+(dirsf_> 0 ? 1:0)) : 0;
+	}
+
+	public int getAnimscamp() {
+		return code_ < Consts.CODE_COMPAS ? (code_ < Consts.CODE_PIOK ? animsf_+stagiaires_+autresCamp_ : animsf_+stagiaires_+autresCamp_+(dirsf_> 0 ? 1:0)) : 0;
+	}
+	
+	public String getEncadrementcamp50()
+	{
+		if (code_ < Consts.CODE_COMPAS)
+		{
+			int animscamp = getAnimscamp();
+			if (animsf_ < animscamp/2)
+				return "Pas OK";
+		}
+		return "OK";
+	}
+	
+	public String getEncadrementcamp20()
+	{
+		if (code_ < Consts.CODE_COMPAS)
+		{
+			int animscamp = getAnimscamp();
+			if (autresCamp_ > animscamp/5)
+				return "Pas OK";
+		}
+		return "OK";
 	}
 
 	public int getApf() {
@@ -202,7 +240,7 @@ public class Unite implements Comparable<Unite>
 		this.buchettes_++;
 	}
 
-	public void setFonction(int fonction) {
-		fonction_ = fonction;
+	public void setCode(int code) {
+		code_ = Math.min(code_,(code/10)*10);
 	}
 }

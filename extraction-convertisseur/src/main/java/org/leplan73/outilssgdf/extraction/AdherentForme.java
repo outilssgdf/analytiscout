@@ -29,13 +29,14 @@ public class AdherentForme extends Adherent {
 		ageCamp_ = adherent.age_;
 	}
 	
+	@Override
 	public String getAgeok()
 	{
 		if (getQualif_dirsf() > 0)
 		{
 			if (this.getFonction() < Consts.CODE_COMPAS)
 			{
-				if (this.getFonction() < Consts.CODE_PIOK)
+				if (this.getFonction() < Consts.CODE_CHEFS_PIOK)
 				{
 					if (ageCamp_ < 19)
 						return "Non";

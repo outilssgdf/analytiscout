@@ -103,11 +103,11 @@ public class Unite implements Comparable<Unite>
 	}
 
 	public int getAnimsqualifiescamp() {
-		return code_ < Consts.CODE_COMPAS ? (code_ < Consts.CODE_PIOK ? animsf_ : animsf_+(dirsf_> 0 ? 1:0)) : 0;
+		return code_ < Consts.CODE_COMPAS ? (code_ < Consts.CODE_CHEFS_PIOK ? animsf_ : animsf_+(dirsf_> 0 ? 1:0)) : 0;
 	}
 
 	public int getAnimscamp() {
-		return code_ < Consts.CODE_COMPAS ? (code_ < Consts.CODE_PIOK ? animsf_+stagiaires_+autresCamp_ : animsf_+stagiaires_+autresCamp_+(dirsf_> 0 ? 1:0)) : 0;
+		return code_ < Consts.CODE_COMPAS ? (code_ < Consts.CODE_CHEFS_PIOK ? animsf_+stagiaires_+autresCamp_ : animsf_+stagiaires_+autresCamp_+(dirsf_> 0 ? 1:0)) : 0;
 	}
 	
 	public String getEncadrementcamp50()

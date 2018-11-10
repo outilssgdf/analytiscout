@@ -5,7 +5,13 @@ public class Consts {
 	static final public int PARENT_MERE = 2;
 	static final public int PARENT_PEREMERE = PARENT_PERE|PARENT_MERE;
 
-	static final public int CODE_PIOK = 230;
+	static final public int CODE_LJ = 110;
+	static final public int CODE_CHEFS_LJ = 210;
+	static final public int CODE_SG = 120;
+	static final public int CODE_CHEFS_SG = 220;
+	static final public int CODE_PIOK = 130;
+	static final public int CODE_FARFADETS = 170;
+	static final public int CODE_CHEFS_PIOK = 230;
 	static final public int CODE_COMPAS = 240;
 	static final public int CODE_RESPONSABLES = 200;
 	static final public int CODE_RESPONSABLE_FARFADETS = 270;

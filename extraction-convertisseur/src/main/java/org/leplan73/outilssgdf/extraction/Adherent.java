@@ -23,6 +23,7 @@ public class Adherent {
 	protected String unite_;
 	protected Colonnes colonnes_;
 	protected long age_ = -1;
+	protected long ageFinDec_ = -1;
 	protected long ageCamp_ = -1;
 	
 	public Adherent(Colonnes colonnes)
@@ -164,6 +165,11 @@ public class Adherent {
 				diff = diff/(3600*365*24);
 				age_ = diff;
 				
+				Date debutFindDec = simpleDateFormat.parse(Consts.DATE_LIMITE_JEUNE);
+				long diffFindDec = ((debutFindDec.getTime() - dn.getTime())/1000);
+				diffFindDec = diffFindDec/(3600*365*24);
+				ageFinDec_ = diffFindDec;
+				
 				Date debutCamp = simpleDateFormat.parse(Consts.DATE_DEBUT_CAMP);
 				long diffCamp = ((debutCamp.getTime() - dn.getTime())/1000);
 				diffCamp = diffCamp/(3600*365*24);
@@ -171,6 +177,29 @@ public class Adherent {
 			}
 		} catch (ParseException e) {
 		}
+	}
+	
+	public String getAgeok()
+	{
+		if (this.getFonction() < Consts.CODE_COMPAS)
+		{
+			switch (this.getFonction())
+			{
+				case Consts.CODE_FARFADETS:
+					if (ageFinDec_ < 6) return "Non";
+				break;
+				case Consts.CODE_LJ:
+					if (ageFinDec_ < 8) return "Non";
+				break;
+				case Consts.CODE_SG:
+					if (ageFinDec_ < 11) return "Non";
+				break;
+				case Consts.CODE_PIOK:
+					if (ageFinDec_ < 14) return "Non";
+				break;
+			}
+		}
+		return "Oui";
 	}
 	
 	public void check(Colonnes colonnes, Unite unite, List<Check> checks)

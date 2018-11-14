@@ -26,7 +26,7 @@ import org.leplan73.outilssgdf.Check;
 import org.leplan73.outilssgdf.ExtracteurHtml;
 import org.leplan73.outilssgdf.ExtracteurXlsx;
 import org.leplan73.outilssgdf.ExtractionException;
-import org.leplan73.outilssgdf.extraction.Unites;
+import org.leplan73.outilssgdf.calcul.Unites;
 import org.leplan73.outilssgdf.formatage.GmailCsvFormatteur;
 import org.leplan73.outilssgdf.intranet.ExtractionAdherents;
 import org.leplan73.outilssgdf.intranet.ExtractionMain;

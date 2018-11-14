@@ -17,8 +17,8 @@ import org.jdom2.JDOMException;
 import org.leplan73.outilssgdf.ExtracteurExtraHtml;
 import org.leplan73.outilssgdf.ExtracteurHtml;
 import org.leplan73.outilssgdf.ExtractionException;
-import org.leplan73.outilssgdf.extraction.General;
-import org.leplan73.outilssgdf.extraction.Global;
+import org.leplan73.outilssgdf.calcul.General;
+import org.leplan73.outilssgdf.calcul.Global;
 
 import net.sf.jett.transform.ExcelTransformer;
 import picocli.CommandLine;

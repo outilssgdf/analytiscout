@@ -15,15 +15,15 @@ import org.jdom2.Text;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.xpath.XPathExpression;
 import org.jdom2.xpath.XPathFactory;
+import org.leplan73.outilssgdf.calcul.Global;
+import org.leplan73.outilssgdf.calcul.Unite;
+import org.leplan73.outilssgdf.calcul.Unites;
 import org.leplan73.outilssgdf.extraction.Adherent;
 import org.leplan73.outilssgdf.extraction.AdherentForme;
 import org.leplan73.outilssgdf.extraction.AdherentForme.ChefExtra;
 import org.leplan73.outilssgdf.extraction.Adherents;
 import org.leplan73.outilssgdf.extraction.Colonnes;
-import org.leplan73.outilssgdf.extraction.Consts;
 import org.leplan73.outilssgdf.extraction.Parents;
-import org.leplan73.outilssgdf.extraction.Unite;
-import org.leplan73.outilssgdf.extraction.Unites;
 
 public class ExtracteurHtml {
 	
@@ -169,14 +169,14 @@ public class ExtracteurHtml {
 		adherents_.forEach((code,ad) ->
 		{
 			String unite = ad.getUnite();
-			Unite uniteObj = unites_.computeIfAbsent(unite, k -> new Unite(unite, ad.getFonction()));
+			Unite uniteObj = unites_.computeIfAbsent(unite, k -> new Unite(unite, ad.getCodestructure(), ad.getFonction()));
 			uniteObj.ajouter(ad.getJeune(), ad.getChef());
 		});
 		
 		adherents_.forEach((code,ad) ->
 		{
 			String unite = ad.getUnite();
-			Unite uniteObj = unites_.computeIfAbsent(unite, k -> new Unite(unite, ad.getFonction()));
+			Unite uniteObj = unites_.computeIfAbsent(unite, k -> new Unite(unite, ad.getCodestructure(), ad.getFonction()));
 			uniteObj.setCode(ad.getFonction());
 			
 			if (ad.getChef() > 0)
@@ -202,6 +202,11 @@ public class ExtracteurHtml {
 						uniteObj.addDirsf();
 						aqualif=true;
 						aqualifsf=true;
+					}
+					else
+					{
+						animsfQualifie = true;
+						aqualifsf = false;
 					}
 				}
 				if (animsfQualifie && !aqualifsf)
@@ -374,5 +379,37 @@ public class ExtracteurHtml {
         		adherent = null;
         	}
 		}
+	}
+
+	public void calculGlobal(Global global)
+	{
+		adherents_.forEach((code,ad) ->
+		{
+			String unite = ad.getUnite();
+			if (ad.getChef() > 0)
+			{
+				AdherentForme chef = (AdherentForme)ad;
+				boolean dirsfdef = chef.getQualif("dirsf").getDefini();
+				boolean dirsfQualifie = chef.getQualif("dirsf").getOk();
+				
+				boolean animsfQualifie = chef.getQualif("animsf").getDefini() && chef.getQualif("animsf").getTitulaire();
+				boolean animsfNonQualifie = chef.getQualif("animsf").getDefini() && !chef.getQualif("animsf").getTitulaire();
+				
+				boolean apf = chef.getFormation("apf").getOk();
+				boolean tech = chef.getFormation("tech").getOk(); 
+				boolean appro = chef.getFormation("appro").getOk();
+				boolean appro_anim = chef.getFormation("appro_anim").getOk();
+				boolean appro_accueil = chef.getFormation("appro_accueil").getOk();
+				
+				if (dirsfdef)
+				{
+					global.addRgdirsf();
+				}
+				if (animsfQualifie)
+				{
+					global.addAnimsfQualifie();
+				}
+			}
+		});
 	}
 }

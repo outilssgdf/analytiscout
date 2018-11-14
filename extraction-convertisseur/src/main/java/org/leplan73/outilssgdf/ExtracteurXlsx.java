@@ -14,13 +14,12 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.leplan73.outilssgdf.calcul.Unite;
+import org.leplan73.outilssgdf.calcul.Unites;
 import org.leplan73.outilssgdf.extraction.Adherent;
 import org.leplan73.outilssgdf.extraction.Adherents;
 import org.leplan73.outilssgdf.extraction.Colonnes;
-import org.leplan73.outilssgdf.extraction.Consts;
 import org.leplan73.outilssgdf.extraction.Parents;
-import org.leplan73.outilssgdf.extraction.Unite;
-import org.leplan73.outilssgdf.extraction.Unites;
 
 public class ExtracteurXlsx {
 	
@@ -125,7 +124,7 @@ public class ExtracteurXlsx {
 		adherents_.forEach((code,ad) ->
 		{
 			String unite = ad.getUnite();
-			Unite uniteObj = unites_.computeIfAbsent(unite, k -> new Unite(unite, ad.getFonction()));
+			Unite uniteObj = unites_.computeIfAbsent(unite, k -> new Unite(unite, ad.getCodestructure(), ad.getFonction()));
 			uniteObj.ajouter(ad.getJeune(), ad.getChef());
 		});
 	}

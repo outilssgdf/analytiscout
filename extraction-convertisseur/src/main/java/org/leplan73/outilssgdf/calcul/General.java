@@ -1,4 +1,4 @@
-package org.leplan73.outilssgdf.extraction;
+package org.leplan73.outilssgdf.calcul;
 
 import java.time.Instant;
 
@@ -8,7 +8,6 @@ public class General {
 	
 	public General()
 	{
-		
 	}
 	
 	public String getDategeneration()

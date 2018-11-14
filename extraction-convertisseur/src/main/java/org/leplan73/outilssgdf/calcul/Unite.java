@@ -1,4 +1,6 @@
-package org.leplan73.outilssgdf.extraction;
+package org.leplan73.outilssgdf.calcul;
+
+import org.leplan73.outilssgdf.Consts;
 
 public class Unite implements Comparable<Unite>
 {
@@ -6,6 +8,7 @@ public class Unite implements Comparable<Unite>
 	private int jeunes_;
 	private int chefs_;
 	private int code_=999;
+	private String codeStructure_;
 	
 	private int apf_;
 	private int tech_;
@@ -51,15 +54,21 @@ public class Unite implements Comparable<Unite>
 		chefs_+=chef;
 	}
 	
-	public Unite(String nom, int fonction)
+	public Unite(String nom, String codeStructure, int fonction)
 	{
 		nom_ = nom;
 		code_ = fonction;
+		codeStructure_ = codeStructure;
 	}
 	
 	public String getNom()
 	{
 		return nom_;
+	}
+	
+	public String getCodestructure()
+	{
+		return codeStructure_;
 	}
 
 	private int qualifs_;

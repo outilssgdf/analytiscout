@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.leplan73.outilssgdf.Check;
+import org.leplan73.outilssgdf.calcul.Unite;
 
 public class Adherents extends HashMap<Integer,Adherent> {
 	

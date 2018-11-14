@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.leplan73.outilssgdf.Consts;
+
 public class AdherentForme extends Adherent {
 
 	private static final String QUALIF_EST_TITULAIRE = "Qualifications.EstTitulaire";
@@ -27,6 +29,12 @@ public class AdherentForme extends Adherent {
 		colonnes_ = adherent.colonnes_;
 		age_ = adherent.age_;
 		ageCamp_ = adherent.age_;
+	}
+	
+	@Override
+	public long getAge()
+	{
+		return ageCamp_;
 	}
 	
 	@Override
@@ -53,6 +61,22 @@ public class AdherentForme extends Adherent {
 			}
 		}
 		return "";
+	}
+	
+	public boolean getBafapotentiel()
+	{
+		if (getFormation_appro() == 0)
+		{
+			Formation f = getFormationNull("tech");
+			if (f != null)
+			{
+				long fin = f.getDatefinDate().getTime() + 0;
+				long diffFindDec = (new Date().getTime()-fin)/1000;
+				diffFindDec/=(24*3600);
+				return (diffFindDec < (365+365+365+183));
+			}
+		}
+		return false;
 	}
 	
 	private Map<String, Qualification> qualifs_ = new TreeMap<String, Qualification>();
@@ -171,6 +195,7 @@ public class AdherentForme extends Adherent {
 					Date aj = new Date();
 					if (date.before(aj))
 					{
+						defini_ = false;
 						titulaire_ = false;
 						fin_validite_ = "";
 					}
@@ -185,6 +210,7 @@ public class AdherentForme extends Adherent {
 		private boolean titulaire_;
 		private boolean defini_;
 		private String datefin_;
+		private Date date_fin_validite_;
 		private String nom_;
 		
 		public Formation()
@@ -196,6 +222,12 @@ public class AdherentForme extends Adherent {
 			datefin_ = extra.get(FORMATION_DATEFIN);
 			nom_ = extra.nom_;
 			defini_ = true;
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+			try {
+				if (datefin_ != null)
+					date_fin_validite_ = simpleDateFormat.parse(extra.get(FORMATION_DATEFIN));
+				} catch (ParseException e) {
+			}
 		}
 
 		public boolean getOk()
@@ -211,6 +243,11 @@ public class AdherentForme extends Adherent {
 		public String getDatefin()
 		{
 			return datefin_;
+		}
+		
+		public Date getDatefinDate()
+		{
+			return date_fin_validite_;
 		}
 		
 		public String getEsttitulaire()
@@ -325,6 +362,16 @@ public class AdherentForme extends Adherent {
 		return new Qualification();
 	}
 	
+	private Formation getFormationNull(String nom)
+	{
+		Formation f = formations_.get(nom);
+		if (f != null)
+		{
+			return f;
+		}
+		return null;
+	}
+	
 	public Formation getFormation(String nom)
 	{
 		Formation f = formations_.get(nom);
@@ -367,12 +414,12 @@ public class AdherentForme extends Adherent {
 	
 	public int getQualif_animsf()
 	{
-		return getFormations("animsf");
+		return getQualifs("animsf");
 	}
 	
 	public int getQualif_dirsf()
 	{
-		return getFormations("dirsf");
+		return getQualifs("dirsf");
 	}
 	
 	public int getDiplome_psc1()
@@ -430,8 +477,19 @@ public class AdherentForme extends Adherent {
 		ChefExtra extra = extras_.get(nom);
 		if (extra != null)
 		{
-			String apf = extra.get(QUALIF_EST_TITULAIRE);
-			return apf.isEmpty() ? 0 : 1;
+			String fin = extra.get(FORMATION_DATEFIN);
+			return fin.isEmpty() ? 0 : 1;
+		}
+		return 0;
+	}
+	
+	private int getQualifs(String nom)
+	{
+		ChefExtra extra = extras_.get(nom);
+		if (extra != null)
+		{
+			String fin = extra.get(QUALIF_FIN_VALIDITE);
+			return fin.isEmpty() ? 0 : 1;
 		}
 		return 0;
 	}

@@ -17,9 +17,9 @@ import org.jdom2.JDOMException;
 import org.leplan73.outilssgdf.ExtracteurExtraHtml;
 import org.leplan73.outilssgdf.ExtracteurHtml;
 import org.leplan73.outilssgdf.ExtractionException;
+import org.leplan73.outilssgdf.calcul.General;
+import org.leplan73.outilssgdf.calcul.Global;
 import org.leplan73.outilssgdf.extraction.AdherentFormes;
-import org.leplan73.outilssgdf.extraction.General;
-import org.leplan73.outilssgdf.extraction.Global;
 
 import net.sf.jett.transform.ExcelTransformer;
 import picocli.CommandLine;
@@ -97,6 +97,7 @@ public class Analyseur extends CommonParamsG {
 		
 		General general = new General();
 		Global global = new Global(adherents.getGroupe(), adherents.getMarins());
+		adherents.calculGlobal(global);
 
 		FileOutputStream outputStream = new FileOutputStream(sortie);
 

@@ -31,6 +31,7 @@ public class Colonnes {
 	private int datedenaissanceId = -1;
 
 	private int stuctureNom = -1;
+	private int structureCode = -1;
 
 	public void add(int id, String nom) {
 		ids_.put(id, nom);
@@ -44,6 +45,10 @@ public class Colonnes {
 			if (ids_.get(key).compareTo("Structure.Nom") == 0)
 			{
 				stuctureNom = key;
+			}
+			if (ids_.get(key).compareTo("Structure.CodeStructure") == 0)
+			{
+				structureCode = key;
 			}
 			if (ids_.get(key).compareTo("Fonction.Code") == 0)
 			{
@@ -213,6 +218,10 @@ public class Colonnes {
 	}
 
 	public int getStructureNom() {
-		return stuctureNom ;
+		return stuctureNom;
+	}
+
+	public int getStructureCode() {
+		return structureCode;
 	}
 }

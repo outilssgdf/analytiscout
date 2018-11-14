@@ -41,6 +41,9 @@ public class ExtracteurBatch extends CommonParamsIntranet {
 
 	@Option(names = "-sortie", required=true, description = "Fichier de sortie")
 	private File sortie;
+
+	@Option(names = "-recursif", description = "Extraction récursive (Valeur par défaut: ${DEFAULT-VALUE})")
+	private boolean recursif = true;
 	
 	public void run() {
 		checkParams();
@@ -95,7 +98,6 @@ public class ExtracteurBatch extends CommonParamsIntranet {
 					int type = pbatch.getProperty("type."+index,"").isEmpty() ? ExtractionMain.TYPE_TOUT : Integer.parseInt(pbatch.getProperty("type."+index));
 					int specialite = pbatch.getProperty("specialite."+index,"").isEmpty() ? ExtractionMain.SPECIALITE_SANS_IMPORTANCE : Integer.parseInt(pbatch.getProperty("specialite."+index));
 					boolean adherents = pbatch.getProperty("adherents."+index,"").isEmpty() ? false : Boolean.parseBoolean(pbatch.getProperty("adherents."+index));
-					boolean recursif = pbatch.getProperty("recursif."+index,"").isEmpty() ? true : Boolean.parseBoolean(pbatch.getProperty("recursif."+index));
 					String nom = pbatch.getProperty("nom."+index,"");
 					String fonction = pbatch.getProperty("fonction."+index);
 					

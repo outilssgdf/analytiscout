@@ -12,6 +12,8 @@ import java.util.Map;
 
 import org.apache.commons.csv.CSVPrinter;
 import org.leplan73.outilssgdf.Check;
+import org.leplan73.outilssgdf.Consts;
+import org.leplan73.outilssgdf.calcul.Unite;
 
 public class Adherent {
 
@@ -84,37 +86,29 @@ public class Adherent {
 	
 	public int getFonction()
 	{
-		String code = this.get(colonnes_.getFonctionCodeId());
-		if (code.endsWith("M"))
-			return Integer.valueOf(code.substring(0, 3));
-		else
-			return Integer.valueOf(code);
+		return extraitCode();
+	}
+	
+	public String getFonctioncomplet()
+	{
+		return this.get(colonnes_.getFonctionCodeId());
 	}
 	
 	public int getJeune()
 	{
-		String code = this.get(colonnes_.getFonctionCodeId());
-		if (code.endsWith("M"))
-			code = code.substring(0, 3);
-		int fonction = Integer.valueOf(code);
+		int fonction = extraitCode();
 		return fonction < Consts.CODE_RESPONSABLES ? 1 : 0;
 	}
 	
 	public int getCompa()
 	{
-		String code = this.get(colonnes_.getFonctionCodeId());
-		if (code.endsWith("M"))
-			code = code.substring(0, 3);
-		int fonction = Integer.valueOf(code);
+		int fonction = extraitCode();
 		return (fonction ==  Consts.CODE_COMPAS_T1T2 || fonction == Consts.CODE_COMPAS_T3) ? 1 : 0;
 	}
 	
 	public int getChef()
 	{
-		String code = this.get(colonnes_.getFonctionCodeId());
-		if (code.endsWith("M"))
-			code = code.substring(0, 3);
-		int fonction = Integer.valueOf(code);
+		int fonction = extraitCode();
 		return fonction >= Consts.CODE_RESPONSABLES ? 1 : 0;
 	}
 	
@@ -126,6 +120,11 @@ public class Adherent {
 	public String getStructure()
 	{
 		return this.get(colonnes_.getStructureNom());
+	}
+	
+	public String getCodestructure()
+	{
+		return this.get(colonnes_.getStructureCode());
 	}
 	
 	public String getCodePapa()
@@ -146,6 +145,16 @@ public class Adherent {
 	public void setCodeMaman(String codeMaman)
 	{
 		codeMaman_ = codeMaman;
+	}
+	
+	private int extraitCode()
+	{
+		String code = this.get(colonnes_.getFonctionCodeId());
+		if (code.endsWith("M"))
+			code = code.substring(0, 3);
+		if (code.endsWith("L"))
+			code = code.substring(0, 3);
+		return Integer.valueOf(code);
 	}
 	
 	public void init()

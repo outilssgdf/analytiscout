@@ -121,7 +121,7 @@ public class ExtractionAdherents extends ExtractionMain {
 		formparams.add(new BasicNameValuePair("ctl00$_ddDelegations","0"));
 		formparams.add(new BasicNameValuePair("ctl00$MainContent$_ddlRequetesExistantes","-1"));
 		formparams.add(new BasicNameValuePair("ctl00$MainContent$_tbNomNouvelleRequete",""));
-		formparams.add(new BasicNameValuePair("tl00$MainContent$_selecteur$_hidCodeStructure",""+structure));
+		formparams.add(new BasicNameValuePair("ctl00$MainContent$_selecteur$_hidCodeStructure",""+structure));
 		if (ddStructure != null)
 		{
 			formparams.add(new BasicNameValuePair("ctl00$MainContent$_selecteur$_ddStructure",""+ ddStructure));
@@ -132,8 +132,8 @@ public class ExtractionAdherents extends ExtractionMain {
 			formparams.add(new BasicNameValuePair("ctl00$MainContent$_selecteur$_autocompleteStructures$_txtAutoComplete",""+ tbStructure));
 			formparams.add(new BasicNameValuePair("ctl00$MainContent$_selecteur$_autocompleteStructures$_hiddenAutoComplete",tbAutoCompleteCode));
 		}
-		if (structure != 0)
-			formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbRecursif",recursif ? "on" : "off"));
+		if (structure != 0 && recursif)
+			formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbRecursif","on"));
 		formparams.add(new BasicNameValuePair("ctl00$MainContent$_tbCodesFonctions",codeFonction != null ? codeFonction : "")); 
 		formparams.add(new BasicNameValuePair("ctl00$MainContent$CodesFonctionsSignifications","_rbCFS_FonctionsPrincipales"));
 		formparams.add(new BasicNameValuePair("ctl00$MainContent$_ddCategorieMembre",""+categorie));
@@ -149,9 +149,6 @@ public class ExtractionAdherents extends ExtractionMain {
 		formparams.add(new BasicNameValuePair("ctl00$MainContent$_ddNpai","tous"));
 		formparams.add(new BasicNameValuePair("ctl00$MainContent$_ddMailInfoMouv","-1"));
 		formparams.add(new BasicNameValuePair("ctl00$MainContent$_ddMailInfoExt","-1"));
-		formparams.add(new BasicNameValuePair("ctl00$MainContent$_btnExporter.x","53"));
-		formparams.add(new BasicNameValuePair("ctl00$MainContent$_btnExporter.y","13"));
-		formparams.add(new BasicNameValuePair("ctl00$_hidReferenceStatistiqueUtilisation","-1"));
 		if ((format & ExtractionMain.FORMAT_INDIVIDU) == ExtractionMain.FORMAT_INDIVIDU)
 			formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbExtraireIndividu","on"));
 		if ((format & ExtractionMain.FORMAT_PARENTS) == ExtractionMain.FORMAT_PARENTS)
@@ -164,6 +161,9 @@ public class ExtractionAdherents extends ExtractionMain {
 			formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbExtraireJsInformations","on"));
 		if ((format & ExtractionMain.FORMAT_SANS_QF) == ExtractionMain.FORMAT_SANS_QF)
 			formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbInclureQF","on"));
+		formparams.add(new BasicNameValuePair("ctl00$MainContent$_btnExporter.x","53"));
+		formparams.add(new BasicNameValuePair("ctl00$MainContent$_btnExporter.y","13"));
+		formparams.add(new BasicNameValuePair("ctl00$_hidReferenceStatistiqueUtilisation","-1"));
 		if (logger_.isDebugEnabled())
 		{
 			formparams.forEach(k ->

@@ -1,4 +1,4 @@
-package org.leplan73.outilssgdf.extraction;
+package org.leplan73.outilssgdf.calcul;
 
 import java.util.HashMap;
 

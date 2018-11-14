@@ -1,4 +1,4 @@
-package org.leplan73.outilssgdf.extraction;
+package org.leplan73.outilssgdf;
 
 public class Consts {
 	static final public int PARENT_PERE = 1;
@@ -13,7 +13,7 @@ public class Consts {
 	static final public int CODE_FARFADETS = 170;
 	static final public int CODE_CHEFS_PIOK = 230;
 	static final public int CODE_COMPAS = 240;
-	static final public int CODE_RESPONSABLES = 200;
+	static final public int CODE_RESPONSABLES = 180;
 	static final public int CODE_RESPONSABLE_FARFADETS = 270;
 	static final public int CODE_PARENTS_FARFADETS = 271;
 	static final public int CODE_VIOLETS = 300;

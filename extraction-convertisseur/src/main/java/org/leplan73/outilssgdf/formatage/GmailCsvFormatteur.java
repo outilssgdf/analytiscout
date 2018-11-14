@@ -8,14 +8,14 @@ import java.util.zip.ZipOutputStream;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
+import org.leplan73.outilssgdf.Consts;
+import org.leplan73.outilssgdf.calcul.Unite;
+import org.leplan73.outilssgdf.calcul.Unites;
 import org.leplan73.outilssgdf.extraction.Adherent;
 import org.leplan73.outilssgdf.extraction.Adherents;
 import org.leplan73.outilssgdf.extraction.Colonnes;
-import org.leplan73.outilssgdf.extraction.Consts;
 import org.leplan73.outilssgdf.extraction.Parent;
 import org.leplan73.outilssgdf.extraction.Parents;
-import org.leplan73.outilssgdf.extraction.Unite;
-import org.leplan73.outilssgdf.extraction.Unites;
 import org.leplan73.outilssgdf.outils.SmartStream;
 
 public class GmailCsvFormatteur {

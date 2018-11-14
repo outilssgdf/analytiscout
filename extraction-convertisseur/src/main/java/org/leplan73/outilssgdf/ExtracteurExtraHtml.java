@@ -26,12 +26,12 @@ public class ExtracteurExtraHtml {
 	public ExtracteurExtraHtml() throws ExtractionException, IOException, JDOMException {
 	}
 	
-	public ExtracteurExtraHtml(String fichier) throws ExtractionException, IOException, JDOMException {
-		charge(fichier);
+	public ExtracteurExtraHtml(String fichier, boolean age) throws ExtractionException, IOException, JDOMException {
+		charge(fichier, age);
 	}
 	
-	public ExtracteurExtraHtml(File fichier) throws ExtractionException, IOException, JDOMException {
-		charge(fichier);
+	public ExtracteurExtraHtml(File fichier, boolean age) throws ExtractionException, IOException, JDOMException {
+		charge(fichier, age);
 	}
 
 	public List<AdherentForme> getAdherents()
@@ -44,17 +44,17 @@ public class ExtracteurExtraHtml {
 		return colonnes_;
 	}
 	
-	public void charge(final String path) throws ExtractionException, IOException, JDOMException
+	public void charge(final String path, boolean age) throws ExtractionException, IOException, JDOMException
 	{
    		FileInputStream excelFile = new FileInputStream(new File(path));
-   		charge(excelFile);
+   		charge(excelFile, age);
 		excelFile.close();
 	}
 	
-	public void charge(final File fichier) throws ExtractionException, IOException, JDOMException
+	public void charge(final File fichier, boolean age) throws ExtractionException, IOException, JDOMException
 	{
    		FileInputStream excelFile = new FileInputStream(fichier);
-   		charge(excelFile);
+   		charge(excelFile, age);
 		excelFile.close();
 	}
 	
@@ -83,12 +83,12 @@ public class ExtracteurExtraHtml {
         return nbColumns;
 	}
 	
-	public void charge(final InputStream stream) throws ExtractionException, IOException, JDOMException
+	public void charge(final InputStream stream, boolean age) throws ExtractionException, IOException, JDOMException
 	{
-		chargeStream(stream);
+		chargeStream(stream, age);
 	}
 	
-	private void chargeStream(final InputStream stream) throws JDOMException, IOException, ExtractionException
+	private void chargeStream(final InputStream stream, boolean age) throws JDOMException, IOException, ExtractionException
 	{
 		XPathFactory xpfac = XPathFactory.instance();
 		SAXBuilder builder = new SAXBuilder();
@@ -119,7 +119,7 @@ public class ExtracteurExtraHtml {
             index++;
         	if (index % nbColumns == 0)
         	{
-            	adherent.init();
+            	adherent.init(age);
 				adherents_.add(new AdherentForme(adherent));
         	}
 		}

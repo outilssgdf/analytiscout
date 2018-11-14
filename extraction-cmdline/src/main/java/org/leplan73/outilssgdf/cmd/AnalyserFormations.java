@@ -88,12 +88,12 @@ public class AnalyserFormations extends CommonParamsG {
 				fichierAdherents = fichier;
 			}
 			else
-				map.put(nom, new ExtracteurExtraHtml(fichier.getAbsolutePath()));
+				map.put(nom, new ExtracteurExtraHtml(fichier.getAbsolutePath(),true));
 			index++;
 		}
 
 	    Logging.logger_.info("Chargement du fichier \""+fichierAdherents.getName()+"\"");
-		 ExtracteurHtml adherents = new ExtracteurHtml(fichierAdherents, map);
+		 ExtracteurHtml adherents = new ExtracteurHtml(fichierAdherents, map,true);
 		 
 		 AdherentFormes chefs = new AdherentFormes();
 		 chefs.charge(adherents,map);

@@ -57,7 +57,7 @@ public class GenerateurFormations extends CommonParamsIntranet {
 			// Conversion des données
 			Logging.logger_.info("Conversion \"Responsables\"");
 			ExtracteurHtml x = new ExtracteurHtml();
-			x.charge(new ByteArrayInputStream(donnees.getBytes(Charset.forName("UTF-8"))));
+			x.charge(new ByteArrayInputStream(donnees.getBytes(Charset.forName("UTF-8"))),true);
 			
 			// Extraction des données
 			Logging.logger_.info("Extraction \"Compas\" (structure="+structures+")");
@@ -67,7 +67,7 @@ public class GenerateurFormations extends CommonParamsIntranet {
 			// Conversion des données
 			Logging.logger_.info("Conversion \"Compas\"");
 			ExtracteurHtml y = new ExtracteurHtml();
-			y.charge(new ByteArrayInputStream(donneesCompas.getBytes(Charset.forName("UTF-8"))));
+			y.charge(new ByteArrayInputStream(donneesCompas.getBytes(Charset.forName("UTF-8"))),true);
 			
 			
 		} catch (IOException e) {

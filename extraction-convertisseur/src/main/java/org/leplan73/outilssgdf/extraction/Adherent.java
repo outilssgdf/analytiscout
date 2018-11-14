@@ -63,6 +63,11 @@ public class Adherent {
 		return age_;
 	}
 	
+	public boolean getAgecalcule()
+	{
+		return age_ > 0;
+	}
+	
 	public String getDatedenaissance()
 	{
 		return this.get(colonnes_.getDatedeNaissanceId());
@@ -157,34 +162,37 @@ public class Adherent {
 		return Integer.valueOf(code);
 	}
 	
-	public void init()
+	public void init(boolean age)
 	{
 		String code = this.get(colonnes_.getCodeAdherentId());
 		code_ = Integer.valueOf(code);
 		unite_ = (String)this.get(colonnes_.getUniteId());
 		
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-		try {
-			String date = get(colonnes_.getDatedeNaissanceId());
-			if (date != null)
-			{
-				Date dn = simpleDateFormat.parse(date);
-				long aj = Instant.now().toEpochMilli();
-				long diff = ((aj - dn.getTime())/1000);
-				diff = diff/(3600*365*24);
-				age_ = diff;
-				
-				Date debutFindDec = simpleDateFormat.parse(Consts.DATE_LIMITE_JEUNE);
-				long diffFindDec = ((debutFindDec.getTime() - dn.getTime())/1000);
-				diffFindDec = diffFindDec/(3600*365*24);
-				ageFinDec_ = diffFindDec;
-				
-				Date debutCamp = simpleDateFormat.parse(Consts.DATE_DEBUT_CAMP);
-				long diffCamp = ((debutCamp.getTime() - dn.getTime())/1000);
-				diffCamp = diffCamp/(3600*365*24);
-				ageCamp_ = diffCamp;
+		if (age)
+		{
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+			try {
+				String date = get(colonnes_.getDatedeNaissanceId());
+				if (date != null)
+				{
+					Date dn = simpleDateFormat.parse(date);
+					long aj = Instant.now().toEpochMilli();
+					long diff = ((aj - dn.getTime())/1000);
+					diff = diff/(3600*365*24);
+					age_ = diff;
+					
+					Date debutFindDec = simpleDateFormat.parse(Consts.DATE_LIMITE_JEUNE);
+					long diffFindDec = ((debutFindDec.getTime() - dn.getTime())/1000);
+					diffFindDec = diffFindDec/(3600*365*24);
+					ageFinDec_ = diffFindDec;
+					
+					Date debutCamp = simpleDateFormat.parse(Consts.DATE_DEBUT_CAMP);
+					long diffCamp = ((debutCamp.getTime() - dn.getTime())/1000);
+					diffCamp = diffCamp/(3600*365*24);
+					ageCamp_ = diffCamp;
+				}
+			} catch (ParseException e) {
 			}
-		} catch (ParseException e) {
 		}
 	}
 	

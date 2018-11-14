@@ -53,13 +53,13 @@ public class Generateur extends CommonParamsIntranet {
 
 			// Extraction des données
 			Logging.logger_.info("Extraction (structure="+structures[0]+")");
-			String donnees = app.extract(structures[0], true, ExtractionMain.TYPE_TOUT, true, null, ExtractionMain.SPECIALITE_SANS_IMPORTANCE, ExtractionMain.CATEGORIE_TOUT, ExtractionMain.DIPLOME_TOUT,ExtractionMain.QUALIFICATION_TOUT,ExtractionMain.FORMATION_TOUT, ExtractionMain.FORMAT_INDIVIDU|ExtractionMain.FORMAT_PARENTS,false);
+			String donnees = app.extract(structures[0], true, ExtractionMain.TYPE_INSCRIT, false, null, ExtractionMain.SPECIALITE_SANS_IMPORTANCE, ExtractionMain.CATEGORIE_TOUT, ExtractionMain.DIPLOME_TOUT,ExtractionMain.QUALIFICATION_TOUT,ExtractionMain.FORMATION_TOUT, ExtractionMain.FORMAT_INDIVIDU|ExtractionMain.FORMAT_PARENTS,false);
 			logout();
 			
 			// Conversion des données
 			Logging.logger_.info("Conversion");
 			ExtracteurHtml x = new ExtracteurHtml();
-			x.charge(new ByteArrayInputStream(donnees.getBytes(Charset.forName("UTF-8"))));
+			x.charge(new ByteArrayInputStream(donnees.getBytes(Charset.forName("UTF-8"))),true);
 
 			// Génération de l'archive zip
 			Logging.logger_.info("Génération de l'archive "+sortie.getName());

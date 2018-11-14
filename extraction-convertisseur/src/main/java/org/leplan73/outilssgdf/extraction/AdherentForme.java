@@ -16,6 +16,7 @@ public class AdherentForme extends Adherent {
 	private static final String QUALIF_FIN_VALIDITE = "Qualifications.DateFinValidite";
 
 	private static final String FORMATION_DATEFIN = "Formations.DateFin";
+	private static final String FORMATION_ROLE = "Formations.Role";
 	private static final String DIPLOME_DATE_OBTENTION = "Diplomes.DateObtention";
 	
 	public AdherentForme(Adherent adherent) {
@@ -40,23 +41,26 @@ public class AdherentForme extends Adherent {
 	@Override
 	public String getAgeok()
 	{
-		if (getQualif_dirsf() > 0)
+		if (ageCamp_ > 0)
 		{
-			if (this.getFonction() < Consts.CODE_COMPAS)
+			if (getQualif_dirsf() > 0)
 			{
-				if (this.getFonction() < Consts.CODE_CHEFS_PIOK)
+				if (this.getFonction() < Consts.CODE_COMPAS)
 				{
-					if (ageCamp_ < 19)
-						return "Non";
+					if (this.getFonction() < Consts.CODE_CHEFS_PIOK)
+					{
+						if (ageCamp_ < 19)
+							return "Non";
+						else
+							return "Oui";
+					}
 					else
-						return "Oui";
-				}
-				else
-				{
-					if (ageCamp_ < 21)
-						return "Non";
-					else
-						return "Oui";
+					{
+						if (ageCamp_ < 21)
+							return "Non";
+						else
+							return "Oui";
+					}
 				}
 			}
 		}
@@ -263,7 +267,6 @@ public class AdherentForme extends Adherent {
 		
 		public void complete()
 		{
-			
 		}
 	}
 	
@@ -313,7 +316,6 @@ public class AdherentForme extends Adherent {
 		
 		public void complete()
 		{
-			
 		}
 	}
 
@@ -321,10 +323,10 @@ public class AdherentForme extends Adherent {
 	{
 		extras.forEach(extra ->
 		{
-			extras_.put(extra.nom_, extra);
-			
+			boolean ajouter = true; 
 			if (extra.isQualif_)
 			{
+				extras_.put(extra.nom_, extra);
 				Qualification q = qualifs_.get(extra.nom_);
 				if (q == null)
 				{
@@ -337,12 +339,30 @@ public class AdherentForme extends Adherent {
 					}
 				q.complete();
 			}
-			Formation f = null;
-			formations_.put(extra.nom_, f = new Formation(extra));
-			f.complete();
-			Diplome d = null;
-			diplomes_.put(extra.nom_, d = new Diplome(extra));
-			d.complete();
+			else
+			{
+				if (extra.nom_.compareTo("tech") == 0)
+				{
+					String role = extra.get(FORMATION_ROLE);
+					if (role.isEmpty() || role.compareTo("0") == 0)
+					{
+						extras_.put(extra.nom_, extra);
+					}
+					else
+						ajouter = false;
+				}
+				else
+					extras_.put(extra.nom_, extra);
+			}
+			if (ajouter)
+			{
+				Formation f = null;
+				formations_.put(extra.nom_, f = new Formation(extra));
+				f.complete();
+				Diplome d = null;
+				diplomes_.put(extra.nom_, d = new Diplome(extra));
+				d.complete();
+			}
 		});
 	}
 	

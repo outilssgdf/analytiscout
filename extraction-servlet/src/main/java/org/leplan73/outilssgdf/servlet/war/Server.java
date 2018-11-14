@@ -43,7 +43,7 @@ public class Server {
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public Response check(@FormDataParam("fichier") InputStream fichier) throws ExtractionException, IOException {
 		ExtracteurXlsx x = new ExtracteurXlsx();
-		x.charge(fichier);
+		x.charge(fichier,true);
 		
 		List<Check> checks = new ArrayList<Check>();
 		Unites unites = x.getUnites(); 
@@ -83,7 +83,7 @@ public class Server {
 		app.close();
 		
 		ExtracteurHtml x = new ExtracteurHtml();
-		x.charge(new ByteArrayInputStream(donnees.getBytes(Charset.forName("UTF-8"))));
+		x.charge(new ByteArrayInputStream(donnees.getBytes(Charset.forName("UTF-8"))),true);
 		GmailCsvFormatteur f = new GmailCsvFormatteur();
 		
 		// Convertit le fichier en archive zip
@@ -111,7 +111,7 @@ public class Server {
 		app.close();
 		
 		ExtracteurHtml x = new ExtracteurHtml();
-		x.charge(new ByteArrayInputStream(donnees.getBytes(Charset.forName("UTF-8"))));
+		x.charge(new ByteArrayInputStream(donnees.getBytes(Charset.forName("UTF-8"))),true);
 		GmailCsvFormatteur f = new GmailCsvFormatteur();
 		
 		// Convertit le fichier en archive zip
@@ -134,7 +134,7 @@ public class Server {
 
 		// Charge le fichier
 		ExtracteurXlsx x = new ExtracteurXlsx();
-		x.charge(fichier);
+		x.charge(fichier,true);
 		GmailCsvFormatteur f = new GmailCsvFormatteur();
 		
 		// Convertit le fichier en archive zip

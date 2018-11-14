@@ -56,14 +56,14 @@ public class ExtracteurXlsx {
 		return unites;
 	}
 	
-	public void charge(final String path) throws ExtractionException, IOException
+	public void charge(final String path, boolean age) throws ExtractionException, IOException
 	{
    		FileInputStream excelFile = new FileInputStream(new File(path));
-   		charge(excelFile);
+   		charge(excelFile, age);
 		excelFile.close();
 	}
 	
-	public void charge(final InputStream stream) throws ExtractionException, IOException
+	public void charge(final InputStream stream, boolean age) throws ExtractionException, IOException
 	{
         Workbook workbook = new XSSFWorkbook(stream);
         Sheet datatypeSheet = workbook.getSheetAt(0);
@@ -106,7 +106,7 @@ public class ExtracteurXlsx {
         	}
         	if (nbLignes != 0)
         	{
-            	adherent.init();
+            	adherent.init(age);
 				if (adherent.getFonction() == Consts.CODE_VIOLETS)
 				{
 					groupe = adherent.getUnite();

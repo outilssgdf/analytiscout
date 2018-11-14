@@ -34,14 +34,17 @@ public class Analyseur extends CommonParamsG {
 	@Option(names = "-batch", required=true, description = "batch")
 	private File batch;
 
-	@Option(names = "-modele", required=true, description = "modele")
+	@Option(names = "-modele", required=true, description = "Fichier de modèle")
 	private File modele;
 
-	@Option(names = "-entree", required=true, description = "entree")
+	@Option(names = "-entree", required=true, description = "Fichier d'entrée")
 	private File entree;
 
-	@Option(names = "-sortie", required=true, description = "sortie")
+	@Option(names = "-sortie", required=true, description = "Fichier de sortie")
 	private File sortie;
+	
+	@Option(names = "-age", description = "Gère l'âge des adhérents (Valeur par défaut: ${DEFAULT-VALUE})")
+	protected boolean age = false;
 	
 	public void run() throws IOException, ExtractionException, JDOMException, InvalidFormatException
 	{
@@ -85,12 +88,12 @@ public class Analyseur extends CommonParamsG {
 				fichierAdherents = fichier;
 			}
 			else
-				extraMap.put(nom, new ExtracteurExtraHtml(fichier.getAbsolutePath()));
+				extraMap.put(nom, new ExtracteurExtraHtml(fichier.getAbsolutePath(),age));
 			index++;
 		}
 
 		Logging.logger_.info("Chargement du fichier \""+fichierAdherents.getName()+"\"");
-		ExtracteurHtml adherents = new ExtracteurHtml(fichierAdherents, extraMap);
+		ExtracteurHtml adherents = new ExtracteurHtml(fichierAdherents, extraMap,age);
 		 
 		AdherentFormes compas = new AdherentFormes();
 		compas.charge(adherents,extraMap);
@@ -101,7 +104,7 @@ public class Analyseur extends CommonParamsG {
 
 		FileOutputStream outputStream = new FileOutputStream(sortie);
 
-	    Logging.logger_.info("Generation du fichier \""+sortie.getName()+"\" à partir du modèle \""+modele.getName()+"\"");
+	    Logging.logger_.info("Génération du fichier \""+sortie.getName()+"\" à partir du modèle \""+modele.getName()+"\"");
 		ExcelTransformer trans = new ExcelTransformer();
 		Map<String, Object> beans = new HashMap<String, Object>();
 		beans.put("chefs", adherents.getChefsList());

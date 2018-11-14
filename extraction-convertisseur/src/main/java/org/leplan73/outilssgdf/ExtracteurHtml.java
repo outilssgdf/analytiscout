@@ -39,22 +39,22 @@ public class ExtracteurHtml {
 	public ExtracteurHtml() throws ExtractionException, IOException, JDOMException {
 	}
 	
-	public ExtracteurHtml(String fichier) throws ExtractionException, IOException, JDOMException {
-		charge(fichier);
+	public ExtracteurHtml(String fichier, boolean age) throws ExtractionException, IOException, JDOMException {
+		charge(fichier, age);
 	}
 	
-	public ExtracteurHtml(File fichier) throws ExtractionException, IOException, JDOMException {
-		charge(fichier);
+	public ExtracteurHtml(File fichier, boolean age) throws ExtractionException, IOException, JDOMException {
+		charge(fichier, age);
 	}
 	
-	public ExtracteurHtml(String fichier, Map<String, ExtracteurExtraHtml> extras) throws ExtractionException, IOException, JDOMException {
+	public ExtracteurHtml(String fichier, Map<String, ExtracteurExtraHtml> extras, boolean age) throws ExtractionException, IOException, JDOMException {
 		extras_ = extras;
-		charge(fichier);
+		charge(fichier, age);
 	}
 	
-	public ExtracteurHtml(File fichier, Map<String, ExtracteurExtraHtml> extras) throws ExtractionException, IOException, JDOMException {
+	public ExtracteurHtml(File fichier, Map<String, ExtracteurExtraHtml> extras, boolean age) throws ExtractionException, IOException, JDOMException {
 		extras_ = extras;
-		charge(fichier);
+		charge(fichier, age);
 	}
 
 	public Adherents getAdherents()
@@ -121,17 +121,17 @@ public class ExtracteurHtml {
 		return marins_;
 	}
 	
-	public void charge(final String path) throws ExtractionException, IOException, JDOMException
+	public void charge(final String path, boolean age) throws ExtractionException, IOException, JDOMException
 	{
    		FileInputStream excelFile = new FileInputStream(new File(path));
-   		charge(excelFile);
+   		charge(excelFile, age);
 		excelFile.close();
 	}
 	
-	public void charge(final File fichier) throws ExtractionException, IOException, JDOMException
+	public void charge(final File fichier, boolean age) throws ExtractionException, IOException, JDOMException
 	{
    		FileInputStream excelFile = new FileInputStream(fichier);
-   		charge(excelFile);
+   		charge(excelFile, age);
 		excelFile.close();
 	}
 	
@@ -265,21 +265,21 @@ public class ExtracteurHtml {
 		});
 	}
 	
-	public void charge(List<InputStream> streams) throws ExtractionException, IOException, JDOMException
+	public void charge(List<InputStream> streams, boolean age) throws ExtractionException, IOException, JDOMException
 	{
 		// Chargement des lignes d'adherents
         adherents_ = new Adherents();
 
 		for (InputStream stream : streams) 
 		{
-			chargeStream(stream);
+			chargeStream(stream, age);
 		}
 		complete();
 	}
 	
-	public void charge(final InputStream stream) throws ExtractionException, IOException, JDOMException
+	public void charge(final InputStream stream, boolean age) throws ExtractionException, IOException, JDOMException
 	{
-		chargeStream(stream);
+		chargeStream(stream, age);
 		complete();
 	}
 	
@@ -304,7 +304,7 @@ public class ExtracteurHtml {
 		return null;
 	}
 	
-	private void chargeStream(final InputStream stream) throws JDOMException, IOException, ExtractionException
+	private void chargeStream(final InputStream stream, boolean age) throws JDOMException, IOException, ExtractionException
 	{
 		XPathFactory xpfac = XPathFactory.instance();
 		SAXBuilder builder = new SAXBuilder();
@@ -336,7 +336,7 @@ public class ExtracteurHtml {
             index++;
         	if (index % nbColumns == 0)
         	{
-            	adherent.init();
+            	adherent.init(age);
 				int code = adherent.getCode();
 				if (adherent.getFonction() >= Consts.CODE_VIOLETS)
 				{
@@ -353,7 +353,7 @@ public class ExtracteurHtml {
 				if (adherent.getChef() == 1)
 				{
 					AdherentForme chef = new AdherentForme(adherent);
-					chef.init();
+					chef.init(age);
 					adherents_.put(adherent.getCode(), chef);
 					
 					List<ChefExtra> extras2 = extra(code);
@@ -365,7 +365,7 @@ public class ExtracteurHtml {
 				else if (adherent.getCompa() == 1)
 				{
 					AdherentForme compa = new AdherentForme(adherent);
-					compa.init();
+					compa.init(age);
 					adherents_.put(adherent.getCode(), compa);
 					
 					List<ChefExtra> extras2 = extra(code);

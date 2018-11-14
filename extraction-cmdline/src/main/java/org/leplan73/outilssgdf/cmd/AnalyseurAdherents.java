@@ -42,6 +42,9 @@ public class AnalyseurAdherents extends CommonParamsG {
 	@Option(names = "-sortie", required=true, description = "sortie")
 	private File sortie;
 	
+	@Option(names = "-age", description = "Gère l'âge des adhérents (Valeur par défaut: ${DEFAULT-VALUE})")
+	protected boolean age = false;
+	
 	public void run() throws IOException, ExtractionException, JDOMException, InvalidFormatException
 	{
 		Instant now = Instant.now();
@@ -84,12 +87,12 @@ public class AnalyseurAdherents extends CommonParamsG {
 				fichierAdherents = fichier;
 			}
 			else
-				extraMap.put(nom, new ExtracteurExtraHtml(fichier.getAbsolutePath()));
+				extraMap.put(nom, new ExtracteurExtraHtml(fichier.getAbsolutePath(),age));
 			index++;
 		}
 
 		Logging.logger_.info("Chargement du fichier \""+fichierAdherents.getName()+"\"");
-		ExtracteurHtml adherents = new ExtracteurHtml(fichierAdherents, extraMap);
+		ExtracteurHtml adherents = new ExtracteurHtml(fichierAdherents, extraMap,age);
 		
 		General general = new General();
 		Global global = new Global(adherents.getGroupe(), adherents.getMarins());

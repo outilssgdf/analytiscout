@@ -53,6 +53,11 @@ public class Adherent {
 		return code_;
 	}
 	
+	public String getCodetext()
+	{
+		return String.valueOf(code_);
+	}
+	
 	public String getUnite()
 	{
 		return unite_;

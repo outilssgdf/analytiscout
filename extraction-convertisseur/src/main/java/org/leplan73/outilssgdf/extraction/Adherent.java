@@ -13,6 +13,7 @@ import java.util.Map;
 import org.apache.commons.csv.CSVPrinter;
 import org.leplan73.outilssgdf.Check;
 import org.leplan73.outilssgdf.Consts;
+import org.leplan73.outilssgdf.Params;
 import org.leplan73.outilssgdf.calcul.Unite;
 
 public class Adherent {
@@ -186,12 +187,12 @@ public class Adherent {
 					diff = diff/(3600*365*24);
 					age_ = diff;
 					
-					Date debutFindDec = simpleDateFormat.parse(Consts.DATE_LIMITE_JEUNE);
+					Date debutFindDec = simpleDateFormat.parse(Params.get(Consts.DATE_LIMITE_JEUNE, Consts.DATE_LIMITE_JEUNE));
 					long diffFindDec = ((debutFindDec.getTime() - dn.getTime())/1000);
 					diffFindDec = diffFindDec/(3600*365*24);
 					ageFinDec_ = diffFindDec;
 					
-					Date debutCamp = simpleDateFormat.parse(Consts.DATE_DEBUT_CAMP);
+					Date debutCamp = simpleDateFormat.parse(Params.get(Consts.PROPERTY_DATE_DEBUT_CAMP, Consts.DATE_DEBUT_CAMP));
 					long diffCamp = ((debutCamp.getTime() - dn.getTime())/1000);
 					diffCamp = diffCamp/(3600*365*24);
 					ageCamp_ = diffCamp;

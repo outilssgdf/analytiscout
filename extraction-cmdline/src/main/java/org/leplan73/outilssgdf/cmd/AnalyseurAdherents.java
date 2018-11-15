@@ -57,6 +57,8 @@ public class AnalyseurAdherents extends CommonParamsG {
 	    	Logging.enableDebug();
 	    }
 	    
+	    chargeParametres();
+	    
 	    Logging.logger_.info("Chargement du fichier de traitement");
 		
 		Properties pbatch = new Properties();

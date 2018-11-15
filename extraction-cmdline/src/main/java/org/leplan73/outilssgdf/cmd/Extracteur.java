@@ -85,6 +85,8 @@ public class Extracteur extends CommonParamsIntranet {
 	    	Logging.enableDebug();
 	    }
 	    
+	    chargeParametres();
+	    
 		try {
 			charge();
 			

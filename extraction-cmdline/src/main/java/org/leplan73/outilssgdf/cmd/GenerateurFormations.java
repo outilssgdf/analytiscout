@@ -41,6 +41,8 @@ public class GenerateurFormations extends CommonParamsIntranet {
 	    	Logging.enableDebug();
 	    }
 	    
+	    chargeParametres();
+	    
 		try {
 			charge();
 			

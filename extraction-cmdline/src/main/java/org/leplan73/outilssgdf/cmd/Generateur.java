@@ -44,6 +44,8 @@ public class Generateur extends CommonParamsIntranet {
 	    	Logging.enableDebug();
 	    }
 	    
+	    chargeParametres();
+	    
 		try {
 			charge();
 			

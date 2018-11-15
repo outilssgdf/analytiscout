@@ -57,6 +57,8 @@ public class ExtracteurBatch extends CommonParamsIntranet {
 	    	Logging.enableDebug();
 	    }
 	    
+	    chargeParametres();
+	    
 		try {
 			charge();
 

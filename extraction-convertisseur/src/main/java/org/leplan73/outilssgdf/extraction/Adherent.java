@@ -233,6 +233,29 @@ public class Adherent {
 		return "Oui";
 	}
 	
+	public String getAgeokcamp()
+	{
+		if (this.getFonction() < Consts.CODE_COMPAS)
+		{
+			switch (this.getFonction())
+			{
+				case Consts.CODE_FARFADETS:
+					if (ageCamp_ < 6) return "Non";
+				break;
+				case Consts.CODE_LJ:
+					if (ageCamp_ < 8) return "Non";
+				break;
+				case Consts.CODE_SG:
+					if (ageCamp_ < 11) return "Non";
+				break;
+				case Consts.CODE_PIOK:
+					if (ageCamp_ < 14) return "Non";
+				break;
+			}
+		}
+		return "Oui";
+	}
+	
 	public void check(Colonnes colonnes, Unite unite, List<Check> checks)
 	{
 		String unitAdherent = (String)this.get(colonnes.getUniteId());

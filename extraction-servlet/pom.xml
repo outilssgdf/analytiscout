@@ -7,10 +7,13 @@
 	<parent>
 		<groupId>org.leplan73</groupId>
 		<artifactId>outilssgdf</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.0.1</version>
 	</parent>
 	<artifactId>extraction-servlet</artifactId>
 	<name>extraction-servlet</name>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
 	<packaging>war</packaging>
 	<build>
 

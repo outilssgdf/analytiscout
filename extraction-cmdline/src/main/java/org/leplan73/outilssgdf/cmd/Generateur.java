@@ -23,7 +23,7 @@ import picocli.CommandLine.Help.Ansi;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.PicocliException;
 
-@Command(name = "Generateur", mixinStandardHelpOptions = true, version = "1.0")
+@Command(name = "Generateur", mixinStandardHelpOptions = true, versionProvider = CommonParamsG.class)
 public class Generateur extends CommonParamsIntranet {
 
 	@Option(names = "-sortie", required=true, description = "Fichier de sortie")
@@ -88,8 +88,18 @@ public class Generateur extends CommonParamsIntranet {
 		Generateur command = new Generateur();
 		try
 		{
-			new CommandLine(command).parse(args);
-	        command.run();
+			CommandLine commandLine = new CommandLine(command);
+			commandLine.parse(args);
+			if (commandLine.isVersionHelpRequested())
+			{
+			    commandLine.printVersionHelp(System.out, Ansi.ON);
+			    return;
+			}
+			if (commandLine.isUsageHelpRequested())
+			{
+			    commandLine.usage(System.out, Ansi.ON);
+			    return;
+			}
 		}
 		catch(PicocliException e)
 		{

@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>org.leplan73</groupId>
 		<artifactId>outilssgdf</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.0.1</version>
 	</parent>
 	<artifactId>extraction-cmdline</artifactId>
 	<name>extraction-cmdline</name>
@@ -20,31 +20,26 @@
 			<artifactId>extraction-convertisseur</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/net.sf.jett/jett-core -->
 		<dependency>
 			<groupId>net.sf.jett</groupId>
 			<artifactId>jett-core</artifactId>
 			<version>${jett.version}</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi</artifactId>
 			<version>${poi.version.old}</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi-ooxml</artifactId>
 			<version>${poi.version.old}</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-1.2-api -->
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-1.2-api</artifactId>
 			<version>${log4j.version}</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-api -->
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-api</artifactId>
@@ -65,13 +60,36 @@
 			<artifactId>jansi</artifactId>
 			<version>${jansi.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.jcabi</groupId>
+			<artifactId>jcabi-manifests</artifactId>
+			<version>${jcabi.version}</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.1.0</version>
+				<configuration>
+					<archive>
+						<index>true</index>
+						<manifest>
+							<mainClass></mainClass>
+						</manifest>
+						<manifestEntries>
+							<url>${project.url}</url>
+							<nom>${project.artifactId}</nom>
+							<version>${project.version}</version>
+							<Build-Time>${maven.build.timestamp}</Build-Time>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<executions>
-
 					<execution>
 						<id>user_distribution_extracteur</id>
 						<phase>package</phase>
@@ -87,6 +105,12 @@
 								<manifest>
 									<mainClass></mainClass>
 								</manifest>
+								<manifestEntries>
+									<url>${project.url}</url>
+									<nom>${project.artifactId}</nom>
+									<version>${project.version}</version>
+									<Build-Time>${maven.build.timestamp}</Build-Time>
+								</manifestEntries>
 							</archive>
 						</configuration>
 					</execution>

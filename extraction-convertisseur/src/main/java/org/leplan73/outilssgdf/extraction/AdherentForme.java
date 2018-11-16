@@ -19,6 +19,8 @@ public class AdherentForme extends Adherent {
 	private static final String FORMATION_ROLE = "Formations.Role";
 	private static final String DIPLOME_DATE_OBTENTION = "Diplomes.DateObtention";
 	
+	private static final String PAS_DE_DATE = "Permanent";
+	
 	public AdherentForme(Adherent adherent) {
 		super(adherent.colonnes_);
 		
@@ -87,34 +89,71 @@ public class AdherentForme extends Adherent {
 	private Map<String, Formation> formations_ = new TreeMap<String, Formation>();
 	private Map<String, ChefExtra> extras_ = new TreeMap<String, ChefExtra>();
 	
+	static public class ExtraKey implements Comparable<ExtraKey>
+	{
+		public String nom_;
+		public String type_;
+		
+		public ExtraKey(String nom, String type) {
+			nom_ = nom;
+			type_ = type;
+		}
+		
+		public boolean ifTout()
+		{
+			return (type_.compareTo("tout") == 0);
+		}
+		
+		public boolean ifFormation()
+		{
+			return (type_.compareTo("formation") == 0);
+		}
+		
+		public boolean ifQualif()
+		{
+			return (type_.compareTo("qualif") == 0);
+		}
+		
+		public boolean ifDiplome()
+		{
+			return (type_.compareTo("diplome") == 0);
+		}
+
+		@Override
+		public int compareTo(ExtraKey o) {
+			return (type_+"|"+nom_).compareTo(o.type_+"|"+o.nom_);
+		}
+	}
+	
 	static public class ChefExtra
 	{
 		public String nom_;
 		public AdherentForme dir_;
 		public Colonnes colonnes2_;
 		public boolean isQualif_;
+		public boolean isFormation_;
+		public boolean isDiplome_;
 		
-		public ChefExtra(String nom, AdherentForme dir, Colonnes colonnes)
+		public ChefExtra(ExtraKey key, AdherentForme dir, Colonnes colonnes)
 		{
 			// Noms similaires
-			if (nom.contains("appro") == true)
+			if (key.nom_.contains("appro") == true)
 			{
 				nom_ = "appro";
 			}
 			else
-				nom_ = nom;
-			if (nom.contains("apf") == true)
+				nom_ = key.nom_;
+			if (key.nom_.contains("apf") == true)
 			{
 				nom_ = "apf";
 			}
 			else
-				nom_ = nom;
+				nom_ = key.nom_;
 
 			// Détections
-			if (nom.compareTo("dirsf") == 0)
-				isQualif_ = true;
-			if (nom.compareTo("animsf") == 0)
-				isQualif_ = true;
+			isQualif_ = key.ifQualif();
+			isFormation_ = key.ifFormation();
+			isDiplome_ = key.ifDiplome();
 			
 			dir_ = dir;
 			colonnes2_ = colonnes;
@@ -134,7 +173,6 @@ public class AdherentForme extends Adherent {
 	
 	public class Qualification
 	{
-		private static final String PAS_DE_DATE = "Pas de date";
 		private boolean titulaire_;
 		private boolean defini_;
 		private String fin_validite_;
@@ -341,7 +379,7 @@ public class AdherentForme extends Adherent {
 			}
 			else
 			{
-				if (extra.nom_.compareTo("tech") == 0)
+				if (extra.isFormation_)
 				{
 					String role = extra.get(FORMATION_ROLE);
 					if (role.isEmpty() || role.compareTo("0") == 0)

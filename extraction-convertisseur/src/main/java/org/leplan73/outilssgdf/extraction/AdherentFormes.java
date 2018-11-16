@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.leplan73.outilssgdf.ExtracteurExtraHtml;
 import org.leplan73.outilssgdf.ExtracteurHtml;
+import org.leplan73.outilssgdf.extraction.AdherentForme.ExtraKey;
 
 public class AdherentFormes extends HashMap<Integer,AdherentForme>
 {
@@ -20,7 +21,7 @@ public class AdherentFormes extends HashMap<Integer,AdherentForme>
 		chefs_.add(chef);
 	}
 	
-	public void charge(ExtracteurHtml adherents, Map<String, ExtracteurExtraHtml> extras)
+	public void charge(ExtracteurHtml adherents, Map<ExtraKey, ExtracteurExtraHtml> extras)
 	{
 		adherents.getChefsList().forEach(chef ->
 		{

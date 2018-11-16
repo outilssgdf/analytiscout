@@ -138,6 +138,14 @@ public class Adherent {
 		return this.get(colonnes_.getStructureCode());
 	}
 	
+	public String getCodegroupe()
+	{
+		String codeStructure = this.get(colonnes_.getStructureCode());
+		String codeGroupe = codeStructure.substring(0, codeStructure.length()-2);
+		codeGroupe+="00";
+		return codeGroupe;
+	}
+	
 	public String getCodePapa()
 	{
 		return codePapa_;

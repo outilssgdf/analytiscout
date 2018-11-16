@@ -18,6 +18,7 @@ import org.jdom2.JDOMException;
 import org.leplan73.outilssgdf.ExtracteurExtraHtml;
 import org.leplan73.outilssgdf.ExtracteurHtml;
 import org.leplan73.outilssgdf.ExtractionException;
+import org.leplan73.outilssgdf.extraction.AdherentForme.ExtraKey;
 import org.leplan73.outilssgdf.extraction.AdherentFormes;
 
 import net.sf.jett.transform.ExcelTransformer;
@@ -27,7 +28,7 @@ import picocli.CommandLine.Help.Ansi;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.PicocliException;
 
-@Command(name = "AnalyserFormations", mixinStandardHelpOptions = true, version = "1.0")
+@Command(name = "AnalyserFormations", mixinStandardHelpOptions = true, versionProvider = CommonParamsG.class)
 public class AnalyserFormations extends CommonParamsG {
 
 	@Option(names = "-batch", required=true, description = "batch")
@@ -63,7 +64,7 @@ public class AnalyserFormations extends CommonParamsG {
 		try {
 			pbatch.load(new FileInputStream(new File(batch)));
 
-		Map<String, ExtracteurExtraHtml> map = new TreeMap<String, ExtracteurExtraHtml>();
+		Map<ExtraKey, ExtracteurExtraHtml> map = new TreeMap<ExtraKey, ExtracteurExtraHtml>();
 		File fichierAdherents = null;
 
 		File dossierStructure = new File(entree,""+structures);
@@ -77,18 +78,18 @@ public class AnalyserFormations extends CommonParamsG {
 			{
 				break;
 			}
-			
-			String nom = pbatch.getProperty("nom."+index,"");
-			File fichier = new File(dossierStructure, nom+"."+generateur);
+
+			ExtraKey extra = new ExtraKey(pbatch.getProperty("nom."+index,""), pbatch.getProperty("batchtype."+index,"tout"));
+			File fichier = new File(dossierStructure, extra.nom_+"."+generateur);
 
 			 Logging.logger_.info("Chargement du fichier \""+fichier.getName()+"\"");
 			    
-			if (nom.compareTo("tout") == 0)
+			if (extra.ifTout())
 			{
 				fichierAdherents = fichier;
 			}
 			else
-				map.put(nom, new ExtracteurExtraHtml(fichier.getAbsolutePath(),true));
+				map.put(extra, new ExtracteurExtraHtml(fichier.getAbsolutePath(),true));
 			index++;
 		}
 
@@ -132,8 +133,18 @@ public class AnalyserFormations extends CommonParamsG {
 		AnalyserFormations command = new AnalyserFormations();
 		try
 		{
-			new CommandLine(command).parse(args);
-	        command.run();
+			CommandLine commandLine = new CommandLine(command);
+			commandLine.parse(args);
+			if (commandLine.isVersionHelpRequested())
+			{
+			    commandLine.printVersionHelp(System.out, Ansi.ON);
+			    return;
+			}
+			if (commandLine.isUsageHelpRequested())
+			{
+			    commandLine.usage(System.out, Ansi.ON);
+			    return;
+			}
 		}
 		catch(PicocliException e)
 		{

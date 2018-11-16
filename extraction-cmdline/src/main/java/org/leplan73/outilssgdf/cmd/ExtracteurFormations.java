@@ -30,8 +30,8 @@ import picocli.CommandLine.Option;
 import picocli.CommandLine.PicocliException;
 import picocli.CommandLine.Help.Ansi;
 
-@Command(name = "ExtracteurBatch", mixinStandardHelpOptions = true, versionProvider = CommonParamsG.class)
-public class ExtracteurBatch extends CommonParamsIntranet {
+@Command(name = "ExtracteurFormations", mixinStandardHelpOptions = true, versionProvider = CommonParamsG.class)
+public class ExtracteurFormations extends CommonParamsIntranet {
 
 	private static final String ENCODING_WINDOWS = "Windows-1252";
 	private static final String ENCODING_UTF8 = "UTF-8";
@@ -48,7 +48,7 @@ public class ExtracteurBatch extends CommonParamsIntranet {
 	public void run() {
 		checkParams();
 		
-		Logging.initLogger(ExtracteurBatch.class);
+		Logging.initLogger(ExtracteurFormations.class);
 		
 		Logging.logger_.info("Lancement");
 	    
@@ -186,7 +186,7 @@ public class ExtracteurBatch extends CommonParamsIntranet {
 	
 	public static void main(String[] args) {
 		AnsiConsole.systemInstall();
-		ExtracteurBatch command = new ExtracteurBatch();
+		ExtracteurFormations command = new ExtracteurFormations();
 		try
 		{
 			CommandLine commandLine = new CommandLine(command);

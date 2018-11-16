@@ -18,7 +18,7 @@ import picocli.CommandLine.Option;
 import picocli.CommandLine.PicocliException;
 import picocli.CommandLine.Help.Ansi;
 
-@Command(name = "GenerateurFormations", mixinStandardHelpOptions = true, version = "1.0")
+@Command(name = "GenerateurFormations", mixinStandardHelpOptions = true, versionProvider = CommonParamsG.class)
 public class GenerateurFormations extends CommonParamsIntranet {
 
 	@Option(names = "-batch", required=true, description = "batch")
@@ -89,8 +89,18 @@ public class GenerateurFormations extends CommonParamsIntranet {
 		GenerateurFormations command = new GenerateurFormations();
 		try
 		{
-			new CommandLine(command).parse(args);
-	        command.run();
+			CommandLine commandLine = new CommandLine(command);
+			commandLine.parse(args);
+			if (commandLine.isVersionHelpRequested())
+			{
+			    commandLine.printVersionHelp(System.out, Ansi.ON);
+			    return;
+			}
+			if (commandLine.isUsageHelpRequested())
+			{
+			    commandLine.usage(System.out, Ansi.ON);
+			    return;
+			}
 		}
 		catch(PicocliException e)
 		{

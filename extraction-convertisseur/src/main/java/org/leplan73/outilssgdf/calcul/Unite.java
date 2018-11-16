@@ -70,6 +70,13 @@ public class Unite implements Comparable<Unite>
 	{
 		return codeStructure_;
 	}
+	
+	public String getCodegroupe()
+	{
+		String codeGroupe = codeStructure_.substring(0, codeStructure_.length()-2);
+		codeGroupe+="00";
+		return codeGroupe;
+	}
 
 	private int qualifs_;
 	public int getQualifieannee()

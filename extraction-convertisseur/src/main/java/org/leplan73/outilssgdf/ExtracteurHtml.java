@@ -21,6 +21,7 @@ import org.leplan73.outilssgdf.calcul.Unites;
 import org.leplan73.outilssgdf.extraction.Adherent;
 import org.leplan73.outilssgdf.extraction.AdherentForme;
 import org.leplan73.outilssgdf.extraction.AdherentForme.ChefExtra;
+import org.leplan73.outilssgdf.extraction.AdherentForme.ExtraKey;
 import org.leplan73.outilssgdf.extraction.Adherents;
 import org.leplan73.outilssgdf.extraction.Colonnes;
 import org.leplan73.outilssgdf.extraction.Parents;
@@ -34,7 +35,7 @@ public class ExtracteurHtml {
 	protected String groupe_;
 	protected boolean marins_;
 	
-	private Map<String, ExtracteurExtraHtml> extras_;
+	private Map<ExtraKey, ExtracteurExtraHtml> extras_;
 	
 	public ExtracteurHtml() throws ExtractionException, IOException, JDOMException {
 	}
@@ -47,12 +48,12 @@ public class ExtracteurHtml {
 		charge(fichier, age);
 	}
 	
-	public ExtracteurHtml(String fichier, Map<String, ExtracteurExtraHtml> extras, boolean age) throws ExtractionException, IOException, JDOMException {
+	public ExtracteurHtml(String fichier, Map<ExtraKey, ExtracteurExtraHtml> extras, boolean age) throws ExtractionException, IOException, JDOMException {
 		extras_ = extras;
 		charge(fichier, age);
 	}
 	
-	public ExtracteurHtml(File fichier, Map<String, ExtracteurExtraHtml> extras, boolean age) throws ExtractionException, IOException, JDOMException {
+	public ExtracteurHtml(File fichier, Map<ExtraKey, ExtracteurExtraHtml> extras, boolean age) throws ExtractionException, IOException, JDOMException {
 		extras_ = extras;
 		charge(fichier, age);
 	}
@@ -288,14 +289,14 @@ public class ExtracteurHtml {
 		if (extras_ != null)
 		{
 			List<ChefExtra> extra = new ArrayList<ChefExtra>();
-			extras_.forEach((nom,map) -> 
+			extras_.forEach((key,map) -> 
 			{
 				List<AdherentForme> adherents = map.getAdherents();
 				adherents.forEach(adherent ->
 				{
 					if (adherent.getCode() == code)
 					{
-						extra.add(new ChefExtra(nom, adherent, map.getColonnes()));
+						extra.add(new ChefExtra(key, adherent, map.getColonnes()));
 					}
 				});
 			});

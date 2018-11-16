@@ -19,6 +19,7 @@ import org.leplan73.outilssgdf.ExtracteurHtml;
 import org.leplan73.outilssgdf.ExtractionException;
 import org.leplan73.outilssgdf.calcul.General;
 import org.leplan73.outilssgdf.calcul.Global;
+import org.leplan73.outilssgdf.extraction.AdherentForme.ExtraKey;
 
 import net.sf.jett.transform.ExcelTransformer;
 import picocli.CommandLine;
@@ -27,7 +28,7 @@ import picocli.CommandLine.Help.Ansi;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.PicocliException;
 
-@Command(name = "Analyseur", mixinStandardHelpOptions = true, version = "1.0")
+@Command(name = "Analyseur", mixinStandardHelpOptions = true, versionProvider = CommonParamsG.class)
 public class AnalyseurAdherents extends CommonParamsG {
 
 	@Option(names = "-batch", required=true, description = "batch")
@@ -64,7 +65,7 @@ public class AnalyseurAdherents extends CommonParamsG {
 		Properties pbatch = new Properties();
 		pbatch.load(new FileInputStream(batch));
 
-		Map<String, ExtracteurExtraHtml> extraMap = new TreeMap<String, ExtracteurExtraHtml>();
+		Map<ExtraKey, ExtracteurExtraHtml> extraMap = new TreeMap<ExtraKey, ExtracteurExtraHtml>();
 		File fichierAdherents = null;
 
 		File dossierStructure = new File(entree,""+structures[0]);
@@ -78,18 +79,18 @@ public class AnalyseurAdherents extends CommonParamsG {
 			{
 				break;
 			}
-			
-			String nom = pbatch.getProperty("nom."+index,"");
-			File fichier = new File(dossierStructure, nom+"."+generateur);
+
+			ExtraKey extra = new ExtraKey(pbatch.getProperty("nom."+index,""), pbatch.getProperty("batchtype."+index,"tout"));
+			File fichier = new File(dossierStructure, extra.nom_+"."+generateur);
 			
 		    Logging.logger_.info("Chargement du fichier \""+fichier.getName()+"\"");
 		    
-			if (nom.compareTo("tout") == 0)
+		    if (extra.ifTout())
 			{
 				fichierAdherents = fichier;
 			}
 			else
-				extraMap.put(nom, new ExtracteurExtraHtml(fichier.getAbsolutePath(),age));
+				extraMap.put(extra, new ExtracteurExtraHtml(fichier.getAbsolutePath(),age));
 			index++;
 		}
 
@@ -123,8 +124,18 @@ public class AnalyseurAdherents extends CommonParamsG {
 		AnalyseurAdherents command = new AnalyseurAdherents();
 		try
 		{
-			new CommandLine(command).parse(args);
-	        command.run();
+			CommandLine commandLine = new CommandLine(command);
+			commandLine.parse(args);
+			if (commandLine.isVersionHelpRequested())
+			{
+			    commandLine.printVersionHelp(System.out, Ansi.ON);
+			    return;
+			}
+			if (commandLine.isUsageHelpRequested())
+			{
+			    commandLine.usage(System.out, Ansi.ON);
+			    return;
+			}
 		}
 		catch(PicocliException e)
 		{

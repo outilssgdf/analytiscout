@@ -17,10 +17,10 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.LaxRedirectStrategy;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ExtractionMain {
 
@@ -83,7 +83,7 @@ public class ExtractionMain {
     
 	static
 	{
-		logger_ = LogManager.getLogger(ExtractionMain.class);
+		logger_ = LoggerFactory.getLogger(ExtractionMain.class);
 	}
 	
 	public void init()

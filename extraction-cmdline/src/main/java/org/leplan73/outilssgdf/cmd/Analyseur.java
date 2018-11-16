@@ -49,14 +49,9 @@ public class Analyseur extends CommonParamsG {
 	public void run() throws IOException, ExtractionException, JDOMException, InvalidFormatException
 	{
 		Instant now = Instant.now();
-		Logging.initLogger(Analyseur.class);
+		Logging.initLogger(Analyseur.class, debug);
 		
 		Logging.logger_.info("Lancement");
-	    
-	    if (debug)
-	    {
-	    	Logging.enableDebug();
-	    }
 	    
 	    chargeParametres();
 	    

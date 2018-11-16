@@ -45,14 +45,9 @@ public class ExtracteurBatch extends CommonParamsIntranet {
 	public void run() {
 		checkParams();
 		
-		Logging.initLogger(ExtracteurBatch.class);
+		Logging.initLogger(ExtracteurBatch.class, debug);
 		
 		Logging.logger_.info("Lancement");
-	    
-	    if (debug)
-	    {
-	    	Logging.enableDebug();
-	    }
 	    
 	    chargeParametres();
 	    
@@ -173,9 +168,9 @@ public class ExtracteurBatch extends CommonParamsIntranet {
 			}
 			logout();
 		} catch (IOException e) {
-			Logging.logger_.error(e);
+			Logging.logger_.error("IOException", e);
 		} catch (JDOMException e) {
-			Logging.logger_.error(e);
+			Logging.logger_.error("JDOMException", e);
 		}
 		
 		Logging.logger_.info("Terminé");

@@ -5,8 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Params extends Properties {
 	
@@ -17,7 +17,7 @@ public class Params extends Properties {
     
 	static {
 		this_ = new Params();
-		logger_ = LogManager.getLogger(Params.class);
+		logger_ = LoggerFactory.getLogger(Params.class);
 	}
 	
 	static public void init(String path)

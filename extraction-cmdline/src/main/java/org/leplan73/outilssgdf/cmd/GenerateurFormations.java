@@ -29,14 +29,9 @@ public class GenerateurFormations extends CommonParamsIntranet {
 		Instant now = Instant.now();
 		checkParams();
 		
-		Logging.initLogger(GenerateurFormations.class);
+		Logging.initLogger(GenerateurFormations.class, debug);
 		
 		Logging.logger_.info("Lancement");
-	    
-	    if (debug)
-	    {
-	    	Logging.enableDebug();
-	    }
 	    
 	    chargeParametres();
 	    
@@ -70,11 +65,11 @@ public class GenerateurFormations extends CommonParamsIntranet {
 			
 			
 		} catch (IOException e) {
-			Logging.logger_.error(e);
+			Logging.logger_.error("IOException", e);
 		} catch (JDOMException e) {
-			Logging.logger_.error(e);
+			Logging.logger_.error("JDOMException", e);
 		} catch (ExtractionException e) {
-			Logging.logger_.error(e);
+			Logging.logger_.error("ExtractionException", e);
 		}
 		
 		long d = Instant.now().getEpochSecond() - now.getEpochSecond();

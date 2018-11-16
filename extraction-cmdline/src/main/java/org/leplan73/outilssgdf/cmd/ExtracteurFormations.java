@@ -45,14 +45,9 @@ public class ExtracteurFormations extends CommonParamsIntranet {
 	public void run() {
 		checkParams();
 		
-		Logging.initLogger(ExtracteurFormations.class);
+		Logging.initLogger(ExtracteurFormations.class, debug);
 		
 		Logging.logger_.info("Lancement");
-	    
-	    if (debug)
-	    {
-	    	Logging.enableDebug();
-	    }
 	    
 	    chargeParametres();
 	    
@@ -173,9 +168,9 @@ public class ExtracteurFormations extends CommonParamsIntranet {
 			}
 			logout();
 		} catch (IOException e) {
-			Logging.logger_.error(e);
+			Logging.logger_.error("IOException", e);
 		} catch (JDOMException e) {
-			Logging.logger_.error(e);
+			Logging.logger_.error("JDOMException", e);
 		}
 		
 		Logging.logger_.info("Terminé");

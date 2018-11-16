@@ -50,14 +50,9 @@ public class AnalyserFormations extends CommonParamsG {
 	public void run()
 	{
 		Instant now = Instant.now();
-		Logging.initLogger(AnalyserFormations.class);
+		Logging.initLogger(AnalyserFormations.class, debug);
 		
 		Logging.logger_.info("Lancement");
-	    
-	    if (debug)
-	    {
-	    	Logging.enableDebug();
-	    }
 	    
 	    Logging.logger_.info("Chargement du fichier de traitement");
 		

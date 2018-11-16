@@ -32,14 +32,9 @@ public class Generateur extends CommonParamsIntranet {
 		
 		checkParams();
 		
-		Logging.initLogger(Generateur.class);
+		Logging.initLogger(Generateur.class, debug);
 		
 		Logging.logger_.info("Lancement");
-	    
-	    if (debug)
-	    {
-	    	Logging.enableDebug();
-	    }
 	    
 	    chargeParametres();
 	    
@@ -69,11 +64,11 @@ public class Generateur extends CommonParamsIntranet {
 		    zipOut.close();
 			
 		} catch (IOException e) {
-			Logging.logger_.error(e);
+			Logging.logger_.error("IOException", e);
 		} catch (JDOMException e) {
-			Logging.logger_.error(e);
+			Logging.logger_.error("JDOMException", e);
 		} catch (ExtractionException e) {
-			Logging.logger_.error(e);
+			Logging.logger_.error("ExtractionException", e);
 		}
 		
 		long d = Instant.now().getEpochSecond() - now.getEpochSecond();

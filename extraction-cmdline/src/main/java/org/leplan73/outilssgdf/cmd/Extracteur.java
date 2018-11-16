@@ -73,14 +73,9 @@ public class Extracteur extends CommonParamsIntranet {
 		Instant now = Instant.now();
 		checkParams();
 		
-		Logging.initLogger(Extracteur.class);
+		Logging.initLogger(Extracteur.class, debug);
 			
 		Logging.logger_.info("Lancement");
-	    
-	    if (debug)
-	    {
-	    	Logging.enableDebug();
-	    }
 	    
 	    chargeParametres();
 	    

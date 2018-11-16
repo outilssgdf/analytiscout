@@ -15,7 +15,6 @@ import java.util.Properties;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
-import org.fusesource.jansi.AnsiConsole;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
@@ -24,11 +23,8 @@ import org.jdom2.xpath.XPathFactory;
 import org.leplan73.outilssgdf.intranet.ExtractionAdherents;
 import org.leplan73.outilssgdf.intranet.ExtractionMain;
 
-import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
-import picocli.CommandLine.PicocliException;
-import picocli.CommandLine.Help.Ansi;
 
 @Command(name = "ExtracteurFormations", mixinStandardHelpOptions = true, versionProvider = CommonParamsG.class)
 public class ExtracteurFormations extends CommonParamsIntranet {
@@ -44,7 +40,8 @@ public class ExtracteurFormations extends CommonParamsIntranet {
 
 	@Option(names = "-recursif", description = "Extraction récursive (Valeur par défaut: ${DEFAULT-VALUE})")
 	private boolean recursif = true;
-	
+
+	@Override
 	public void run() {
 		checkParams();
 		
@@ -185,32 +182,7 @@ public class ExtracteurFormations extends CommonParamsIntranet {
 	}
 	
 	public static void main(String[] args) {
-		AnsiConsole.systemInstall();
 		ExtracteurFormations command = new ExtracteurFormations();
-		try
-		{
-			CommandLine commandLine = new CommandLine(command);
-			commandLine.parse(args);
-			if (commandLine.isVersionHelpRequested())
-			{
-			    commandLine.printVersionHelp(System.out, Ansi.ON);
-			    return;
-			}
-			if (commandLine.isUsageHelpRequested())
-			{
-			    commandLine.usage(System.out, Ansi.ON);
-			    return;
-			}
-		}
-		catch(PicocliException e)
-		{
-			System.out.println("Erreur : " + e.getMessage());
-			CommandLine.usage(command, System.out, Ansi.ON);
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-		AnsiConsole.systemUninstall();
+		command.go(args);
     }
 }

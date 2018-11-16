@@ -5,18 +5,14 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.time.Instant;
 
-import org.fusesource.jansi.AnsiConsole;
 import org.jdom2.JDOMException;
 import org.leplan73.outilssgdf.ExtracteurHtml;
 import org.leplan73.outilssgdf.ExtractionException;
 import org.leplan73.outilssgdf.intranet.ExtractionFormations;
 import org.leplan73.outilssgdf.intranet.ExtractionMain;
 
-import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
-import picocli.CommandLine.PicocliException;
-import picocli.CommandLine.Help.Ansi;
 
 @Command(name = "GenerateurFormations", mixinStandardHelpOptions = true, versionProvider = CommonParamsG.class)
 public class GenerateurFormations extends CommonParamsIntranet {
@@ -26,7 +22,8 @@ public class GenerateurFormations extends CommonParamsIntranet {
 	
 	@Option(names = "-sortie", required=true, description = "sortie")
 	private String sortie = "";
-	
+
+	@Override
 	public void run()
 	{
 		Instant now = Instant.now();
@@ -85,32 +82,7 @@ public class GenerateurFormations extends CommonParamsIntranet {
 	}
 	
 	public static void main(String[] args) {
-		AnsiConsole.systemInstall();
 		GenerateurFormations command = new GenerateurFormations();
-		try
-		{
-			CommandLine commandLine = new CommandLine(command);
-			commandLine.parse(args);
-			if (commandLine.isVersionHelpRequested())
-			{
-			    commandLine.printVersionHelp(System.out, Ansi.ON);
-			    return;
-			}
-			if (commandLine.isUsageHelpRequested())
-			{
-			    commandLine.usage(System.out, Ansi.ON);
-			    return;
-			}
-		}
-		catch(PicocliException e)
-		{
-			System.out.println("Erreur : " + e.getMessage());
-			CommandLine.usage(command, System.out, Ansi.ON);
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-		AnsiConsole.systemUninstall();
+		command.go(args);
     }
 }

@@ -12,7 +12,6 @@ import java.util.TreeMap;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.fusesource.jansi.AnsiConsole;
 import org.jdom2.JDOMException;
 import org.leplan73.outilssgdf.ExtracteurExtraHtml;
 import org.leplan73.outilssgdf.ExtracteurHtml;
@@ -24,11 +23,8 @@ import org.leplan73.outilssgdf.extraction.AdherentForme.ExtraKey;
 import com.jcabi.manifests.Manifests;
 
 import net.sf.jett.transform.ExcelTransformer;
-import picocli.CommandLine;
 import picocli.CommandLine.Command;
-import picocli.CommandLine.Help.Ansi;
 import picocli.CommandLine.Option;
-import picocli.CommandLine.PicocliException;
 
 @Command(name = "Analyseur", mixinStandardHelpOptions = true, versionProvider = CommonParamsG.class)
 public class AnalyseurAdherents extends CommonParamsG {
@@ -47,7 +43,8 @@ public class AnalyseurAdherents extends CommonParamsG {
 	
 	@Option(names = "-age", description = "Gère l'âge des adhérents (Valeur par défaut: ${DEFAULT-VALUE})")
 	protected boolean age = false;
-	
+
+	@Override
 	public void run() throws IOException, ExtractionException, JDOMException, InvalidFormatException
 	{
 		Instant now = Instant.now();
@@ -123,32 +120,7 @@ public class AnalyseurAdherents extends CommonParamsG {
 	}
 	
 	public static void main(String[] args) {
-		AnsiConsole.systemInstall();
 		AnalyseurAdherents command = new AnalyseurAdherents();
-		try
-		{
-			CommandLine commandLine = new CommandLine(command);
-			commandLine.parse(args);
-			if (commandLine.isVersionHelpRequested())
-			{
-			    commandLine.printVersionHelp(System.out, Ansi.ON);
-			    return;
-			}
-			if (commandLine.isUsageHelpRequested())
-			{
-			    commandLine.usage(System.out, Ansi.ON);
-			    return;
-			}
-		}
-		catch(PicocliException e)
-		{
-			System.out.println("Erreur : " + e.getMessage());
-			CommandLine.usage(command, System.out, Ansi.ON);
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-		AnsiConsole.systemUninstall();
+		command.go(args);
     }
 }

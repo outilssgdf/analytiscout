@@ -12,7 +12,6 @@ import java.util.TreeMap;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.fusesource.jansi.AnsiConsole;
 import org.jdom2.JDOMException;
 import org.leplan73.outilssgdf.ExtracteurExtraHtml;
 import org.leplan73.outilssgdf.ExtracteurHtml;
@@ -20,17 +19,13 @@ import org.leplan73.outilssgdf.ExtractionException;
 import org.leplan73.outilssgdf.calcul.General;
 import org.leplan73.outilssgdf.calcul.Global;
 import org.leplan73.outilssgdf.extraction.AdherentForme.ExtraKey;
+import org.leplan73.outilssgdf.extraction.AdherentFormes;
 
 import com.jcabi.manifests.Manifests;
 
-import org.leplan73.outilssgdf.extraction.AdherentFormes;
-
 import net.sf.jett.transform.ExcelTransformer;
-import picocli.CommandLine;
 import picocli.CommandLine.Command;
-import picocli.CommandLine.Help.Ansi;
 import picocli.CommandLine.Option;
-import picocli.CommandLine.PicocliException;
 
 @Command(name = "Analyseur", mixinStandardHelpOptions = true, versionProvider = CommonParamsG.class)
 public class Analyseur extends CommonParamsG {
@@ -50,6 +45,7 @@ public class Analyseur extends CommonParamsG {
 	@Option(names = "-age", description = "Gère l'âge des adhérents (Valeur par défaut: ${DEFAULT-VALUE})")
 	protected boolean age = false;
 	
+	@Override
 	public void run() throws IOException, ExtractionException, JDOMException, InvalidFormatException
 	{
 		Instant now = Instant.now();
@@ -129,33 +125,7 @@ public class Analyseur extends CommonParamsG {
 	}
 	
 	public static void main(String[] args) {
-		AnsiConsole.systemInstall();
 		Analyseur command = new Analyseur();
-		try
-		{
-			CommandLine commandLine = new CommandLine(command);
-			commandLine.parse(args);
-			if (commandLine.isVersionHelpRequested())
-			{
-			    commandLine.printVersionHelp(System.out, Ansi.ON);
-			    return;
-			}
-			if (commandLine.isUsageHelpRequested())
-			{
-			    commandLine.usage(System.out, Ansi.ON);
-			    return;
-			}
-	        command.run();
-		}
-		catch(PicocliException e)
-		{
-			System.out.println("Erreur : " + e.getMessage());
-			CommandLine.usage(command, System.out, Ansi.ON);
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-		AnsiConsole.systemUninstall();
+		command.go(args);
     }
 }

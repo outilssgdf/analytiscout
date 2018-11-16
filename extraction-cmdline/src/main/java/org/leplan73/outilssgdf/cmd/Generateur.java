@@ -9,7 +9,6 @@ import java.nio.charset.Charset;
 import java.time.Instant;
 import java.util.zip.ZipOutputStream;
 
-import org.fusesource.jansi.AnsiConsole;
 import org.jdom2.JDOMException;
 import org.leplan73.outilssgdf.ExtracteurHtml;
 import org.leplan73.outilssgdf.ExtractionException;
@@ -17,18 +16,16 @@ import org.leplan73.outilssgdf.formatage.GmailCsvFormatteur;
 import org.leplan73.outilssgdf.intranet.ExtractionAdherents;
 import org.leplan73.outilssgdf.intranet.ExtractionMain;
 
-import picocli.CommandLine;
 import picocli.CommandLine.Command;
-import picocli.CommandLine.Help.Ansi;
 import picocli.CommandLine.Option;
-import picocli.CommandLine.PicocliException;
 
 @Command(name = "Generateur", mixinStandardHelpOptions = true, versionProvider = CommonParamsG.class)
 public class Generateur extends CommonParamsIntranet {
 
 	@Option(names = "-sortie", required=true, description = "Fichier de sortie")
 	private File sortie;
-	
+
+	@Override
 	public void run()
 	{
 		Instant now = Instant.now();
@@ -84,32 +81,7 @@ public class Generateur extends CommonParamsIntranet {
 	}
 	
 	public static void main(String[] args) {
-		AnsiConsole.systemInstall();
 		Generateur command = new Generateur();
-		try
-		{
-			CommandLine commandLine = new CommandLine(command);
-			commandLine.parse(args);
-			if (commandLine.isVersionHelpRequested())
-			{
-			    commandLine.printVersionHelp(System.out, Ansi.ON);
-			    return;
-			}
-			if (commandLine.isUsageHelpRequested())
-			{
-			    commandLine.usage(System.out, Ansi.ON);
-			    return;
-			}
-		}
-		catch(PicocliException e)
-		{
-			System.out.println("Erreur : " + e.getMessage());
-			CommandLine.usage(command, System.out, Ansi.ON);
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-		AnsiConsole.systemUninstall();
+		command.go(args);
     }
 }

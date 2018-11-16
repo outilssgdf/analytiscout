@@ -2,8 +2,8 @@
 <launch4jConfig>
   <dontWrapJar>false</dontWrapJar>
   <headerType>console</headerType>
-  <jar>target\outilssgdf-jar-with-dependencies.jar</jar>
-  <outfile>bin-windows\sgdf-extraction_formations.exe</outfile>
+  <jar>..\target\outilssgdf-jar-with-dependencies.jar</jar>
+  <outfile>..\bin-windows\sgdf-analyser.exe</outfile>
   <errTitle></errTitle>
   <cmdLine></cmdLine>
   <chdir>.</chdir>
@@ -15,14 +15,14 @@
   <manifest></manifest>
   <icon></icon>
   <classPath>
-    <mainClass>org.leplan73.outilssgdf.cmd.ExtracteurFormations</mainClass>
+    <mainClass>org.leplan73.outilssgdf.cmd.Analyseur</mainClass>
   </classPath>
   <jre>
     <path></path>
     <bundledJre64Bit>false</bundledJre64Bit>
     <bundledJreAsFallback>false</bundledJreAsFallback>
     <minVersion>1.7</minVersion>
-    <maxVersion></maxVersion>
+    <maxVersion>1.8</maxVersion>
     <jdkPreference>preferJre</jdkPreference>
     <runtimeBits>64/32</runtimeBits>
   </jre>

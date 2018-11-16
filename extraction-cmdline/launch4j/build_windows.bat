@@ -5,3 +5,4 @@
 "C:\Program Files (x86)\Launch4j\launch4jc.exe" extraction_batch.xml
 "C:\Program Files (x86)\Launch4j\launch4jc.exe" extraction_formations.xml
 "C:\Program Files (x86)\Launch4j\launch4jc.exe" generateur.xml
+"C:\Program Files (x86)\Launch4j\launch4jc.exe" generateur_formations.xml

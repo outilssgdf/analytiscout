@@ -18,13 +18,13 @@
 		<dependency>
 			<groupId>org.leplan73</groupId>
 			<artifactId>extraction-convertisseur</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${project.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.leplan73</groupId>
 			<artifactId>extraction-servlet</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${project.version}</version>
 			<classifier>classes</classifier>
 		</dependency>
 

@@ -20,6 +20,9 @@ import org.leplan73.outilssgdf.ExtractionException;
 import org.leplan73.outilssgdf.calcul.General;
 import org.leplan73.outilssgdf.calcul.Global;
 import org.leplan73.outilssgdf.extraction.AdherentForme.ExtraKey;
+
+import com.jcabi.manifests.Manifests;
+
 import org.leplan73.outilssgdf.extraction.AdherentFormes;
 
 import net.sf.jett.transform.ExcelTransformer;
@@ -101,7 +104,7 @@ public class Analyseur extends CommonParamsG {
 		AdherentFormes compas = new AdherentFormes();
 		compas.charge(adherents,extraMap);
 		
-		General general = new General();
+		General general = new General(Manifests.read("version"));
 		Global global = new Global(adherents.getGroupe(), adherents.getMarins());
 		adherents.calculGlobal(global);
 

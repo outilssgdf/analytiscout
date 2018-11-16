@@ -18,7 +18,12 @@ import org.jdom2.JDOMException;
 import org.leplan73.outilssgdf.ExtracteurExtraHtml;
 import org.leplan73.outilssgdf.ExtracteurHtml;
 import org.leplan73.outilssgdf.ExtractionException;
+import org.leplan73.outilssgdf.calcul.General;
+import org.leplan73.outilssgdf.calcul.Global;
 import org.leplan73.outilssgdf.extraction.AdherentForme.ExtraKey;
+
+import com.jcabi.manifests.Manifests;
+
 import org.leplan73.outilssgdf.extraction.AdherentFormes;
 
 import net.sf.jett.transform.ExcelTransformer;
@@ -98,6 +103,10 @@ public class AnalyserFormations extends CommonParamsG {
 		 
 		 AdherentFormes chefs = new AdherentFormes();
 		 chefs.charge(adherents,map);
+			
+		General general = new General(Manifests.read("version"));
+		Global global = new Global(adherents.getGroupe(), adherents.getMarins());
+		adherents.calculGlobal(global);
 
 		FileOutputStream outputStream = new FileOutputStream(sortie);
 
@@ -106,6 +115,8 @@ public class AnalyserFormations extends CommonParamsG {
 		Map<String, Object> beans = new HashMap<String, Object>();
 		beans.put("chefs", adherents.getChefsList());
 		beans.put("unites", adherents.getUnitesList());
+		beans.put("general", general);
+		beans.put("global", global);
 		beans.put("formations", formations);
 		Workbook workbook = trans.transform(new FileInputStream(modele), beans);
 		workbook.write(outputStream);

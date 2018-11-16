@@ -21,6 +21,8 @@ import org.leplan73.outilssgdf.calcul.General;
 import org.leplan73.outilssgdf.calcul.Global;
 import org.leplan73.outilssgdf.extraction.AdherentForme.ExtraKey;
 
+import com.jcabi.manifests.Manifests;
+
 import net.sf.jett.transform.ExcelTransformer;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
@@ -97,8 +99,9 @@ public class AnalyseurAdherents extends CommonParamsG {
 		Logging.logger_.info("Chargement du fichier \""+fichierAdherents.getName()+"\"");
 		ExtracteurHtml adherents = new ExtracteurHtml(fichierAdherents, extraMap,age);
 		
-		General general = new General();
+		General general = new General(Manifests.read("version"));
 		Global global = new Global(adherents.getGroupe(), adherents.getMarins());
+		adherents.calculGlobal(global);
 
 		FileOutputStream outputStream = new FileOutputStream(sortie);
 

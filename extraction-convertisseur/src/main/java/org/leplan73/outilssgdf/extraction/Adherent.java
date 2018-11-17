@@ -169,9 +169,8 @@ public class Adherent {
 	private int extraitCode()
 	{
 		String code = this.get(colonnes_.getFonctionCodeId());
-		if (code.endsWith("M"))
-			code = code.substring(0, 3);
-		if (code.endsWith("L"))
+		char lcode = code.charAt(code.length()-1);
+		if (lcode > 'A')
 			code = code.substring(0, 3);
 		return Integer.valueOf(code);
 	}
@@ -195,7 +194,7 @@ public class Adherent {
 					diff = diff/(3600*365*24);
 					age_ = diff;
 					
-					Date debutFindDec = simpleDateFormat.parse(Params.get(Consts.DATE_LIMITE_JEUNE, Consts.DATE_LIMITE_JEUNE));
+					Date debutFindDec = simpleDateFormat.parse(Params.get(Consts.PROPERTY_DATE_LIMITE_JEUNE, Consts.DATE_LIMITE_JEUNE));
 					long diffFindDec = ((debutFindDec.getTime() - dn.getTime())/1000);
 					diffFindDec = diffFindDec/(3600*365*24);
 					ageFinDec_ = diffFindDec;

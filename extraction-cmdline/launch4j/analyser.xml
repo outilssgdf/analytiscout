@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch4jConfig>
-  <dontWrapJar>false</dontWrapJar>
+  <dontWrapJar>true</dontWrapJar>
   <headerType>console</headerType>
-  <jar>..\target\outilssgdf-jar-with-dependencies.jar</jar>
+  <jar>app\outilssgdf-jar-with-dependencies.jar</jar>
   <outfile>..\bin-windows\sgdf-analyser.exe</outfile>
   <errTitle></errTitle>
   <cmdLine></cmdLine>

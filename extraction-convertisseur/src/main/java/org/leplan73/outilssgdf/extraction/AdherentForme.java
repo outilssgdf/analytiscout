@@ -404,12 +404,6 @@ public class AdherentForme extends Adherent {
 		});
 	}
 	
-	@Override
-	public String toString()
-	{
-		return getPrenom() + " - " + getNom();
-	}
-	
 	public Qualification getQualif(String nom)
 	{
 		Qualification f = qualifs_.get(nom);

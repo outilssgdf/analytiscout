@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>org.leplan73</groupId>
 		<artifactId>outilssgdf</artifactId>
-		<version>0.0.1</version>
+		<version>0.0.2</version>
 	</parent>
 	<artifactId>extraction-embeddedtomcat</artifactId>
 	<name>extraction-embeddedtomcat</name>
@@ -20,33 +20,27 @@
 			<artifactId>extraction-convertisseur</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.leplan73</groupId>
 			<artifactId>extraction-servlet</artifactId>
 			<version>${project.version}</version>
 			<classifier>classes</classifier>
 		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/org.apache.tomcat.embed/tomcat-embed-core -->
 		<dependency>
 			<groupId>org.apache.tomcat.embed</groupId>
 			<artifactId>tomcat-embed-core</artifactId>
 			<version>${tomcat.version}</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-jul -->
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-jul</artifactId>
 			<version>${log4j.version}</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-slf4j-impl -->
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-slf4j-impl</artifactId>
 			<version>${log4j.version}</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.sun.el/el-ri -->
 		<dependency>
 			<groupId>com.sun.el</groupId>
 			<artifactId>el-ri</artifactId>

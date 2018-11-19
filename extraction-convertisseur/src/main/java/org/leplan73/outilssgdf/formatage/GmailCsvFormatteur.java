@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.zip.ZipOutputStream;
 
 import org.apache.commons.csv.CSVFormat;
@@ -20,7 +21,7 @@ import org.leplan73.outilssgdf.outils.SmartStream;
 
 public class GmailCsvFormatteur {
 	
-	protected void listeEmailFichier(Colonnes colonnes, Adherents adherents, Unite unite, File dir, String fichier, ZipOutputStream zout) throws IOException
+	private void listeEmailFichier(Colonnes colonnes, Adherents adherents, Unite unite, File dir, String fichier, ZipOutputStream zout) throws IOException
 	{
 		SmartStream sstream = new SmartStream(dir, fichier, zout);
 		PrintStream os = sstream.getStream();
@@ -31,7 +32,7 @@ public class GmailCsvFormatteur {
 		sstream.close();
 	}
 	
-	protected void listeEmailChefsFichier(Colonnes colonnes, Adherents adherents, Unite unite, File dir, String fichier, ZipOutputStream zout) throws IOException {
+	private void listeEmailChefsFichier(Colonnes colonnes, Adherents adherents, Unite unite, File dir, String fichier, ZipOutputStream zout) throws IOException {
 		SmartStream sstream = new SmartStream(dir, fichier, zout);
 		PrintStream os = sstream.getStream();
 		adherents.forEach((id,adherent) ->
@@ -41,7 +42,7 @@ public class GmailCsvFormatteur {
 		sstream.close();
 	}
 
-	protected void listeChefsCsv(Colonnes colonnes, Adherents adherents, File dir, ZipOutputStream zout) throws IOException {
+	private void listeChefsCsv(Colonnes colonnes, Adherents adherents, File dir, ZipOutputStream zout) throws IOException {
 		SmartStream sstream = new SmartStream(dir, "maitrises.csv", zout);
 		PrintStream os = sstream.getStream();
 		
@@ -58,11 +59,24 @@ public class GmailCsvFormatteur {
 		sstream.close();
 	}
 
-	protected boolean listeParent(Colonnes colonnes, final Parent parent, final Unite unite, Adherents adherents, int type, CSVPrinter out) throws IOException {
+	private boolean listeParent(Colonnes colonnes, final Parent parent, final Unite unite, Adherents adherents, int type, CSVPrinter out) throws IOException {
 		Map.Entry<Integer, Adherent> premierEnfant = parent.firstEntry();
-		if (unite == null || unite.compareTo(premierEnfant.getValue().getUnite()) == 0)
+		if (unite == null)
 			return parent.afficheParentsCvs(colonnes, premierEnfant.getValue(), parent.getUnitesEnfants(), parent.getType(), out);
-		return false;
+		
+		AtomicInteger v = new AtomicInteger(0);
+		parent.forEach((code, enfant) ->
+		{
+			if (unite.compareTo(enfant.getUnite()) == 0)
+			{
+				try {
+					parent.afficheParentsCvs(colonnes, enfant, parent.getUnitesEnfants(), parent.getType(), out);
+					v.set(1);
+				} catch (IOException e) {
+				}
+			}
+		});
+		return (v.get() == 1);
 	}
 	
 	private void listeParentEmail(Colonnes colonnes, final Parent parent, final Unite unite, Adherents adherents, PrintStream out) {
@@ -72,14 +86,14 @@ public class GmailCsvFormatteur {
 		});
 	}
 
-	protected void listeParentsEmail(Colonnes colonnes, Adherents adherents, Parents parents, Unite unite, File dir, ZipOutputStream zout) throws IOException {
+	private void listeParentsEmail(Colonnes colonnes, Adherents adherents, Parents parents, Unite unite, File dir, ZipOutputStream zout) throws IOException {
 		SmartStream sstream = new SmartStream(dir, "parents.txt", zout);
 		PrintStream os = sstream.getStream();
 		parents.forEach((code,parent) -> listeParentEmail(colonnes, parent, unite, adherents, os));
 		sstream.close();
 	}
 	
-	protected void listeEnfantsCsv(Colonnes colonnes, Adherents adherents, Parents parents, Unite unite, File dir, ZipOutputStream zout) throws IOException {
+	private void listeEnfantsCsv(Colonnes colonnes, Adherents adherents, Parents parents, Unite unite, File dir, ZipOutputStream zout) throws IOException {
 		SmartStream sstream = new SmartStream(dir, unite.getNom()+"_enfants.csv", zout);
 		PrintStream os = sstream.getStream();
 		final CSVPrinter out = CSVFormat.DEFAULT.withHeader("Name","Given Name","Family Name","Group Membership","E-mail 1 - Value","Phone 1 - Type","Phone 1 - Value").print(os);
@@ -98,7 +112,7 @@ public class GmailCsvFormatteur {
 		sstream.close();
 	}
 
-	protected void listeCsv(Colonnes colonnes, Adherents adherents, Parents parents, Unite unite, File dir, ZipOutputStream zout) throws IOException {
+	private void listeCsv(Colonnes colonnes, Adherents adherents, Parents parents, Unite unite, File dir, ZipOutputStream zout) throws IOException {
 		SmartStream sstream = new SmartStream(dir, unite == null ? "tout.csv" : unite.getNom()+"_parents.csv", zout);
 		PrintStream os = sstream.getStream();
 		final CSVPrinter out = CSVFormat.DEFAULT.withHeader("Name","Given Name","Family Name","Group Membership","E-mail 1 - Value","Phone 1 - Type","Phone 1 - Value").print(os);

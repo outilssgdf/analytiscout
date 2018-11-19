@@ -49,6 +49,12 @@ public class Adherent {
 		return code_;
 	}
 	
+	@Override
+	public String toString()
+	{
+		return getPrenom() + " - " + getNom();
+	}
+	
 	public Integer getCode()
 	{
 		return code_;

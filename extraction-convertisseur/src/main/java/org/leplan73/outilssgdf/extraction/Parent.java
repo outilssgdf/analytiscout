@@ -26,9 +26,12 @@ public class Parent extends TreeMap<Integer,Adherent>
 		
 		if (nom != null && prenom != null)
 		{
-			code_ = (nom + ":" + prenom);
-			this.put(adherent.hashCode(), adherent);
-			return true;
+			if (nom.length() > 0 && prenom.length() > 0)
+			{
+				code_ = (nom + ":" + prenom);
+				this.put(adherent.hashCode(), adherent);
+				return true;
+			}
 		}
 		return false;
 	}

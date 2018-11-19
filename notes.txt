@@ -1,0 +1,6 @@
+Note de version pour l'outils d’extraction et d'analyse de l’intranet Scouts et Guides de France
+
+Version 0.0.1 : Version initiale
+
+En cours :
+	- Corrections pour l'outil de génération d'archive 

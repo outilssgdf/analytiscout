@@ -45,8 +45,6 @@ public class ExtracteurBatch extends CommonParamsIntranet {
 	public void run() {
 		checkParams();
 		
-		Logging.initLogger(ExtracteurBatch.class, debug);
-		
 		Logging.logger_.info("Lancement");
 	    
 	    chargeParametres();
@@ -178,6 +176,6 @@ public class ExtracteurBatch extends CommonParamsIntranet {
 	
 	public static void main(String[] args) {
 		ExtracteurBatch command = new ExtracteurBatch();
-		command.go(args);
+		command.go(args, ExtracteurBatch.class);
     }
 }

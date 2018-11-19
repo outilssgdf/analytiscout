@@ -29,8 +29,6 @@ public class GenerateurFormations extends CommonParamsIntranet {
 		Instant now = Instant.now();
 		checkParams();
 		
-		Logging.initLogger(GenerateurFormations.class, debug);
-		
 		Logging.logger_.info("Lancement");
 	    
 	    chargeParametres();
@@ -78,6 +76,6 @@ public class GenerateurFormations extends CommonParamsIntranet {
 	
 	public static void main(String[] args) {
 		GenerateurFormations command = new GenerateurFormations();
-		command.go(args);
+		command.go(args, GenerateurFormations.class);
     }
 }

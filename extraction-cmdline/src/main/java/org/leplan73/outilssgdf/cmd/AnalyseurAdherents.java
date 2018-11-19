@@ -48,7 +48,6 @@ public class AnalyseurAdherents extends CommonParamsG {
 	public void run() throws IOException, ExtractionException, JDOMException, InvalidFormatException
 	{
 		Instant now = Instant.now();
-		Logging.initLogger(AnalyseurAdherents.class, debug);
 		
 		Logging.logger_.info("Lancement");
 	    
@@ -116,6 +115,6 @@ public class AnalyseurAdherents extends CommonParamsG {
 	
 	public static void main(String[] args) {
 		AnalyseurAdherents command = new AnalyseurAdherents();
-		command.go(args);
+		command.go(args, AnalyseurAdherents.class);
     }
 }

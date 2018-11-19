@@ -73,8 +73,6 @@ public class Extracteur extends CommonParamsIntranet {
 		Instant now = Instant.now();
 		checkParams();
 		
-		Logging.initLogger(Extracteur.class, debug);
-			
 		Logging.logger_.info("Lancement");
 	    
 	    chargeParametres();
@@ -165,6 +163,6 @@ public class Extracteur extends CommonParamsIntranet {
 	
 	public static void main(String[] args) {
 		Extracteur command = new Extracteur();
-		command.go(args);
+		command.go(args, Extracteur.class);
     }
 }

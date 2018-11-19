@@ -40,8 +40,9 @@ public class CommonParamsG implements IVersionProvider {
 	{
 	}
 	
-	protected void go(String[] args)
+	protected void go(String[] args, Class<?> classn)
 	{
+		Logging.initLogger(classn, debug);
 		try
 		{
 			CommandLine commandLine = new CommandLine(this);

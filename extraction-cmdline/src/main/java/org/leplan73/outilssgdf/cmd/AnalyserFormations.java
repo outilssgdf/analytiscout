@@ -50,7 +50,6 @@ public class AnalyserFormations extends CommonParamsG {
 	public void run()
 	{
 		Instant now = Instant.now();
-		Logging.initLogger(AnalyserFormations.class, debug);
 		
 		Logging.logger_.info("Lancement");
 	    
@@ -133,6 +132,6 @@ public class AnalyserFormations extends CommonParamsG {
 	
 	public static void main(String[] args) {
 		AnalyserFormations command = new AnalyserFormations();
-		command.go(args);
+		command.go(args, AnalyserFormations.class);
     }
 }

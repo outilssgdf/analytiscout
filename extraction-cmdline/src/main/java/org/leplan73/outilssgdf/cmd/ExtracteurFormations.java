@@ -45,8 +45,6 @@ public class ExtracteurFormations extends CommonParamsIntranet {
 	public void run() {
 		checkParams();
 		
-		Logging.initLogger(ExtracteurFormations.class, debug);
-		
 		Logging.logger_.info("Lancement");
 	    
 	    chargeParametres();
@@ -178,6 +176,6 @@ public class ExtracteurFormations extends CommonParamsIntranet {
 	
 	public static void main(String[] args) {
 		ExtracteurFormations command = new ExtracteurFormations();
-		command.go(args);
+		command.go(args, ExtracteurFormations.class);
     }
 }

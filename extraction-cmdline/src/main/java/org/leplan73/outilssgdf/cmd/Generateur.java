@@ -32,8 +32,6 @@ public class Generateur extends CommonParamsIntranet {
 		
 		checkParams();
 		
-		Logging.initLogger(Generateur.class, debug);
-		
 		Logging.logger_.info("Lancement");
 	    
 	    chargeParametres();
@@ -77,6 +75,6 @@ public class Generateur extends CommonParamsIntranet {
 	
 	public static void main(String[] args) {
 		Generateur command = new Generateur();
-		command.go(args);
+		command.go(args, Generateur.class);
     }
 }

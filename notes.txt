@@ -4,4 +4,6 @@ Version 0.0.1 : Version initiale
 
 En cours :
 	- Correction du générateur pour l'extraction des parents
-	- Correction du logger avec l'option -V 
+	- Correction du logger avec l'option -V
+	- Utilisation d'une seule ligne de command avec plusieurs sous-commandes (plus simple)
+	- Interface graphique (yeah !)

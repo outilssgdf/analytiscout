@@ -34,9 +34,9 @@
 		<jcabi.version>1.1</jcabi.version>
 	</properties>
 	<modules>
-		<module>extraction-servlet</module>
-		<module>extraction-embeddedtomcat</module>
-		<module>extraction-convertisseur</module>
-		<module>extraction-cmdline</module>
+		<module>servlet</module>
+		<module>embeddedtomcat</module>
+		<module>convertisseur</module>
+		<module>app</module>
   </modules>
 </project>

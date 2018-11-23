@@ -7,3 +7,4 @@ En cours :
 	- Correction du logger avec l'option -V
 	- Utilisation d'une seule ligne de command avec plusieurs sous-commandes (plus simple)
 	- Interface graphique (yeah !)
+	- Ajout de l'age au camp (au 1er juillet de l'année)

@@ -25,9 +25,9 @@ public class Adherent {
 	protected String codeMaman_;
 	protected String unite_;
 	protected Colonnes colonnes_;
-	protected long age_ = -1;
-	protected long ageFinDec_ = -1;
-	protected long ageCamp_ = -1;
+	protected float age_ = -1;
+	protected float ageFinDec_ = -1;
+	protected float ageCamp_ = -1;
 	
 	public Adherent(Colonnes colonnes)
 	{
@@ -70,7 +70,7 @@ public class Adherent {
 		return unite_;
 	}
 	
-	public long getAge()
+	public float getAge()
 	{
 		return age_;
 	}
@@ -196,17 +196,17 @@ public class Adherent {
 				{
 					Date dn = simpleDateFormat.parse(date);
 					long aj = Instant.now().toEpochMilli();
-					long diff = ((aj - dn.getTime())/1000);
+					float diff = ((aj - dn.getTime())/1000);
 					diff = diff/(3600*365*24);
 					age_ = diff;
 					
 					Date debutFindDec = simpleDateFormat.parse(Params.get(Consts.PROPERTY_DATE_LIMITE_JEUNE, Consts.DATE_LIMITE_JEUNE));
-					long diffFindDec = ((debutFindDec.getTime() - dn.getTime())/1000);
+					float diffFindDec = ((debutFindDec.getTime() - dn.getTime())/1000);
 					diffFindDec = diffFindDec/(3600*365*24);
 					ageFinDec_ = diffFindDec;
 					
 					Date debutCamp = simpleDateFormat.parse(Params.get(Consts.PROPERTY_DATE_DEBUT_CAMP, Consts.DATE_DEBUT_CAMP));
-					long diffCamp = ((debutCamp.getTime() - dn.getTime())/1000);
+					float diffCamp = ((debutCamp.getTime() - dn.getTime())/1000);
 					diffCamp = diffCamp/(3600*365*24);
 					ageCamp_ = diffCamp;
 				}
@@ -257,6 +257,15 @@ public class Adherent {
 					if (ageCamp_ < 14) return "Non";
 				break;
 			}
+		}
+		return "Oui";
+	}
+	
+	public String getAge18ansokcamp()
+	{
+		if (this.getFonction() < Consts.CODE_COMPAS)
+		{
+			return ageCamp_ >= 18 ? "Oui" : "Non";
 		}
 		return "Oui";
 	}

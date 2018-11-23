@@ -35,7 +35,7 @@ public class AdherentForme extends Adherent {
 	}
 	
 	@Override
-	public long getAge()
+	public float getAge()
 	{
 		return ageCamp_;
 	}

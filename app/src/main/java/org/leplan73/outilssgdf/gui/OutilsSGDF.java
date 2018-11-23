@@ -377,6 +377,7 @@ public class OutilsSGDF extends JFrame {
 	
 	private boolean checkParams(int index)
 	{
+	    Logging.logger_.info("Vérification des paramètres");
 		if (index == 0)
 		{
 			if (txfStructure.getText().length() == 0)

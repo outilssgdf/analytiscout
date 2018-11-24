@@ -25,9 +25,9 @@ public class Adherent {
 	protected String codeMaman_;
 	protected String unite_;
 	protected Colonnes colonnes_;
-	protected float age_ = -1;
-	protected float ageFinDec_ = -1;
-	protected float ageCamp_ = -1;
+	protected double age_ = -1;
+	protected double ageFinDec_ = -1;
+	protected double ageCamp_ = -1;
 	
 	public Adherent(Colonnes colonnes)
 	{
@@ -70,7 +70,7 @@ public class Adherent {
 		return unite_;
 	}
 	
-	public float getAge()
+	public double getAge()
 	{
 		return age_;
 	}
@@ -201,13 +201,13 @@ public class Adherent {
 					age_ = diff;
 					
 					Date debutFindDec = simpleDateFormat.parse(Params.get(Consts.PROPERTY_DATE_LIMITE_JEUNE, Consts.DATE_LIMITE_JEUNE));
-					float diffFindDec = ((debutFindDec.getTime() - dn.getTime())/1000);
-					diffFindDec = diffFindDec/(3600*365*24);
+					double diffFindDec = ((debutFindDec.getTime() - dn.getTime())/1000);
+					diffFindDec = diffFindDec/(3600*365.25*24);
 					ageFinDec_ = diffFindDec;
 					
 					Date debutCamp = simpleDateFormat.parse(Params.get(Consts.PROPERTY_DATE_DEBUT_CAMP, Consts.DATE_DEBUT_CAMP));
-					float diffCamp = ((debutCamp.getTime() - dn.getTime())/1000);
-					diffCamp = diffCamp/(3600*365*24);
+					double diffCamp = ((debutCamp.getTime() - dn.getTime())/1000);
+					diffCamp = diffCamp/(3600*365.25*24);
 					ageCamp_ = diffCamp;
 				}
 			} catch (ParseException e) {

@@ -35,12 +35,6 @@ public class AdherentForme extends Adherent {
 	}
 	
 	@Override
-	public float getAge()
-	{
-		return ageCamp_;
-	}
-	
-	@Override
 	public String getAgeok()
 	{
 		if (ageCamp_ > 0)
@@ -462,6 +456,17 @@ public class AdherentForme extends Adherent {
 	public boolean getFormation_appro_test()
 	{
 		return (getFormations("appro_anim") + getFormations("appro_accueil") + getFormations("appro")) > 0;
+	}
+	
+	public int getQualiftitulaire()
+	{
+		return (getQualif("dirsf").getOk()||getQualif("animsf").getOk()) ? 1 : 0;
+	}
+	
+	public int getQualifs()
+	{
+		boolean qualifs = getQualif("dirsf").getOk() || getQualif("dirsf").getPasok()||getQualif("animsf").getOk()||getQualif("animsf").getPasok();
+		return qualifs ? 1 : 0;
 	}
 	
 	public int getQualif_animsf()

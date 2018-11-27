@@ -11,9 +11,6 @@
 	</parent>
 	<artifactId>cmd</artifactId>
 	<name>cmd</name>
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.leplan73</groupId>

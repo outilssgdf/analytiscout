@@ -5,6 +5,13 @@
 	<artifactId>outilssgdf</artifactId>
 	<version>0.0.2</version>
 	<url>https://github.com/sbouchex/outilssgdf</url>
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
 	<packaging>pom</packaging>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

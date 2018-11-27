@@ -11,9 +11,6 @@
 	</parent>
 	<artifactId>common</artifactId>
 	<name>common</name>
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
 	<dependencies>
 		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-compress -->
 		<dependency>

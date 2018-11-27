@@ -85,22 +85,40 @@
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<version>3.1.0</version>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.0.0-M1</version>
 				<configuration>
+					<skipTests>true</skipTests>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.4.1</version>
+				<configuration>
+					<finalName>outilssgdf-cmd</finalName>
+					<appendAssemblyId>false</appendAssemblyId>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
 					<archive>
-						<index>true</index>
 						<manifest>
-							<mainClass></mainClass>
+							<mainClass>org.leplan73.outilssgdf.cmd.CmdLine</mainClass>
 						</manifest>
 						<manifestEntries>
-							<url>${project.url}</url>
-							<nom>${project.artifactId}</nom>
 							<version>${project.version}</version>
-							<Build-Time>${maven.build.timestamp}</Build-Time>
 						</manifestEntries>
 					</archive>
 				</configuration>
+				<executions>
+					<execution>
+						<id>make-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

@@ -1,8 +1,0 @@
-Note de version pour l'outils d’extraction et d'analyse de l’intranet Scouts et Guides de France
-
-Version 0.0.1 : Version initiale
-Version 0.0.2 : 
-	- Correction du générateur pour l'extraction des parents
-	- Correction du logger avec l'option -V
-	- Utilisation d'une seule ligne de command avec plusieurs sous-commandes (plus simple)
-	- Ajout de l'age au camp (au 1er juillet de l'année)

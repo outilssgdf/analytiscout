@@ -51,8 +51,10 @@
 					<descriptors>
 						<descriptor>src/main/assembly/package.xml</descriptor>
 					</descriptors>
-					  <finalName>outilssgdf-${project.version}</finalName>
-					  <appendAssemblyId>false</appendAssemblyId>
+					<finalName>
+						outilssgdf-${project.version}
+					</finalName>
+					<appendAssemblyId>false</appendAssemblyId>
 				</configuration>
 				<executions>
 					<execution>

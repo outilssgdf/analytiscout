@@ -6,11 +6,6 @@
     <format>zip</format>
   </formats>
   <baseDirectory>outilssgdf</baseDirectory>
-  <dependencySets>
-    <dependencySet>
-      <outputDirectory>app</outputDirectory>
-    </dependencySet>
-  </dependencySets>
   <files>
     <file>
       <source>../LICENSE</source>
@@ -21,7 +16,7 @@
       <outputDirectory>.</outputDirectory>
     </file>
     <file>
-      <source>../fichiers/notes.txt</source>
+      <source>../notes.txt</source>
       <outputDirectory>.</outputDirectory>
     </file>
     <file>
@@ -31,6 +26,14 @@
     <file>
       <source>../fichiers/documentation.docx</source>
       <outputDirectory>.</outputDirectory>
+    </file>
+    <file>
+      <source>../cmd/target/outilssgdf-cmd.jar</source>
+      <outputDirectory>./app</outputDirectory>
+    </file>
+    <file>
+      <source>../gui/target/outilssgdf-gui.jar</source>
+      <outputDirectory>./app</outputDirectory>
     </file>
   </files>
   <fileSets>

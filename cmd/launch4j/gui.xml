@@ -2,8 +2,8 @@
 <launch4jConfig>
   <dontWrapJar>true</dontWrapJar>
   <headerType>gui</headerType>
-  <jar>app\outilssgdf-jar-with-dependencies.jar</jar>
-  <outfile>..\bin-windows\outilssgdf-gui.exe</outfile>
+  <jar>app/outilssgdf-gui.jar</jar>
+  <outfile>outilssgdf-gui.exe</outfile>
   <errTitle></errTitle>
   <cmdLine></cmdLine>
   <chdir>.</chdir>

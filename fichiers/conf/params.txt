@@ -1,0 +1,5 @@
+# Identifiant intranet SGDF
+identifiant=
+
+# Mot de passe intranet SGDF
+motdepasse=

@@ -5,15 +5,38 @@
   <formats>
     <format>zip</format>
   </formats>
+  <baseDirectory>outilssgdf</baseDirectory>
   <dependencySets>
     <dependencySet>
-      <outputDirectory>/app</outputDirectory>
+      <outputDirectory>app</outputDirectory>
     </dependencySet>
   </dependencySets>
   <files>
     <file>
       <source>../LICENSE</source>
-      <outputDirectory>/</outputDirectory>
+      <outputDirectory>.</outputDirectory>
+    </file>
+    <file>
+      <source>../fichiers/outilssgdf.exe</source>
+      <outputDirectory>.</outputDirectory>
+    </file>
+    <file>
+      <source>../fichiers/notes.txt</source>
+      <outputDirectory>.</outputDirectory>
+    </file>
+    <file>
+      <source>../fichiers/exemples.txt</source>
+      <outputDirectory>.</outputDirectory>
+    </file>
+    <file>
+      <source>../fichiers/documentation.docx</source>
+      <outputDirectory>.</outputDirectory>
     </file>
   </files>
+  <fileSets>
+  <fileSet>
+    <directory>../fichiers/conf</directory>
+    <outputDirectory>./conf</outputDirectory>
+  </fileSet>
+</fileSets>
 </assembly>

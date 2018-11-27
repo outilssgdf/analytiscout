@@ -1,0 +1,14 @@
+generateur.1=xml
+format.1=2
+categorie.1=1
+nom.1=tout
+
+generateur.2=xml
+format.2=2
+fonction.2=140
+nom.2=compas
+
+generateur.3=xml
+format.3=2
+nom.3=compas_marins
+fonction.3=140M

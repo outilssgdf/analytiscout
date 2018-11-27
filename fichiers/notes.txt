@@ -5,10 +5,4 @@ Version 0.0.2 :
 	- Correction du générateur pour l'extraction des parents
 	- Correction du logger avec l'option -V
 	- Utilisation d'une seule ligne de command avec plusieurs sous-commandes (plus simple)
-	- Ajout de l'âge au camp (au 1er juillet de l'année)
-Version 0.0.3 :
-	- Correction d'affichage de l'âge quand -age=false
-	- Ré-organisation des loggers 
-
-En cours :
-	- Interface graphique (yeah !)
+	- Ajout de l'age au camp (au 1er juillet de l'année)

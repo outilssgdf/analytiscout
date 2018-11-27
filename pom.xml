@@ -37,7 +37,9 @@
 	<modules>
 		<module>servlet</module>
 		<module>embeddedtomcat</module>
-		<module>convertisseur</module>
-		<module>app</module>
+		<module>common</module>
+		<module>cmd</module>
+		<module>gui</module>
+    <module>assembly</module>
   </modules>
 </project>

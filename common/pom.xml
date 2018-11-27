@@ -9,8 +9,8 @@
 		<artifactId>outilssgdf</artifactId>
 		<version>0.0.2</version>
 	</parent>
-	<artifactId>convertisseur</artifactId>
-	<name>convertisseur</name>
+	<artifactId>common</artifactId>
+	<name>common</name>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>

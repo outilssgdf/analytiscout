@@ -17,12 +17,12 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.leplan73</groupId>
-			<artifactId>extraction-convertisseur</artifactId>
+			<artifactId>common</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.leplan73</groupId>
-			<artifactId>extraction-servlet</artifactId>
+			<artifactId>servlet</artifactId>
 			<version>${project.version}</version>
 			<classifier>classes</classifier>
 		</dependency>

@@ -53,6 +53,10 @@ import org.leplan73.outilssgdf.extraction.AdherentFormes;
 import com.jcabi.manifests.Manifests;
 
 import net.sf.jett.transform.ExcelTransformer;
+import java.awt.FlowLayout;
+import javax.swing.JPopupMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JRadioButton;
 
 public class OutilsSGDF extends JFrame {
 
@@ -63,15 +67,22 @@ public class OutilsSGDF extends JFrame {
 	private JFileChooser entreeFileChooser;
 	private JFileChooser modeleFileChooser;
 	private JFileChooser sortieFileChooser;
-	
 	private JCheckBox chckbxNewCheckBox;
+	private JTextField textField;
+	private JTextField textField_1;
+	
+	
+	
+	
+	static private OutilsSGDF frame_;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-//		UIManager.setLookAndFeel(useopenjdk ? "javax.swing.plaf.nimbus.NimbusLookAndFeel" : "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+		Logging.initLogger(OutilsSGDF.class, true);
 		try {
+//			UIManager.setLookAndFeel(useopenjdk ? "javax.swing.plaf.nimbus.NimbusLookAndFeel" : "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
 			UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
 		} catch (ClassNotFoundException e1) {
 		} catch (InstantiationException e1) {
@@ -81,8 +92,8 @@ public class OutilsSGDF extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					OutilsSGDF frame = new OutilsSGDF();
-					frame.setVisible(true);
+					frame_ = new OutilsSGDF();
+					frame_.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -94,8 +105,7 @@ public class OutilsSGDF extends JFrame {
 	 * Create the frame.
 	 */
 	public OutilsSGDF() {
-		Logging.initLogger(this.getClass(), true);
-		
+		setTitle("Outils SGDF v"+Manifests.read("version"));
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 630, 569);
@@ -111,13 +121,95 @@ public class OutilsSGDF extends JFrame {
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		panel_1.add(tabbedPane);
 		
+		JPanel panel_11 = new JPanel();
+		tabbedPane.addTab("Extracteur", null, panel_11, null);
+		GridBagLayout gbl_panel_11 = new GridBagLayout();
+		gbl_panel_11.columnWidths = new int[]{0, 0};
+		gbl_panel_11.rowHeights = new int[]{0, 0, 297, 0, 0};
+		gbl_panel_11.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+		gbl_panel_11.rowWeights = new double[]{1.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
+		panel_11.setLayout(gbl_panel_11);
+		
+		JPanel panel_13 = new JPanel();
+		panel_13.setBorder(new TitledBorder(null, "Identifiants Intranet", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		GridBagConstraints gbc_panel_13 = new GridBagConstraints();
+		gbc_panel_13.insets = new Insets(0, 0, 5, 0);
+		gbc_panel_13.fill = GridBagConstraints.BOTH;
+		gbc_panel_13.gridx = 0;
+		gbc_panel_13.gridy = 0;
+		panel_11.add(panel_13, gbc_panel_13);
+		panel_13.setLayout(new BoxLayout(panel_13, BoxLayout.X_AXIS));
+		
+		JPanel panel_14 = new JPanel();
+		panel_13.add(panel_14);
+		panel_14.setLayout(new BoxLayout(panel_14, BoxLayout.X_AXIS));
+		
+		JLabel lblNewLabel_1 = new JLabel("Identifiant : ");
+		panel_14.add(lblNewLabel_1);
+		
+		textField = new JTextField();
+		panel_14.add(textField);
+		textField.setColumns(25);
+		
+		JPanel panel_15 = new JPanel();
+		panel_13.add(panel_15);
+		panel_15.setLayout(new BoxLayout(panel_15, BoxLayout.X_AXIS));
+		
+		JLabel lblNewLabel_2 = new JLabel("Mot de passe :");
+		panel_15.add(lblNewLabel_2);
+		
+		textField_1 = new JTextField();
+		panel_15.add(textField_1);
+		textField_1.setColumns(25);
+		
+		JPanel panel_16 = new JPanel();
+		panel_16.setBorder(new TitledBorder(null, "Filtrage", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		GridBagConstraints gbc_panel_16 = new GridBagConstraints();
+		gbc_panel_16.insets = new Insets(0, 0, 5, 0);
+		gbc_panel_16.fill = GridBagConstraints.BOTH;
+		gbc_panel_16.gridx = 0;
+		gbc_panel_16.gridy = 1;
+		panel_11.add(panel_16, gbc_panel_16);
+		
+		JPanel panel_17 = new JPanel();
+		panel_17.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Fichier de sortie", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		GridBagConstraints gbc_panel_17 = new GridBagConstraints();
+		gbc_panel_17.insets = new Insets(0, 0, 5, 0);
+		gbc_panel_17.fill = GridBagConstraints.BOTH;
+		gbc_panel_17.gridx = 0;
+		gbc_panel_17.gridy = 2;
+		panel_11.add(panel_17, gbc_panel_17);
+		panel_17.setLayout(new BorderLayout(0, 0));
+		
+		JLabel label_1 = new JLabel("<rien>");
+		label_1.setHorizontalAlignment(SwingConstants.CENTER);
+		panel_17.add(label_1, BorderLayout.WEST);
+		
+		JButton button_2 = new JButton("Fichier...");
+		panel_17.add(button_2, BorderLayout.EAST);
+		
+		JPanel panel_12 = new JPanel();
+		GridBagConstraints gbc_panel_12 = new GridBagConstraints();
+		gbc_panel_12.fill = GridBagConstraints.BOTH;
+		gbc_panel_12.gridx = 0;
+		gbc_panel_12.gridy = 3;
+		panel_11.add(panel_12, gbc_panel_12);
+		panel_12.setLayout(new BorderLayout(0, 0));
+		
+		JProgressBar progressBar_1 = new JProgressBar();
+		progressBar_1.setStringPainted(true);
+		panel_12.add(progressBar_1, BorderLayout.CENTER);
+		
+		JButton button = new JButton("Go");
+		panel_12.add(button, BorderLayout.EAST);
+		
 		JPanel panel_3 = new JPanel();
 		tabbedPane.addTab("Analyseur", null, panel_3, null);
 		GridBagLayout gbl_panel_3 = new GridBagLayout();
 		gbl_panel_3.columnWidths = new int[]{536, 0};
 		gbl_panel_3.rowHeights = new int[]{0, 33, 59, 33, 41, 0, 0, 0};
 		gbl_panel_3.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gbl_panel_3.rowWeights = new double[]{1.0, 0.0, 1.0, 0.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
+		gbl_panel_3.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel_3.setLayout(gbl_panel_3);
 		
 		JPanel panel_10 = new JPanel();
@@ -205,35 +297,24 @@ public class OutilsSGDF extends JFrame {
 		panel_5.add(button_1, BorderLayout.EAST);
 		
 		JPanel panel_6 = new JPanel();
-		panel_6.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Fichier de sortie", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		GridBagConstraints gbc_panel_6 = new GridBagConstraints();
 		gbc_panel_6.insets = new Insets(0, 0, 5, 0);
-		gbc_panel_6.anchor = GridBagConstraints.NORTHWEST;
-		gbc_panel_6.fill = GridBagConstraints.HORIZONTAL;
+		gbc_panel_6.fill = GridBagConstraints.BOTH;
 		gbc_panel_6.gridx = 0;
 		gbc_panel_6.gridy = 3;
 		panel_3.add(panel_6, gbc_panel_6);
 		panel_6.setLayout(new BorderLayout(0, 0));
 		
-		JLabel lblFichierDeSortie = new JLabel("<rien>");
-		panel_6.add(lblFichierDeSortie, BorderLayout.WEST);
-		lblFichierDeSortie.setHorizontalAlignment(SwingConstants.CENTER);
+		JLabel lblNewLabel = new JLabel("Structure");
+		panel_6.add(lblNewLabel, BorderLayout.WEST);
 		
-		JButton button_2 = new JButton("Fichier...");
-		button_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				javax.swing.Action details = sortieFileChooser.getActionMap().get("viewTypeList");
-			 	details.actionPerformed(null);
-				int result = sortieFileChooser.showDialog(null, "Fichier modèle");  
-				if (result == JFileChooser.APPROVE_OPTION) { 
-					File targetFile = sortieFileChooser.getSelectedFile();
-					lblFichierDeSortie.setText(targetFile.getPath());
-				}
-			}
-		});
-		panel_6.add(button_2, BorderLayout.EAST);
+		txfStructure = new JTextField();
+		panel_6.add(txfStructure);
+		txfStructure.setColumns(60);
+		txfStructure.setHorizontalAlignment(SwingConstants.LEFT);
 		
 		JPanel panel_7 = new JPanel();
+		panel_7.setBorder(new TitledBorder(null, "Fichier de sortie", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GridBagConstraints gbc_panel_7 = new GridBagConstraints();
 		gbc_panel_7.fill = GridBagConstraints.HORIZONTAL;
 		gbc_panel_7.anchor = GridBagConstraints.NORTHWEST;
@@ -241,31 +322,14 @@ public class OutilsSGDF extends JFrame {
 		gbc_panel_7.gridx = 0;
 		gbc_panel_7.gridy = 4;
 		panel_3.add(panel_7, gbc_panel_7);
-		GridBagLayout gbl_panel_7 = new GridBagLayout();
-		gbl_panel_7.columnWidths = new int[]{45, 551, 0};
-		gbl_panel_7.rowHeights = new int[]{20, 0, 0};
-		gbl_panel_7.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		gbl_panel_7.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
-		panel_7.setLayout(gbl_panel_7);
+		panel_7.setLayout(new BorderLayout(0, 0));
 		
-		JLabel lblNewLabel = new JLabel("Structure");
-		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-		gbc_lblNewLabel.anchor = GridBagConstraints.WEST;
-		gbc_lblNewLabel.fill = GridBagConstraints.BOTH;
-		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel.gridx = 0;
-		gbc_lblNewLabel.gridy = 0;
-		panel_7.add(lblNewLabel, gbc_lblNewLabel);
+		JLabel label = new JLabel("<rien>");
+		label.setHorizontalAlignment(SwingConstants.CENTER);
+		panel_7.add(label, BorderLayout.WEST);
 		
-		txfStructure = new JTextField();
-		txfStructure.setColumns(60);
-		txfStructure.setHorizontalAlignment(SwingConstants.LEFT);
-		GridBagConstraints gbc_txfStructure = new GridBagConstraints();
-		gbc_txfStructure.insets = new Insets(0, 0, 5, 0);
-		gbc_txfStructure.fill = GridBagConstraints.BOTH;
-		gbc_txfStructure.gridx = 1;
-		gbc_txfStructure.gridy = 0;
-		panel_7.add(txfStructure, gbc_txfStructure);
+		JButton button_3 = new JButton("Fichier...");
+		panel_7.add(button_3, BorderLayout.EAST);
 		
 		JPanel panel_8 = new JPanel();
 		GridBagConstraints gbc_panel_8 = new GridBagConstraints();
@@ -349,19 +413,19 @@ public class OutilsSGDF extends JFrame {
 		entreeFileChooser	 = new JFileChooser();	
 		entreeFileChooser.setDialogTitle("Entrée");
 		entreeFileChooser.setApproveButtonText("Sélection");
-		entreeFileChooser.setCurrentDirectory(new File(System.getProperty("user.home"))); //default
+		entreeFileChooser.setCurrentDirectory(new File(".")); //default
 		entreeFileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		
 		batchFileChooser	 = new JFileChooser();	
 		batchFileChooser.setDialogTitle("Batch");
 		batchFileChooser.setApproveButtonText("Sélection");
-		batchFileChooser.setCurrentDirectory(new File(System.getProperty("user.home"))); //default
+		batchFileChooser.setCurrentDirectory(new File("./conf")); //default
 		batchFileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		
 		modeleFileChooser	 = new JFileChooser();	
 		modeleFileChooser.setDialogTitle("Modèle");
 		modeleFileChooser.setApproveButtonText("Sélection");
-		modeleFileChooser.setCurrentDirectory(new File(System.getProperty("user.home"))); //default
+		modeleFileChooser.setCurrentDirectory(new File("./conf")); //default
 		modeleFileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		modeleFileChooser.removeChoosableFileFilter(modeleFileChooser.getFileFilter() );
 		modeleFileChooser.addChoosableFileFilter(new ExcelFileFilter());
@@ -369,7 +433,7 @@ public class OutilsSGDF extends JFrame {
 		sortieFileChooser	 = new JFileChooser();	
 		sortieFileChooser.setDialogTitle("Sortie");
 		sortieFileChooser.setApproveButtonText("Sélection");
-		sortieFileChooser.setCurrentDirectory(new File(System.getProperty("user.home"))); //default
+		sortieFileChooser.setCurrentDirectory(new File(".")); //default
 		sortieFileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		sortieFileChooser.removeChoosableFileFilter(sortieFileChooser.getFileFilter() );
 		sortieFileChooser.addChoosableFileFilter(new ExcelFileFilter());

@@ -50,6 +50,12 @@
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
 			<version>${httpclient.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<!-- Apache HttpClient Mime -->
 		<dependency>
@@ -70,11 +76,6 @@
 			<version>${jaxen.version}</version>
 		</dependency>
 		<dependency>
-		    <groupId>org.slf4j</groupId>
-		    <artifactId>slf4j-api</artifactId>
-		    <version>${slf4j.version}</version>
-		</dependency>
-		<dependency>
 			<groupId>com.jayway.jsonpath</groupId>
 			<artifactId>json-path</artifactId>
 			<version>${json.path}</version>
@@ -84,5 +85,11 @@
 			<artifactId>jcabi-manifests</artifactId>
 			<version>${jcabi.version}</version>
 		</dependency>
+		<dependency>
+    <groupId>org.apache.logging.log4j</groupId>
+    <artifactId>log4j-to-slf4j</artifactId>
+    <version>${log4j.version}</version>
+</dependency>
+		
 	</dependencies>
 </project>

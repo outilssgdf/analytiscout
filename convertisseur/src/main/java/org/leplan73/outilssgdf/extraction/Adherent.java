@@ -75,6 +75,11 @@ public class Adherent {
 		return age_;
 	}
 	
+	public double getAgecamp()
+	{
+		return ageCamp_;
+	}
+	
 	public boolean getAgecalcule()
 	{
 		return age_ > 0;
@@ -240,34 +245,44 @@ public class Adherent {
 	
 	public String getAgeokcamp()
 	{
-		if (this.getFonction() < Consts.CODE_COMPAS)
+		if (ageCamp_ > 0)
 		{
-			switch (this.getFonction())
+			if (this.getFonction() < Consts.CODE_COMPAS)
 			{
-				case Consts.CODE_FARFADETS:
-					if (ageCamp_ < 6) return "Non";
-				break;
-				case Consts.CODE_LJ:
-					if (ageCamp_ < 8) return "Non";
-				break;
-				case Consts.CODE_SG:
-					if (ageCamp_ < 11) return "Non";
-				break;
-				case Consts.CODE_PIOK:
-					if (ageCamp_ < 14) return "Non";
-				break;
+				switch (this.getFonction())
+				{
+					case Consts.CODE_FARFADETS:
+						if (ageCamp_ < 6) return "Non";
+					break;
+					case Consts.CODE_LJ:
+						if (ageCamp_ < 8) return "Non";
+					break;
+					case Consts.CODE_SG:
+						if (ageCamp_ < 11) return "Non";
+					break;
+					case Consts.CODE_PIOK:
+						if (ageCamp_ < 14) return "Non";
+					break;
+				}
 			}
+			return "Oui";
 		}
-		return "Oui";
+		else
+			return "";
 	}
 	
 	public String getAge18ansokcamp()
 	{
-		if (this.getFonction() < Consts.CODE_COMPAS)
+		if (ageCamp_ > 0)
 		{
-			return ageCamp_ >= 18 ? "Oui" : "Non";
+			if (this.getFonction() < Consts.CODE_COMPAS)
+			{
+				return ageCamp_ >= 18 ? "Oui" : "Non";
+			}
+			return "Oui";
 		}
-		return "Oui";
+		else
+			return "";
 	}
 	
 	public void check(Colonnes colonnes, Unite unite, List<Check> checks)

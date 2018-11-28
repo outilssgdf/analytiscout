@@ -63,7 +63,7 @@ public class AnalyseurFormations extends CommonParamsG {
 			Map<ExtraKey, ExtracteurExtraHtml> map = new TreeMap<ExtraKey, ExtracteurExtraHtml>();
 			File fichierAdherents = null;
 
-			File dossierStructure = new File(entree, "" + structures);
+			File dossierStructure = new File(entree, "" + structures[0]);
 			dossierStructure.exists();
 
 			int index = 1;

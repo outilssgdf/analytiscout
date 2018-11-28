@@ -43,7 +43,7 @@ public class GenerateurFormations extends CommonParamsIntranet {
 		    login(app);
 
 			// Extraction des données
-			Logging.logger_.info("Extraction \"Responsables\" (structure="+structures+")");
+			Logging.logger_.info("Extraction \"Responsables\" (structure="+structures[0]+")");
 			String donnees = app.extract(structures[0], null, ExtractionMain.CATEGORIE_RESPONSABLE, ExtractionMain.FORMAT_INDIVIDU|ExtractionMain.FORMAT_PARENTS);
 			app.close();
 			
@@ -53,7 +53,7 @@ public class GenerateurFormations extends CommonParamsIntranet {
 			x.charge(new ByteArrayInputStream(donnees.getBytes(Charset.forName("UTF-8"))),true);
 			
 			// Extraction des données
-			Logging.logger_.info("Extraction \"Compas\" (structure="+structures+")");
+			Logging.logger_.info("Extraction \"Compas\" (structure="+structures[0]+")");
 			String donneesCompas = app.extract(structures[0], "140", ExtractionMain.CATEGORIE_RESPONSABLE, ExtractionMain.FORMAT_INDIVIDU|ExtractionMain.FORMAT_PARENTS);
 			logout();
 			

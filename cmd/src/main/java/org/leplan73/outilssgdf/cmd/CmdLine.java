@@ -43,14 +43,21 @@ public class CmdLine extends CmdParams {
 			System.out.println("Erreur : " + e.getMessage());
 			CommandLine.usage(this, System.out);
 		}
+		catch(CmdLineException e)
+		{
+			System.out.println(Logging.dumpStack(null,e));
+			if (e.estLance() == false) {
+				CommandLine.usage(e.getCmd(), System.out);
+			}
+		}
 		catch(Exception e)
 		{
-			e.printStackTrace();
+			System.out.println(Logging.dumpStack(null,e));
 		}
 	}
 	
 	@Override
-	public void run(CommandLine commandLine) throws IOException, ExtractionException, JDOMException, InvalidFormatException
+	public void run(CommandLine commandLine) throws CmdLineException, IOException, ExtractionException, JDOMException, InvalidFormatException
 	{
 		if (commandLine.isVersionHelpRequested())
 		{
@@ -65,7 +72,16 @@ public class CmdLine extends CmdParams {
 		
 		CmdParams cmd = (CmdParams)commandLine.getCommand();
 		Logging.initLogger(cmd.getClass(), debug);
-		cmd.run(commandLine);
+		
+		try
+		{
+			cmd.run(commandLine);
+		}
+		catch (CmdLineException e)
+		{
+			e.setCommand(cmd);
+			throw e;
+		}
 	}
 
 	public static void main(String[] args) {

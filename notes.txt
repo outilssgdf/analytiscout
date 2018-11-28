@@ -9,6 +9,7 @@ Version 0.0.2 :
 Version 0.0.3 :
 	- Correction d'affichage de l'âge quand -age=false
 	- Ré-organisation des loggers 
+	- Meilleure remontée d'erreur en cas d'erreur d'identifiant/mot de passe
 
 En cours :
 	- Interface graphique (yeah !)

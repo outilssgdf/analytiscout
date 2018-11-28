@@ -2,7 +2,6 @@ package org.leplan73.outilssgdf.cmd;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.Instant;
@@ -32,102 +31,92 @@ import picocli.CommandLine.Option;
 @Command(name = "analyseurformations", mixinStandardHelpOptions = true, versionProvider = CommonParamsG.class)
 public class AnalyseurFormations extends CommonParamsG {
 
-	@Option(names = "-batch", required=true, description = "batch")
+	@Option(names = "-batch", required = true, description = "batch")
 	private String batch = "";
 
-	@Option(names = "-modele", required=true, description = "modele")
+	@Option(names = "-modele", required = true, description = "modele")
 	private String modele = "";
 
-	@Option(names = "-entree", required=true, description = "entree")
+	@Option(names = "-entree", required = true, description = "entree")
 	private String entree = "";
 
 	@Option(names = "-formations", description = "formations")
 	private String formations = "";
 
-	@Option(names = "-sortie", required=true, description = "sortie")
+	@Option(names = "-sortie", required = true, description = "sortie")
 	private String sortie = "";
 
 	@Override
-	public void run(CommandLine commandLine)
-	{
+	public void run(CommandLine commandLine) throws CmdLineException {
 		Instant now = Instant.now();
-		
+
 		Logging.logger_.info("Lancement");
-	    
-	    Logging.logger_.info("Chargement du fichier de traitement");
-		
-		Properties pbatch = new Properties();
+
+		chargeParametres();
+
 		try {
+			Logging.logger_.info("Chargement du fichier de traitement");
+
+			Properties pbatch = new Properties();
 			pbatch.load(new FileInputStream(new File(batch)));
 
-		Map<ExtraKey, ExtracteurExtraHtml> map = new TreeMap<ExtraKey, ExtracteurExtraHtml>();
-		File fichierAdherents = null;
+			Map<ExtraKey, ExtracteurExtraHtml> map = new TreeMap<ExtraKey, ExtracteurExtraHtml>();
+			File fichierAdherents = null;
 
-		File dossierStructure = new File(entree,""+structures);
-		dossierStructure.exists();
-		
-		int index=1;
-		for(;;)
-		{
-			String generateur = pbatch.getProperty("generateur."+index);
-			if (generateur == null)
-			{
-				break;
+			File dossierStructure = new File(entree, "" + structures);
+			dossierStructure.exists();
+
+			int index = 1;
+			for (;;) {
+				String generateur = pbatch.getProperty("generateur." + index);
+				if (generateur == null) {
+					break;
+				}
+
+				ExtraKey extra = new ExtraKey(pbatch.getProperty("nom." + index, ""),
+						pbatch.getProperty("batchtype." + index, "tout"));
+				File fichier = new File(dossierStructure, extra.nom_ + "." + generateur);
+
+				Logging.logger_.info("Chargement du fichier \"" + fichier.getName() + "\"");
+
+				if (extra.ifTout()) {
+					fichierAdherents = fichier;
+				} else
+					map.put(extra, new ExtracteurExtraHtml(fichier.getAbsolutePath(), true));
+				index++;
 			}
 
-			ExtraKey extra = new ExtraKey(pbatch.getProperty("nom."+index,""), pbatch.getProperty("batchtype."+index,"tout"));
-			File fichier = new File(dossierStructure, extra.nom_+"."+generateur);
+			Logging.logger_.info("Chargement du fichier \"" + fichierAdherents.getName() + "\"");
+			ExtracteurHtml adherents = new ExtracteurHtml(fichierAdherents, map, true);
 
-			 Logging.logger_.info("Chargement du fichier \""+fichier.getName()+"\"");
-			    
-			if (extra.ifTout())
-			{
-				fichierAdherents = fichier;
-			}
-			else
-				map.put(extra, new ExtracteurExtraHtml(fichier.getAbsolutePath(),true));
-			index++;
+			AdherentFormes chefs = new AdherentFormes();
+			chefs.charge(adherents, map);
+
+			General general = new General(Manifests.read("version"));
+			Global global = new Global(adherents.getGroupe(), adherents.getMarins());
+			adherents.calculGlobal(global);
+
+			FileOutputStream outputStream = new FileOutputStream(sortie);
+
+			Logging.logger_.info("Generation du fichier \"" + sortie + "\" à partir du modèle \"" + modele + "\"");
+			ExcelTransformer trans = new ExcelTransformer();
+			Map<String, Object> beans = new HashMap<String, Object>();
+			beans.put("chefs", adherents.getChefsList());
+			beans.put("unites", adherents.getUnitesList());
+			beans.put("general", general);
+			beans.put("global", global);
+			beans.put("formations", formations);
+			Workbook workbook = trans.transform(new FileInputStream(modele), beans);
+			workbook.write(outputStream);
+
+			outputStream.flush();
+			outputStream.close();
+
+		} catch (IOException | ExtractionException | JDOMException | InvalidFormatException e) {
+			Logging.logError(e);
 		}
 
-	    Logging.logger_.info("Chargement du fichier \""+fichierAdherents.getName()+"\"");
-		 ExtracteurHtml adherents = new ExtracteurHtml(fichierAdherents, map,true);
-		 
-		 AdherentFormes chefs = new AdherentFormes();
-		 chefs.charge(adherents,map);
-			
-		General general = new General(Manifests.read("version"));
-		Global global = new Global(adherents.getGroupe(), adherents.getMarins());
-		adherents.calculGlobal(global);
-
-		FileOutputStream outputStream = new FileOutputStream(sortie);
-
-	    Logging.logger_.info("Generation du fichier \""+sortie+"\" à partir du modèle \""+modele+"\"");		
-		ExcelTransformer trans = new ExcelTransformer();
-		Map<String, Object> beans = new HashMap<String, Object>();
-		beans.put("chefs", adherents.getChefsList());
-		beans.put("unites", adherents.getUnitesList());
-		beans.put("general", general);
-		beans.put("global", global);
-		beans.put("formations", formations);
-		Workbook workbook = trans.transform(new FileInputStream(modele), beans);
-		workbook.write(outputStream);
-		
-		outputStream.flush();
-		outputStream.close();
-		
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ExtractionException e) {
-			e.printStackTrace();
-		} catch (JDOMException e) {
-			e.printStackTrace();
-		} catch (InvalidFormatException e) {
-			e.printStackTrace();
-		}
-		
 		long d = Instant.now().getEpochSecond() - now.getEpochSecond();
-		Logging.logger_.info("Terminé en "+d+" seconds");
+		Logging.logger_.info("Terminé en " + d + " seconds");
 	}
 }

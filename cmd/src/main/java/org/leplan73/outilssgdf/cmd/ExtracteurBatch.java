@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.nio.charset.Charset;
+import java.time.Instant;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
@@ -43,7 +44,8 @@ public class ExtracteurBatch extends CommonParamsIntranet {
 	private boolean recursif = true;
 
 	@Override
-	public void run(CommandLine commandLine) {
+	public void run(CommandLine commandLine) throws CmdLineException {
+		Instant now = Instant.now();
 		checkParams();
 		
 		Logging.logger_.info("Lancement");
@@ -166,12 +168,11 @@ public class ExtracteurBatch extends CommonParamsIntranet {
 				}
 			}
 			logout();
-		} catch (IOException e) {
-			Logging.logger_.error("IOException", e);
-		} catch (JDOMException e) {
-			Logging.logger_.error("JDOMException", e);
+		} catch (IOException|JDOMException e) {
+			Logging.logError(e);
 		}
-		
-		Logging.logger_.info("Terminé");
+
+		long d = Instant.now().getEpochSecond() - now.getEpochSecond();
+		Logging.logger_.info("Terminé en "+d+" seconds");
 	}
 }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch4jConfig>
   <dontWrapJar>true</dontWrapJar>
-  <headerType>console</headerType>
-  <jar>app\outilssgdf-cmd.jar</jar>
-  <outfile>outilssgdf.exe</outfile>
+  <headerType>gui</headerType>
+  <jar>app/outilssgdf-gui.jar</jar>
+  <outfile>../fichiers/outilssgdf-gui.exe</outfile>
   <errTitle></errTitle>
   <cmdLine></cmdLine>
   <chdir>.</chdir>
@@ -15,7 +15,7 @@
   <manifest></manifest>
   <icon></icon>
   <classPath>
-    <mainClass>org.leplan73.outilssgdf.cmd.CmdLine</mainClass>
+    <mainClass>org.leplan73.outilssgdf.gui.OutilsSGDF</mainClass>
   </classPath>
   <jre>
     <path></path>

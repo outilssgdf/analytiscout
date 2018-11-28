@@ -34,7 +34,7 @@ public class CmdParams implements IVersionProvider {
 		return new String[] {"Version: "+Manifests.read("version"),"Date du build: "+Manifests.read("Build-Time")};
 	}
 	
-	protected void run(CommandLine commandLine) throws IOException, ExtractionException, JDOMException, InvalidFormatException
+	protected void run(CommandLine commandLine) throws CmdLineException, IOException, ExtractionException, JDOMException, InvalidFormatException
 	{
 	}
 	

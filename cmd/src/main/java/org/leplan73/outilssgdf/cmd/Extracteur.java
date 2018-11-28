@@ -69,7 +69,7 @@ public class Extracteur extends CommonParamsIntranet {
 	private boolean recursif = true;
 
 	@Override
-	public void run(CommandLine commandLine)
+	public void run(CommandLine commandLine) throws CmdLineException
 	{
 		Instant now = Instant.now();
 		checkParams();
@@ -152,10 +152,8 @@ public class Extracteur extends CommonParamsIntranet {
 				out.close();
 			}
 			
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (JDOMException e) {
-			e.printStackTrace();
+		} catch (IOException|JDOMException e) {
+			Logging.logError(e);
 		}
 		
 		long d = Instant.now().getEpochSecond() - now.getEpochSecond();

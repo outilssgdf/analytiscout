@@ -25,7 +25,7 @@ public class GenerateurFormations extends CommonParamsIntranet {
 	private String sortie = "";
 
 	@Override
-	public void run(CommandLine commandLine)
+	public void run(CommandLine commandLine) throws CmdLineException
 	{
 		Instant now = Instant.now();
 		checkParams();
@@ -63,12 +63,8 @@ public class GenerateurFormations extends CommonParamsIntranet {
 			y.charge(new ByteArrayInputStream(donneesCompas.getBytes(Charset.forName("UTF-8"))),true);
 			
 			
-		} catch (IOException e) {
-			Logging.logger_.error("IOException", e);
-		} catch (JDOMException e) {
-			Logging.logger_.error("JDOMException", e);
-		} catch (ExtractionException e) {
-			Logging.logger_.error("ExtractionException", e);
+		} catch (IOException|JDOMException|ExtractionException e) {
+			Logging.logError(e);
 		}
 		
 		long d = Instant.now().getEpochSecond() - now.getEpochSecond();

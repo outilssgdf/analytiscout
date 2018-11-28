@@ -48,7 +48,7 @@ public class CommonParamsIntranet extends CommonParamsG {
 		}
 	}
 
-	protected void login(ExtractionMain connection) throws ClientProtocolException, IOException
+	protected void login(ExtractionMain connection) throws ClientProtocolException, IOException, CmdLineException
 	{
 		connection_ = connection;
 		Logging.logger_.info("Connexion");
@@ -56,7 +56,7 @@ public class CommonParamsIntranet extends CommonParamsG {
 		connection_.init();
 		if (connection_.login(identifiant,motdepasse) == false)
 		{
-			Logging.logger_.error("erreur de connexion");
+			throw new CmdLineException("erreur de connexion", true);
 		}
 	}
 	
@@ -65,11 +65,11 @@ public class CommonParamsIntranet extends CommonParamsG {
 		connection_.close();
 	}
 	
-	protected void checkParams() throws PicocliException
+	protected void checkParams() throws CmdLineException
 	{
 		if (params == null && (identifiant == null || motdepasse == null))
 		{
-			throw new PicocliException("Identifiants intranet manquants");
+			throw new CmdLineException("Identifiants intranet manquants", false);
 		}
 	}
 }

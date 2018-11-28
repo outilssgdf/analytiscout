@@ -47,80 +47,85 @@ public class Analyseur extends CommonParamsG {
 	protected boolean age = false;
 	
 	@Override
-	public void run(CommandLine commandLine) throws IOException, ExtractionException, JDOMException, InvalidFormatException
+	public void run(CommandLine commandLine) throws CmdLineException
 	{
 		Instant now = Instant.now();
 		
 		Logging.logger_.info("Lancement");
 	    
 	    chargeParametres();
-	    
-	    Logging.logger_.info("Chargement du fichier de traitement");
-		
-		Properties pbatch = new Properties();
-		pbatch.load(new FileInputStream(batch));
 
-		Map<ExtraKey, ExtracteurExtraHtml> extraMap = new TreeMap<ExtraKey, ExtracteurExtraHtml>();
-		File fichierAdherents = null;
-
-		File dossierStructure = new File(entree,""+structures[0]);
-		dossierStructure.exists();
-		
-		int index=1;
-		for(;;)
-		{
-			String generateur = pbatch.getProperty("generateur."+index);
-			if (generateur == null)
-			{
-				break;
-			}
+		try {
+		    Logging.logger_.info("Chargement du fichier de traitement");
 			
-			ExtraKey extra = new ExtraKey(pbatch.getProperty("nom."+index,""), pbatch.getProperty("batchtype."+index,"tout"));
-			File fichier = new File(dossierStructure, extra.nom_+"."+generateur);
+			Properties pbatch = new Properties();
+			pbatch.load(new FileInputStream(batch));
+	
+			Map<ExtraKey, ExtracteurExtraHtml> extraMap = new TreeMap<ExtraKey, ExtracteurExtraHtml>();
+			File fichierAdherents = null;
+	
+			File dossierStructure = new File(entree,""+structures[0]);
+			dossierStructure.exists();
 			
-		    Logging.logger_.info("Chargement du fichier \""+fichier.getName()+"\"");
-		    
-			if (extra.ifTout())
+			int index=1;
+			for(;;)
 			{
-				fichierAdherents = fichier;
+				String generateur = pbatch.getProperty("generateur."+index);
+				if (generateur == null)
+				{
+					break;
+				}
+				
+				ExtraKey extra = new ExtraKey(pbatch.getProperty("nom."+index,""), pbatch.getProperty("batchtype."+index,"tout"));
+				File fichier = new File(dossierStructure, extra.nom_+"."+generateur);
+				
+			    Logging.logger_.info("Chargement du fichier \""+fichier.getName()+"\"");
+			    
+				if (extra.ifTout())
+				{
+					fichierAdherents = fichier;
+				}
+				else
+					extraMap.put(extra, new ExtracteurExtraHtml(fichier.getAbsolutePath(),age));
+				index++;
 			}
-			else
-				extraMap.put(extra, new ExtracteurExtraHtml(fichier.getAbsolutePath(),age));
-			index++;
+	
+			Logging.logger_.info("Chargement du fichier \""+fichierAdherents.getName()+"\"");
+			ExtracteurHtml adherents = new ExtracteurHtml(fichierAdherents, extraMap,age);
+			 
+			AdherentFormes compas = new AdherentFormes();
+			compas.charge(adherents,extraMap);
+			
+			String version = "";
+			try
+			{
+				version = Manifests.read("version");
+			}
+			catch(java.lang.IllegalArgumentException e) {
+			}
+			General general = new General(version);
+			Global global = new Global(adherents.getGroupe(), adherents.getMarins());
+			adherents.calculGlobal(global);
+	
+			FileOutputStream outputStream = new FileOutputStream(sortie);
+	
+		    Logging.logger_.info("Génération du fichier \""+sortie.getName()+"\" à partir du modèle \""+modele.getName()+"\"");
+			ExcelTransformer trans = new ExcelTransformer();
+			Map<String, Object> beans = new HashMap<String, Object>();
+			beans.put("chefs", adherents.getChefsList());
+			beans.put("compas", adherents.getCompasList());
+			beans.put("unites", adherents.getUnitesList());
+			beans.put("general", general);
+			beans.put("global", global);
+			Workbook workbook = trans.transform(new FileInputStream(modele), beans);
+			workbook.write(outputStream);
+			
+			outputStream.flush();
+			outputStream.close();
+			
+		} catch (IOException|JDOMException | InvalidFormatException | ExtractionException e) {
+			Logging.logError(e);
 		}
-
-		Logging.logger_.info("Chargement du fichier \""+fichierAdherents.getName()+"\"");
-		ExtracteurHtml adherents = new ExtracteurHtml(fichierAdherents, extraMap,age);
-		 
-		AdherentFormes compas = new AdherentFormes();
-		compas.charge(adherents,extraMap);
-		
-		String version = "";
-		try
-		{
-			version = Manifests.read("version");
-		}
-		catch(java.lang.IllegalArgumentException e) {
-		}
-		General general = new General(version);
-		Global global = new Global(adherents.getGroupe(), adherents.getMarins());
-		adherents.calculGlobal(global);
-
-		FileOutputStream outputStream = new FileOutputStream(sortie);
-
-	    Logging.logger_.info("Génération du fichier \""+sortie.getName()+"\" à partir du modèle \""+modele.getName()+"\"");
-		ExcelTransformer trans = new ExcelTransformer();
-		Map<String, Object> beans = new HashMap<String, Object>();
-		beans.put("chefs", adherents.getChefsList());
-		beans.put("compas", adherents.getCompasList());
-		beans.put("unites", adherents.getUnitesList());
-		beans.put("general", general);
-		beans.put("global", global);
-		Workbook workbook = trans.transform(new FileInputStream(modele), beans);
-		workbook.write(outputStream);
-		
-		outputStream.flush();
-		outputStream.close();
 		
 		long d = Instant.now().getEpochSecond() - now.getEpochSecond();
 		Logging.logger_.info("Terminé en "+d+" seconds");

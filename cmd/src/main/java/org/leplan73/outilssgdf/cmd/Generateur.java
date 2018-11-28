@@ -27,7 +27,7 @@ public class Generateur extends CommonParamsIntranet {
 	private File sortie;
 
 	@Override
-	public void run(CommandLine commandLine)
+	public void run(CommandLine commandLine) throws CmdLineException
 	{
 		Instant now = Instant.now();
 		
@@ -62,12 +62,8 @@ public class Generateur extends CommonParamsIntranet {
 		    zipOut.flush();
 		    zipOut.close();
 			
-		} catch (IOException e) {
-			Logging.logger_.error("IOException", e);
-		} catch (JDOMException e) {
-			Logging.logger_.error("JDOMException", e);
-		} catch (ExtractionException e) {
-			Logging.logger_.error("ExtractionException", e);
+		} catch (IOException|JDOMException|ExtractionException e) {
+			Logging.logError(e);
 		}
 		
 		long d = Instant.now().getEpochSecond() - now.getEpochSecond();

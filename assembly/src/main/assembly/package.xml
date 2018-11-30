@@ -16,6 +16,10 @@
       <outputDirectory>.</outputDirectory>
     </file>
     <file>
+      <source>../fichiers/outilssgdf.sh</source>
+      <outputDirectory>.</outputDirectory>
+    </file>
+    <file>
       <source>../notes.txt</source>
       <outputDirectory>.</outputDirectory>
     </file>

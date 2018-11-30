@@ -27,7 +27,7 @@ done
 
 saveddir=`pwd`
 
-OUTILSSGDF_HOME=`dirname "$PRG"`/..
+OUTILSSGDF_HOME=`dirname "$PRG"`
 
 # make it fully qualified
 MAVEN_HOME=`cd "$MAVEN_HOME" && pwd`

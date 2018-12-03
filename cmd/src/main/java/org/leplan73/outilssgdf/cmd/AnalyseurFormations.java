@@ -1,4 +1,4 @@
-package org.leplan73.outilssgdf.cmd;
+/*package org.leplan73.outilssgdf.cmd;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -120,3 +120,4 @@ public class AnalyseurFormations extends CommonParamsG {
 		Logging.logger_.info("Terminé en " + d + " seconds");
 	}
 }
+*/

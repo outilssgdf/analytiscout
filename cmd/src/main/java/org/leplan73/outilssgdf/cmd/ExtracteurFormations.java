@@ -1,4 +1,4 @@
-package org.leplan73.outilssgdf.cmd;
+/*package org.leplan73.outilssgdf.cmd;
 
 import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
@@ -176,3 +176,4 @@ public class ExtracteurFormations extends CommonParamsIntranet {
 		Logging.logger_.info("Terminé en "+d+" seconds");
 	}
 }
+*/

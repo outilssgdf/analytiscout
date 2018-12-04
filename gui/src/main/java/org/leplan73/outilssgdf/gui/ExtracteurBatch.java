@@ -1,43 +1,61 @@
 package org.leplan73.outilssgdf.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.nio.charset.Charset;
+import java.time.Instant;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Properties;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JProgressBar;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
-import java.awt.Dialog.ModalityType;
-import java.io.File;
-import java.io.IOException;
-import java.time.Instant;
-
 import javax.swing.border.TitledBorder;
 
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVPrinter;
 import org.apache.http.client.ClientProtocolException;
+import org.jdom2.Element;
+import org.jdom2.JDOMException;
+import org.jdom2.input.SAXBuilder;
+import org.jdom2.xpath.XPathExpression;
+import org.jdom2.xpath.XPathFactory;
+import org.leplan73.outilssgdf.intranet.ExtractionAdherents;
 import org.leplan73.outilssgdf.intranet.ExtractionMain;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.swing.UIManager;
-import java.awt.Color;
-import javax.swing.JLabel;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import javax.swing.BoxLayout;
-import javax.swing.JTextField;
-import javax.swing.JPasswordField;
-import javax.swing.JComboBox;
-import javax.swing.JCheckBox;
-import javax.swing.JProgressBar;
-import javax.swing.JTextArea;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+public class ExtracteurBatch extends JDialog implements LoggedDialog,GuiCommand {
 
-public class ExtracteurBatch extends JDialog implements LoggedDialog {
-
+	private static final String ENCODING_WINDOWS = "Windows-1252";
+	private static final String ENCODING_UTF8 = "UTF-8";
+	
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txfIdentifiant;
 	private JPasswordField txfMotdepasse;
@@ -45,7 +63,7 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog {
 	private JFileChooser fcSortie;
 	private JFileChooser fcBatch;
 	
-	private static Logger logger_ = LoggerFactory.getLogger(ExtracteurBatch.class);
+	private Logger logger_ = LoggerFactory.getLogger(ExtracteurBatch.class);
 
 	/**
 	 * Launch the application.
@@ -76,9 +94,9 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		GridBagLayout gbl_contentPanel = new GridBagLayout();
 		gbl_contentPanel.columnWidths = new int[]{121, 0};
-		gbl_contentPanel.rowHeights = new int[]{46, 0, 0, 0, 0, 0, 0};
+		gbl_contentPanel.rowHeights = new int[]{46, 0, 0, 0, 0, 0, 0, 0};
 		gbl_contentPanel.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gbl_contentPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_contentPanel.rowWeights = new double[]{0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		contentPanel.setLayout(gbl_contentPanel);
 		{
 			JPanel panel = new JPanel();
@@ -115,13 +133,29 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog {
 		}
 		{
 			JPanel panel = new JPanel();
+			panel.setBorder(new TitledBorder(null, "Structure", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			GridBagConstraints gbc_panel = new GridBagConstraints();
+			gbc_panel.insets = new Insets(0, 0, 5, 0);
+			gbc_panel.fill = GridBagConstraints.BOTH;
+			gbc_panel.gridx = 0;
+			gbc_panel.gridy = 1;
+			contentPanel.add(panel, gbc_panel);
+			panel.setLayout(new BorderLayout(0, 0));
+			{
+				tfStructure = new JTextField();
+				tfStructure.setColumns(30);
+				panel.add(tfStructure);
+			}
+		}
+		{
+			JPanel panel = new JPanel();
 			panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Batch", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 			GridBagConstraints gbc_panel = new GridBagConstraints();
 			gbc_panel.insets = new Insets(0, 0, 5, 0);
 			gbc_panel.fill = GridBagConstraints.HORIZONTAL;
 			gbc_panel.anchor = GridBagConstraints.NORTH;
 			gbc_panel.gridx = 0;
-			gbc_panel.gridy = 1;
+			gbc_panel.gridy = 2;
 			contentPanel.add(panel, gbc_panel);
 			panel.setLayout(new BorderLayout(0, 0));
 			{
@@ -157,7 +191,7 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog {
 			gbc_panel.anchor = GridBagConstraints.NORTH;
 			gbc_panel.fill = GridBagConstraints.HORIZONTAL;
 			gbc_panel.gridx = 0;
-			gbc_panel.gridy = 2;
+			gbc_panel.gridy = 3;
 			contentPanel.add(panel, gbc_panel);
 			panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
 			{
@@ -174,7 +208,7 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog {
 			gbc_panel.anchor = GridBagConstraints.NORTH;
 			gbc_panel.fill = GridBagConstraints.HORIZONTAL;
 			gbc_panel.gridx = 0;
-			gbc_panel.gridy = 3;
+			gbc_panel.gridy = 4;
 			contentPanel.add(panel, gbc_panel);
 			panel.setLayout(new BorderLayout(0, 0));
 			{
@@ -208,19 +242,19 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog {
 			gbc_panel.insets = new Insets(0, 0, 5, 0);
 			gbc_panel.fill = GridBagConstraints.BOTH;
 			gbc_panel.gridx = 0;
-			gbc_panel.gridy = 4;
+			gbc_panel.gridy = 5;
 			contentPanel.add(panel, gbc_panel);
 			panel.setLayout(new BorderLayout(0, 0));
 			{
-				JProgressBar progressBar = new JProgressBar();
-				progressBar.setStringPainted(true);
-				panel.add(progressBar, BorderLayout.WEST);
+				progress = new JProgressBar();
+				progress.setStringPainted(true);
+				panel.add(progress, BorderLayout.WEST);
 			}
 			{
 				JButton button = new JButton("Go");
 				button.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						export();
+						go();
 					}
 				});
 				panel.add(button, BorderLayout.EAST);
@@ -232,13 +266,17 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog {
 			GridBagConstraints gbc_panel = new GridBagConstraints();
 			gbc_panel.fill = GridBagConstraints.BOTH;
 			gbc_panel.gridx = 0;
-			gbc_panel.gridy = 5;
+			gbc_panel.gridy = 6;
 			contentPanel.add(panel, gbc_panel);
 			panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
 			{
-				txtLog = new JTextArea();
-				txtLog.setEditable(false);
-				panel.add(txtLog);
+				JScrollPane scrollPane = new JScrollPane();
+				panel.add(scrollPane);
+				{
+					txtLog = new JTextArea();
+					scrollPane.setViewportView(txtLog);
+					txtLog.setEditable(false);
+				}
 			}
 		}
 		{
@@ -260,15 +298,17 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog {
 		}
 	}
 
-	protected ExtractionMain connection_;
+	private ExtractionMain connection_;
 	private JCheckBox chkRecursif;
 	private JLabel lblBatch;
 	private JLabel lblSortie;
+	private JProgressBar progress;
+	private JTextField tfStructure;
 	
 	private void login(ExtractionMain connection) throws ClientProtocolException, IOException
 	{
 		connection_ = connection;
-		Logging.logger_.info("Connexion");
+		logger_.info("Connexion");
 		
 		connection_.init();
 		if (connection_.login(txfIdentifiant.getText(),new String(txfMotdepasse.getPassword())) == false)
@@ -282,23 +322,10 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog {
 		connection_.close();
 	}
 	
-	private int extract(String key)
+	@Override
+	public boolean check()
 	{
-		int value = -1;
-		
-		int i = key.lastIndexOf("(");
-		int j = key.lastIndexOf(")");
-		if (i > -1 && j > -1)
-		{
-			String v = key.substring(i+1, j-1);
-			return Integer.valueOf(v);
-		}
-		return value;
-	}
-	
-	private boolean check()
-	{
-		Logging.logger_.info("Vérification des paramètres");
+		logger_.info("Vérification des paramètres");
 		if (fcSortie==null)
 		{
 			logger_.error("Sortie non-sélectionnée");
@@ -317,8 +344,10 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog {
 		return true;
 	}
 	
-	private void export()
+	@Override
+	public void go()
 	{
+		progress.setValue(0);
 		txtLog.setText("");
 		
 		Instant now = Instant.now();
@@ -326,10 +355,128 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog {
 		boolean ret = check();
 		if (ret)
 		{
+			try {
+				Properties pbatch = new Properties();
+				pbatch.load(new FileInputStream(fcBatch.getSelectedFile()));
+				
+				ExtractionAdherents app = new ExtractionAdherents();
+				login(app);
+				
+				String stStructures[] = tfStructure.getText().split(",");
+				for (String stStructure : stStructures)
+				{
+					int structure = Integer.parseInt(stStructure);
+					
+					logger_.info("Traitement de la structure "+structure);
+					
+					int index=1;
+					for(;;)
+					{
+						// generateur.x
+						// format.x
+						// categorie.x
+						// specialite.x
+						// fonction.x
+						// diplome.x
+						// qualif.x
+						// formation.x
+						// nom.x
+						// type.x
+						String generateur = pbatch.getProperty("generateur."+index);
+						if (generateur == null)
+						{
+							break;
+						}
+						int diplome = pbatch.getProperty("diplome."+index,"").isEmpty() ? ExtractionMain.DIPLOME_TOUT : Integer.parseInt(pbatch.getProperty("diplome."+index));
+						int qualif = pbatch.getProperty("qualif."+index,"").isEmpty() ? ExtractionMain.QUALIFICATION_TOUT : Integer.parseInt(pbatch.getProperty("qualif."+index));
+						int formation = pbatch.getProperty("formation."+index,"").isEmpty() ? ExtractionMain.FORMATION_TOUT : Integer.parseInt(pbatch.getProperty("formation."+index));
+						int format = pbatch.getProperty("format."+index,"").isEmpty() ? ExtractionMain.FORMAT_INDIVIDU : Integer.parseInt(pbatch.getProperty("format."+index));
+						int categorie = pbatch.getProperty("categorie."+index,"").isEmpty() ? ExtractionMain.CATEGORIE_TOUT : Integer.parseInt(pbatch.getProperty("categorie."+index));
+						int type = pbatch.getProperty("type."+index,"").isEmpty() ? ExtractionMain.TYPE_TOUT : Integer.parseInt(pbatch.getProperty("type."+index));
+						int specialite = pbatch.getProperty("specialite."+index,"").isEmpty() ? ExtractionMain.SPECIALITE_SANS_IMPORTANCE : Integer.parseInt(pbatch.getProperty("specialite."+index));
+						boolean adherents = pbatch.getProperty("adherents."+index,"").isEmpty() ? false : Boolean.parseBoolean(pbatch.getProperty("adherents."+index));
+						String nom = pbatch.getProperty("nom."+index,"");
+						String fonction = pbatch.getProperty("fonction."+index);
+						
+						File dossierStructure = new File(fcSortie.getSelectedFile(),""+structure);
+						dossierStructure.mkdirs();
+						
+						File fichier = new File(dossierStructure, nom+"."+generateur);
+						
+						if (generateur.compareTo(ExtractionMain.GENERATEUR_XLS) == 0)
+						{
+							logger_.info("Extraction du fichier "+index+" dans "+fichier);
+							
+							Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fichier), ENCODING_WINDOWS));
+							String donnees = app.extract(structure,chkRecursif.isSelected(),type,adherents,fonction,specialite,categorie, diplome,qualif,formation,format, true);
+							out.write(donnees);
+							out.flush();
+							out.close();
+							logger_.info("Extraction du fichier "+index+" fait");
+						}
+						else
+						if (generateur.compareTo(ExtractionMain.GENERATEUR_XML) == 0)
+						{
+							logger_.info("Extraction du fichier "+index+" dans "+fichier);
+							
+							Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fichier), ENCODING_UTF8));
+							String donnees = app.extract(structure,chkRecursif.isSelected(),type,adherents,fonction,specialite,categorie, diplome,qualif,formation,format, false);
+							out.write(donnees);
+							out.flush();
+							out.close();
+							logger_.info("Extraction du fichier "+index+" fait");
+						}
+						else
+						if (generateur.compareTo(ExtractionMain.GENERATEUR_CSV) == 0)
+						{
+							logger_.info("Extraction du fichier "+index+" dans "+fichier);
+							
+							final CSVPrinter out = CSVFormat.DEFAULT.withFirstRecordAsHeader().print(fichier, Charset.forName(ENCODING_WINDOWS));
+							
+							String donnees = app.extract(structure,chkRecursif.isSelected(),type,adherents,fonction,specialite,categorie,diplome,qualif,formation,format, false);
+							
+							XPathFactory xpfac = XPathFactory.instance();
+							SAXBuilder builder = new SAXBuilder();
+					        org.jdom2.Document docx = builder.build(new ByteArrayInputStream(donnees.getBytes(Charset.forName(ENCODING_UTF8))));
+					        
+					        // Scan des colonnes
+					     	XPathExpression<?> xpac = xpfac.compile("tbody/tr[1]/td/text()");
+					     	List<?> resultsc = xpac.evaluate(docx);
+					     	int nbColumns = resultsc.size();	 
+					     			 
+					        XPathExpression<?> xpa = xpfac.compile("tbody/tr/td");
+					        
+					        List<?> results = xpa.evaluate(docx);
+					        
+					        int indexCsv = 0;
+							Iterator<?> iter = results.iterator();
+							while (iter.hasNext())
+							{
+								Object result = iter.next();
+								Element resultElement = (Element) result;
+								out.print(resultElement.getText());
+								indexCsv++;
+					        	if (indexCsv % nbColumns == 0)
+					        	{
+					        		out.println();
+					        	}
+							}
+							out.flush();
+							out.close();
+							
+							logger_.info("Extraction du fichier "+index+" fait");
+						}
+						index++;
+					}
+				}
+				logout();
+			} catch (IOException|JDOMException e) {
+				logger_.error(Logging.dumpStack(null,e));
+			}
 		}
 		
 		long d = Instant.now().getEpochSecond() - now.getEpochSecond();
-		Logging.logger_.info("Terminé en "+d+" seconds");
+		logger_.info("Terminé en "+d+" seconds");
 	}
 	
 	@Override
@@ -362,5 +509,11 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog {
 	}
 	public JLabel getLblSortie() {
 		return lblSortie;
+	}
+	public JProgressBar getProgressBar() {
+		return progress;
+	}
+	public JTextField getTfStructure() {
+		return tfStructure;
 	}
 }

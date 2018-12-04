@@ -48,11 +48,12 @@ import org.slf4j.LoggerFactory;
 import com.jcabi.manifests.Manifests;
 
 import net.sf.jett.transform.ExcelTransformer;
+import javax.swing.JScrollPane;
 
-public class Analyseur extends JDialog implements LoggedDialog {
+public class Analyseur extends JDialog implements LoggedDialog,GuiCommand {
 
 	private final JPanel contentPanel = new JPanel();
-	private static Logger logger_ = LoggerFactory.getLogger(Extracteur.class);
+	private Logger logger_ = LoggerFactory.getLogger(Analyseur.class);
 	private JFileChooser fcBatch;
 	private JFileChooser fcEntree;
 	private JFileChooser fcModele;
@@ -64,6 +65,7 @@ public class Analyseur extends JDialog implements LoggedDialog {
 	private JLabel lblEntree;
 	private JLabel lblModele;
 	private JTextArea txtLog;
+	private JProgressBar progress;
 
 	/**
 	 * Launch the application.
@@ -285,7 +287,7 @@ public class Analyseur extends JDialog implements LoggedDialog {
 			contentPanel.add(panel, gbc_panel);
 			panel.setLayout(new BorderLayout(0, 0));
 			{
-				JProgressBar progress = new JProgressBar();
+				progress = new JProgressBar();
 				progress.setStringPainted(true);
 				panel.add(progress, BorderLayout.CENTER);
 			}
@@ -293,7 +295,7 @@ public class Analyseur extends JDialog implements LoggedDialog {
 				JButton button = new JButton("Go");
 				button.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						analyse();
+						go();
 					}
 				});
 				panel.add(button, BorderLayout.EAST);
@@ -309,9 +311,13 @@ public class Analyseur extends JDialog implements LoggedDialog {
 			contentPanel.add(panel, gbc_panel);
 			panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
 			{
-				txtLog = new JTextArea();
-				txtLog.setEditable(false);
-				panel.add(txtLog);
+				JScrollPane scrollPane = new JScrollPane();
+				panel.add(scrollPane);
+				{
+					txtLog = new JTextArea();
+					scrollPane.setViewportView(txtLog);
+					txtLog.setEditable(false);
+				}
 			}
 		}
 		{
@@ -333,7 +339,8 @@ public class Analyseur extends JDialog implements LoggedDialog {
 		}
 	}
 	
-	private boolean check()
+	@Override
+	public boolean check()
 	{
 		logger_.info("Vérification des paramètres");
 		if (fcBatch==null)
@@ -364,8 +371,10 @@ public class Analyseur extends JDialog implements LoggedDialog {
 		return true;
 	}
 	
-	private void analyse()
+	@Override
+	public void go()
 	{
+		progress.setValue(0);
 		txtLog.setText("");
 		
 		Instant now = Instant.now();
@@ -489,5 +498,8 @@ public class Analyseur extends JDialog implements LoggedDialog {
 	}
 	public JTextArea getTxtLog() {
 		return txtLog;
+	}
+	public JProgressBar getProgress() {
+		return progress;
 	}
 }

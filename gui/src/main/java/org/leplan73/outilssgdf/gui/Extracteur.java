@@ -49,8 +49,9 @@ import org.leplan73.outilssgdf.intranet.ExtractionAdherents;
 import org.leplan73.outilssgdf.intranet.ExtractionMain;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import javax.swing.JScrollPane;
 
-public class Extracteur extends JDialog implements LoggedDialog {
+public class Extracteur extends JDialog implements LoggedDialog,GuiCommand {
 
 	private static final String ENCODING_WINDOWS = "Windows-1252";
 	private static final String ENCODING_UTF8 = "UTF-8";
@@ -61,7 +62,7 @@ public class Extracteur extends JDialog implements LoggedDialog {
 	private JTextField txfStructure;
 	private JTextField txfCodefonction;
 	private JComboBox cbxGenerateur;
-	private static Logger logger_ = LoggerFactory.getLogger(Extracteur.class);
+	private Logger logger_ = LoggerFactory.getLogger(Extracteur.class);
 	
 	private JFileChooser fcSortie;
 	private JLabel lblSortie;
@@ -209,7 +210,7 @@ public class Extracteur extends JDialog implements LoggedDialog {
 				panel.add(panel_1, gbc_panel_1);
 				{
 					cbxDiplome = new JComboBox();
-					cbxDiplome.setModel(new DefaultComboBoxModel(new String[] {"Sans importance", "2 Buchettes", "3 Buchettes", "4 Buchettes", "AFPS", "BAFA", "BAFA Qualification Voile", "BAFD", "BP JEPS", "Brevet d'état (activités marines)", "Brevet Professionnel (Skipper, marine marchande)", "Carte Mer", "Certificat Radio Restreint CRR", "Chef de Flottille", "Chef de quart", "DE JEPS", "DEUG STAPS", "Directeur nautique", "DUT animation socioculturelle ", "Licence STAPS", "Médaille Argent de la JS", "Médaille Bronze de la JS", "Médaille Or de la JS", "Nœud de tisserand", "Patron d'embarcation", "Permis Côtier", "Permis E", "Permis fluvial", "Permis Hauturier", "PSC1 Prévention et Secours Civiques de niveau 1", "Spirale AMGE", "Surveillant de Baignade"}));
+					cbxDiplome.setModel(new DefaultComboBoxModel(new String[] {"Sans importance", "2 Buchettes (185)", "3 Buchettes (612)", "4 Buchettes (613)", "AFPS (619)", "BAFA (73)", "BAFA Qualification Voile (607)", "BAFD (140)", "BP JEPS (618)", "Brevet d'état (activités marines) (615)", "Brevet Professionnel (Skipper, marine marchande) (617)", "Carte Mer (616)", "Certificat Radio Restreint CRR (609)", "Chef de Flottille (606)", "Chef de quart (605)", "DE JEPS (626)", "DEUG STAPS (628)", "Directeur nautique (624)", "DUT animation socioculturelle  (614)", "Licence STAPS (630)", "Médaille Argent de la JS (622)", "Médaille Bronze de la JS (621)", "Médaille Or de la JS (623)", "Nœud de tisserand (629)", "Patron d'embarcation (604)", "Permis Côtier (610)", "Permis E (625)", "Permis fluvial (627)", "Permis Hauturier (611)", "PSC1 Prévention et Secours Civiques de niveau 1 (603)", "Spirale AMGE (620)", "Surveillant de Baignade (608)"}));
 					panel_1.add(cbxDiplome);
 				}
 			}
@@ -305,7 +306,7 @@ public class Extracteur extends JDialog implements LoggedDialog {
 				panel.add(panel_1, gbc_panel_1);
 				{
 					cbxFormation = new JComboBox();
-					cbxFormation.setModel(new DefaultComboBoxModel(new String[] {"Sans importance", "AFPS", "AIDE A LA PRISE DE FONCTION", "APF AUMONIER ET AVSC", "APF CHEFS - CHEFTAINES", "APF RESPONSABLE DE GROUPE", "APF RESPONSABLE LOCAL DEVELOPPEMENT ET RESEAUX", "APF SECRETAIRE TRESORIER", "APPRO", "APPRO ACCUEIL DE SCOUTISME", "APPRO ANIMATION", "APPRO KAYAK", "APPRO SURVEILLANT DE BAIGNADE", "APPRO TERRE ET MER", "ASSISES DES FORMATEURS", "AUTRE STAGE", "BAFA APPROFONDISSEMENT", "BAFA FORMATION GENERALE", "BAFD FORMATION GENERALE", "BAFD PERFECTIONNEMENT", "CEP 1", "CEP 2", "CHAM", "CHEF DE FLOTTILLE", "CHEF DE QUART", "FAC", "FIAC", "FIRPAF", "FIRPDEV", "FIRPP", "FORMATION A LA COMMUNICATION", "FORMATION ACCUEIL DE SCOUTISME RG", "FORMATION COMPAGNON 1ER TEMPS", "FORMATION COMPAGNON 2EME TEMPS", "FORMATION COMPLEMENTAIRE DE FORMATEUR", "FORMATION CONTINUE DE DIRECTEURS", "FORMATION CONTINUE DE FORMATEURS", "FORMATION CONTINUE DES RESPONSABLES DE GROUPE", "FORMATION CONTINUE VENT DU LARGE", "FORMATION DE DIRECTEUR DE STAGE", "FORMATION DEPART A L'ETRANGER", "FORMATION DES ACCOMPAGNATEURS COMPAGNONS", "FORMATION DES AUMONIERS ET ANIMATEURS CLEOPHAS ", "FORMATION DES RESPONSABLES FARFADETS", "FORMATION DEVELOPPEMENT ET RESEAUX", "FORMATION GENERALE RESPONSABLE DE GROUPE", "FORMATION INITIALE ACCOMPAGNATEURS PEDAGOGIQUES", "FORMATION INITIALE DE FORMATEURS", "FORMATION INITIALE DES AUMONIERS", "FORMATION INITIALE DES AVSC", "FORMATION INITIALE DES DELEGUES TERRITORIAUX", "FORMATION INITIALE DES EQUIPIERS NATIONAUX", "FORMATION INITIALE DES EQUIPIERS TERRITORIAUX", "FORMATION INITIALE DES MEDIATEURS", "FORMATION INITIALE DES POLES ADMIN ET FINANCIER", "FORMATION INITIALE DES POLES DEVELOPPEMENT", "FORMATION INITIALE DES RESPONSABLES DE GROUPE", "FORMATION INITIALE DES RESPONSABLES DE P&#212;LES", "FORMATION INITIALE TRESORIER-SECRETAIRE", "FORMATION INITIALE VENT DU LARGE", "FORMATION JEUNES ADULTES - DEPART A L'ETRANGER", "FORMATION SERVICE CIVIQUE", "FORMATION SPECIFIQUE MARINE", "MASTERCLASS", "MODULE ANIMATEUR DE SCOUTISME ET CAMPISME", "MODULE APPRO ACCUEIL DE SCOUTISME", "MODULE APPRO ANIMATION", "MODULE APPRO CONSTRUCTION-FABRICATION", "MODULE APPRO CUISINE EN CAMPS", "MODULE APPRO EXPRESSION ARTISTIQUE", "MODULE APPRO HANDICAP", "MODULE APPRO RENCONTRES INTERNATIONALES", "MODULE DE FORMATION CONTINUE DE FORMATEURS", "MODULE SPECIFIQUE  DE FORMATION", "PATRON D'EMBARCATION", "PSC1 ", "SEMINAIRE DE FORMATION DES RESPONSABLES DE GROUPE", "SEMINAIRE DELEGUES TERRITORIAUX", "SEMINAIRE DES POLES DEVELOPPEMENT", "SENAMCO 2", "STAF", "STAGE 2 QUALIFICATION VOILE", "STIF", "TECH", "VALIDATION MONITORAT VOILE 1ER DEGRE"}));
+					cbxFormation.setModel(new DefaultComboBoxModel(new String[] {"Sans importance  (-1)", "AFPS (18)", "AIDE A LA PRISE DE FONCTION (219)", "APF AUMONIER ET AVSC (265)", "APF CHEFS - CHEFTAINES (248)", "APF RESPONSABLE DE GROUPE (250)", "APF RESPONSABLE LOCAL DEVELOPPEMENT ET RESEAUX (263)", "APF SECRETAIRE TRESORIER (251)", "APPRO (53)", "APPRO ACCUEIL DE SCOUTISME (243)", "APPRO ANIMATION (244)", "APPRO KAYAK (229)", "APPRO SURVEILLANT DE BAIGNADE (247)", "APPRO TERRE ET MER (246)", "ASSISES DES FORMATEURS (291)", "AUTRE STAGE (220)", "BAFA APPROFONDISSEMENT (245)", "BAFA FORMATION GENERALE (242)", "BAFD FORMATION GENERALE (274)", "BAFD PERFECTIONNEMENT (282)", "CEP 1 (232)", "CEP 2 (233)", "CHAM (77)", "CHEF DE FLOTTILLE (261)", "CHEF DE QUART (260)", "FAC (256)", "FIAC (255)", "FIRPAF (269)", "FIRPDEV (270)", "FIRPP (268)", "FORMATION A LA COMMUNICATION (281)", "FORMATION ACCUEIL DE SCOUTISME RG (286)", "FORMATION COMPAGNON 1ER TEMPS (276)", "FORMATION COMPAGNON 2EME TEMPS (277)", "FORMATION COMPLEMENTAIRE DE FORMATEUR (295)", "FORMATION CONTINUE DE DIRECTEURS (280)", "FORMATION CONTINUE DE FORMATEURS (279)", "FORMATION CONTINUE DES RESPONSABLES DE GROUPE (289)", "FORMATION CONTINUE VENT DU LARGE (298)", "FORMATION DE DIRECTEUR DE STAGE (222)", "FORMATION DEPART A L'ETRANGER (225)", "FORMATION DES ACCOMPAGNATEURS COMPAGNONS (95)", "FORMATION DES AUMONIERS ET ANIMATEURS CLEOPHAS (240)", "FORMATION DES RESPONSABLES FARFADETS (252)", "FORMATION DEVELOPPEMENT ET RESEAUX (264)", "FORMATION GENERALE RESPONSABLE DE GROUPE (224)", "FORMATION INITIALE ACCOMPAGNATEURS PEDAGOGIQUES (257)", "FORMATION INITIALE DE FORMATEURS (223)", "FORMATION INITIALE DES AUMONIERS (284)", "FORMATION INITIALE DES AVSC (283)", "FORMATION INITIALE DES DELEGUES TERRITORIAUX (293)", "FORMATION INITIALE DES EQUIPIERS NATIONAUX (266)", "FORMATION INITIALE DES EQUIPIERS TERRITORIAUX (266)", "FORMATION INITIALE DES MEDIATEURS (290)", "FORMATION INITIALE DES POLES ADMIN ET FINANCIER (285)", "FORMATION INITIALE DES POLES DEVELOPPEMENT (272)", "FORMATION INITIALE DES RESPONSABLES DE GROUPE (287)", "FORMATION INITIALE DES RESPONSABLES DE POLES (275)", "FORMATION INITIALE TRESORIER-SECRETAIRE (68)", "FORMATION INITIALE VENT DU LARGE (294)", "FORMATION JEUNES ADULTES - DEPART A L'ETRANGER (254)", "FORMATION SERVICE CIVIQUE (288)", "FORMATION SPECIFIQUE MARINE (230)", "MASTERCLASS (258)", "MODULE ANIMATEUR DE SCOUTISME ET CAMPISME (278)", "MODULE APPRO ACCUEIL DE SCOUTISME (221)", "MODULE APPRO ANIMATION (241)", "MODULE APPRO CONSTRUCTION-FABRICATION (267)", "MODULE APPRO CUISINE EN CAMPS (299)", "MODULE APPRO EXPRESSION ARTISTIQUE (271)", "MODULE APPRO HANDICAP (273)", "MODULE APPRO RENCONTRES INTERNATIONALES (226)", "MODULE DE FORMATION CONTINUE DE FORMATEURS (297)", "MODULE SPECIFIQUE  DE FORMATION (227)", "PATRON D'EMBARCATION (259)", "PSC1 (228)", "SEMINAIRE DE FORMATION DES RESPONSABLES DE GROUPE (14)", "SEMINAIRE DELEGUES TERRITORIAUX (70)", "SEMINAIRE DES POLES DEVELOPPEMENT (262)", "SENAMCO 2 (235)", "STAF (42)", "STAGE 2 QUALIFICATION VOILE (55)", "STIF (253)", "TECH (52)", "VALIDATION MONITORAT VOILE 1ER DEGRE (142)"}));
 					panel_1.add(cbxFormation);
 				}
 			}
@@ -333,7 +334,6 @@ public class Extracteur extends JDialog implements LoggedDialog {
 			panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Sortie", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 			GridBagConstraints gbc_panel = new GridBagConstraints();
 			gbc_panel.fill = GridBagConstraints.VERTICAL;
-			gbc_panel.anchor = GridBagConstraints.WEST;
 			gbc_panel.insets = new Insets(0, 0, 5, 0);
 			gbc_panel.gridx = 0;
 			gbc_panel.gridy = 3;
@@ -393,7 +393,7 @@ public class Extracteur extends JDialog implements LoggedDialog {
 					panel_2_1.setBorder(new TitledBorder(null, "G\u00E9n\u00E9rateur", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 					{
 						cbxGenerateur = new JComboBox();
-						cbxGenerateur.setModel(new DefaultComboBoxModel(new String[] {"cvs", "xlsx", "xml"}));
+						cbxGenerateur.setModel(new DefaultComboBoxModel(new String[] {"cvs", "xls", "xml"}));
 						panel_2_1.add(cbxGenerateur);
 					}
 				}
@@ -449,7 +449,7 @@ public class Extracteur extends JDialog implements LoggedDialog {
 			contentPanel.add(panel, gbc_panel);
 			panel.setLayout(new BorderLayout(0, 0));
 			{
-				JProgressBar progress = new JProgressBar();
+				progress = new JProgressBar();
 				progress.setStringPainted(true);
 				panel.add(progress, BorderLayout.CENTER);
 			}
@@ -457,7 +457,7 @@ public class Extracteur extends JDialog implements LoggedDialog {
 				JButton button = new JButton("Go");
 				button.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						export();
+						go();
 					}
 				});
 				panel.add(button, BorderLayout.EAST);
@@ -473,9 +473,13 @@ public class Extracteur extends JDialog implements LoggedDialog {
 			contentPanel.add(panel, gbc_panel);
 			panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
 			{
-				txtLog = new JTextArea();
-				txtLog.setEditable(false);
-				panel.add(txtLog);
+				JScrollPane scrollPane = new JScrollPane();
+				panel.add(scrollPane);
+				{
+					txtLog = new JTextArea();
+					scrollPane.setViewportView(txtLog);
+					txtLog.setEditable(false);
+				}
 			}
 		}
 		{
@@ -501,9 +505,10 @@ public class Extracteur extends JDialog implements LoggedDialog {
 		}
 	}
 	
-	private boolean check()
+	@Override
+	public boolean check()
 	{
-		Logging.logger_.info("Vérification des paramètres");
+		logger_.info("Vérification des paramètres");
 		if (fcSortie==null)
 		{
 			logger_.error("Sortie non-sélectionnée");
@@ -527,13 +532,14 @@ public class Extracteur extends JDialog implements LoggedDialog {
 		return true;
 	}
 
-	protected ExtractionMain connection_;
+	private ExtractionMain connection_;
 	private JCheckBox chkRecursif;
+	private JProgressBar progress;
 	
 	private void login(ExtractionMain connection) throws ClientProtocolException, IOException
 	{
 		connection_ = connection;
-		Logging.logger_.info("Connexion");
+		logger_.info("Connexion");
 		
 		connection_.init();
 		if (connection_.login(txfIdentifiant.getText(),new String(txfMotdepasse.getPassword())) == false)
@@ -547,36 +553,25 @@ public class Extracteur extends JDialog implements LoggedDialog {
 		connection_.close();
 	}
 	
-	private int extract(String key)
+	@Override
+	public void go()
 	{
-		int value = -1;
-		
-		int i = key.lastIndexOf("(");
-		int j = key.lastIndexOf(")");
-		if (i > -1 && j > -1)
-		{
-			String v = key.substring(i+1, j-1);
-			return Integer.valueOf(v);
-		}
-		return value;
-	}
-	
-	private void export()
-	{
+		progress.setValue(0);
 		txtLog.setText("");
 		
 		Instant now = Instant.now();
 		
 		boolean ret = check();
+		progress.setValue(20);
 		if (ret)
 		{
 			String generateur = (String)cbxGenerateur.getSelectedItem();
-			int type = extract(((String)cbxType.getSelectedItem()));
-			int specialite = extract((String)cbxSpecialite.getSelectedItem());
-			int categorie = extract((String)cbxCategorie.getSelectedItem());
-			int diplome = extract((String)cbxDiplome.getSelectedItem());
-			int qualif = extract((String)cbxQualification.getSelectedItem());
-			int formation = extract((String)cbxFormation.getSelectedItem());
+			int type = GuiCommand.extract(((String)cbxType.getSelectedItem()));
+			int specialite = GuiCommand.extract((String)cbxSpecialite.getSelectedItem());
+			int categorie = GuiCommand.extract((String)cbxCategorie.getSelectedItem());
+			int diplome = GuiCommand.extract((String)cbxDiplome.getSelectedItem());
+			int qualif = GuiCommand.extract((String)cbxQualification.getSelectedItem());
+			int formation = GuiCommand.extract((String)cbxFormation.getSelectedItem());
 			int structure = Integer.parseInt(txfStructure.getText());
 			int format = 0;
 			if (chkFormatIndividu.isSelected())
@@ -592,7 +587,7 @@ public class Extracteur extends JDialog implements LoggedDialog {
 			if (chkFormatSansQF.isSelected())
 				format+=32;
 			
-			Logging.logger_.info("Lancement");
+			logger_.info("Lancement");
 		    
 			try {
 				if (generateur.compareTo(ExtractionMain.GENERATEUR_XLS) == 0)
@@ -601,14 +596,18 @@ public class Extracteur extends JDialog implements LoggedDialog {
 
 					ExtractionAdherents app = new ExtractionAdherents();
 					login(app);
-				    Logging.logger_.info("Extraction");
+					progress.setValue(40);
+				    logger_.info("Extraction");
 					String donnees = app.extract(structure,chkRecursif.isSelected(),type, chkAdherents.isSelected(), txfCodefonction.getText(),specialite,categorie,diplome,qualif,formation,format, true);
+					progress.setValue(60);
 					logout();
 					
-					Logging.logger_.info("Ecriture du fichier \""+fcSortie.getSelectedFile().getAbsolutePath()+"\"");
+					logger_.info("Ecriture du fichier \""+fcSortie.getSelectedFile().getAbsolutePath()+"\"");
+					progress.setValue(80);
 					out.write(donnees);
 					out.flush();
 					out.close();
+					progress.setValue(100);
 				}
 				else
 				if (generateur.compareTo(ExtractionMain.GENERATEUR_XML) == 0)
@@ -617,14 +616,18 @@ public class Extracteur extends JDialog implements LoggedDialog {
 
 					ExtractionAdherents app = new ExtractionAdherents();
 					login(app);
-				    Logging.logger_.info("Extraction");
+					progress.setValue(40);
+				    logger_.info("Extraction");
 					String donnees = app.extract(structure,chkRecursif.isSelected(),type, chkAdherents.isSelected(), txfCodefonction.getText(),specialite,categorie,diplome,qualif,formation,format, false);
+					progress.setValue(60);
 					logout();
 
-					Logging.logger_.info("Ecriture du fichier \""+fcSortie.getSelectedFile().getAbsolutePath()+"\"");
+					logger_.info("Ecriture du fichier \""+fcSortie.getSelectedFile().getAbsolutePath()+"\"");
+					progress.setValue(80);
 					out.write(donnees);
 					out.flush();
 					out.close();
+					progress.setValue(100);
 				}
 				else
 				if (generateur.compareTo(ExtractionMain.GENERATEUR_CSV) == 0)
@@ -633,8 +636,10 @@ public class Extracteur extends JDialog implements LoggedDialog {
 					
 					ExtractionAdherents app = new ExtractionAdherents();
 					login(app);
-				    Logging.logger_.info("Extraction");
+					progress.setValue(40);
+				    logger_.info("Extraction");
 					String donnees = app.extract(structure,chkRecursif.isSelected(),type, chkAdherents.isSelected(), txfCodefonction.getText(),specialite,categorie,diplome,qualif,formation,format, false);
+					progress.setValue(60);
 					logout();
 					
 					XPathFactory xpfac = XPathFactory.instance();
@@ -650,7 +655,8 @@ public class Extracteur extends JDialog implements LoggedDialog {
 			        
 			        List<?> results = xpa.evaluate(docx);
 
-					Logging.logger_.info("Ecriture du fichier \""+fcSortie.getSelectedFile().getAbsolutePath()+"\"");
+					logger_.info("Ecriture du fichier \""+fcSortie.getSelectedFile().getAbsolutePath()+"\"");
+					progress.setValue(80);
 			        int index = 0;
 					Iterator<?> iter = results.iterator();
 					while (iter.hasNext())
@@ -666,15 +672,15 @@ public class Extracteur extends JDialog implements LoggedDialog {
 					}
 					out.flush();
 					out.close();
+					progress.setValue(100);
 				}
-				
 			} catch (IOException|JDOMException e) {
 				logger_.error(Logging.dumpStack(null,e));
 			}
 		}
 		
 		long d = Instant.now().getEpochSecond() - now.getEpochSecond();
-		Logging.logger_.info("Terminé en "+d+" seconds");
+		logger_.info("Terminé en "+d+" seconds");
 	}
 	
 	@Override
@@ -755,5 +761,8 @@ public class Extracteur extends JDialog implements LoggedDialog {
 	}
 	public JCheckBox getChkRecursif() {
 		return chkRecursif;
+	}
+	public JProgressBar getProgress() {
+		return progress;
 	}
 }

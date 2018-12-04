@@ -1,5 +1,10 @@
 package org.leplan73.outilssgdf.gui;
 
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,5 +23,20 @@ public class Logging {
 			System.setProperty("org.slf4j.simpleLogger.log.org.apache.http.wire", "debug");
 		}
 		logger_ = LoggerFactory.getLogger(classn);
+	}
+	
+	static public String dumpStack(String message, Throwable ex)
+	{
+		final StringBuilder messageBuilder = new StringBuilder();
+		if (message != null)
+		{
+			messageBuilder.append(message).append(":\n");
+		}
+		OutputStream stream = new ByteArrayOutputStream();
+		PrintWriter writer = new PrintWriter(new BufferedOutputStream(stream));
+		ex.printStackTrace(writer);
+		writer.flush();
+		messageBuilder.append(stream.toString());
+		return messageBuilder.toString();
 	}
 }

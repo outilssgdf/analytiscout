@@ -5,10 +5,19 @@ import ch.qos.logback.core.AppenderBase;
 
 public class Appender extends AppenderBase<ILoggingEvent> {
 
+	private static LoggedDialog dialog_;
+	
+	public static void setLoggedDialog(LoggedDialog dialog)
+	{
+		dialog_ = dialog;
+	}
+	
 	@Override
 	protected void append(ILoggingEvent eventObject) {
-		// TODO Auto-generated method stub
-		
+		synchronized(dialog_)
+		{
+			if (dialog_ != null)
+				dialog_.addLog(eventObject.getMessage());
+		}
 	}
-
 }

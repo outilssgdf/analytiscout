@@ -76,9 +76,9 @@ public class OutilsSGDF {
 		frmAaa.getContentPane().add(panel);
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[]{40, 169, 0, 156, 40, 0};
-		gbl_panel.rowHeights = new int[]{168, 0, 37, 0};
+		gbl_panel.rowHeights = new int[]{66, 0, 37, 0, 0};
 		gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{1.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 		
 		JLabel lblNewLabel = new JLabel("Je souhaite...");
@@ -93,7 +93,7 @@ public class OutilsSGDF {
 		JButton btnNewButton = new JButton("Exporter des données");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new Export().setVisible(true);
+				new Extracteur().setVisible(true);
 			}
 		});
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
@@ -106,7 +106,7 @@ public class OutilsSGDF {
 		JButton btnNewButton_1 = new JButton("Analyser des données");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new Analyse().setVisible(true);
+				new Analyseur().setVisible(true);
 			}
 		});
 		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
@@ -115,6 +115,18 @@ public class OutilsSGDF {
 		gbc_btnNewButton_1.gridx = 3;
 		gbc_btnNewButton_1.gridy = 1;
 		panel.add(btnNewButton_1, gbc_btnNewButton_1);
+		
+		JButton button = new JButton("Exporter des données en batch");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new ExtracteurBatch().setVisible(true);
+			}
+		});
+		GridBagConstraints gbc_button = new GridBagConstraints();
+		gbc_button.insets = new Insets(0, 0, 5, 5);
+		gbc_button.gridx = 1;
+		gbc_button.gridy = 2;
+		panel.add(button, gbc_button);
 	}
 
 }

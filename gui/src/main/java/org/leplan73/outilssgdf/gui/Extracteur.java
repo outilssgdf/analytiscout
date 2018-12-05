@@ -31,8 +31,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JProgressBar;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ProgressMonitor;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
@@ -50,7 +52,6 @@ import org.leplan73.outilssgdf.intranet.ExtractionAdherents;
 import org.leplan73.outilssgdf.intranet.ExtractionMain;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import javax.swing.JScrollPane;
 
 public class Extracteur extends JDialog implements LoggedDialog,GuiCommand {
 
@@ -113,9 +114,9 @@ public class Extracteur extends JDialog implements LoggedDialog,GuiCommand {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		GridBagLayout gbl_contentPanel = new GridBagLayout();
 		gbl_contentPanel.columnWidths = new int[]{0, 0};
-		gbl_contentPanel.rowHeights = new int[]{0, 0, 204, 0, 100, 0, 0, 0};
+		gbl_contentPanel.rowHeights = new int[]{0, 0, 204, 0, 63, 0, 0};
 		gbl_contentPanel.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gbl_contentPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_contentPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		contentPanel.setLayout(gbl_contentPanel);
 		{
 			JPanel panel = new JPanel();
@@ -343,67 +344,67 @@ public class Extracteur extends JDialog implements LoggedDialog,GuiCommand {
 			gbc_panel_2_1.gridx = 0;
 			gbc_panel_2_1.gridy = 3;
 			contentPanel.add(panel_2_1, gbc_panel_2_1);
-			panel_2_1.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Extraction des champs", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+			panel_2_1.setLayout(new BorderLayout(0, 0));
 			{
-				chkFormatIndividu = new JCheckBox("individu");
-				panel_2_1.add(chkFormatIndividu);
+				panel_3 = new JPanel();
+				panel_3.setBorder(new TitledBorder(null, "Extraction des champs", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+				panel_2_1.add(panel_3, BorderLayout.CENTER);
+				{
+					chkFormatIndividu = new JCheckBox("individu");
+					panel_3.add(chkFormatIndividu);
+				}
+				{
+					chkFormatParents = new JCheckBox("parents");
+					panel_3.add(chkFormatParents);
+				}
+				{
+					chkFormatInscription = new JCheckBox("inscription");
+					panel_3.add(chkFormatInscription);
+				}
+				{
+					chkFormatAdhesion = new JCheckBox("adhesion");
+					panel_3.add(chkFormatAdhesion);
+				}
+				{
+					chkFormatJS = new JCheckBox("JS");
+					panel_3.add(chkFormatJS);
+				}
+				{
+					chkFormatSansQF = new JCheckBox("sans QF");
+					panel_3.add(chkFormatSansQF);
+				}
 			}
 			{
-				chkFormatParents = new JCheckBox("parents");
-				panel_2_1.add(chkFormatParents);
-			}
-			{
-				chkFormatInscription = new JCheckBox("inscription");
-				panel_2_1.add(chkFormatInscription);
-			}
-			{
-				chkFormatAdhesion = new JCheckBox("adhesion");
-				panel_2_1.add(chkFormatAdhesion);
-			}
-			{
-				chkFormatJS = new JCheckBox("JS");
-				panel_2_1.add(chkFormatJS);
-			}
-			{
-				chkFormatSansQF = new JCheckBox("sans QF");
-				panel_2_1.add(chkFormatSansQF);
+				panel_4 = new JPanel();
+				panel_4.setBorder(new TitledBorder(null, "G\u00E9n\u00E9rateur", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+				panel_2_1.add(panel_4, BorderLayout.EAST);
+				{
+					cbxGenerateur = new JComboBox();
+					panel_4.add(cbxGenerateur);
+					cbxGenerateur.setModel(new DefaultComboBoxModel(new String[] {"xls", "cvs", "xml"}));
+				}
 			}
 		}
 		{
 			JPanel panel = new JPanel();
 			panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Sortie", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 			GridBagConstraints gbc_panel = new GridBagConstraints();
-			gbc_panel.anchor = GridBagConstraints.NORTHWEST;
+			gbc_panel.anchor = GridBagConstraints.NORTH;
+			gbc_panel.fill = GridBagConstraints.HORIZONTAL;
 			gbc_panel.insets = new Insets(0, 0, 5, 0);
 			gbc_panel.gridx = 0;
 			gbc_panel.gridy = 4;
 			contentPanel.add(panel, gbc_panel);
+			panel.setLayout(new BorderLayout(0, 0));
 			{
-				JPanel panel_1 = new JPanel();
-				panel.add(panel_1);
-				GridBagLayout gbl_panel_1 = new GridBagLayout();
-				gbl_panel_1.columnWidths = new int[]{515, 0, 0};
-				gbl_panel_1.rowHeights = new int[]{0, 0};
-				gbl_panel_1.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-				gbl_panel_1.rowWeights = new double[]{0.0, Double.MIN_VALUE};
-				panel_1.setLayout(gbl_panel_1);
 				{
-					JPanel panel_2 = new JPanel();
-					panel_2.setBorder(new TitledBorder(null, "Sortie", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-					GridBagConstraints gbc_panel_2 = new GridBagConstraints();
-					gbc_panel_2.anchor = GridBagConstraints.NORTH;
-					gbc_panel_2.insets = new Insets(0, 0, 0, 5);
-					gbc_panel_2.fill = GridBagConstraints.HORIZONTAL;
-					gbc_panel_2.gridx = 0;
-					gbc_panel_2.gridy = 0;
-					panel_1.add(panel_2, gbc_panel_2);
-					panel_2.setLayout(new BorderLayout(0, 0));
 					{
-						lblSortie = new JLabel("<rien>");
-						panel_2.add(lblSortie, BorderLayout.WEST);
-					}
-					{
+						{
+							lblSortie = new JLabel("<rien>");
+							panel.add(lblSortie, BorderLayout.CENTER);
+						}
 						JButton button = new JButton("Fichier...");
+						panel.add(button, BorderLayout.EAST);
 						button.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent arg0) {
 								fcSortie = new JFileChooser();
@@ -413,55 +414,15 @@ public class Extracteur extends JDialog implements LoggedDialog,GuiCommand {
 								fcSortie.setFileSelectionMode(JFileChooser.FILES_ONLY);
 								fcSortie.removeChoosableFileFilter(fcSortie.getFileFilter() );
 								fcSortie.addChoosableFileFilter(new ExportFileFilter(cbxGenerateur.getSelectedItem().toString()));
-								int result = fcSortie.showDialog(panel_2, "OK");
+								int result = fcSortie.showDialog(panel, "OK");
 								if (result == JFileChooser.APPROVE_OPTION) {  
 									File targetFile = fcSortie.getSelectedFile();
 									lblSortie.setText(targetFile.getPath());
 								}
 							}
 						});
-						panel_2.add(button, BorderLayout.EAST);
 					}
 				}
-				{
-					JPanel panel_2_1 = new JPanel();
-					GridBagConstraints gbc_panel_2_1 = new GridBagConstraints();
-					gbc_panel_2_1.anchor = GridBagConstraints.WEST;
-					gbc_panel_2_1.gridx = 1;
-					gbc_panel_2_1.gridy = 0;
-					panel_1.add(panel_2_1, gbc_panel_2_1);
-					panel_2_1.setBorder(new TitledBorder(null, "G\u00E9n\u00E9rateur", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-					{
-						cbxGenerateur = new JComboBox();
-						cbxGenerateur.setModel(new DefaultComboBoxModel(new String[] {"xls", "cvs", "xml"}));
-						panel_2_1.add(cbxGenerateur);
-					}
-				}
-			}
-		}
-		{
-			JPanel panel = new JPanel();
-			GridBagConstraints gbc_panel = new GridBagConstraints();
-			gbc_panel.anchor = GridBagConstraints.NORTH;
-			gbc_panel.insets = new Insets(0, 0, 5, 0);
-			gbc_panel.fill = GridBagConstraints.HORIZONTAL;
-			gbc_panel.gridx = 0;
-			gbc_panel.gridy = 5;
-			contentPanel.add(panel, gbc_panel);
-			panel.setLayout(new BorderLayout(0, 0));
-			{
-				progress = new JProgressBar();
-				progress.setStringPainted(true);
-				panel.add(progress, BorderLayout.CENTER);
-			}
-			{
-				btnGo = new JButton("Go");
-				btnGo.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						go();
-					}
-				});
-				panel.add(btnGo, BorderLayout.EAST);
 			}
 		}
 		{
@@ -470,7 +431,7 @@ public class Extracteur extends JDialog implements LoggedDialog,GuiCommand {
 			GridBagConstraints gbc_panel = new GridBagConstraints();
 			gbc_panel.fill = GridBagConstraints.BOTH;
 			gbc_panel.gridx = 0;
-			gbc_panel.gridy = 6;
+			gbc_panel.gridy = 5;
 			contentPanel.add(panel, gbc_panel);
 			panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
 			{
@@ -488,20 +449,13 @@ public class Extracteur extends JDialog implements LoggedDialog,GuiCommand {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				btnOk = new JButton("OK");
-				btnOk.addActionListener(new ActionListener() {
+				btnGo = new JButton("Go");
+				buttonPane.add(btnGo);
+				btnGo.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						go();
 					}
 				});
-				btnOk.setActionCommand("OK");
-				buttonPane.add(btnOk);
-				getRootPane().setDefaultButton(btnOk);
-			}
-			{
-				JButton cancelButton = new JButton("Cancel");
-				cancelButton.setEnabled(false);
-				cancelButton.setActionCommand("Cancel");
-				buttonPane.add(cancelButton);
 			}
 		}
 	}
@@ -535,10 +489,10 @@ public class Extracteur extends JDialog implements LoggedDialog,GuiCommand {
 
 	private ExtractionMain connection_;
 	private JCheckBox chkRecursif;
-	private JProgressBar progress;
-	private JButton btnOk;
 	private JButton btnGo;
 	private JCheckBox checkBox;
+	private JPanel panel_3;
+	private JPanel panel_4;
 	
 	private void login(ExtractionMain connection) throws ClientProtocolException, IOException
 	{
@@ -560,140 +514,141 @@ public class Extracteur extends JDialog implements LoggedDialog,GuiCommand {
 	@Override
 	public void go()
 	{
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				progress.setValue(0);
-				txtLog.setText("");
-				btnGo.setEnabled(false);
-				btnOk.setEnabled(false);
+		ProgressMonitor p = new ProgressMonitor(this, "Extraction", "", 0, 100);
+		p.setMillisToPopup(0);
+		p.setMillisToDecideToPopup(0);
+		
+          new Thread(() -> {
+			p.setProgress(0);
+			txtLog.setText("");
+			btnGo.setEnabled(false);
+			
+			Instant now = Instant.now();
+			
+			boolean ret = check();
+			p.setProgress(20);
+			if (ret)
+			{
+				String generateur = (String)cbxGenerateur.getSelectedItem();
+				int type = GuiCommand.extract(((String)cbxType.getSelectedItem()));
+				int specialite = GuiCommand.extract((String)cbxSpecialite.getSelectedItem());
+				int categorie = GuiCommand.extract((String)cbxCategorie.getSelectedItem());
+				int diplome = GuiCommand.extract((String)cbxDiplome.getSelectedItem());
+				int qualif = GuiCommand.extract((String)cbxQualification.getSelectedItem());
+				int formation = GuiCommand.extract((String)cbxFormation.getSelectedItem());
+				int structure = Integer.parseInt(txfStructure.getText());
+				int format = 0;
+				if (chkFormatIndividu.isSelected())
+					format+=1;
+				if (chkFormatParents.isSelected())
+					format+=2;
+				if (chkFormatInscription.isSelected())
+					format+=4;
+				if (chkFormatAdhesion.isSelected())
+					format+=8;
+				if (chkFormatJS.isSelected())
+					format+=16;
+				if (chkFormatSansQF.isSelected())
+					format+=32;
 				
-				Instant now = Instant.now();
-				
-				boolean ret = check();
-				progress.setValue(20);
-				if (ret)
-				{
-					String generateur = (String)cbxGenerateur.getSelectedItem();
-					int type = GuiCommand.extract(((String)cbxType.getSelectedItem()));
-					int specialite = GuiCommand.extract((String)cbxSpecialite.getSelectedItem());
-					int categorie = GuiCommand.extract((String)cbxCategorie.getSelectedItem());
-					int diplome = GuiCommand.extract((String)cbxDiplome.getSelectedItem());
-					int qualif = GuiCommand.extract((String)cbxQualification.getSelectedItem());
-					int formation = GuiCommand.extract((String)cbxFormation.getSelectedItem());
-					int structure = Integer.parseInt(txfStructure.getText());
-					int format = 0;
-					if (chkFormatIndividu.isSelected())
-						format+=1;
-					if (chkFormatParents.isSelected())
-						format+=2;
-					if (chkFormatInscription.isSelected())
-						format+=4;
-					if (chkFormatAdhesion.isSelected())
-						format+=8;
-					if (chkFormatJS.isSelected())
-						format+=16;
-					if (chkFormatSansQF.isSelected())
-						format+=32;
-					
-					logger_.info("Lancement");
-				    
-					try {
-						if (generateur.compareTo(ExtractionMain.GENERATEUR_XLS) == 0)
-						{
-							Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fcSortie.getSelectedFile()), ENCODING_WINDOWS));
-		
-							ExtractionAdherents app = new ExtractionAdherents();
-							login(app);
-							progress.setValue(40);
-						    logger_.info("Extraction");
-							String donnees = app.extract(structure,chkRecursif.isSelected(),type, chkAdherents.isSelected(), txfCodefonction.getText(),specialite,categorie,diplome,qualif,formation,format, true);
-							progress.setValue(60);
-							logout();
-							
-							logger_.info("Ecriture du fichier \""+fcSortie.getSelectedFile().getAbsolutePath()+"\"");
-							progress.setValue(80);
-							out.write(donnees);
-							out.flush();
-							out.close();
-							progress.setValue(100);
-						}
-						else
-						if (generateur.compareTo(ExtractionMain.GENERATEUR_XML) == 0)
-						{
-							Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fcSortie.getSelectedFile()), ENCODING_UTF8));
-		
-							ExtractionAdherents app = new ExtractionAdherents();
-							login(app);
-							progress.setValue(40);
-						    logger_.info("Extraction");
-							String donnees = app.extract(structure,chkRecursif.isSelected(),type, chkAdherents.isSelected(), txfCodefonction.getText(),specialite,categorie,diplome,qualif,formation,format, false);
-							progress.setValue(60);
-							logout();
-		
-							logger_.info("Ecriture du fichier \""+fcSortie.getSelectedFile().getAbsolutePath()+"\"");
-							progress.setValue(80);
-							out.write(donnees);
-							out.flush();
-							out.close();
-							progress.setValue(100);
-						}
-						else
-						if (generateur.compareTo(ExtractionMain.GENERATEUR_CSV) == 0)
-						{
-							final CSVPrinter out = CSVFormat.DEFAULT.withFirstRecordAsHeader().print(fcSortie.getSelectedFile(), Charset.forName(ENCODING_WINDOWS));
-							
-							ExtractionAdherents app = new ExtractionAdherents();
-							login(app);
-							progress.setValue(40);
-						    logger_.info("Extraction");
-							String donnees = app.extract(structure,chkRecursif.isSelected(),type, chkAdherents.isSelected(), txfCodefonction.getText(),specialite,categorie,diplome,qualif,formation,format, false);
-							progress.setValue(60);
-							logout();
-							
-							XPathFactory xpfac = XPathFactory.instance();
-							SAXBuilder builder = new SAXBuilder();
-					        org.jdom2.Document docx = builder.build(new ByteArrayInputStream(donnees.getBytes(Charset.forName(ENCODING_UTF8))));
-					        
-					        // Scan des colonnes
-					     	XPathExpression<?> xpac = xpfac.compile("tbody/tr[1]/td/text()");
-					     	List<?> resultsc = xpac.evaluate(docx);
-					     	int nbColumns = resultsc.size();	 
-					     			 
-					        XPathExpression<?> xpa = xpfac.compile("tbody/tr/td");
-					        
-					        List<?> results = xpa.evaluate(docx);
-		
-							logger_.info("Ecriture du fichier \""+fcSortie.getSelectedFile().getAbsolutePath()+"\"");
-							progress.setValue(80);
-					        int index = 0;
-							Iterator<?> iter = results.iterator();
-							while (iter.hasNext())
-							{
-								Object result = iter.next();
-								Element resultElement = (Element) result;
-								out.print(resultElement.getText());
-				                index++;
-					        	if (index % nbColumns == 0)
-					        	{
-					        		out.println();
-					        	}
-							}
-							out.flush();
-							out.close();
-						}
-					} catch (IOException|JDOMException e) {
-						logger_.error(Logging.dumpStack(null,e));
+				logger_.info("Lancement");
+			    
+				try {
+					if (generateur.compareTo(ExtractionMain.GENERATEUR_XLS) == 0)
+					{
+						Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fcSortie.getSelectedFile()), ENCODING_WINDOWS));
+	
+						ExtractionAdherents app = new ExtractionAdherents();
+						login(app);
+						p.setProgress(40);
+					    logger_.info("Extraction");
+						String donnees = app.extract(structure,chkRecursif.isSelected(),type, chkAdherents.isSelected(), txfCodefonction.getText(),specialite,categorie,diplome,qualif,formation,format, true);
+						p.setProgress(60);
+						logout();
+						
+						logger_.info("Ecriture du fichier \""+fcSortie.getSelectedFile().getAbsolutePath()+"\"");
+						p.setProgress(80);
+						out.write(donnees);
+						out.flush();
+						out.close();
+						p.setProgress(100);
 					}
+					else
+					if (generateur.compareTo(ExtractionMain.GENERATEUR_XML) == 0)
+					{
+						Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fcSortie.getSelectedFile()), ENCODING_UTF8));
+	
+						ExtractionAdherents app = new ExtractionAdherents();
+						login(app);
+						p.setProgress(40);
+					    logger_.info("Extraction");
+						String donnees = app.extract(structure,chkRecursif.isSelected(),type, chkAdherents.isSelected(), txfCodefonction.getText(),specialite,categorie,diplome,qualif,formation,format, false);
+						p.setProgress(60);
+						logout();
+	
+						logger_.info("Ecriture du fichier \""+fcSortie.getSelectedFile().getAbsolutePath()+"\"");
+						p.setProgress(80);
+						out.write(donnees);
+						out.flush();
+						out.close();
+						p.setProgress(100);
+					}
+					else
+					if (generateur.compareTo(ExtractionMain.GENERATEUR_CSV) == 0)
+					{
+						final CSVPrinter out = CSVFormat.DEFAULT.withFirstRecordAsHeader().print(fcSortie.getSelectedFile(), Charset.forName(ENCODING_WINDOWS));
+						
+						ExtractionAdherents app = new ExtractionAdherents();
+						login(app);
+						p.setProgress(40);
+					    logger_.info("Extraction");
+						String donnees = app.extract(structure,chkRecursif.isSelected(),type, chkAdherents.isSelected(), txfCodefonction.getText(),specialite,categorie,diplome,qualif,formation,format, false);
+						p.setProgress(60);
+						logout();
+						
+						XPathFactory xpfac = XPathFactory.instance();
+						SAXBuilder builder = new SAXBuilder();
+				        org.jdom2.Document docx = builder.build(new ByteArrayInputStream(donnees.getBytes(Charset.forName(ENCODING_UTF8))));
+				        
+				        // Scan des colonnes
+				     	XPathExpression<?> xpac = xpfac.compile("tbody/tr[1]/td/text()");
+				     	List<?> resultsc = xpac.evaluate(docx);
+				     	int nbColumns = resultsc.size();	 
+				     			 
+				        XPathExpression<?> xpa = xpfac.compile("tbody/tr/td");
+				        
+				        List<?> results = xpa.evaluate(docx);
+	
+						logger_.info("Ecriture du fichier \""+fcSortie.getSelectedFile().getAbsolutePath()+"\"");
+						p.setProgress(80);
+				        int index = 0;
+						Iterator<?> iter = results.iterator();
+						while (iter.hasNext())
+						{
+							Object result = iter.next();
+							Element resultElement = (Element) result;
+							out.print(resultElement.getText());
+			                index++;
+				        	if (index % nbColumns == 0)
+				        	{
+				        		out.println();
+				        	}
+						}
+						out.flush();
+						out.close();
+					}
+				} catch (IOException|JDOMException e) {
+					logger_.error(Logging.dumpStack(null,e));
 				}
-				progress.setValue(100);
-				
-				long d = Instant.now().getEpochSecond() - now.getEpochSecond();
-				logger_.info("Terminé en "+d+" seconds");
-				
-				btnGo.setEnabled(true);
-				btnOk.setEnabled(true);
 			}
-		});
+			p.setProgress(100);
+			p.close();
+			
+			long d = Instant.now().getEpochSecond() - now.getEpochSecond();
+			logger_.info("Terminé en "+d+" seconds");
+			
+			btnGo.setEnabled(true);
+		}).start();
 	}
 	
 	@Override
@@ -774,12 +729,6 @@ public class Extracteur extends JDialog implements LoggedDialog,GuiCommand {
 	}
 	public JCheckBox getChkRecursif() {
 		return chkRecursif;
-	}
-	public JProgressBar getProgress() {
-		return progress;
-	}
-	public JButton getBtnOk() {
-		return btnOk;
 	}
 	public JButton getBtnGo() {
 		return btnGo;

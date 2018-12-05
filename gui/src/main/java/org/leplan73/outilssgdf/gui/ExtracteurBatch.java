@@ -100,6 +100,7 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog,GuiCommand 
 		contentPanel.setLayout(gbl_contentPanel);
 		{
 			JPanel panel = new JPanel();
+			panel.setBorder(new TitledBorder(null, "Acc\u00E8s Intranet", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			GridBagConstraints gbc_panel = new GridBagConstraints();
 			gbc_panel.insets = new Insets(0, 0, 5, 0);
 			gbc_panel.fill = GridBagConstraints.HORIZONTAL;
@@ -129,6 +130,10 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog,GuiCommand 
 					txfMotdepasse.setColumns(10);
 					panel_1.add(txfMotdepasse);
 				}
+			}
+			{
+				JCheckBox chkMemoriser = new JCheckBox("Mémoriser");
+				panel.add(chkMemoriser, BorderLayout.EAST);
 			}
 		}
 		{
@@ -251,13 +256,13 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog,GuiCommand 
 				panel.add(progress, BorderLayout.WEST);
 			}
 			{
-				JButton button = new JButton("Go");
-				button.addActionListener(new ActionListener() {
+				btnGo = new JButton("Go");
+				btnGo.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						go();
 					}
 				});
-				panel.add(button, BorderLayout.EAST);
+				panel.add(btnGo, BorderLayout.EAST);
 			}
 		}
 		{
@@ -284,10 +289,10 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog,GuiCommand 
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("OK");
-				okButton.setActionCommand("OK");
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
+				btnOk = new JButton("OK");
+				btnOk.setActionCommand("OK");
+				buttonPane.add(btnOk);
+				getRootPane().setDefaultButton(btnOk);
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");
@@ -304,6 +309,8 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog,GuiCommand 
 	private JLabel lblSortie;
 	private JProgressBar progress;
 	private JTextField tfStructure;
+	private JButton btnOk;
+	private JButton btnGo;
 	
 	private void login(ExtractionMain connection) throws ClientProtocolException, IOException
 	{
@@ -353,6 +360,7 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog,GuiCommand 
 		Instant now = Instant.now();
 		
 		boolean ret = check();
+		progress.setValue(20);
 		if (ret)
 		{
 			try {
@@ -361,6 +369,7 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog,GuiCommand 
 				
 				ExtractionAdherents app = new ExtractionAdherents();
 				login(app);
+				progress.setValue(40);
 				
 				String stStructures[] = tfStructure.getText().split(",");
 				for (String stStructure : stStructures)
@@ -474,6 +483,7 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog,GuiCommand 
 				logger_.error(Logging.dumpStack(null,e));
 			}
 		}
+		progress.setValue(100);
 		
 		long d = Instant.now().getEpochSecond() - now.getEpochSecond();
 		logger_.info("Terminé en "+d+" seconds");
@@ -515,5 +525,11 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog,GuiCommand 
 	}
 	public JTextField getTfStructure() {
 		return tfStructure;
+	}
+	public JButton getBtnOk() {
+		return btnOk;
+	}
+	public JButton getBtnGo() {
+		return btnGo;
 	}
 }

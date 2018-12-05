@@ -75,20 +75,11 @@ public class OutilsSGDF {
 		JPanel panel = new JPanel();
 		frmAaa.getContentPane().add(panel);
 		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[]{40, 169, 0, 156, 40, 0};
+		gbl_panel.columnWidths = new int[]{40, 169, 0, 75, 40, 0};
 		gbl_panel.rowHeights = new int[]{66, 0, 37, 0, 0};
-		gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
+		gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0, 1.0, 1.0, Double.MIN_VALUE};
 		gbl_panel.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
-		
-		JLabel lblNewLabel = new JLabel("Je souhaite...");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-		gbc_lblNewLabel.fill = GridBagConstraints.VERTICAL;
-		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel.gridx = 2;
-		gbc_lblNewLabel.gridy = 0;
-		panel.add(lblNewLabel, gbc_lblNewLabel);
 		
 		JButton btnNewButton = new JButton("Exporter des données");
 		btnNewButton.addActionListener(new ActionListener() {
@@ -96,6 +87,15 @@ public class OutilsSGDF {
 				new Extracteur().setVisible(true);
 			}
 		});
+		
+		JLabel lblNewLabel = new JLabel("Je souhaite...");
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
+		gbc_lblNewLabel.fill = GridBagConstraints.VERTICAL;
+		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel.gridx = 1;
+		gbc_lblNewLabel.gridy = 0;
+		panel.add(lblNewLabel, gbc_lblNewLabel);
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 		gbc_btnNewButton.fill = GridBagConstraints.BOTH;
 		gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
@@ -110,8 +110,9 @@ public class OutilsSGDF {
 			}
 		});
 		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
+		gbc_btnNewButton_1.anchor = GridBagConstraints.WEST;
 		gbc_btnNewButton_1.insets = new Insets(0, 0, 5, 5);
-		gbc_btnNewButton_1.fill = GridBagConstraints.BOTH;
+		gbc_btnNewButton_1.fill = GridBagConstraints.VERTICAL;
 		gbc_btnNewButton_1.gridx = 3;
 		gbc_btnNewButton_1.gridy = 1;
 		panel.add(btnNewButton_1, gbc_btnNewButton_1);

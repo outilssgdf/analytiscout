@@ -28,6 +28,7 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
@@ -66,6 +67,8 @@ public class Analyseur extends JDialog implements LoggedDialog,GuiCommand {
 	private JLabel lblModele;
 	private JTextArea txtLog;
 	private JProgressBar progress;
+	private JButton btnOk;
+	private JButton btnGo;
 
 	/**
 	 * Launch the application.
@@ -90,7 +93,7 @@ public class Analyseur extends JDialog implements LoggedDialog,GuiCommand {
 		
 		setModalityType(ModalityType.APPLICATION_MODAL);
 		setResizable(false);
-		setTitle("Analyse");
+		setTitle("Analyseur");
 		setBounds(100, 100, 556, 608);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -292,13 +295,13 @@ public class Analyseur extends JDialog implements LoggedDialog,GuiCommand {
 				panel.add(progress, BorderLayout.CENTER);
 			}
 			{
-				JButton button = new JButton("Go");
-				button.addActionListener(new ActionListener() {
+				btnGo = new JButton("Go");
+				btnGo.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						go();
 					}
 				});
-				panel.add(button, BorderLayout.EAST);
+				panel.add(btnGo, BorderLayout.EAST);
 			}
 		}
 		{
@@ -325,10 +328,10 @@ public class Analyseur extends JDialog implements LoggedDialog,GuiCommand {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("OK");
-				okButton.setActionCommand("OK");
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
+				btnOk = new JButton("OK");
+				btnOk.setActionCommand("OK");
+				buttonPane.add(btnOk);
+				getRootPane().setDefaultButton(btnOk);
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");
@@ -374,92 +377,102 @@ public class Analyseur extends JDialog implements LoggedDialog,GuiCommand {
 	@Override
 	public void go()
 	{
-		progress.setValue(0);
-		txtLog.setText("");
-		
-		Instant now = Instant.now();
-		
-		boolean ret = check();
-		if (ret)
-		{
-			logger_.info("Lancement");
-		    
-			try {
-			    logger_.info("Chargement du fichier de traitement");
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				progress.setValue(0);
+				txtLog.setText("");
+				btnGo.setEnabled(false);
+				btnOk.setEnabled(false);
 				
-				Properties pbatch = new Properties();
-				pbatch.load(new FileInputStream(fcBatch.getSelectedFile()));
-		
-				Map<ExtraKey, ExtracteurExtraHtml> extraMap = new TreeMap<ExtraKey, ExtracteurExtraHtml>();
-				File fichierAdherents = null;
-		
-				String structure = getTxfStructure().getText();
-				File dossierStructure = new File(fcEntree.getSelectedFile(),""+structure);
-				dossierStructure.exists();
+				Instant now = Instant.now();
 				
-				int index=1;
-				for(;;)
+				boolean ret = check();
+				progress.setValue(20);
+				if (ret)
 				{
-					String generateur = pbatch.getProperty("generateur."+index);
-					if (generateur == null)
-					{
-						break;
-					}
-					
-					ExtraKey extra = new ExtraKey(pbatch.getProperty("nom."+index,""), pbatch.getProperty("batchtype."+index,"tout"));
-					File fichier = new File(dossierStructure, extra.nom_+"."+generateur);
-					
-				    logger_.info("Chargement du fichier \""+fichier.getName()+"\"");
+					logger_.info("Lancement");
 				    
-					if (extra.ifTout())
-					{
-						fichierAdherents = fichier;
+					try {
+					    logger_.info("Chargement du fichier de traitement");
+						
+						Properties pbatch = new Properties();
+						pbatch.load(new FileInputStream(fcBatch.getSelectedFile()));
+				
+						Map<ExtraKey, ExtracteurExtraHtml> extraMap = new TreeMap<ExtraKey, ExtracteurExtraHtml>();
+						File fichierAdherents = null;
+				
+						String structure = getTxfStructure().getText();
+						File dossierStructure = new File(fcEntree.getSelectedFile(),""+structure);
+						dossierStructure.exists();
+						
+						int index=1;
+						for(;;)
+						{
+							String generateur = pbatch.getProperty("generateur."+index);
+							if (generateur == null)
+							{
+								break;
+							}
+							
+							ExtraKey extra = new ExtraKey(pbatch.getProperty("nom."+index,""), pbatch.getProperty("batchtype."+index,"tout"));
+							File fichier = new File(dossierStructure, extra.nom_+"."+generateur);
+							
+						    logger_.info("Chargement du fichier \""+fichier.getName()+"\"");
+						    
+							if (extra.ifTout())
+							{
+								fichierAdherents = fichier;
+							}
+							else
+								extraMap.put(extra, new ExtracteurExtraHtml(fichier.getAbsolutePath(),getChcAge().isSelected()));
+							index++;
+						}
+				
+						logger_.info("Chargement du fichier \""+fichierAdherents.getName()+"\"");
+						ExtracteurHtml adherents = new ExtracteurHtml(fichierAdherents, extraMap,getChcAge().isSelected());
+						 
+						AdherentFormes compas = new AdherentFormes();
+						compas.charge(adherents,extraMap);
+						
+						String version = "";
+						try
+						{
+							version = Manifests.read("version");
+						}
+						catch(java.lang.IllegalArgumentException e) {
+						}
+						General general = new General(version);
+						Global global = new Global(adherents.getGroupe(), adherents.getMarins());
+						adherents.calculGlobal(global);
+				
+						FileOutputStream outputStream = new FileOutputStream(fcSortie.getSelectedFile());
+				
+					    logger_.info("Génération du fichier \""+fcSortie.getSelectedFile().getName()+"\" à partir du modèle \""+fcModele.getSelectedFile().getName()+"\"");
+						ExcelTransformer trans = new ExcelTransformer();
+						Map<String, Object> beans = new HashMap<String, Object>();
+						beans.put("chefs", adherents.getChefsList());
+						beans.put("compas", adherents.getCompasList());
+						beans.put("unites", adherents.getUnitesList());
+						beans.put("general", general);
+						beans.put("global", global);
+						Workbook workbook = trans.transform(new FileInputStream(fcModele.getSelectedFile()), beans);
+						workbook.write(outputStream);
+						
+						outputStream.flush();
+						outputStream.close();
+						
+					} catch (IOException|JDOMException | InvalidFormatException | ExtractionException e) {
+						logger_.error(Logging.dumpStack(null,e));
 					}
-					else
-						extraMap.put(extra, new ExtracteurExtraHtml(fichier.getAbsolutePath(),getChcAge().isSelected()));
-					index++;
 				}
-		
-				logger_.info("Chargement du fichier \""+fichierAdherents.getName()+"\"");
-				ExtracteurHtml adherents = new ExtracteurHtml(fichierAdherents, extraMap,getChcAge().isSelected());
-				 
-				AdherentFormes compas = new AdherentFormes();
-				compas.charge(adherents,extraMap);
+				progress.setValue(100);
+				long d = Instant.now().getEpochSecond() - now.getEpochSecond();
+				logger_.info("Terminé en "+d+" seconds");
 				
-				String version = "";
-				try
-				{
-					version = Manifests.read("version");
-				}
-				catch(java.lang.IllegalArgumentException e) {
-				}
-				General general = new General(version);
-				Global global = new Global(adherents.getGroupe(), adherents.getMarins());
-				adherents.calculGlobal(global);
-		
-				FileOutputStream outputStream = new FileOutputStream(fcSortie.getSelectedFile());
-		
-			    logger_.info("Génération du fichier \""+fcSortie.getSelectedFile().getName()+"\" à partir du modèle \""+fcModele.getSelectedFile().getName()+"\"");
-				ExcelTransformer trans = new ExcelTransformer();
-				Map<String, Object> beans = new HashMap<String, Object>();
-				beans.put("chefs", adherents.getChefsList());
-				beans.put("compas", adherents.getCompasList());
-				beans.put("unites", adherents.getUnitesList());
-				beans.put("general", general);
-				beans.put("global", global);
-				Workbook workbook = trans.transform(new FileInputStream(fcModele.getSelectedFile()), beans);
-				workbook.write(outputStream);
-				
-				outputStream.flush();
-				outputStream.close();
-				
-			} catch (IOException|JDOMException | InvalidFormatException | ExtractionException e) {
-				logger_.error(Logging.dumpStack(null,e));
+				btnGo.setEnabled(true);
+				btnOk.setEnabled(true);
 			}
-		}
-		
-		long d = Instant.now().getEpochSecond() - now.getEpochSecond();
-		logger_.info("Terminé en "+d+" seconds");
+		});
 	}
 	
 	@Override
@@ -501,5 +514,11 @@ public class Analyseur extends JDialog implements LoggedDialog,GuiCommand {
 	}
 	public JProgressBar getProgress() {
 		return progress;
+	}
+	public JButton getBtnOk() {
+		return btnOk;
+	}
+	public JButton getBtnGo() {
+		return btnGo;
 	}
 }

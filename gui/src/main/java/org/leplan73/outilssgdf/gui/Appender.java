@@ -17,7 +17,7 @@ public class Appender extends AppenderBase<ILoggingEvent> {
 		synchronized(dialog_)
 		{
 			if (dialog_ != null)
-				dialog_.addLog(eventObject.getMessage());
+				dialog_.addLog(eventObject.toString());
 		}
 	}
 }

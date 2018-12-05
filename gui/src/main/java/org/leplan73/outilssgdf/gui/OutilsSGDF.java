@@ -1,6 +1,7 @@
 package org.leplan73.outilssgdf.gui;
 
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -9,6 +10,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -16,9 +18,14 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import com.jcabi.manifests.Manifests;
+import org.leplan73.outilssgdf.gui.utils.Logging;
+import org.leplan73.outilssgdf.gui.utils.Preferences;
 
-public class OutilsSGDF {
+import com.jcabi.manifests.Manifests;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
+public class OutilsSGDF extends JFrame {
 
 	private JFrame frmAaa;
 
@@ -28,6 +35,7 @@ public class OutilsSGDF {
 	public static void main(String[] args) {
 		Logging.initLogger(OutilsSGDF.class, true);
 		try {
+			Preferences.init();
 //			UIManager.setLookAndFeel(useopenjdk ? "javax.swing.plaf.windows.WindowsLookAndFeel" : "com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
 			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
 		} catch (ClassNotFoundException e1) {
@@ -59,75 +67,92 @@ public class OutilsSGDF {
 	 */
 	private void initialize() {
 		frmAaa = new JFrame();
+		frmAaa.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent arg0) {
+				Preferences.sauve(Consts.FENETRE_PRINCIPALE_X, frmAaa.getLocation().getX());
+				Preferences.sauve(Consts.FENETRE_PRINCIPALE_Y, frmAaa.getLocation().getY());
+			}
+		});
 		frmAaa.setResizable(false);
-		try
-		{
-			frmAaa.setTitle("Outils SGDF v"+Manifests.read("version"));
-		}
-		catch(java.lang.IllegalArgumentException e)
-		{
+		try {
+			frmAaa.setTitle("Outils SGDF v" + Manifests.read("version"));
+		} catch (java.lang.IllegalArgumentException e) {
 			frmAaa.setTitle("Outils SGDF (dev)");
 		}
-		frmAaa.setBounds(100, 100, 481, 273);
-		frmAaa.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frmAaa.getContentPane().setLayout(new BoxLayout(frmAaa.getContentPane(), BoxLayout.X_AXIS));
 		
+		double x = Preferences.lit(Consts.FENETRE_PRINCIPALE_X, 100);
+		double y = Preferences.lit(Consts.FENETRE_PRINCIPALE_Y, 100);
+		frmAaa.setBounds((int)x, (int)y, 481, 187);
+		frmAaa.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frmAaa.getContentPane().setLayout(new BoxLayout(frmAaa.getContentPane(), BoxLayout.X_AXIS));
+
 		JPanel panel = new JPanel();
 		frmAaa.getContentPane().add(panel);
 		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[]{40, 169, 0, 75, 40, 0};
-		gbl_panel.rowHeights = new int[]{66, 0, 37, 0, 0};
-		gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0, 1.0, 1.0, Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel.columnWidths = new int[] { 40, 169, 0, 75, 0 };
+		gbl_panel.rowHeights = new int[] { 53, 0, 37, 0, 0, 0 };
+		gbl_panel.columnWeights = new double[] { 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
+		gbl_panel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		panel.setLayout(gbl_panel);
 		
-		JButton btnNewButton = new JButton("Exporter des données");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				new Extracteur().setVisible(true);
-			}
-		});
+				JButton btnNewButton = new JButton("Exporter des données");
+				btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
+				btnNewButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						new Extracteur().setVisible(true);
+					}
+				});
+				
+						JLabel lblNewLabel = new JLabel("Je souhaite...");
+						lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
+						lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+						GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
+						gbc_lblNewLabel.fill = GridBagConstraints.VERTICAL;
+						gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
+						gbc_lblNewLabel.gridx = 1;
+						gbc_lblNewLabel.gridy = 0;
+						panel.add(lblNewLabel, gbc_lblNewLabel);
+				GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
+				gbc_btnNewButton.fill = GridBagConstraints.VERTICAL;
+				gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
+				gbc_btnNewButton.gridx = 2;
+				gbc_btnNewButton.gridy = 1;
+				panel.add(btnNewButton, gbc_btnNewButton);
 		
-		JLabel lblNewLabel = new JLabel("Je souhaite...");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-		gbc_lblNewLabel.fill = GridBagConstraints.VERTICAL;
-		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel.gridx = 1;
-		gbc_lblNewLabel.gridy = 0;
-		panel.add(lblNewLabel, gbc_lblNewLabel);
-		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-		gbc_btnNewButton.fill = GridBagConstraints.BOTH;
-		gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
-		gbc_btnNewButton.gridx = 1;
-		gbc_btnNewButton.gridy = 1;
-		panel.add(btnNewButton, gbc_btnNewButton);
-		
-		JButton btnNewButton_1 = new JButton("Analyser des données");
-		btnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				new Analyseur().setVisible(true);
-			}
-		});
-		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
-		gbc_btnNewButton_1.anchor = GridBagConstraints.WEST;
-		gbc_btnNewButton_1.insets = new Insets(0, 0, 5, 5);
-		gbc_btnNewButton_1.fill = GridBagConstraints.VERTICAL;
-		gbc_btnNewButton_1.gridx = 3;
-		gbc_btnNewButton_1.gridy = 1;
-		panel.add(btnNewButton_1, gbc_btnNewButton_1);
-		
-		JButton button = new JButton("Exporter des données en batch");
-		button.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				new ExtracteurBatch().setVisible(true);
-			}
-		});
-		GridBagConstraints gbc_button = new GridBagConstraints();
-		gbc_button.insets = new Insets(0, 0, 5, 5);
-		gbc_button.gridx = 1;
-		gbc_button.gridy = 2;
-		panel.add(button, gbc_button);
+				JButton btnNewButton_1 = new JButton("Analyser des données");
+				btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
+				btnNewButton_1.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						new Analyseur().setVisible(true);
+					}
+				});
+				
+						JButton button = new JButton("Exporter des données en batch");
+						button.setFont(new Font("Tahoma", Font.PLAIN, 14));
+						button.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								new ExtracteurBatch().setVisible(true);
+							}
+						});
+						GridBagConstraints gbc_button = new GridBagConstraints();
+						gbc_button.insets = new Insets(0, 0, 5, 5);
+						gbc_button.gridx = 2;
+						gbc_button.gridy = 2;
+						panel.add(button, gbc_button);
+				GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
+				gbc_btnNewButton_1.insets = new Insets(0, 0, 5, 5);
+				gbc_btnNewButton_1.fill = GridBagConstraints.VERTICAL;
+				gbc_btnNewButton_1.gridx = 2;
+				gbc_btnNewButton_1.gridy = 3;
+				panel.add(btnNewButton_1, gbc_btnNewButton_1);
+	}
+
+	@Override
+	public void dispose() {
+		Preferences.sauve("x", this.getLocation().getX());
+		Preferences.sauve("y", this.getLocation().getY());
+		super.dispose();
 	}
 
 }

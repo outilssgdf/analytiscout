@@ -1,6 +1,6 @@
 <configuration>
 
-  <appender name="appender" class="org.leplan73.outilssgdf.gui.Appender">
+  <appender name="appender" class="org.leplan73.outilssgdf.gui.utils.Appender">
     <encoder>
       <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
       <charset>UTF-8</charset>

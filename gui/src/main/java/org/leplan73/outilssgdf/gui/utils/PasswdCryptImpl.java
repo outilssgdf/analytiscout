@@ -1,4 +1,4 @@
-package org.leplan73.outilssgdf.gui;
+package org.leplan73.outilssgdf.gui.utils;
 
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;

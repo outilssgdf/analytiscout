@@ -30,12 +30,10 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
-import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ProgressMonitor;
-import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
@@ -48,6 +46,7 @@ import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.xpath.XPathExpression;
 import org.jdom2.xpath.XPathFactory;
+import org.leplan73.outilssgdf.Consts;
 import org.leplan73.outilssgdf.gui.utils.Appender;
 import org.leplan73.outilssgdf.gui.utils.ExportFileFilter;
 import org.leplan73.outilssgdf.gui.utils.GuiCommand;
@@ -61,9 +60,6 @@ import org.slf4j.LoggerFactory;
 
 public class Extracteur extends JDialog implements LoggedDialog, GuiCommand {
 
-	private static final String ENCODING_WINDOWS = "Windows-1252";
-	private static final String ENCODING_UTF8 = "UTF-8";
-
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txfIdentifiant;
 	private JPasswordField txfMotdepasse;
@@ -73,6 +69,7 @@ public class Extracteur extends JDialog implements LoggedDialog, GuiCommand {
 	private Logger logger_ = LoggerFactory.getLogger(Extracteur.class);
 
 	private JFileChooser fcSortie;
+	private File fSortie;
 	private JLabel lblSortie;
 	private JTextArea txtLog;
 	private JCheckBox chkFormatIndividu;
@@ -114,7 +111,9 @@ public class Extracteur extends JDialog implements LoggedDialog, GuiCommand {
 		setModalityType(ModalityType.APPLICATION_MODAL);
 		setResizable(false);
 		setTitle("Extracteur");
-		setBounds(100, 100, 676, 678);
+		double x = Preferences.lit(Consts.FENETRE_EXTRACTEUR_X, 100);
+		double y = Preferences.lit(Consts.FENETRE_EXTRACTEUR_Y, 100);
+		setBounds((int)x, (int)y, 676, 678);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -497,8 +496,8 @@ public class Extracteur extends JDialog implements LoggedDialog, GuiCommand {
 										new ExportFileFilter(cbxGenerateur.getSelectedItem().toString()));
 								int result = fcSortie.showDialog(panel, "OK");
 								if (result == JFileChooser.APPROVE_OPTION) {
-									File targetFile = fcSortie.getSelectedFile();
-									lblSortie.setText(targetFile.getPath());
+									fSortie = fcSortie.getSelectedFile();
+									lblSortie.setText(fSortie.getPath());
 								}
 							}
 						});
@@ -544,7 +543,7 @@ public class Extracteur extends JDialog implements LoggedDialog, GuiCommand {
 	@Override
 	public boolean check() {
 		logger_.info("Vérification des paramètres");
-		if (fcSortie == null) {
+		if (fSortie == null) {
 			logger_.error("Sortie non-sélectionnée");
 			return false;
 		}
@@ -626,8 +625,8 @@ public class Extracteur extends JDialog implements LoggedDialog, GuiCommand {
 
 				try {
 					if (generateur.compareTo(ExtractionMain.GENERATEUR_XLS) == 0) {
-						Writer out = new BufferedWriter(new OutputStreamWriter(
-								new FileOutputStream(fcSortie.getSelectedFile()), ENCODING_WINDOWS));
+						Writer out = new BufferedWriter(
+								new OutputStreamWriter(new FileOutputStream(fSortie), Consts.ENCODING_WINDOWS));
 
 						ExtractionAdherents app = new ExtractionAdherents();
 						login(app);
@@ -639,15 +638,15 @@ public class Extracteur extends JDialog implements LoggedDialog, GuiCommand {
 						progress.setProgress(60);
 						logout();
 
-						logger_.info("Ecriture du fichier \"" + fcSortie.getSelectedFile().getAbsolutePath() + "\"");
+						logger_.info("Ecriture du fichier \"" + fSortie.getAbsolutePath() + "\"");
 						progress.setProgress(80);
 						out.write(donnees);
 						out.flush();
 						out.close();
 						progress.setProgress(100);
 					} else if (generateur.compareTo(ExtractionMain.GENERATEUR_XML) == 0) {
-						Writer out = new BufferedWriter(new OutputStreamWriter(
-								new FileOutputStream(fcSortie.getSelectedFile()), ENCODING_UTF8));
+						Writer out = new BufferedWriter(
+								new OutputStreamWriter(new FileOutputStream(fSortie), Consts.ENCODING_UTF8));
 
 						ExtractionAdherents app = new ExtractionAdherents();
 						login(app);
@@ -659,15 +658,15 @@ public class Extracteur extends JDialog implements LoggedDialog, GuiCommand {
 						progress.setProgress(60);
 						logout();
 
-						logger_.info("Ecriture du fichier \"" + fcSortie.getSelectedFile().getAbsolutePath() + "\"");
+						logger_.info("Ecriture du fichier \"" + fSortie.getAbsolutePath() + "\"");
 						progress.setProgress(80);
 						out.write(donnees);
 						out.flush();
 						out.close();
 						progress.setProgress(100);
 					} else if (generateur.compareTo(ExtractionMain.GENERATEUR_CSV) == 0) {
-						final CSVPrinter out = CSVFormat.DEFAULT.withFirstRecordAsHeader()
-								.print(fcSortie.getSelectedFile(), Charset.forName(ENCODING_WINDOWS));
+						final CSVPrinter out = CSVFormat.DEFAULT.withFirstRecordAsHeader().print(fSortie,
+								Charset.forName(Consts.ENCODING_WINDOWS));
 
 						ExtractionAdherents app = new ExtractionAdherents();
 						login(app);
@@ -682,7 +681,7 @@ public class Extracteur extends JDialog implements LoggedDialog, GuiCommand {
 						XPathFactory xpfac = XPathFactory.instance();
 						SAXBuilder builder = new SAXBuilder();
 						org.jdom2.Document docx = builder
-								.build(new ByteArrayInputStream(donnees.getBytes(Charset.forName(ENCODING_UTF8))));
+								.build(new ByteArrayInputStream(donnees.getBytes(Charset.forName(Consts.ENCODING_UTF8))));
 
 						// Scan des colonnes
 						XPathExpression<?> xpac = xpfac.compile("tbody/tr[1]/td/text()");
@@ -693,7 +692,7 @@ public class Extracteur extends JDialog implements LoggedDialog, GuiCommand {
 
 						List<?> results = xpa.evaluate(docx);
 
-						logger_.info("Ecriture du fichier \"" + fcSortie.getSelectedFile().getAbsolutePath() + "\"");
+						logger_.info("Ecriture du fichier \"" + fSortie.getAbsolutePath() + "\"");
 						progress.setProgress(80);
 						int index = 0;
 						Iterator<?> iter = results.iterator();
@@ -726,13 +725,12 @@ public class Extracteur extends JDialog implements LoggedDialog, GuiCommand {
 	@Override
 	public void dispose() {
 		Appender.setLoggedDialog(null);
-		if (chkMemoriser.isSelected())
-		{
+		Preferences.sauve(Consts.FENETRE_EXTRACTEUR_X, this.getLocation().getX());
+		Preferences.sauve(Consts.FENETRE_EXTRACTEUR_Y, this.getLocation().getY());
+		if (chkMemoriser.isSelected()) {
 			Preferences.sauve(Consts.INTRANET_IDENTIFIANT, txfIdentifiant.getText(), true);
 			Preferences.sauve(Consts.INTRANET_MOTDEPASSE, new String(txfMotdepasse.getPassword()), true);
-		}
-		else
-		{
+		} else {
 			Preferences.sauve(Consts.INTRANET_IDENTIFIANT, "", true);
 			Preferences.sauve(Consts.INTRANET_MOTDEPASSE, "", true);
 		}

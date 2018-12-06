@@ -19,6 +19,7 @@ import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.xpath.XPathExpression;
 import org.jdom2.xpath.XPathFactory;
+import org.leplan73.outilssgdf.Consts;
 import org.leplan73.outilssgdf.intranet.ExtractionAdherents;
 import org.leplan73.outilssgdf.intranet.ExtractionMain;
 
@@ -28,10 +29,6 @@ import picocli.CommandLine.Option;
 
 @Command(name = "extracteur", mixinStandardHelpOptions = true, versionProvider = CommonParamsG.class)
 public class Extracteur extends CommonParamsIntranet {
-
-	private static final String ENCODING_WINDOWS = "Windows-1252";
-	private static final String ENCODING_UTF8 = "UTF-8";
-
 	@Option(names = "-sortie", required=true, description = "Fichier de sortie")
 	private File sortie;
 
@@ -83,7 +80,7 @@ public class Extracteur extends CommonParamsIntranet {
 			
 			if (generateur.compareTo(ExtractionMain.GENERATEUR_XLS) == 0)
 			{
-				Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(sortie), ENCODING_WINDOWS));
+				Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(sortie), Consts.ENCODING_WINDOWS));
 
 				ExtractionAdherents app = new ExtractionAdherents();
 				login(app);
@@ -99,7 +96,7 @@ public class Extracteur extends CommonParamsIntranet {
 			else
 			if (generateur.compareTo(ExtractionMain.GENERATEUR_XML) == 0)
 			{
-				Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(sortie), ENCODING_UTF8));
+				Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(sortie), Consts.ENCODING_UTF8));
 
 				ExtractionAdherents app = new ExtractionAdherents();
 				login(app);
@@ -114,7 +111,7 @@ public class Extracteur extends CommonParamsIntranet {
 			else
 			if (generateur.compareTo(ExtractionMain.GENERATEUR_CSV) == 0)
 			{
-				final CSVPrinter out = CSVFormat.DEFAULT.withFirstRecordAsHeader().print(sortie, Charset.forName(ENCODING_WINDOWS));
+				final CSVPrinter out = CSVFormat.DEFAULT.withFirstRecordAsHeader().print(sortie, Charset.forName(Consts.ENCODING_WINDOWS));
 				
 				ExtractionAdherents app = new ExtractionAdherents();
 				login(app);
@@ -124,7 +121,7 @@ public class Extracteur extends CommonParamsIntranet {
 				
 				XPathFactory xpfac = XPathFactory.instance();
 				SAXBuilder builder = new SAXBuilder();
-		        org.jdom2.Document docx = builder.build(new ByteArrayInputStream(donnees.getBytes(Charset.forName(ENCODING_UTF8))));
+		        org.jdom2.Document docx = builder.build(new ByteArrayInputStream(donnees.getBytes(Charset.forName(Consts.ENCODING_UTF8))));
 		        
 		        // Scan des colonnes
 		     	XPathExpression<?> xpac = xpfac.compile("tbody/tr[1]/td/text()");

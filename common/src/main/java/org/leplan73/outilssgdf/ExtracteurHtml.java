@@ -1,5 +1,6 @@
 package org.leplan73.outilssgdf;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -40,22 +41,14 @@ public class ExtracteurHtml {
 	public ExtracteurHtml() throws ExtractionException, IOException, JDOMException {
 	}
 	
-	public ExtracteurHtml(String fichier, boolean age) throws ExtractionException, IOException, JDOMException {
-		charge(fichier, age);
-	}
-	
-	public ExtracteurHtml(File fichier, boolean age) throws ExtractionException, IOException, JDOMException {
-		charge(fichier, age);
-	}
-	
-	public ExtracteurHtml(String fichier, Map<ExtraKey, ExtracteurExtraHtml> extras, boolean age) throws ExtractionException, IOException, JDOMException {
-		extras_ = extras;
-		charge(fichier, age);
-	}
-	
 	public ExtracteurHtml(File fichier, Map<ExtraKey, ExtracteurExtraHtml> extras, boolean age) throws ExtractionException, IOException, JDOMException {
 		extras_ = extras;
 		charge(fichier, age);
+	}
+	
+	public ExtracteurHtml(String donnnes, Map<ExtraKey, ExtracteurExtraHtml> extras, boolean age) throws ExtractionException, IOException, JDOMException {
+		extras_ = extras;
+		charge(donnnes, age);
 	}
 
 	public Adherents getAdherents()
@@ -122,9 +115,9 @@ public class ExtracteurHtml {
 		return marins_;
 	}
 	
-	public void charge(final String path, boolean age) throws ExtractionException, IOException, JDOMException
+	public void charge(final String donnnes, boolean age) throws ExtractionException, IOException, JDOMException
 	{
-   		FileInputStream excelFile = new FileInputStream(new File(path));
+   		ByteArrayInputStream excelFile = new ByteArrayInputStream(donnnes.getBytes());
    		charge(excelFile, age);
 		excelFile.close();
 	}

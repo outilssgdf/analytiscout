@@ -46,6 +46,7 @@ import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.xpath.XPathExpression;
 import org.jdom2.xpath.XPathFactory;
+import org.leplan73.outilssgdf.Consts;
 import org.leplan73.outilssgdf.gui.utils.Appender;
 import org.leplan73.outilssgdf.gui.utils.ExportFileFilter;
 import org.leplan73.outilssgdf.gui.utils.GuiCommand;
@@ -59,15 +60,14 @@ import org.slf4j.LoggerFactory;
 
 public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand {
 
-	private static final String ENCODING_WINDOWS = "Windows-1252";
-	private static final String ENCODING_UTF8 = "UTF-8";
-
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txfIdentifiant;
 	private JPasswordField txfMotdepasse;
 	private JTextArea txtLog;
 	private JFileChooser fcSortie;
+	private File fSortie;
 	private JFileChooser fcBatch;
+	private File fBatch;
 
 	private Logger logger_ = LoggerFactory.getLogger(ExtracteurBatch.class);
 
@@ -96,7 +96,9 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand
 		setTitle("ExtracteurBatch");
 		setModalityType(ModalityType.APPLICATION_MODAL);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 566, 480);
+		double x = Preferences.lit(Consts.FENETRE_EXTRACTEURBATCH_X, 100);
+		double y = Preferences.lit(Consts.FENETRE_EXTRACTEURBATCH_Y, 100);
+		setBounds((int)x, (int)y, 566, 480);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -193,8 +195,8 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand
 						fcBatch.addChoosableFileFilter(new ExportFileFilter("txt"));
 						int result = fcBatch.showDialog(panel, "OK");
 						if (result == JFileChooser.APPROVE_OPTION) {
-							File targetFile = fcBatch.getSelectedFile();
-							lblBatch.setText(targetFile.getPath());
+							fBatch = fcBatch.getSelectedFile();
+							lblBatch.setText(fBatch.getPath());
 						}
 					}
 				});
@@ -247,8 +249,8 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand
 						fcSortie.addChoosableFileFilter(new ExportFileFilter("xlsx"));
 						int result = fcSortie.showDialog(panel, "OK");
 						if (result == JFileChooser.APPROVE_OPTION) {
-							File targetFile = fcSortie.getSelectedFile();
-							lblSortie.setText(targetFile.getPath());
+							fSortie = fcSortie.getSelectedFile();
+							lblSortie.setText(fSortie.getPath());
 						}
 					}
 				});
@@ -315,7 +317,11 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand
 	@Override
 	public boolean check() {
 		logger_.info("Vérification des paramètres");
-		if (fcSortie == null) {
+		if (fBatch == null) {
+			logger_.error("Batch non-sélectionnée");
+			return false;
+		}
+		if (fSortie == null) {
 			logger_.error("Sortie non-sélectionnée");
 			return false;
 		}
@@ -347,7 +353,7 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand
 			if (ret) {
 				try {
 					Properties pbatch = new Properties();
-					pbatch.load(new FileInputStream(fcBatch.getSelectedFile()));
+					pbatch.load(new FileInputStream(fBatch));
 
 					ExtractionAdherents app = new ExtractionAdherents();
 					login(app);
@@ -409,7 +415,7 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand
 								logger_.info("Extraction du fichier " + index + " dans " + fichier);
 
 								Writer out = new BufferedWriter(
-										new OutputStreamWriter(new FileOutputStream(fichier), ENCODING_WINDOWS));
+										new OutputStreamWriter(new FileOutputStream(fichier), Consts.ENCODING_WINDOWS));
 								String donnees = app.extract(structure, chkRecursif.isSelected(), type, adherents,
 										fonction, specialite, categorie, diplome, qualif, formation, format, true);
 								out.write(donnees);
@@ -420,7 +426,7 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand
 								logger_.info("Extraction du fichier " + index + " dans " + fichier);
 
 								Writer out = new BufferedWriter(
-										new OutputStreamWriter(new FileOutputStream(fichier), ENCODING_UTF8));
+										new OutputStreamWriter(new FileOutputStream(fichier), Consts.ENCODING_UTF8));
 								String donnees = app.extract(structure, chkRecursif.isSelected(), type, adherents,
 										fonction, specialite, categorie, diplome, qualif, formation, format, false);
 								out.write(donnees);
@@ -431,7 +437,7 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand
 								logger_.info("Extraction du fichier " + index + " dans " + fichier);
 
 								final CSVPrinter out = CSVFormat.DEFAULT.withFirstRecordAsHeader().print(fichier,
-										Charset.forName(ENCODING_WINDOWS));
+										Charset.forName(Consts.ENCODING_WINDOWS));
 
 								String donnees = app.extract(structure, chkRecursif.isSelected(), type, adherents,
 										fonction, specialite, categorie, diplome, qualif, formation, format, false);
@@ -439,7 +445,7 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand
 								XPathFactory xpfac = XPathFactory.instance();
 								SAXBuilder builder = new SAXBuilder();
 								org.jdom2.Document docx = builder.build(
-										new ByteArrayInputStream(donnees.getBytes(Charset.forName(ENCODING_UTF8))));
+										new ByteArrayInputStream(donnees.getBytes(Charset.forName(Consts.ENCODING_UTF8))));
 
 								// Scan des colonnes
 								XPathExpression<?> xpac = xpfac.compile("tbody/tr[1]/td/text()");
@@ -484,6 +490,8 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand
 	@Override
 	public void dispose() {
 		Appender.setLoggedDialog(null);
+		Preferences.sauve(Consts.FENETRE_EXTRACTEURBATCH_X, this.getLocation().getX());
+		Preferences.sauve(Consts.FENETRE_EXTRACTEURBATCH_Y, this.getLocation().getY());
 		if (chkMemoriser.isSelected())
 		{
 			Preferences.sauve(Consts.INTRANET_IDENTIFIANT, txfIdentifiant.getText(), true);

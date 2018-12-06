@@ -1,6 +1,10 @@
 package org.leplan73.outilssgdf;
 
 public class Consts {
+
+	public static final String ENCODING_WINDOWS = "Windows-1252";
+	public static final String ENCODING_UTF8 = "UTF-8";
+	
 	static final public int PARENT_PERE = 1;
 	static final public int PARENT_MERE = 2;
 	static final public int PARENT_PEREMERE = PARENT_PERE|PARENT_MERE;
@@ -27,4 +31,22 @@ public class Consts {
 	
 	static final public String PROPERTY_DATE_DEBUT_CAMP = "date.debutcamp";
 	static final public String PROPERTY_DATE_LIMITE_JEUNE = "date.limitejeune";
+	
+	public static final String FENETRE_PRINCIPALE_X = "fenetre.principale.x";
+	public static final String FENETRE_PRINCIPALE_Y = "fenetre.principale.y";
+	
+	public static final String FENETRE_ANALYSEUR_X = "fenetre.analyseur.x";
+	public static final String FENETRE_ANALYSEUR_Y = "fenetre.analyseur.y";
+	
+	public static final String FENETRE_ANALYSEURENLIGNE_X = "fenetre.analyseurenligne.x";
+	public static final String FENETRE_ANALYSEURENLIGNE_Y = "fenetre.analyseurenligne.y";
+	
+	public static final String FENETRE_EXTRACTEUR_X = "fenetre.extracteur.x";
+	public static final String FENETRE_EXTRACTEUR_Y = "fenetre.extracteur.y";
+	
+	public static final String FENETRE_EXTRACTEURBATCH_X = "fenetre.extracteurbatch.x";
+	public static final String FENETRE_EXTRACTEURBATCH_Y = "fenetre.extracteurbatch.y";
+	
+	public static final String INTRANET_IDENTIFIANT = "intranet.identifiant";
+	public static final String INTRANET_MOTDEPASSE = "intranet.motdepasse";
 }

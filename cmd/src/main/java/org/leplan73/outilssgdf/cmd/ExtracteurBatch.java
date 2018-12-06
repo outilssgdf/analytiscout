@@ -21,6 +21,7 @@ import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.xpath.XPathExpression;
 import org.jdom2.xpath.XPathFactory;
+import org.leplan73.outilssgdf.Consts;
 import org.leplan73.outilssgdf.intranet.ExtractionAdherents;
 import org.leplan73.outilssgdf.intranet.ExtractionMain;
 
@@ -30,9 +31,6 @@ import picocli.CommandLine.Option;
 
 @Command(name = "extracteurbatch", mixinStandardHelpOptions = true, versionProvider = CommonParamsG.class)
 public class ExtracteurBatch extends CommonParamsIntranet {
-
-	private static final String ENCODING_WINDOWS = "Windows-1252";
-	private static final String ENCODING_UTF8 = "UTF-8";
 
 	@Option(names = "-batch", required=true, description = "Fichier de batch contenant les extractions à effectuer")
 	private File batch;
@@ -105,7 +103,7 @@ public class ExtracteurBatch extends CommonParamsIntranet {
 					{
 						Logging.logger_.info("Extraction du fichier "+index+" dans "+fichier);
 						
-						Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fichier), ENCODING_WINDOWS));
+						Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fichier), Consts.ENCODING_WINDOWS));
 						String donnees = app.extract(structure,recursif,type,adherents,fonction,specialite,categorie, diplome,qualif,formation,format, true);
 						out.write(donnees);
 						out.flush();
@@ -117,7 +115,7 @@ public class ExtracteurBatch extends CommonParamsIntranet {
 					{
 						Logging.logger_.info("Extraction du fichier "+index+" dans "+fichier);
 						
-						Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fichier), ENCODING_UTF8));
+						Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fichier), Consts.ENCODING_UTF8));
 						String donnees = app.extract(structure,recursif,type,adherents,fonction,specialite,categorie, diplome,qualif,formation,format, false);
 						out.write(donnees);
 						out.flush();
@@ -129,13 +127,13 @@ public class ExtracteurBatch extends CommonParamsIntranet {
 					{
 						Logging.logger_.info("Extraction du fichier "+index+" dans "+fichier);
 						
-						final CSVPrinter out = CSVFormat.DEFAULT.withFirstRecordAsHeader().print(fichier, Charset.forName(ENCODING_WINDOWS));
+						final CSVPrinter out = CSVFormat.DEFAULT.withFirstRecordAsHeader().print(fichier, Charset.forName(Consts.ENCODING_WINDOWS));
 						
 						String donnees = app.extract(structure,recursif,type,adherents,fonction,specialite,categorie,diplome,qualif,formation,format, false);
 						
 						XPathFactory xpfac = XPathFactory.instance();
 						SAXBuilder builder = new SAXBuilder();
-				        org.jdom2.Document docx = builder.build(new ByteArrayInputStream(donnees.getBytes(Charset.forName(ENCODING_UTF8))));
+				        org.jdom2.Document docx = builder.build(new ByteArrayInputStream(donnees.getBytes(Charset.forName(Consts.ENCODING_UTF8))));
 				        
 				        // Scan des colonnes
 				     	XPathExpression<?> xpac = xpfac.compile("tbody/tr[1]/td/text()");

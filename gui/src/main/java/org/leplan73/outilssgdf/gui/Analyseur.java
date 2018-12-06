@@ -35,6 +35,7 @@ import javax.swing.border.TitledBorder;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.jdom2.JDOMException;
+import org.leplan73.outilssgdf.Consts;
 import org.leplan73.outilssgdf.ExtracteurExtraHtml;
 import org.leplan73.outilssgdf.ExtracteurHtml;
 import org.leplan73.outilssgdf.ExtractionException;
@@ -47,6 +48,7 @@ import org.leplan73.outilssgdf.gui.utils.ExportFileFilter;
 import org.leplan73.outilssgdf.gui.utils.GuiCommand;
 import org.leplan73.outilssgdf.gui.utils.LoggedDialog;
 import org.leplan73.outilssgdf.gui.utils.Logging;
+import org.leplan73.outilssgdf.gui.utils.Preferences;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,9 +61,13 @@ public class Analyseur extends JDialog implements LoggedDialog, GuiCommand {
 	private final JPanel contentPanel = new JPanel();
 	private Logger logger_ = LoggerFactory.getLogger(Analyseur.class);
 	private JFileChooser fcBatch = new JFileChooser();
+	private File fBatch;
 	private JFileChooser fcEntree = new JFileChooser();
+	private File fEntree;
 	private JFileChooser fcModele = new JFileChooser();
+	private File fModele;
 	private JFileChooser fcSortie = new JFileChooser();
+	private File fSortie;
 	private JCheckBox chcAge;
 	private JLabel lblSortie;
 	private JLabel lblBatch;
@@ -94,7 +100,9 @@ public class Analyseur extends JDialog implements LoggedDialog, GuiCommand {
 		setModalityType(ModalityType.APPLICATION_MODAL);
 		setResizable(false);
 		setTitle("Analyseur");
-		setBounds(100, 100, 556, 608);
+		double x = Preferences.lit(Consts.FENETRE_ANALYSEUR_X, 100);
+		double y = Preferences.lit(Consts.FENETRE_ANALYSEUR_Y, 100);
+		setBounds((int)x, (int)y, 556, 608);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -132,8 +140,8 @@ public class Analyseur extends JDialog implements LoggedDialog, GuiCommand {
 						fcBatch.addChoosableFileFilter(new ExportFileFilter("txt"));
 						int result = fcBatch.showDialog(panel, "OK");
 						if (result == JFileChooser.APPROVE_OPTION) {
-							File targetFile = fcBatch.getSelectedFile();
-							lblBatch.setText(targetFile.getPath());
+							fBatch = fcBatch.getSelectedFile();
+							lblBatch.setText(fBatch.getPath());
 						}
 					}
 				});
@@ -165,8 +173,8 @@ public class Analyseur extends JDialog implements LoggedDialog, GuiCommand {
 						fcEntree.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 						int result = fcEntree.showDialog(panel, "OK");
 						if (result == JFileChooser.APPROVE_OPTION) {
-							File targetFile = fcEntree.getSelectedFile();
-							lblEntree.setText(targetFile.getPath());
+							fEntree = fcEntree.getSelectedFile();
+							lblEntree.setText(fEntree.getPath());
 						}
 					}
 				});
@@ -200,8 +208,8 @@ public class Analyseur extends JDialog implements LoggedDialog, GuiCommand {
 						fcModele.addChoosableFileFilter(new ExportFileFilter("xlsx"));
 						int result = fcModele.showDialog(panel, "OK");
 						if (result == JFileChooser.APPROVE_OPTION) {
-							File targetFile = fcModele.getSelectedFile();
-							lblModele.setText(targetFile.getPath());
+							fModele = fcModele.getSelectedFile();
+							lblModele.setText(fModele.getPath());
 						}
 					}
 				});
@@ -251,8 +259,8 @@ public class Analyseur extends JDialog implements LoggedDialog, GuiCommand {
 						fcSortie.addChoosableFileFilter(new ExportFileFilter("xlsx"));
 						int result = fcSortie.showDialog(panel, "OK");
 						if (result == JFileChooser.APPROVE_OPTION) {
-							File targetFile = fcSortie.getSelectedFile();
-							lblSortie.setText(targetFile.getPath());
+							fSortie = fcSortie.getSelectedFile();
+							lblSortie.setText(fSortie.getPath());
 						}
 					}
 				});
@@ -297,19 +305,19 @@ public class Analyseur extends JDialog implements LoggedDialog, GuiCommand {
 	@Override
 	public boolean check() {
 		logger_.info("Vérification des paramètres");
-		if (fcBatch == null) {
+		if (fBatch == null) {
 			logger_.error("Batch non-sélectionnée");
 			return false;
 		}
-		if (fcEntree == null) {
+		if (fEntree == null) {
 			logger_.error("Entrée non-sélectionnée");
 			return false;
 		}
-		if (fcModele == null) {
+		if (fModele == null) {
 			logger_.error("Modèle non-sélectionnée");
 			return false;
 		}
-		if (fcSortie == null) {
+		if (fSortie == null) {
 			logger_.error("Sortie non-sélectionnée");
 			return false;
 		}
@@ -338,12 +346,12 @@ public class Analyseur extends JDialog implements LoggedDialog, GuiCommand {
 					logger_.info("Chargement du fichier de traitement");
 
 					Properties pbatch = new Properties();
-					pbatch.load(new FileInputStream(fcBatch.getSelectedFile()));
+					pbatch.load(new FileInputStream(fBatch));
 
 					Map<ExtraKey, ExtracteurExtraHtml> extraMap = new TreeMap<ExtraKey, ExtracteurExtraHtml>();
 					File fichierAdherents = null;
 
-					File dossierStructure = fcEntree.getSelectedFile();
+					File dossierStructure = fEntree;
 					dossierStructure.exists();
 
 					int index = 1;
@@ -382,10 +390,10 @@ public class Analyseur extends JDialog implements LoggedDialog, GuiCommand {
 					Global global = new Global(adherents.getGroupe(), adherents.getMarins());
 					adherents.calculGlobal(global);
 
-					FileOutputStream outputStream = new FileOutputStream(fcSortie.getSelectedFile());
+					FileOutputStream outputStream = new FileOutputStream(fSortie);
 
-					logger_.info("Génération du fichier \"" + fcSortie.getSelectedFile().getName()
-							+ "\" à partir du modèle \"" + fcModele.getSelectedFile().getName() + "\"");
+					logger_.info("Génération du fichier \"" + fSortie.getName()
+							+ "\" à partir du modèle \"" + fModele.getName() + "\"");
 					ExcelTransformer trans = new ExcelTransformer();
 					Map<String, Object> beans = new HashMap<String, Object>();
 					beans.put("chefs", adherents.getChefsList());
@@ -393,7 +401,7 @@ public class Analyseur extends JDialog implements LoggedDialog, GuiCommand {
 					beans.put("unites", adherents.getUnitesList());
 					beans.put("general", general);
 					beans.put("global", global);
-					Workbook workbook = trans.transform(new FileInputStream(fcModele.getSelectedFile()), beans);
+					Workbook workbook = trans.transform(new FileInputStream(fModele), beans);
 					workbook.write(outputStream);
 
 					outputStream.flush();
@@ -414,6 +422,8 @@ public class Analyseur extends JDialog implements LoggedDialog, GuiCommand {
 	@Override
 	public void dispose() {
 		Appender.setLoggedDialog(null);
+		Preferences.sauve(Consts.FENETRE_ANALYSEUR_X, this.getLocation().getX());
+		Preferences.sauve(Consts.FENETRE_ANALYSEUR_Y, this.getLocation().getY());
 		super.dispose();
 	}
 

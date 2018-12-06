@@ -7,10 +7,12 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.net.URISyntaxException;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -18,12 +20,12 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import org.leplan73.outilssgdf.Consts;
+import org.leplan73.outilssgdf.gui.utils.JHyperlink;
 import org.leplan73.outilssgdf.gui.utils.Logging;
 import org.leplan73.outilssgdf.gui.utils.Preferences;
 
 import com.jcabi.manifests.Manifests;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 public class OutilsSGDF extends JFrame {
 
@@ -80,72 +82,95 @@ public class OutilsSGDF extends JFrame {
 		} catch (java.lang.IllegalArgumentException e) {
 			frmAaa.setTitle("Outils SGDF (dev)");
 		}
-		
+
 		double x = Preferences.lit(Consts.FENETRE_PRINCIPALE_X, 100);
 		double y = Preferences.lit(Consts.FENETRE_PRINCIPALE_Y, 100);
-		frmAaa.setBounds((int)x, (int)y, 481, 187);
+		frmAaa.setBounds((int) x, (int) y, 507, 347);
 		frmAaa.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmAaa.getContentPane().setLayout(new BoxLayout(frmAaa.getContentPane(), BoxLayout.X_AXIS));
 
 		JPanel panel = new JPanel();
 		frmAaa.getContentPane().add(panel);
 		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[] { 40, 169, 0, 75, 0 };
-		gbl_panel.rowHeights = new int[] { 53, 0, 37, 0, 0, 0 };
-		gbl_panel.columnWeights = new double[] { 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
-		gbl_panel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		gbl_panel.columnWidths = new int[] { 40, 169, 0, 28, 0 };
+		gbl_panel.rowHeights = new int[] { 74, 48, 51, 57, 0, 0, 0 };
+		gbl_panel.columnWeights = new double[] { 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE };
+		gbl_panel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		panel.setLayout(gbl_panel);
-		
-				JButton btnNewButton = new JButton("Exporter des données");
-				btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
-				btnNewButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						new Extracteur().setVisible(true);
-					}
-				});
-				
-						JLabel lblNewLabel = new JLabel("Je souhaite...");
-						lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
-						lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-						GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-						gbc_lblNewLabel.fill = GridBagConstraints.VERTICAL;
-						gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
-						gbc_lblNewLabel.gridx = 1;
-						gbc_lblNewLabel.gridy = 0;
-						panel.add(lblNewLabel, gbc_lblNewLabel);
-				GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-				gbc_btnNewButton.fill = GridBagConstraints.VERTICAL;
-				gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
-				gbc_btnNewButton.gridx = 2;
-				gbc_btnNewButton.gridy = 1;
-				panel.add(btnNewButton, gbc_btnNewButton);
-		
-				JButton btnNewButton_1 = new JButton("Analyser des données");
-				btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
-				btnNewButton_1.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						new Analyseur().setVisible(true);
-					}
-				});
-				
-						JButton button = new JButton("Exporter des données en batch");
-						button.setFont(new Font("Tahoma", Font.PLAIN, 14));
-						button.addActionListener(new ActionListener() {
-							public void actionPerformed(ActionEvent e) {
-								new ExtracteurBatch().setVisible(true);
-							}
-						});
-						GridBagConstraints gbc_button = new GridBagConstraints();
-						gbc_button.insets = new Insets(0, 0, 5, 5);
-						gbc_button.gridx = 2;
-						gbc_button.gridy = 2;
-						panel.add(button, gbc_button);
-				GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
-				gbc_btnNewButton_1.insets = new Insets(0, 0, 5, 5);
-				gbc_btnNewButton_1.fill = GridBagConstraints.VERTICAL;
-				gbc_btnNewButton_1.gridx = 2;
-				gbc_btnNewButton_1.gridy = 3;
-				panel.add(btnNewButton_1, gbc_btnNewButton_1);
+
+		JButton btnNewButton = new JButton("Exporter des données");
+		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new Extracteur().setVisible(true);
+			}
+		});
+
+		JLabel lblNewLabel = new JLabel("Je souhaite...");
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
+		gbc_lblNewLabel.fill = GridBagConstraints.VERTICAL;
+		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel.gridx = 1;
+		gbc_lblNewLabel.gridy = 0;
+		panel.add(lblNewLabel, gbc_lblNewLabel);
+		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
+		gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
+		gbc_btnNewButton.gridx = 2;
+		gbc_btnNewButton.gridy = 1;
+		panel.add(btnNewButton, gbc_btnNewButton);
+
+		JButton btnNewButton_1 = new JButton("Analyser des données");
+		btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new Analyseur().setVisible(true);
+			}
+		});
+
+		JButton button = new JButton("Exporter des données en batch");
+		button.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new ExtracteurBatch().setVisible(true);
+			}
+		});
+
+		GridBagConstraints gbc_button = new GridBagConstraints();
+		gbc_button.insets = new Insets(0, 0, 5, 5);
+		gbc_button.gridx = 2;
+		gbc_button.gridy = 2;
+		panel.add(button, gbc_button);
+		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
+		gbc_btnNewButton_1.insets = new Insets(0, 0, 5, 5);
+		gbc_btnNewButton_1.gridx = 2;
+		gbc_btnNewButton_1.gridy = 3;
+		panel.add(btnNewButton_1, gbc_btnNewButton_1);
+		try {
+			
+			JButton btnAnalyserDesDonnes = new JButton("Analyser des données en ligne");
+			btnAnalyserDesDonnes.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					new AnalyseurEnLigne().setVisible(true);
+				}
+			});
+			btnAnalyserDesDonnes.setFont(new Font("Tahoma", Font.PLAIN, 14));
+			GridBagConstraints gbc_btnAnalyserDesDonnes = new GridBagConstraints();
+			gbc_btnAnalyserDesDonnes.insets = new Insets(0, 0, 5, 5);
+			gbc_btnAnalyserDesDonnes.gridx = 2;
+			gbc_btnAnalyserDesDonnes.gridy = 4;
+			panel.add(btnAnalyserDesDonnes, gbc_btnAnalyserDesDonnes);
+			JHyperlink btnNewButton_2 = new JHyperlink("New button", "https://www.facebook.com/groups/outilssgdf");
+			btnNewButton_2.setFont(new Font("Tahoma", Font.PLAIN, 14));
+			btnNewButton_2.setText("Besoin d'aide ?");
+			GridBagConstraints gbc_btnNewButton_2 = new GridBagConstraints();
+			gbc_btnNewButton_2.insets = new Insets(0, 0, 0, 5);
+			gbc_btnNewButton_2.gridx = 1;
+			gbc_btnNewButton_2.gridy = 5;
+			panel.add(btnNewButton_2, gbc_btnNewButton_2);
+		} catch (URISyntaxException e1) {
+		}
 	}
 
 	@Override

@@ -84,7 +84,7 @@ public class AnalyseurAdherents extends CommonParamsG {
 				fichierAdherents = fichier;
 			}
 			else
-				extraMap.put(extra, new ExtracteurExtraHtml(fichier.getAbsolutePath(),age));
+				extraMap.put(extra, new ExtracteurExtraHtml(fichier,age));
 			index++;
 		}
 

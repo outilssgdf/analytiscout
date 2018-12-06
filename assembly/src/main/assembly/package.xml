@@ -16,7 +16,15 @@
       <outputDirectory>.</outputDirectory>
     </file>
     <file>
+      <source>../fichiers/outilssgdf-gui.exe</source>
+      <outputDirectory>.</outputDirectory>
+    </file>
+    <file>
       <source>../fichiers/outilssgdf.sh</source>
+      <outputDirectory>.</outputDirectory>
+    </file>
+    <file>
+      <source>../fichiers/outilssgdf-gui.sh</source>
       <outputDirectory>.</outputDirectory>
     </file>
     <file>

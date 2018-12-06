@@ -100,8 +100,8 @@ public class Analyseur extends JDialog implements LoggedDialog, GuiCommand {
 		setModalityType(ModalityType.APPLICATION_MODAL);
 		setResizable(false);
 		setTitle("Analyseur");
-		double x = Preferences.lit(Consts.FENETRE_ANALYSEUR_X, 100);
-		double y = Preferences.lit(Consts.FENETRE_ANALYSEUR_Y, 100);
+		double x = Preferences.litd(Consts.FENETRE_ANALYSEUR_X, 100);
+		double y = Preferences.litd(Consts.FENETRE_ANALYSEUR_Y, 100);
 		setBounds((int)x, (int)y, 556, 608);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -164,8 +164,8 @@ public class Analyseur extends JDialog implements LoggedDialog, GuiCommand {
 				panel.add(lblEntree, BorderLayout.WEST);
 			}
 			{
-				JButton button = new JButton("Fichier...");
-				button.addActionListener(new ActionListener() {
+				JButton btnDossier = new JButton("Répertoire...");
+				btnDossier.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						fcEntree.setDialogTitle("Répertoire de données");
 						fcEntree.setApproveButtonText("Go");
@@ -178,7 +178,7 @@ public class Analyseur extends JDialog implements LoggedDialog, GuiCommand {
 						}
 					}
 				});
-				panel.add(button, BorderLayout.EAST);
+				panel.add(btnDossier, BorderLayout.EAST);
 			}
 		}
 		{
@@ -353,6 +353,7 @@ public class Analyseur extends JDialog implements LoggedDialog, GuiCommand {
 
 					File dossierStructure = fEntree;
 					dossierStructure.exists();
+					progress.setProgress(40);
 
 					int index = 1;
 					for (;;) {
@@ -371,15 +372,16 @@ public class Analyseur extends JDialog implements LoggedDialog, GuiCommand {
 							fichierAdherents = fichier;
 						} else
 							extraMap.put(extra,
-									new ExtracteurExtraHtml(fichier.getAbsolutePath(), getChcAge().isSelected()));
+									new ExtracteurExtraHtml(fichier, getChcAge().isSelected()));
 						index++;
 					}
-
+					progress.setProgress(50);
 					logger_.info("Chargement du fichier \"" + fichierAdherents.getName() + "\"");
 					ExtracteurHtml adherents = new ExtracteurHtml(fichierAdherents, extraMap, getChcAge().isSelected());
 
 					AdherentFormes compas = new AdherentFormes();
 					compas.charge(adherents, extraMap);
+					progress.setProgress(60);
 
 					String version = "";
 					try {
@@ -389,6 +391,7 @@ public class Analyseur extends JDialog implements LoggedDialog, GuiCommand {
 					General general = new General(version);
 					Global global = new Global(adherents.getGroupe(), adherents.getMarins());
 					adherents.calculGlobal(global);
+					progress.setProgress(80);
 
 					FileOutputStream outputStream = new FileOutputStream(fSortie);
 
@@ -422,8 +425,8 @@ public class Analyseur extends JDialog implements LoggedDialog, GuiCommand {
 	@Override
 	public void dispose() {
 		Appender.setLoggedDialog(null);
-		Preferences.sauve(Consts.FENETRE_ANALYSEUR_X, this.getLocation().getX());
-		Preferences.sauve(Consts.FENETRE_ANALYSEUR_Y, this.getLocation().getY());
+		Preferences.sauved(Consts.FENETRE_ANALYSEUR_X, this.getLocation().getX());
+		Preferences.sauved(Consts.FENETRE_ANALYSEUR_Y, this.getLocation().getY());
 		super.dispose();
 	}
 

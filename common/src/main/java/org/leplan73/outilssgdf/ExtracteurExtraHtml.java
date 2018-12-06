@@ -1,5 +1,6 @@
 package org.leplan73.outilssgdf;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -26,8 +27,8 @@ public class ExtracteurExtraHtml {
 	public ExtracteurExtraHtml() throws ExtractionException, IOException, JDOMException {
 	}
 	
-	public ExtracteurExtraHtml(String fichier, boolean age) throws ExtractionException, IOException, JDOMException {
-		charge(fichier, age);
+	public ExtracteurExtraHtml(String donnnees, boolean age) throws ExtractionException, IOException, JDOMException {
+		charge(donnnees, age);
 	}
 	
 	public ExtracteurExtraHtml(File fichier, boolean age) throws ExtractionException, IOException, JDOMException {
@@ -44,9 +45,9 @@ public class ExtracteurExtraHtml {
 		return colonnes_;
 	}
 	
-	public void charge(final String path, boolean age) throws ExtractionException, IOException, JDOMException
+	public void charge(final String donnees, boolean age) throws ExtractionException, IOException, JDOMException
 	{
-   		FileInputStream excelFile = new FileInputStream(new File(path));
+   		ByteArrayInputStream excelFile = new ByteArrayInputStream(donnees.getBytes());
    		charge(excelFile, age);
 		excelFile.close();
 	}

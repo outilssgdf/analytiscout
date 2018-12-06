@@ -72,8 +72,8 @@ public class OutilsSGDF extends JFrame {
 		frmAaa.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent arg0) {
-				Preferences.sauve(Consts.FENETRE_PRINCIPALE_X, frmAaa.getLocation().getX());
-				Preferences.sauve(Consts.FENETRE_PRINCIPALE_Y, frmAaa.getLocation().getY());
+				Preferences.sauved(Consts.FENETRE_PRINCIPALE_X, frmAaa.getLocation().getX());
+				Preferences.sauved(Consts.FENETRE_PRINCIPALE_Y, frmAaa.getLocation().getY());
 			}
 		});
 		frmAaa.setResizable(false);
@@ -83,8 +83,8 @@ public class OutilsSGDF extends JFrame {
 			frmAaa.setTitle("Outils SGDF (dev)");
 		}
 
-		double x = Preferences.lit(Consts.FENETRE_PRINCIPALE_X, 100);
-		double y = Preferences.lit(Consts.FENETRE_PRINCIPALE_Y, 100);
+		double x = Preferences.litd(Consts.FENETRE_PRINCIPALE_X, 100.0);
+		double y = Preferences.litd(Consts.FENETRE_PRINCIPALE_Y, 100.0);
 		frmAaa.setBounds((int) x, (int) y, 507, 347);
 		frmAaa.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmAaa.getContentPane().setLayout(new BoxLayout(frmAaa.getContentPane(), BoxLayout.X_AXIS));
@@ -175,8 +175,8 @@ public class OutilsSGDF extends JFrame {
 
 	@Override
 	public void dispose() {
-		Preferences.sauve("x", this.getLocation().getX());
-		Preferences.sauve("y", this.getLocation().getY());
+		Preferences.sauved("x", this.getLocation().getX());
+		Preferences.sauved("y", this.getLocation().getY());
 		super.dispose();
 	}
 

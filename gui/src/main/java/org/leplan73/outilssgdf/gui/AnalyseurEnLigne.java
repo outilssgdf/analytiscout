@@ -101,8 +101,8 @@ public class AnalyseurEnLigne extends JDialog implements LoggedDialog, GuiComman
 		setTitle("AnalyseurEnLigne");
 		setModalityType(ModalityType.APPLICATION_MODAL);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		double x = Preferences.lit(Consts.FENETRE_ANALYSEURENLIGNE_X, 100);
-		double y = Preferences.lit(Consts.FENETRE_ANALYSEURENLIGNE_Y, 100);
+		double x = Preferences.litd(Consts.FENETRE_ANALYSEURENLIGNE_X, 100);
+		double y = Preferences.litd(Consts.FENETRE_ANALYSEURENLIGNE_Y, 100);
 		setBounds((int)x, (int)y, 566, 627);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -151,6 +151,12 @@ public class AnalyseurEnLigne extends JDialog implements LoggedDialog, GuiComman
 			}
 			{
 				chkMemoriser = new JCheckBox("Mémoriser");
+				chkMemoriser.setSelected(Preferences.litb(Consts.INTRANET_MEMORISER, false));
+				if (chkMemoriser.isSelected())
+				{
+					txfIdentifiant.setText(Preferences.lit(Consts.INTRANET_IDENTIFIANT, "", true));
+					txfMotdepasse.setText(Preferences.lit(Consts.INTRANET_MOTDEPASSE, "", true));
+				}
 				panel.add(chkMemoriser, BorderLayout.EAST);
 			}
 		}
@@ -196,7 +202,7 @@ public class AnalyseurEnLigne extends JDialog implements LoggedDialog, GuiComman
 						fcBatch.setApproveButtonText("Go");
 						fcBatch.setCurrentDirectory(new File("."));
 						fcBatch.setFileSelectionMode(JFileChooser.FILES_ONLY);
-						fcBatch.removeChoosableFileFilter(fcSortie.getFileFilter());
+						fcBatch.removeChoosableFileFilter(fcBatch.getFileFilter());
 						fcBatch.addChoosableFileFilter(new ExportFileFilter("txt"));
 						int result = fcBatch.showDialog(panel, "OK");
 						if (result == JFileChooser.APPROVE_OPTION) {
@@ -412,6 +418,7 @@ public class AnalyseurEnLigne extends JDialog implements LoggedDialog, GuiComman
 
 						Map<ExtraKey, ExtracteurExtraHtml> extraMap = new TreeMap<ExtraKey, ExtracteurExtraHtml>();
 						
+						String donneesAdherents=null;
 						int index = 1;
 						for (;;) {
 							// generateur.x
@@ -453,41 +460,54 @@ public class AnalyseurEnLigne extends JDialog implements LoggedDialog, GuiComman
 							String nom = pbatch.getProperty("nom." + index, "");
 							String fonction = pbatch.getProperty("fonction." + index);
 
+							ExtraKey extra = new ExtraKey(pbatch.getProperty("nom." + index, ""),
+									pbatch.getProperty("batchtype." + index, "tout"));
+							
+							logger_.info("Extraction de  "+nom);
 							String donnees = app.extract(structure,chkRecursif.isSelected(),type,adherentsseuls,fonction,specialite,categorie, diplome,qualif,formation,format, false);
-							logger_.info("Extraction du fichier "+index+" fait");
+							logger_.info("Extraction de  "+nom+" fait");
 							
-							ExtracteurHtml adherents = new ExtracteurHtml(donnees, extraMap,chkAge.isSelected());
-					 
-							AdherentFormes compas = new AdherentFormes();
-							compas.charge(adherents,extraMap);
-							
-							String version = "";
-							try
-							{
-								version = Manifests.read("version");
-							}
-							catch(java.lang.IllegalArgumentException e) {
-							}
-							General general = new General(version);
-							Global global = new Global(adherents.getGroupe(), adherents.getMarins());
-							adherents.calculGlobal(global);
-					
-							FileOutputStream outputStream = new FileOutputStream(fSortie);
-					
-						    logger_.info("Génération du fichier \""+fSortie.getName()+"\" à partir du modèle \""+fModele.getName()+"\"");
-							ExcelTransformer trans = new ExcelTransformer();
-							Map<String, Object> beans = new HashMap<String, Object>();
-							beans.put("chefs", adherents.getChefsList());
-							beans.put("compas", adherents.getCompasList());
-							beans.put("unites", adherents.getUnitesList());
-							beans.put("general", general);
-							beans.put("global", global);
-							Workbook workbook = trans.transform(new FileInputStream(fModele), beans);
-							workbook.write(outputStream);
-							
-							outputStream.flush();
-							outputStream.close();
+							if (extra.ifTout()) {
+								donneesAdherents = donnees;
+							} else
+								extraMap.put(extra, new ExtracteurExtraHtml(donnees, chkAge.isSelected()));
+							index++;
 						}
+						progress.setProgress(50);
+						
+						ExtracteurHtml adherents = new ExtracteurHtml(donneesAdherents, extraMap,chkAge.isSelected());
+				 
+						AdherentFormes compas = new AdherentFormes();
+						compas.charge(adherents,extraMap);
+						progress.setProgress(60);
+						
+						String version = "";
+						try
+						{
+							version = Manifests.read("version");
+						}
+						catch(java.lang.IllegalArgumentException e) {
+						}
+						General general = new General(version);
+						Global global = new Global(adherents.getGroupe(), adherents.getMarins());
+						adherents.calculGlobal(global);
+						progress.setProgress(80);
+				
+						FileOutputStream outputStream = new FileOutputStream(fSortie);
+				
+					    logger_.info("Génération du fichier \""+fSortie.getName()+"\" à partir du modèle \""+fModele.getName()+"\"");
+						ExcelTransformer trans = new ExcelTransformer();
+						Map<String, Object> beans = new HashMap<String, Object>();
+						beans.put("chefs", adherents.getChefsList());
+						beans.put("compas", adherents.getCompasList());
+						beans.put("unites", adherents.getUnitesList());
+						beans.put("general", general);
+						beans.put("global", global);
+						Workbook workbook = trans.transform(new FileInputStream(fModele), beans);
+						workbook.write(outputStream);
+						
+						outputStream.flush();
+						outputStream.close();
 					}
 					logout();
 				} catch (IOException | JDOMException | InvalidFormatException | ExtractionException e) {
@@ -504,8 +524,9 @@ public class AnalyseurEnLigne extends JDialog implements LoggedDialog, GuiComman
 	@Override
 	public void dispose() {
 		Appender.setLoggedDialog(null);
-		Preferences.sauve(Consts.FENETRE_ANALYSEURENLIGNE_X, this.getLocation().getX());
-		Preferences.sauve(Consts.FENETRE_ANALYSEURENLIGNE_Y, this.getLocation().getY());
+		Preferences.sauveb(Consts.INTRANET_MEMORISER, chkMemoriser.isSelected());
+		Preferences.sauved(Consts.FENETRE_ANALYSEURENLIGNE_X, this.getLocation().getX());
+		Preferences.sauved(Consts.FENETRE_ANALYSEURENLIGNE_Y, this.getLocation().getY());
 		if (chkMemoriser.isSelected())
 		{
 			Preferences.sauve(Consts.INTRANET_IDENTIFIANT, txfIdentifiant.getText(), true);

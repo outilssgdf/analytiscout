@@ -71,7 +71,8 @@ public class AnalyseurEnLigne extends CommonParamsIntranet {
 				Logging.logger_.info("Traitement de la structure "+structure);
 				
 				Map<ExtraKey, ExtracteurExtraHtml> extraMap = new TreeMap<ExtraKey, ExtracteurExtraHtml>();
-				
+
+				String donneesAdherents=null;
 				int index=1;
 				for(;;)
 				{
@@ -98,43 +99,54 @@ public class AnalyseurEnLigne extends CommonParamsIntranet {
 					int type = pbatch.getProperty("type."+index,"").isEmpty() ? ExtractionMain.TYPE_TOUT : Integer.parseInt(pbatch.getProperty("type."+index));
 					int specialite = pbatch.getProperty("specialite."+index,"").isEmpty() ? ExtractionMain.SPECIALITE_SANS_IMPORTANCE : Integer.parseInt(pbatch.getProperty("specialite."+index));
 					boolean adherentsseul = pbatch.getProperty("adherents."+index,"").isEmpty() ? false : Boolean.parseBoolean(pbatch.getProperty("adherents."+index));
+					String nom = pbatch.getProperty("nom." + index, "");
 					String fonction = pbatch.getProperty("fonction."+index);
 					
+					ExtraKey extra = new ExtraKey(pbatch.getProperty("nom." + index, ""),
+							pbatch.getProperty("batchtype." + index, "tout"));
+					
+					Logging.logger_.info("Extraction de  "+nom);
 					String donnees = app.extract(structure,recursif,type,adherentsseul,fonction,specialite,categorie, diplome,qualif,formation,format, false);
-					Logging.logger_.info("Extraction du fichier "+index+" fait");
+					Logging.logger_.info("Extraction de  "+nom+" fait");
 					
-					ExtracteurHtml adherents = new ExtracteurHtml(donnees, extraMap,age);
-			 
-					AdherentFormes compas = new AdherentFormes();
-					compas.charge(adherents,extraMap);
-					
-					String version = "";
-					try
-					{
-						version = Manifests.read("version");
-					}
-					catch(java.lang.IllegalArgumentException e) {
-					}
-					General general = new General(version);
-					Global global = new Global(adherents.getGroupe(), adherents.getMarins());
-					adherents.calculGlobal(global);
-			
-					FileOutputStream outputStream = new FileOutputStream(sortie);
-			
-				    Logging.logger_.info("Génération du fichier \""+sortie.getName()+"\" à partir du modèle \""+modele.getName()+"\"");
-					ExcelTransformer trans = new ExcelTransformer();
-					Map<String, Object> beans = new HashMap<String, Object>();
-					beans.put("chefs", adherents.getChefsList());
-					beans.put("compas", adherents.getCompasList());
-					beans.put("unites", adherents.getUnitesList());
-					beans.put("general", general);
-					beans.put("global", global);
-					Workbook workbook = trans.transform(new FileInputStream(modele), beans);
-					workbook.write(outputStream);
-					
-					outputStream.flush();
-					outputStream.close();
+					if (extra.ifTout()) {
+						donneesAdherents = donnees;
+					} else
+						extraMap.put(extra, new ExtracteurExtraHtml(donnees, age));
+					index++;
 				}
+					
+				ExtracteurHtml adherents = new ExtracteurHtml(donneesAdherents, extraMap,age);
+		 
+				AdherentFormes compas = new AdherentFormes();
+				compas.charge(adherents,extraMap);
+				
+				String version = "";
+				try
+				{
+					version = Manifests.read("version");
+				}
+				catch(java.lang.IllegalArgumentException e) {
+				}
+				General general = new General(version);
+				Global global = new Global(adherents.getGroupe(), adherents.getMarins());
+				adherents.calculGlobal(global);
+		
+				FileOutputStream outputStream = new FileOutputStream(sortie);
+		
+			    Logging.logger_.info("Génération du fichier \""+sortie.getName()+"\" à partir du modèle \""+modele.getName()+"\"");
+				ExcelTransformer trans = new ExcelTransformer();
+				Map<String, Object> beans = new HashMap<String, Object>();
+				beans.put("chefs", adherents.getChefsList());
+				beans.put("compas", adherents.getCompasList());
+				beans.put("unites", adherents.getUnitesList());
+				beans.put("general", general);
+				beans.put("global", global);
+				Workbook workbook = trans.transform(new FileInputStream(modele), beans);
+				workbook.write(outputStream);
+				
+				outputStream.flush();
+				outputStream.close();
 			}
 
 			logout();

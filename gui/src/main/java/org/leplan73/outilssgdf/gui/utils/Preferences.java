@@ -21,13 +21,43 @@ public class Preferences {
 		}
 	}
 	
-	public static double lit(String nom, double defaut)
+	public static double litd(String nom, double defaut)
 	{
 		String v = p_.getProperty(nom, String.valueOf(defaut));
 		return Double.valueOf(v);
 	}
 	
-	static public void sauve(String nom, double d)
+	public static int liti(String nom, int defaut)
+	{
+		String v = p_.getProperty(nom, String.valueOf(defaut));
+		return Integer.valueOf(v);
+	}
+	
+	public static boolean litb(String nom, boolean defaut)
+	{
+		String v = p_.getProperty(nom, String.valueOf(defaut));
+		return Boolean.valueOf(v);
+	}
+	
+	static public void sauveb(String nom, boolean d)
+	{
+		p_.setProperty(nom, String.valueOf(d));
+		try {
+			p_.store(new FileOutputStream(file_), "outilsgdf");
+		} catch (IOException e) {
+		}
+	}
+	
+	static public void sauvei(String nom, int d)
+	{
+		p_.setProperty(nom, String.valueOf(d));
+		try {
+			p_.store(new FileOutputStream(file_), "outilsgdf");
+		} catch (IOException e) {
+		}
+	}
+	
+	static public void sauved(String nom, double d)
 	{
 		p_.setProperty(nom, String.valueOf(d));
 		try {

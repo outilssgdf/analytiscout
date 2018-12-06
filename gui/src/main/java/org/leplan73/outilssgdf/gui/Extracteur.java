@@ -111,8 +111,8 @@ public class Extracteur extends JDialog implements LoggedDialog, GuiCommand {
 		setModalityType(ModalityType.APPLICATION_MODAL);
 		setResizable(false);
 		setTitle("Extracteur");
-		double x = Preferences.lit(Consts.FENETRE_EXTRACTEUR_X, 100);
-		double y = Preferences.lit(Consts.FENETRE_EXTRACTEUR_Y, 100);
+		double x = Preferences.litd(Consts.FENETRE_EXTRACTEUR_X, 100);
+		double y = Preferences.litd(Consts.FENETRE_EXTRACTEUR_Y, 100);
 		setBounds((int)x, (int)y, 676, 678);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -159,6 +159,12 @@ public class Extracteur extends JDialog implements LoggedDialog, GuiCommand {
 			}
 			{
 				chkMemoriser = new JCheckBox("Mémoriser");
+				chkMemoriser.setSelected(Preferences.litb(Consts.INTRANET_MEMORISER, false));
+				if (chkMemoriser.isSelected())
+				{
+					txfIdentifiant.setText(Preferences.lit(Consts.INTRANET_IDENTIFIANT, "", true));
+					txfMotdepasse.setText(Preferences.lit(Consts.INTRANET_MOTDEPASSE, "", true));
+				}
 				panel.add(chkMemoriser, BorderLayout.EAST);
 			}
 		}
@@ -725,8 +731,9 @@ public class Extracteur extends JDialog implements LoggedDialog, GuiCommand {
 	@Override
 	public void dispose() {
 		Appender.setLoggedDialog(null);
-		Preferences.sauve(Consts.FENETRE_EXTRACTEUR_X, this.getLocation().getX());
-		Preferences.sauve(Consts.FENETRE_EXTRACTEUR_Y, this.getLocation().getY());
+		Preferences.sauveb(Consts.INTRANET_MEMORISER, chkMemoriser.isSelected());
+		Preferences.sauved(Consts.FENETRE_EXTRACTEUR_X, this.getLocation().getX());
+		Preferences.sauved(Consts.FENETRE_EXTRACTEUR_Y, this.getLocation().getY());
 		if (chkMemoriser.isSelected()) {
 			Preferences.sauve(Consts.INTRANET_IDENTIFIANT, txfIdentifiant.getText(), true);
 			Preferences.sauve(Consts.INTRANET_MOTDEPASSE, new String(txfMotdepasse.getPassword()), true);

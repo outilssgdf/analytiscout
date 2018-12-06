@@ -96,8 +96,8 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand
 		setTitle("ExtracteurBatch");
 		setModalityType(ModalityType.APPLICATION_MODAL);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		double x = Preferences.lit(Consts.FENETRE_EXTRACTEURBATCH_X, 100);
-		double y = Preferences.lit(Consts.FENETRE_EXTRACTEURBATCH_Y, 100);
+		double x = Preferences.litd(Consts.FENETRE_EXTRACTEURBATCH_X, 100);
+		double y = Preferences.litd(Consts.FENETRE_EXTRACTEURBATCH_Y, 100);
 		setBounds((int)x, (int)y, 566, 480);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -146,6 +146,12 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand
 			}
 			{
 				chkMemoriser = new JCheckBox("Mémoriser");
+				chkMemoriser.setSelected(Preferences.litb(Consts.INTRANET_MEMORISER, false));
+				if (chkMemoriser.isSelected())
+				{
+					txfIdentifiant.setText(Preferences.lit(Consts.INTRANET_IDENTIFIANT, "", true));
+					txfMotdepasse.setText(Preferences.lit(Consts.INTRANET_MOTDEPASSE, "", true));
+				}
 				panel.add(chkMemoriser, BorderLayout.EAST);
 			}
 		}
@@ -191,7 +197,7 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand
 						fcBatch.setApproveButtonText("Go");
 						fcBatch.setCurrentDirectory(new File("."));
 						fcBatch.setFileSelectionMode(JFileChooser.FILES_ONLY);
-						fcBatch.removeChoosableFileFilter(fcSortie.getFileFilter());
+						fcBatch.removeChoosableFileFilter(fcBatch.getFileFilter());
 						fcBatch.addChoosableFileFilter(new ExportFileFilter("txt"));
 						int result = fcBatch.showDialog(panel, "OK");
 						if (result == JFileChooser.APPROVE_OPTION) {
@@ -216,9 +222,9 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand
 			contentPanel.add(panel, gbc_panel);
 			panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
 			{
-				JCheckBox checkBox = new JCheckBox("Récursif");
-				checkBox.setSelected(true);
-				panel.add(checkBox);
+				chkRecursif = new JCheckBox("Récursif");
+				chkRecursif.setSelected(true);
+				panel.add(chkRecursif);
 			}
 		}
 		{
@@ -237,16 +243,14 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand
 				panel.add(lblSortie, BorderLayout.WEST);
 			}
 			{
-				JButton button = new JButton("Fichier...");
+				JButton button = new JButton("Répertoire...");
 				button.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						fcSortie = new JFileChooser();
-						fcSortie.setDialogTitle("Export Configuration");
-						fcSortie.setApproveButtonText("Export");
+						fcSortie.setDialogTitle("Répertoire de données");
+						fcSortie.setApproveButtonText("Go");
 						fcSortie.setCurrentDirectory(new File("."));
-						fcSortie.setFileSelectionMode(JFileChooser.FILES_ONLY);
-						fcSortie.removeChoosableFileFilter(fcSortie.getFileFilter());
-						fcSortie.addChoosableFileFilter(new ExportFileFilter("xlsx"));
+						fcSortie.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 						int result = fcSortie.showDialog(panel, "OK");
 						if (result == JFileChooser.APPROVE_OPTION) {
 							fSortie = fcSortie.getSelectedFile();
@@ -293,12 +297,12 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand
 	}
 
 	private ExtractionMain connection_;
-	private JCheckBox chkRecursif;
 	private JLabel lblBatch;
 	private JLabel lblSortie;
 	private JTextField tfStructure;
 	private JButton btnGo;
 	private JCheckBox chkMemoriser;
+	private JCheckBox chkRecursif;
 
 	private void login(ExtractionMain connection) throws ClientProtocolException, IOException {
 		connection_ = connection;
@@ -406,7 +410,7 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand
 							String nom = pbatch.getProperty("nom." + index, "");
 							String fonction = pbatch.getProperty("fonction." + index);
 
-							File dossierStructure = new File(fcSortie.getSelectedFile(), "" + structure);
+							File dossierStructure = fSortie;
 							dossierStructure.mkdirs();
 
 							File fichier = new File(dossierStructure, nom + "." + generateur);
@@ -490,8 +494,10 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand
 	@Override
 	public void dispose() {
 		Appender.setLoggedDialog(null);
-		Preferences.sauve(Consts.FENETRE_EXTRACTEURBATCH_X, this.getLocation().getX());
-		Preferences.sauve(Consts.FENETRE_EXTRACTEURBATCH_Y, this.getLocation().getY());
+
+		Preferences.sauveb(Consts.INTRANET_MEMORISER, chkMemoriser.isSelected());
+		Preferences.sauved(Consts.FENETRE_EXTRACTEURBATCH_X, this.getLocation().getX());
+		Preferences.sauved(Consts.FENETRE_EXTRACTEURBATCH_Y, this.getLocation().getY());
 		if (chkMemoriser.isSelected())
 		{
 			Preferences.sauve(Consts.INTRANET_IDENTIFIANT, txfIdentifiant.getText(), true);
@@ -543,5 +549,8 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand
 	}
 	public JCheckBox getChkMemoriser() {
 		return chkMemoriser;
+	}
+	public JCheckBox getChkRecursif() {
+		return chkRecursif;
 	}
 }

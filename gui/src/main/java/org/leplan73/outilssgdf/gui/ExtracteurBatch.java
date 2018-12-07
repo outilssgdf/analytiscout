@@ -65,7 +65,7 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand
 	private JPasswordField txfMotdepasse;
 	private JTextArea txtLog;
 	private JFileChooser fcSortie;
-	private File fSortie;
+	private File fSortie = new File("./données");
 	private JFileChooser fcBatch;
 	private File fBatch = new File("./conf/batch.txt");
 
@@ -240,7 +240,7 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand
 			contentPanel.add(panel, gbc_panel);
 			panel.setLayout(new BorderLayout(0, 0));
 			{
-				lblSortie = new JLabel("<rien>");
+				lblSortie = new JLabel(fSortie.getAbsolutePath());
 				panel.add(lblSortie, BorderLayout.WEST);
 			}
 			{

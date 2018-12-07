@@ -53,5 +53,9 @@
     <directory>../fichiers/conf</directory>
     <outputDirectory>./conf</outputDirectory>
   </fileSet>
+  <fileSet>
+    <directory>../fichiers/données</directory>
+    <outputDirectory>./données</outputDirectory>
+  </fileSet>
 </fileSets>
 </assembly>

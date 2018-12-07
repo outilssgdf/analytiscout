@@ -69,7 +69,7 @@ public class Extracteur extends JDialog implements LoggedDialog, GuiCommand {
 	private Logger logger_ = LoggerFactory.getLogger(Extracteur.class);
 
 	private JFileChooser fcSortie;
-	private File fSortie;
+	private File fSortie = new File("./données");
 	private JLabel lblSortie;
 	private JTextArea txtLog;
 	private JCheckBox chkFormatIndividu;
@@ -485,7 +485,7 @@ public class Extracteur extends JDialog implements LoggedDialog, GuiCommand {
 				{
 					{
 						{
-							lblSortie = new JLabel("<rien>");
+							lblSortie = new JLabel(fSortie.getAbsolutePath());
 							panel.add(lblSortie, BorderLayout.CENTER);
 						}
 						JButton button = new JButton("Fichier...");

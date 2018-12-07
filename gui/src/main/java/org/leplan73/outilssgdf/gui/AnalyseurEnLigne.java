@@ -70,7 +70,7 @@ public class AnalyseurEnLigne extends JDialog implements LoggedDialog, GuiComman
 	private JPasswordField txfMotdepasse;
 	private JTextArea txtLog;
 	private JFileChooser fcSortie;
-	private File fSortie;
+	private File fSortie = new File("./données/analyse.xlsx");
 	private JFileChooser fcBatch;
 	private File fBatch = new File("./conf/batch.txt");
 	private JFileChooser fcModele = new JFileChooser();
@@ -174,9 +174,9 @@ public class AnalyseurEnLigne extends JDialog implements LoggedDialog, GuiComman
 			contentPanel.add(panel, gbc_panel);
 			panel.setLayout(new BorderLayout(0, 0));
 			{
-				tfStructure = new JTextField();
-				tfStructure.setColumns(30);
-				panel.add(tfStructure);
+				txfStructure = new JTextField();
+				txfStructure.setColumns(30);
+				panel.add(txfStructure);
 			}
 		}
 		{
@@ -286,7 +286,7 @@ public class AnalyseurEnLigne extends JDialog implements LoggedDialog, GuiComman
 			contentPanel.add(panel, gbc_panel);
 			panel.setLayout(new BorderLayout(0, 0));
 			{
-				lblSortie = new JLabel("<rien>");
+				lblSortie = new JLabel(fSortie.getAbsolutePath());
 				panel.add(lblSortie, BorderLayout.WEST);
 			}
 			{
@@ -357,7 +357,7 @@ public class AnalyseurEnLigne extends JDialog implements LoggedDialog, GuiComman
 	private ExtractionMain connection_;
 	private JLabel lblBatch;
 	private JLabel lblSortie;
-	private JTextField tfStructure;
+	private JTextField txfStructure;
 	private JButton btnGo;
 	private JCheckBox chkMemoriser;
 	private JCheckBox chkRecursif;
@@ -397,6 +397,10 @@ public class AnalyseurEnLigne extends JDialog implements LoggedDialog, GuiComman
 			logger_.error("Mode de passe est vide");
 			return false;
 		}
+		if (txfStructure.getText().isEmpty()) {
+			logger_.error("Structure est vide");
+			return false;
+		}
 		return true;
 	}
 
@@ -423,7 +427,7 @@ public class AnalyseurEnLigne extends JDialog implements LoggedDialog, GuiComman
 					login(app);
 					progress.setProgress(40);
 
-					String stStructures[] = tfStructure.getText().split(",");
+					String stStructures[] = txfStructure.getText().split(",");
 					for (String stStructure : stStructures) {
 						int structure = Integer.parseInt(stStructure);
 
@@ -586,7 +590,7 @@ public class AnalyseurEnLigne extends JDialog implements LoggedDialog, GuiComman
 	}
 
 	public JTextField getTfStructure() {
-		return tfStructure;
+		return txfStructure;
 	}
 
 	public JButton getBtnGo() {

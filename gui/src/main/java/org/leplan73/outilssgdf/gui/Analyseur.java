@@ -63,11 +63,11 @@ public class Analyseur extends JDialog implements LoggedDialog, GuiCommand {
 	private JFileChooser fcBatch = new JFileChooser();
 	private File fBatch = new File("./conf/batch.txt");
 	private JFileChooser fcEntree = new JFileChooser();
-	private File fEntree;
+	private File fEntree = new File("./données");
 	private JFileChooser fcModele = new JFileChooser();
 	private File fModele = new File("conf/modele.xlsx");
 	private JFileChooser fcSortie = new JFileChooser();
-	private File fSortie;
+	private File fSortie = new File("./données/analyse.xlsx");
 	private JCheckBox chcAge;
 	private JLabel lblSortie;
 	private JLabel lblBatch;
@@ -161,7 +161,7 @@ public class Analyseur extends JDialog implements LoggedDialog, GuiCommand {
 			contentPanel.add(panel, gbc_panel);
 			panel.setLayout(new BorderLayout(0, 0));
 			{
-				lblEntree = new JLabel("<rien>");
+				lblEntree = new JLabel(fEntree.getAbsolutePath());
 				panel.add(lblEntree, BorderLayout.WEST);
 			}
 			{
@@ -246,7 +246,7 @@ public class Analyseur extends JDialog implements LoggedDialog, GuiCommand {
 			contentPanel.add(panel, gbc_panel);
 			panel.setLayout(new BorderLayout(0, 0));
 			{
-				lblSortie = new JLabel("<rien>");
+				lblSortie = new JLabel(fSortie.getAbsolutePath());
 				panel.add(lblSortie, BorderLayout.WEST);
 			}
 			{

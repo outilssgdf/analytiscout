@@ -36,8 +36,8 @@ public class AnalyseurEnLigne extends CommonParamsIntranet {
 	@Option(names = "-batch", required=true, description = "Fichier de batch contenant les extractions à effectuer (Valeur par défaut: ${DEFAULT-VALUE})")
 	private File batch = new File("conf/batch.txt");
 
-	@Option(names = "-modele", required=true, description = "Fichier de modèle")
-	private File modele;
+	@Option(names = "-modele", required=true, description = "Fichier de modèle facilitant la présentation de l'analyse (Valeur par défaut: ${DEFAULT-VALUE})")
+	private File modele = new File("conf/modele.xlsx");
 
 	@Option(names = "-sortie", required=true, description = "Fichier de sortie")
 	private File sortie;

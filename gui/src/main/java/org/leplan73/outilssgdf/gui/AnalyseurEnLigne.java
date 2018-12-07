@@ -72,7 +72,7 @@ public class AnalyseurEnLigne extends JDialog implements LoggedDialog, GuiComman
 	private JFileChooser fcBatch;
 	private File fBatch = new File("./conf/batch.txt");
 	private JFileChooser fcModele = new JFileChooser();
-	private File fModele;
+	private File fModele = new File("conf/modele.xlsx");
 
 	private Logger logger_ = LoggerFactory.getLogger(AnalyseurEnLigne.class);
 
@@ -227,7 +227,7 @@ public class AnalyseurEnLigne extends JDialog implements LoggedDialog, GuiComman
 			contentPanel.add(panel, gbc_panel);
 			panel.setLayout(new BorderLayout(0, 0));
 			{
-				lblModele = new JLabel("<rien>");
+				lblModele = new JLabel(fModele.getAbsolutePath());
 				panel.add(lblModele, BorderLayout.WEST);
 			}
 			{
@@ -237,6 +237,7 @@ public class AnalyseurEnLigne extends JDialog implements LoggedDialog, GuiComman
 						fcModele.setDialogTitle("Fichier modèle");
 						fcModele.setApproveButtonText("Go");
 						fcModele.setCurrentDirectory(new File("."));
+						fcModele.setSelectedFile(fModele);
 						fcModele.setFileSelectionMode(JFileChooser.FILES_ONLY);
 						fcModele.removeChoosableFileFilter(fcModele.getFileFilter());
 						fcModele.addChoosableFileFilter(new ExportFileFilter("xlsx"));

@@ -18,6 +18,8 @@ import org.leplan73.outilssgdf.ExtracteurHtml;
 import org.leplan73.outilssgdf.ExtractionException;
 import org.leplan73.outilssgdf.calcul.General;
 import org.leplan73.outilssgdf.calcul.Global;
+import org.leplan73.outilssgdf.cmd.utils.CommonParamsG;
+import org.leplan73.outilssgdf.cmd.utils.Logging;
 import org.leplan73.outilssgdf.extraction.AdherentForme.ExtraKey;
 
 import com.jcabi.manifests.Manifests;

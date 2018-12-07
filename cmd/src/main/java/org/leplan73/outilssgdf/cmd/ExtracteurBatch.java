@@ -22,6 +22,10 @@ import org.jdom2.input.SAXBuilder;
 import org.jdom2.xpath.XPathExpression;
 import org.jdom2.xpath.XPathFactory;
 import org.leplan73.outilssgdf.Consts;
+import org.leplan73.outilssgdf.cmd.utils.CmdLineException;
+import org.leplan73.outilssgdf.cmd.utils.CommonParamsG;
+import org.leplan73.outilssgdf.cmd.utils.CommonParamsIntranet;
+import org.leplan73.outilssgdf.cmd.utils.Logging;
 import org.leplan73.outilssgdf.intranet.ExtractionAdherents;
 import org.leplan73.outilssgdf.intranet.ExtractionMain;
 

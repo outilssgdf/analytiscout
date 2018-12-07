@@ -1,4 +1,4 @@
-package org.leplan73.outilssgdf.cmd;
+package org.leplan73.outilssgdf.cmd.utils;
 
 public class CmdLineException extends Exception {
 

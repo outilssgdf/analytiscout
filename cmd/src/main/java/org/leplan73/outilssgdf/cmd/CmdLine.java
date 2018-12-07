@@ -6,6 +6,10 @@ import java.util.List;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.jdom2.JDOMException;
 import org.leplan73.outilssgdf.ExtractionException;
+import org.leplan73.outilssgdf.cmd.utils.CmdLineException;
+import org.leplan73.outilssgdf.cmd.utils.CmdParams;
+import org.leplan73.outilssgdf.cmd.utils.CommonParamsG;
+import org.leplan73.outilssgdf.cmd.utils.Logging;
 
 import picocli.CommandLine;
 import picocli.CommandLine.Command;

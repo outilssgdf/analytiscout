@@ -1,4 +1,4 @@
-package org.leplan73.outilssgdf.cmd;
+package org.leplan73.outilssgdf.cmd.utils;
 
 import java.io.IOException;
 import java.util.List;
@@ -34,7 +34,7 @@ public class CmdParams implements IVersionProvider {
 		return new String[] {"Version: "+Manifests.read("version"),"Date du build: "+Manifests.read("Build-Time")};
 	}
 	
-	protected void run(CommandLine commandLine) throws CmdLineException, IOException, ExtractionException, JDOMException, InvalidFormatException
+	public void run(CommandLine commandLine) throws CmdLineException, IOException, ExtractionException, JDOMException, InvalidFormatException
 	{
 	}
 	

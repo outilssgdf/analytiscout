@@ -1,4 +1,4 @@
-package org.leplan73.outilssgdf.cmd;
+package org.leplan73.outilssgdf.cmd.utils;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;

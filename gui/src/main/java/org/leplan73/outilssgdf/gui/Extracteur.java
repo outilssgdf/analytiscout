@@ -537,6 +537,15 @@ public class Extracteur extends JDialog implements LoggedDialog, GuiCommand {
 			{
 				btnGo = new JButton("Go");
 				buttonPane.add(btnGo);
+				{
+					button_1 = new JButton("Quitter");
+					button_1.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							dispose();
+						}
+					});
+					buttonPane.add(button_1);
+				}
 				btnGo.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						go();
@@ -574,6 +583,7 @@ public class Extracteur extends JDialog implements LoggedDialog, GuiCommand {
 	private JCheckBox chkMemoriser;
 	private JPanel panel_3;
 	private JPanel panel_4;
+	private JButton button_1;
 
 	private void login(ExtractionMain connection) throws ClientProtocolException, IOException {
 		connection_ = connection;

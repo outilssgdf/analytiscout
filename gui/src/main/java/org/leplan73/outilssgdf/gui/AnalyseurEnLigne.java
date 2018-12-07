@@ -8,10 +8,12 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
@@ -334,6 +336,15 @@ public class AnalyseurEnLigne extends JDialog implements LoggedDialog, GuiComman
 			{
 				btnGo = new JButton("Go");
 				buttonPane.add(btnGo);
+				{
+					JButton button = new JButton("Quitter");
+					button.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							dispose();
+						}
+					});
+					buttonPane.add(button);
+				}
 				btnGo.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						go();
@@ -471,13 +482,16 @@ public class AnalyseurEnLigne extends JDialog implements LoggedDialog, GuiComman
 							
 							if (extra.ifTout()) {
 								donneesAdherents = donnees;
-							} else
-								extraMap.put(extra, new ExtracteurExtraHtml(donnees, chkAge.isSelected()));
+							} else {
+								InputStream in = new ByteArrayInputStream(donnees.getBytes(Consts.ENCODING_UTF8));
+								extraMap.put(extra, new ExtracteurExtraHtml(in, chkAge.isSelected()));
+							}
 							index++;
 						}
 						progress.setProgress(50);
 						
-						ExtracteurHtml adherents = new ExtracteurHtml(donneesAdherents, extraMap,chkAge.isSelected());
+						InputStream in = new ByteArrayInputStream(donneesAdherents.getBytes(Consts.ENCODING_UTF8));
+						ExtracteurHtml adherents = new ExtracteurHtml(in, extraMap,chkAge.isSelected());
 				 
 						AdherentFormes compas = new AdherentFormes();
 						compas.charge(adherents,extraMap);

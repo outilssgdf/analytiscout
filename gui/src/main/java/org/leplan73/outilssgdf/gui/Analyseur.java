@@ -295,6 +295,15 @@ public class Analyseur extends JDialog implements LoggedDialog, GuiCommand {
 			{
 				btnGo = new JButton("Go");
 				buttonPane.add(btnGo);
+				{
+					JButton btnQuitter = new JButton("Quitter");
+					btnQuitter.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent arg0) {
+							dispose();
+						}
+					});
+					buttonPane.add(btnQuitter);
+				}
 				btnGo.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						go();

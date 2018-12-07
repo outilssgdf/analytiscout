@@ -288,6 +288,15 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand
 			{
 				btnGo = new JButton("Go");
 				buttonPane.add(btnGo);
+				{
+					JButton button = new JButton("Quitter");
+					button.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							dispose();
+						}
+					});
+					buttonPane.add(button);
+				}
 				btnGo.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						go();

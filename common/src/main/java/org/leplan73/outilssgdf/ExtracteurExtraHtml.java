@@ -27,8 +27,8 @@ public class ExtracteurExtraHtml {
 	public ExtracteurExtraHtml() throws ExtractionException, IOException, JDOMException {
 	}
 	
-	public ExtracteurExtraHtml(String donnnees, boolean age) throws ExtractionException, IOException, JDOMException {
-		charge(donnnees, age);
+	public ExtracteurExtraHtml(InputStream input, boolean age) throws ExtractionException, IOException, JDOMException {
+		charge(input, age);
 	}
 	
 	public ExtracteurExtraHtml(File fichier, boolean age) throws ExtractionException, IOException, JDOMException {

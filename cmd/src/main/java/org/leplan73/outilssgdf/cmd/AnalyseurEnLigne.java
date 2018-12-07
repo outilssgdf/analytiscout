@@ -1,9 +1,11 @@
 package org.leplan73.outilssgdf.cmd;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,6 +15,7 @@ import java.util.TreeMap;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.jdom2.JDOMException;
+import org.leplan73.outilssgdf.Consts;
 import org.leplan73.outilssgdf.ExtracteurExtraHtml;
 import org.leplan73.outilssgdf.ExtracteurHtml;
 import org.leplan73.outilssgdf.ExtractionException;
@@ -115,12 +118,15 @@ public class AnalyseurEnLigne extends CommonParamsIntranet {
 					
 					if (extra.ifTout()) {
 						donneesAdherents = donnees;
-					} else
-						extraMap.put(extra, new ExtracteurExtraHtml(donnees, age));
+					} else {
+						InputStream in = new ByteArrayInputStream(donnees.getBytes(Consts.ENCODING_UTF8));
+						extraMap.put(extra, new ExtracteurExtraHtml(in, age));
+					}
 					index++;
 				}
-					
-				ExtracteurHtml adherents = new ExtracteurHtml(donneesAdherents, extraMap,age);
+				
+				InputStream in = new ByteArrayInputStream(donneesAdherents.getBytes(Consts.ENCODING_UTF8));
+				ExtracteurHtml adherents = new ExtracteurHtml(in, extraMap,age);
 		 
 				AdherentFormes compas = new AdherentFormes();
 				compas.charge(adherents,extraMap);

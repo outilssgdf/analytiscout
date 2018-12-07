@@ -41,14 +41,14 @@ public class ExtracteurHtml {
 	public ExtracteurHtml() throws ExtractionException, IOException, JDOMException {
 	}
 	
+	public ExtracteurHtml(InputStream input, Map<ExtraKey, ExtracteurExtraHtml> extras, boolean age) throws ExtractionException, IOException, JDOMException {
+		extras_ = extras;
+		charge(input, age);
+	}
+	
 	public ExtracteurHtml(File fichier, Map<ExtraKey, ExtracteurExtraHtml> extras, boolean age) throws ExtractionException, IOException, JDOMException {
 		extras_ = extras;
 		charge(fichier, age);
-	}
-	
-	public ExtracteurHtml(String donnnes, Map<ExtraKey, ExtracteurExtraHtml> extras, boolean age) throws ExtractionException, IOException, JDOMException {
-		extras_ = extras;
-		charge(donnnes, age);
 	}
 
 	public Adherents getAdherents()

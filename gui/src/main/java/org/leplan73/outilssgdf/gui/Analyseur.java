@@ -125,7 +125,7 @@ public class Analyseur extends JDialog implements LoggedDialog, GuiCommand {
 			contentPanel.add(panel, gbc_panel);
 			panel.setLayout(new BorderLayout(0, 0));
 			{
-				lblBatch = new JLabel(fBatch.getPath());
+				lblBatch = new JLabel(fBatch.getAbsolutePath());
 				panel.add(lblBatch, BorderLayout.WEST);
 			}
 			{

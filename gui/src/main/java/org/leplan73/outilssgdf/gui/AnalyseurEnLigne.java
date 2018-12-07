@@ -70,7 +70,7 @@ public class AnalyseurEnLigne extends JDialog implements LoggedDialog, GuiComman
 	private JFileChooser fcSortie;
 	private File fSortie;
 	private JFileChooser fcBatch;
-	private File fBatch;
+	private File fBatch = new File("./conf/batch.txt");
 	private JFileChooser fcModele = new JFileChooser();
 	private File fModele;
 
@@ -190,7 +190,7 @@ public class AnalyseurEnLigne extends JDialog implements LoggedDialog, GuiComman
 			contentPanel.add(panel, gbc_panel);
 			panel.setLayout(new BorderLayout(0, 0));
 			{
-				lblBatch = new JLabel("<rien>");
+				lblBatch = new JLabel(fBatch.getPath());
 				panel.add(lblBatch, BorderLayout.WEST);
 			}
 			{
@@ -200,6 +200,7 @@ public class AnalyseurEnLigne extends JDialog implements LoggedDialog, GuiComman
 						fcBatch = new JFileChooser();
 						fcBatch.setDialogTitle("Fichier batch");
 						fcBatch.setApproveButtonText("Go");
+						fcBatch.setSelectedFile(fBatch);
 						fcBatch.setCurrentDirectory(new File("."));
 						fcBatch.setFileSelectionMode(JFileChooser.FILES_ONLY);
 						fcBatch.removeChoosableFileFilter(fcBatch.getFileFilter());

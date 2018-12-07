@@ -31,8 +31,8 @@ import picocli.CommandLine.Option;
 @Command(name = "analyseur", mixinStandardHelpOptions = true, versionProvider = CommonParamsG.class)
 public class Analyseur extends CommonParamsG {
 
-	@Option(names = "-batch", required=true, description = "batch")
-	private File batch;
+	@Option(names = "-batch", required=true, description = "Fichier de batch contenant les extractions à effectuer (Valeur par défaut: ${DEFAULT-VALUE})")
+	private File batch = new File("conf/batch.txt");
 
 	@Option(names = "-modele", required=true, description = "Fichier de modèle")
 	private File modele;

@@ -37,7 +37,7 @@ public class Analyseur extends CommonParamsG {
 	@Option(names = "-batch", required=true, description = "Fichier de batch contenant les extractions à effectuer (Valeur par défaut: ${DEFAULT-VALUE})")
 	private File batch = new File("conf/batch.txt");
 
-	@Option(names = "-modele", required=true, description = "Fichier de modèle facilitant la présentation de l'analyse (Valeur par défaut: ${DEFAULT-VALUE})")
+	@Option(names = "-modele", description = "Fichier de modèle facilitant la présentation de l'analyse (Valeur par défaut: ${DEFAULT-VALUE})")
 	private File modele = new File("conf/modele.xlsx");
 
 	@Option(names = "-entree", required=true, description = "Fichier d'entrée")

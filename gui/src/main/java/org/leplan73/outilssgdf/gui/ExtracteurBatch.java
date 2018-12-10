@@ -57,6 +57,8 @@ import org.leplan73.outilssgdf.intranet.ExtractionAdherents;
 import org.leplan73.outilssgdf.intranet.ExtractionMain;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import javax.swing.SwingConstants;
+import javax.swing.border.BevelBorder;
 
 public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand {
 
@@ -104,9 +106,9 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		GridBagLayout gbl_contentPanel = new GridBagLayout();
 		gbl_contentPanel.columnWidths = new int[] { 121, 0 };
-		gbl_contentPanel.rowHeights = new int[] { 46, 0, 0, 0, 0, 0, 0 };
+		gbl_contentPanel.rowHeights = new int[] { 46, 0, 0, 0, 0, 0 };
 		gbl_contentPanel.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
-		gbl_contentPanel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
+		gbl_contentPanel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		contentPanel.setLayout(gbl_contentPanel);
 		{
 			JPanel panel = new JPanel();
@@ -128,7 +130,7 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand
 				panel_1.setLayout(new BoxLayout(panel_1, BoxLayout.X_AXIS));
 				{
 					txfIdentifiant = new JTextField();
-					txfIdentifiant.setColumns(30);
+					txfIdentifiant.setColumns(15);
 					panel_1.add(txfIdentifiant);
 				}
 			}
@@ -145,15 +147,16 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand
 				}
 			}
 			{
-				chkMemoriser = new JCheckBox("Mémoriser");
-				chkMemoriser.setSelected(Preferences.litb(Consts.INTRANET_MEMORISER, false));
 				if (chkMemoriser.isSelected())
 				{
 					txfIdentifiant.setText(Preferences.lit(Consts.INTRANET_IDENTIFIANT, "", true));
 					txfMotdepasse.setText(Preferences.lit(Consts.INTRANET_MOTDEPASSE, "", true));
 				}
-				panel.add(chkMemoriser, BorderLayout.EAST);
 			}
+			chkMemoriser = new JCheckBox("Mémoriser");
+			panel.add(chkMemoriser, BorderLayout.EAST);
+			chkMemoriser.setHorizontalAlignment(SwingConstants.CENTER);
+			chkMemoriser.setSelected(Preferences.litb(Consts.INTRANET_MEMORISER, false));
 		}
 		{
 			JPanel panel = new JPanel();
@@ -212,31 +215,13 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand
 		}
 		{
 			JPanel panel = new JPanel();
-			panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Filtrage",
-					TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-			GridBagConstraints gbc_panel = new GridBagConstraints();
-			gbc_panel.insets = new Insets(0, 0, 5, 0);
-			gbc_panel.anchor = GridBagConstraints.NORTH;
-			gbc_panel.fill = GridBagConstraints.HORIZONTAL;
-			gbc_panel.gridx = 0;
-			gbc_panel.gridy = 3;
-			contentPanel.add(panel, gbc_panel);
-			panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
-			{
-				chkRecursif = new JCheckBox("Récursif");
-				chkRecursif.setSelected(true);
-				panel.add(chkRecursif);
-			}
-		}
-		{
-			JPanel panel = new JPanel();
 			panel.setBorder(new TitledBorder(null, "Sortie", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			GridBagConstraints gbc_panel = new GridBagConstraints();
 			gbc_panel.insets = new Insets(0, 0, 5, 0);
 			gbc_panel.anchor = GridBagConstraints.NORTH;
 			gbc_panel.fill = GridBagConstraints.HORIZONTAL;
 			gbc_panel.gridx = 0;
-			gbc_panel.gridy = 4;
+			gbc_panel.gridy = 3;
 			contentPanel.add(panel, gbc_panel);
 			panel.setLayout(new BorderLayout(0, 0));
 			{
@@ -268,7 +253,7 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand
 			GridBagConstraints gbc_panel = new GridBagConstraints();
 			gbc_panel.fill = GridBagConstraints.BOTH;
 			gbc_panel.gridx = 0;
-			gbc_panel.gridy = 5;
+			gbc_panel.gridy = 4;
 			contentPanel.add(panel, gbc_panel);
 			panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
 			{
@@ -312,7 +297,6 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand
 	private JTextField tfStructure;
 	private JButton btnGo;
 	private JCheckBox chkMemoriser;
-	private JCheckBox chkRecursif;
 
 	private void login(ExtractionMain connection) throws ClientProtocolException, IOException {
 		connection_ = connection;
@@ -430,7 +414,7 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand
 
 								Writer out = new BufferedWriter(
 										new OutputStreamWriter(new FileOutputStream(fichier), Consts.ENCODING_WINDOWS));
-								String donnees = app.extract(structure, chkRecursif.isSelected(), type, adherents,
+								String donnees = app.extract(structure, true, type, adherents,
 										fonction, specialite, categorie, diplome, qualif, formation, format, true);
 								out.write(donnees);
 								out.flush();
@@ -441,7 +425,7 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand
 
 								Writer out = new BufferedWriter(
 										new OutputStreamWriter(new FileOutputStream(fichier), Consts.ENCODING_UTF8));
-								String donnees = app.extract(structure, chkRecursif.isSelected(), type, adherents,
+								String donnees = app.extract(structure, true, type, adherents,
 										fonction, specialite, categorie, diplome, qualif, formation, format, false);
 								out.write(donnees);
 								out.flush();
@@ -453,7 +437,7 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand
 								final CSVPrinter out = CSVFormat.DEFAULT.withFirstRecordAsHeader().print(fichier,
 										Charset.forName(Consts.ENCODING_WINDOWS));
 
-								String donnees = app.extract(structure, chkRecursif.isSelected(), type, adherents,
+								String donnees = app.extract(structure, true, type, adherents,
 										fonction, specialite, categorie, diplome, qualif, formation, format, false);
 
 								XPathFactory xpfac = XPathFactory.instance();
@@ -559,8 +543,5 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand
 	}
 	public JCheckBox getChkMemoriser() {
 		return chkMemoriser;
-	}
-	public JCheckBox getChkRecursif() {
-		return chkRecursif;
 	}
 }

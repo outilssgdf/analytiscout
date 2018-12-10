@@ -135,7 +135,7 @@ public class AnalyseurEnLigne extends JDialog implements LoggedDialog, GuiComman
 				panel_1.setLayout(new BoxLayout(panel_1, BoxLayout.X_AXIS));
 				{
 					txfIdentifiant = new JTextField();
-					txfIdentifiant.setColumns(30);
+					txfIdentifiant.setColumns(15);
 					panel_1.add(txfIdentifiant);
 				}
 			}
@@ -164,7 +164,7 @@ public class AnalyseurEnLigne extends JDialog implements LoggedDialog, GuiComman
 		}
 		{
 			JPanel panel = new JPanel();
-			panel.setBorder(new TitledBorder(null, "Structure", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Code structure", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 			GridBagConstraints gbc_panel = new GridBagConstraints();
 			gbc_panel.anchor = GridBagConstraints.NORTH;
 			gbc_panel.insets = new Insets(0, 0, 5, 0);
@@ -174,9 +174,9 @@ public class AnalyseurEnLigne extends JDialog implements LoggedDialog, GuiComman
 			contentPanel.add(panel, gbc_panel);
 			panel.setLayout(new BorderLayout(0, 0));
 			{
-				txfStructure = new JTextField();
-				txfStructure.setColumns(30);
-				panel.add(txfStructure);
+				txfCodeStructure = new JTextField();
+				txfCodeStructure.setColumns(30);
+				panel.add(txfCodeStructure, BorderLayout.NORTH);
 			}
 		}
 		{
@@ -265,13 +265,8 @@ public class AnalyseurEnLigne extends JDialog implements LoggedDialog, GuiComman
 			contentPanel.add(panel, gbc_panel);
 			panel.setLayout(new BorderLayout(0, 0));
 			{
-				chkRecursif = new JCheckBox("Récursif");
-				chkRecursif.setSelected(true);
-				panel.add(chkRecursif, BorderLayout.WEST);
-			}
-			{
 				chkAge = new JCheckBox("Gestion de l'âge");
-				panel.add(chkAge, BorderLayout.EAST);
+				panel.add(chkAge, BorderLayout.WEST);
 			}
 		}
 		{
@@ -357,10 +352,9 @@ public class AnalyseurEnLigne extends JDialog implements LoggedDialog, GuiComman
 	private ExtractionMain connection_;
 	private JLabel lblBatch;
 	private JLabel lblSortie;
-	private JTextField txfStructure;
+	private JTextField txfCodeStructure;
 	private JButton btnGo;
 	private JCheckBox chkMemoriser;
-	private JCheckBox chkRecursif;
 	private JCheckBox chkAge;
 	private JLabel lblModele;
 
@@ -397,7 +391,7 @@ public class AnalyseurEnLigne extends JDialog implements LoggedDialog, GuiComman
 			logger_.error("Mode de passe est vide");
 			return false;
 		}
-		if (txfStructure.getText().isEmpty()) {
+		if (txfCodeStructure.getText().isEmpty()) {
 			logger_.error("Structure est vide");
 			return false;
 		}
@@ -427,7 +421,7 @@ public class AnalyseurEnLigne extends JDialog implements LoggedDialog, GuiComman
 					login(app);
 					progress.setProgress(40);
 
-					String stStructures[] = txfStructure.getText().split(",");
+					String stStructures[] = txfCodeStructure.getText().split(",");
 					for (String stStructure : stStructures) {
 						int structure = Integer.parseInt(stStructure);
 
@@ -481,7 +475,7 @@ public class AnalyseurEnLigne extends JDialog implements LoggedDialog, GuiComman
 									pbatch.getProperty("batchtype." + index, "tout"));
 							
 							logger_.info("Extraction de  "+nom);
-							String donnees = app.extract(structure,chkRecursif.isSelected(),type,adherentsseuls,fonction,specialite,categorie, diplome,qualif,formation,format, false);
+							String donnees = app.extract(structure,true,type,adherentsseuls,fonction,specialite,categorie, diplome,qualif,formation,format, false);
 							logger_.info("Extraction de  "+nom+" fait");
 							
 							if (extra.ifTout()) {
@@ -590,7 +584,7 @@ public class AnalyseurEnLigne extends JDialog implements LoggedDialog, GuiComman
 	}
 
 	public JTextField getTfStructure() {
-		return txfStructure;
+		return txfCodeStructure;
 	}
 
 	public JButton getBtnGo() {
@@ -598,9 +592,6 @@ public class AnalyseurEnLigne extends JDialog implements LoggedDialog, GuiComman
 	}
 	public JCheckBox getChkMemoriser() {
 		return chkMemoriser;
-	}
-	public JCheckBox getChkRecursif() {
-		return chkRecursif;
 	}
 	public JCheckBox getChkAge() {
 		return chkAge;

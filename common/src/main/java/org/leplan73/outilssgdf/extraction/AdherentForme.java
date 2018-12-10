@@ -70,7 +70,7 @@ public class AdherentForme extends Adherent {
 			Formation f = getFormationNull("tech");
 			if (f != null)
 			{
-				long fin = f.getDatefinDate().getTime() + 0;
+				long fin = f.getDatefin().getTime() + 0;
 				long diffFindDec = (new Date().getTime()-fin)/1000;
 				diffFindDec/=(24*3600);
 				return (diffFindDec < (365+365+365+183));
@@ -204,9 +204,23 @@ public class AdherentForme extends Adherent {
 			return titulaire_;
 		}
 		
-		public String getFinvalidite()
+		public Object getFinvalidite()
 		{
-			return fin_validite_;
+			if (fin_validite_.compareTo(PAS_DE_DATE) != 0)
+			{
+				try
+				{
+					DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+					Date date = df.parse(fin_validite_);
+					return date;
+				} catch (ParseException e) {
+				}
+			}
+			else
+			{
+				return PAS_DE_DATE;
+			}
+			return null;
 		}
 		
 		public String getEsttitulaire()
@@ -276,12 +290,7 @@ public class AdherentForme extends Adherent {
 			return defini_;
 		}
 		
-		public String getDatefin()
-		{
-			return datefin_;
-		}
-		
-		public Date getDatefinDate()
+		public Date getDatefin()
 		{
 			return date_fin_validite_;
 		}
@@ -307,12 +316,18 @@ public class AdherentForme extends Adherent {
 	{
 		private boolean titulaire_;
 		private boolean defini_;
-		private String dateobtention_;
+		private Date dateobtention_;
 		private String nom_;
 		
 		public Diplome(ChefExtra extra) {
 			titulaire_ = true;
-			dateobtention_ = extra.get(DIPLOME_DATE_OBTENTION);
+			String dateobtention = extra.get(DIPLOME_DATE_OBTENTION);
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+			try {
+				if (dateobtention != null)
+					dateobtention_ = simpleDateFormat.parse(dateobtention);
+				} catch (ParseException e) {
+			}
 			nom_ = extra.nom_;
 			defini_ = true;
 		}
@@ -330,7 +345,7 @@ public class AdherentForme extends Adherent {
 			return defini_;
 		}
 		
-		public String getDateobtention()
+		public Date getDateobtention()
 		{
 			return dateobtention_;
 		}

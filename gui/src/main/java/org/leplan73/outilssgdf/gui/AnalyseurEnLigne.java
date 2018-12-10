@@ -105,7 +105,7 @@ public class AnalyseurEnLigne extends JDialog implements LoggedDialog, GuiComman
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		double x = Preferences.litd(Consts.FENETRE_ANALYSEURENLIGNE_X, 100);
 		double y = Preferences.litd(Consts.FENETRE_ANALYSEURENLIGNE_Y, 100);
-		setBounds((int)x, (int)y, 566, 627);
+		setBounds((int)x, (int)y, 726, 627);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -326,25 +326,38 @@ public class AnalyseurEnLigne extends JDialog implements LoggedDialog, GuiComman
 		}
 		{
 			JPanel buttonPane = new JPanel();
-			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
+			buttonPane.setLayout(new BorderLayout(0, 0));
 			{
-				btnGo = new JButton("Go");
-				buttonPane.add(btnGo);
 				{
-					JButton button = new JButton("Quitter");
-					button.addActionListener(new ActionListener() {
+					JPanel panel = new JPanel();
+					buttonPane.add(panel, BorderLayout.EAST);
+					btnGo = new JButton("Go");
+					panel.add(btnGo);
+					{
+						JButton button = new JButton("Quitter");
+						panel.add(button);
+						button.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								dispose();
+							}
+						});
+					}
+					btnGo.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
-							dispose();
+							go();
 						}
 					});
-					buttonPane.add(button);
 				}
-				btnGo.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						go();
+				{
+					JPanel panel = new JPanel();
+					buttonPane.add(panel, BorderLayout.WEST);
+					{
+						JButton btnAide = new JButton("Aide");
+						btnAide.setEnabled(false);
+						panel.add(btnAide);
 					}
-				});
+				}
 			}
 		}
 	}
@@ -558,9 +571,9 @@ public class AnalyseurEnLigne extends JDialog implements LoggedDialog, GuiComman
 	public void addLog(String message) {
 		String texte = txtLog.getText();
 		if (texte.length() > 0)
-			texte += "\n";
-		texte += message;
-		txtLog.setText(texte);
+			txtLog.append("\n");
+		txtLog.append(message);
+		txtLog.setCaretPosition(txtLog.getDocument().getLength());
 	}
 
 	public JPasswordField getTxfMotdepasse() {

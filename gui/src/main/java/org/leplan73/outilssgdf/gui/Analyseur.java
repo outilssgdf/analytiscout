@@ -2,6 +2,7 @@ package org.leplan73.outilssgdf.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -12,6 +13,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
@@ -102,7 +105,7 @@ public class Analyseur extends JDialog implements LoggedDialog, GuiCommand {
 		setTitle("Analyseur");
 		double x = Preferences.litd(Consts.FENETRE_ANALYSEUR_X, 100);
 		double y = Preferences.litd(Consts.FENETRE_ANALYSEUR_Y, 100);
-		setBounds((int)x, (int)y, 556, 608);
+		setBounds((int)x, (int)y, 778, 608);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -290,25 +293,42 @@ public class Analyseur extends JDialog implements LoggedDialog, GuiCommand {
 		}
 		{
 			JPanel buttonPane = new JPanel();
-			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
+			buttonPane.setLayout(new BorderLayout(0, 0));
 			{
-				btnGo = new JButton("Go");
-				buttonPane.add(btnGo);
 				{
-					JButton btnQuitter = new JButton("Quitter");
-					btnQuitter.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent arg0) {
-							dispose();
+					JPanel panel = new JPanel();
+					buttonPane.add(panel, BorderLayout.EAST);
+					{
+						btnGo = new JButton("Go");
+						panel.add(btnGo);
+						JButton btnQuitter = new JButton("Quitter");
+						panel.add(btnQuitter);
+						{
+							JPanel panel_1 = new JPanel();
+							buttonPane.add(panel_1, BorderLayout.WEST);
+							{
+								JButton btnAide = new JButton("Aide");
+								btnAide.setEnabled(false);
+								btnAide.addActionListener(new ActionListener() {
+									public void actionPerformed(ActionEvent e) {
+									}
+								});
+								panel_1.add(btnAide);
+							}
 						}
-					});
-					buttonPane.add(btnQuitter);
-				}
-				btnGo.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent arg0) {
-						go();
+						btnQuitter.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent arg0) {
+								dispose();
+							}
+						});
+						btnGo.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent arg0) {
+								go();
+							}
+						});
 					}
-				});
+				}
 			}
 		}
 	}
@@ -445,9 +465,9 @@ public class Analyseur extends JDialog implements LoggedDialog, GuiCommand {
 	public void addLog(String message) {
 		String texte = txtLog.getText();
 		if (texte.length() > 0)
-			texte += "\n";
-		texte += message;
-		txtLog.setText(texte);
+			txtLog.append("\n");
+		txtLog.append(message);
+		txtLog.setCaretPosition(txtLog.getDocument().getLength());
 	}
 
 	public JCheckBox getChcAge() {

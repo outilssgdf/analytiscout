@@ -29,7 +29,7 @@ import com.jcabi.manifests.Manifests;
 
 public class OutilsSGDF extends JFrame {
 
-	private JFrame frmAaa;
+	private JFrame frmOutils;
 
 	/**
 	 * Launch the application.
@@ -49,7 +49,7 @@ public class OutilsSGDF extends JFrame {
 			public void run() {
 				try {
 					OutilsSGDF window = new OutilsSGDF();
-					window.frmAaa.setVisible(true);
+					window.frmOutils.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -68,29 +68,29 @@ public class OutilsSGDF extends JFrame {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frmAaa = new JFrame();
-		frmAaa.addWindowListener(new WindowAdapter() {
+		frmOutils = new JFrame();
+		frmOutils.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent arg0) {
-				Preferences.sauved(Consts.FENETRE_PRINCIPALE_X, frmAaa.getLocation().getX());
-				Preferences.sauved(Consts.FENETRE_PRINCIPALE_Y, frmAaa.getLocation().getY());
+				Preferences.sauved(Consts.FENETRE_PRINCIPALE_X, frmOutils.getLocation().getX());
+				Preferences.sauved(Consts.FENETRE_PRINCIPALE_Y, frmOutils.getLocation().getY());
 			}
 		});
-		frmAaa.setResizable(false);
+		frmOutils.setResizable(false);
 		try {
-			frmAaa.setTitle("Outils SGDF v" + Manifests.read("version"));
+			frmOutils.setTitle("Outils SGDF v" + Manifests.read("version"));
 		} catch (java.lang.IllegalArgumentException e) {
-			frmAaa.setTitle("Outils SGDF (dev)");
+			frmOutils.setTitle("Outils SGDF (dev)");
 		}
 
 		double x = Preferences.litd(Consts.FENETRE_PRINCIPALE_X, 100.0);
 		double y = Preferences.litd(Consts.FENETRE_PRINCIPALE_Y, 100.0);
-		frmAaa.setBounds((int) x, (int) y, 683, 398);
-		frmAaa.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frmAaa.getContentPane().setLayout(new BoxLayout(frmAaa.getContentPane(), BoxLayout.X_AXIS));
+		frmOutils.setBounds((int) x, (int) y, 683, 398);
+		frmOutils.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmOutils.getContentPane().setLayout(new BoxLayout(frmOutils.getContentPane(), BoxLayout.X_AXIS));
 
 		JPanel panel = new JPanel();
-		frmAaa.getContentPane().add(panel);
+		frmOutils.getContentPane().add(panel);
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[] { 40, 169, 0, 28, 0 };
 		gbl_panel.rowHeights = new int[] { 74, 48, 51, 57, 0, 0, 0, 0 };
@@ -168,15 +168,19 @@ public class OutilsSGDF extends JFrame {
 			gbc_btnNewButton_2.gridx = 1;
 			gbc_btnNewButton_2.gridy = 6;
 			panel.add(btnNewButton_2, gbc_btnNewButton_2);
+			
+			JButton btnFermer = new JButton("Fermer");
+			btnFermer.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					frmOutils.dispose();
+				}
+			});
+			GridBagConstraints gbc_btnFermer = new GridBagConstraints();
+			gbc_btnFermer.gridx = 3;
+			gbc_btnFermer.gridy = 6;
+			panel.add(btnFermer, gbc_btnFermer);
 		} catch (URISyntaxException e1) {
 		}
-	}
-
-	@Override
-	public void dispose() {
-		Preferences.sauved("x", this.getLocation().getX());
-		Preferences.sauved("y", this.getLocation().getY());
-		super.dispose();
 	}
 
 }

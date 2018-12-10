@@ -2,7 +2,6 @@ package org.leplan73.outilssgdf.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -34,6 +33,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ProgressMonitor;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
@@ -57,8 +57,6 @@ import org.leplan73.outilssgdf.intranet.ExtractionAdherents;
 import org.leplan73.outilssgdf.intranet.ExtractionMain;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import javax.swing.SwingConstants;
-import javax.swing.border.BevelBorder;
 
 public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand {
 
@@ -100,7 +98,7 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		double x = Preferences.litd(Consts.FENETRE_EXTRACTEURBATCH_X, 100);
 		double y = Preferences.litd(Consts.FENETRE_EXTRACTEURBATCH_Y, 100);
-		setBounds((int)x, (int)y, 566, 480);
+		setBounds((int)x, (int)y, 755, 593);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -160,7 +158,7 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand
 		}
 		{
 			JPanel panel = new JPanel();
-			panel.setBorder(new TitledBorder(null, "Structure", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Code structure", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 			GridBagConstraints gbc_panel = new GridBagConstraints();
 			gbc_panel.anchor = GridBagConstraints.NORTH;
 			gbc_panel.insets = new Insets(0, 0, 5, 0);
@@ -170,9 +168,9 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand
 			contentPanel.add(panel, gbc_panel);
 			panel.setLayout(new BorderLayout(0, 0));
 			{
-				tfStructure = new JTextField();
-				tfStructure.setColumns(30);
-				panel.add(tfStructure);
+				txfCodeStructure = new JTextField();
+				txfCodeStructure.setColumns(30);
+				panel.add(txfCodeStructure);
 			}
 		}
 		{
@@ -268,25 +266,38 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand
 		}
 		{
 			JPanel buttonPane = new JPanel();
-			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
+			buttonPane.setLayout(new BorderLayout(0, 0));
 			{
-				btnGo = new JButton("Go");
-				buttonPane.add(btnGo);
 				{
-					JButton button = new JButton("Quitter");
-					button.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							dispose();
-						}
-					});
-					buttonPane.add(button);
-				}
-				btnGo.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						go();
+					JPanel panel = new JPanel();
+					buttonPane.add(panel, BorderLayout.EAST);
+					{
+						btnGo = new JButton("Go");
+						panel.add(btnGo);
+						JButton button = new JButton("Quitter");
+						panel.add(button);
+						button.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								dispose();
+							}
+						});
+						btnGo.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								go();
+							}
+						});
 					}
-				});
+				}
+				{
+					JPanel panel = new JPanel();
+					buttonPane.add(panel, BorderLayout.WEST);
+					{
+						JButton btnAide = new JButton("Aide");
+						btnAide.setEnabled(false);
+						panel.add(btnAide);
+					}
+				}
 			}
 		}
 	}
@@ -294,7 +305,7 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand
 	private ExtractionMain connection_;
 	private JLabel lblBatch;
 	private JLabel lblSortie;
-	private JTextField tfStructure;
+	private JTextField txfCodeStructure;
 	private JButton btnGo;
 	private JCheckBox chkMemoriser;
 
@@ -357,7 +368,7 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand
 					login(app);
 					progress.setProgress(40);
 
-					String stStructures[] = tfStructure.getText().split(",");
+					String stStructures[] = txfCodeStructure.getText().split(",");
 					for (String stStructure : stStructures) {
 						int structure = Integer.parseInt(stStructure);
 
@@ -509,9 +520,9 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand
 	public void addLog(String message) {
 		String texte = txtLog.getText();
 		if (texte.length() > 0)
-			texte += "\n";
-		texte += message;
-		txtLog.setText(texte);
+			txtLog.append("\n");
+		txtLog.append(message);
+		txtLog.setCaretPosition(txtLog.getDocument().getLength());
 	}
 
 	public JPasswordField getTxfMotdepasse() {
@@ -535,7 +546,7 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand
 	}
 
 	public JTextField getTfStructure() {
-		return tfStructure;
+		return txfCodeStructure;
 	}
 
 	public JButton getBtnGo() {

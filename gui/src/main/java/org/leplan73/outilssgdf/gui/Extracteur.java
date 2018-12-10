@@ -113,7 +113,7 @@ public class Extracteur extends JDialog implements LoggedDialog, GuiCommand {
 		setTitle("Extracteur");
 		double x = Preferences.litd(Consts.FENETRE_EXTRACTEUR_X, 100);
 		double y = Preferences.litd(Consts.FENETRE_EXTRACTEUR_Y, 100);
-		setBounds((int)x, (int)y, 830, 839);
+		setBounds((int)x, (int)y, 829, 839);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -485,25 +485,38 @@ public class Extracteur extends JDialog implements LoggedDialog, GuiCommand {
 		}
 		{
 			JPanel buttonPane = new JPanel();
-			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
+			buttonPane.setLayout(new BorderLayout(0, 0));
 			{
-				btnGo = new JButton("Go");
-				buttonPane.add(btnGo);
 				{
-					button_1 = new JButton("Quitter");
-					button_1.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							dispose();
-						}
-					});
-					buttonPane.add(button_1);
-				}
-				btnGo.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						go();
+					panel_5 = new JPanel();
+					buttonPane.add(panel_5, BorderLayout.EAST);
+					{
+						btnGo = new JButton("Go");
+						panel_5.add(btnGo);
+						button_1 = new JButton("Quitter");
+						panel_5.add(button_1);
+						button_1.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								dispose();
+							}
+						});
+						btnGo.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								go();
+							}
+						});
 					}
-				});
+				}
+				{
+					panel_6 = new JPanel();
+					buttonPane.add(panel_6, BorderLayout.WEST);
+					{
+						btnAide = new JButton("Aide");
+						btnAide.setEnabled(false);
+						panel_6.add(btnAide);
+					}
+				}
 			}
 		}
 	}
@@ -537,6 +550,9 @@ public class Extracteur extends JDialog implements LoggedDialog, GuiCommand {
 	private JPanel panel_4;
 	private JButton button_1;
 	private JPanel panel_2;
+	private JPanel panel_5;
+	private JPanel panel_6;
+	private JButton btnAide;
 
 	private void login(ExtractionMain connection) throws ClientProtocolException, IOException {
 		connection_ = connection;
@@ -711,9 +727,9 @@ public class Extracteur extends JDialog implements LoggedDialog, GuiCommand {
 	public void addLog(String message) {
 		String texte = txtLog.getText();
 		if (texte.length() > 0)
-			texte += "\n";
-		texte += message;
-		txtLog.setText(texte);
+			txtLog.append("\n");
+		txtLog.append(message);
+		txtLog.setCaretPosition(txtLog.getDocument().getLength());
 	}
 
 	public JLabel getLblSortie() {

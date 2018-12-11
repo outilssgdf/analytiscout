@@ -389,24 +389,30 @@ public class AnalyseurEnLigne extends JDialog implements LoggedDialog, GuiComman
 	public boolean check() {
 		logger_.info("Vérification des paramètres");
 		if (fBatch == null) {
-			logger_.error("Batch non-sélectionnée");
+			logger_.error("Le fichier batch est non-sélectionnée");
 			return false;
 		}
 		if (fSortie == null) {
-			logger_.error("Sortie non-sélectionnée");
+			logger_.error("Le répertoire de sortie est non-sélectionnée");
 			return false;
 		}
 		if (txfIdentifiant.getText().isEmpty()) {
-			logger_.error("Identifiant est vide");
+			logger_.error("L'identifiant est vide");
 			return false;
 		}
 		if (txfMotdepasse.getPassword().length == 0) {
-			logger_.error("Mode de passe est vide");
+			logger_.error("Le mode de passe est vide");
 			return false;
 		}
 		if (txfCodeStructure.getText().isEmpty()) {
-			logger_.error("Structure est vide");
+			logger_.error("Le code de structure est vide");
 			return false;
+		}
+		if (txfCodeStructure.getText().compareTo(Consts.STRUCTURE_NATIONAL) == 0)
+		{
+			logger_.error("Code de structure interdit");
+			return false;
+			
 		}
 		return true;
 	}

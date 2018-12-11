@@ -26,6 +26,7 @@ import org.leplan73.outilssgdf.gui.utils.Logging;
 import org.leplan73.outilssgdf.gui.utils.Preferences;
 
 import com.jcabi.manifests.Manifests;
+import java.awt.BorderLayout;
 
 public class OutilsSGDF extends JFrame {
 
@@ -85,7 +86,7 @@ public class OutilsSGDF extends JFrame {
 
 		double x = Preferences.litd(Consts.FENETRE_PRINCIPALE_X, 100.0);
 		double y = Preferences.litd(Consts.FENETRE_PRINCIPALE_Y, 100.0);
-		frmOutils.setBounds((int) x, (int) y, 683, 398);
+		frmOutils.setBounds((int) x, (int) y, 683, 351);
 		frmOutils.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmOutils.getContentPane().setLayout(new BoxLayout(frmOutils.getContentPane(), BoxLayout.X_AXIS));
 
@@ -93,19 +94,10 @@ public class OutilsSGDF extends JFrame {
 		frmOutils.getContentPane().add(panel);
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[] { 40, 169, 0, 28, 0 };
-		gbl_panel.rowHeights = new int[] { 74, 48, 51, 57, 0, 0, 0, 0 };
-		gbl_panel.columnWeights = new double[] { 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
-		gbl_panel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
+		gbl_panel.rowHeights = new int[] { 37, 48, 51, 57, 46, 37, 0, 0, 0 };
+		gbl_panel.columnWeights = new double[] { 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE };
+		gbl_panel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE };
 		panel.setLayout(gbl_panel);
-
-		JLabel lblNewLabel = new JLabel("Je souhaite...");
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel.gridx = 1;
-		gbc_lblNewLabel.gridy = 0;
-		panel.add(lblNewLabel, gbc_lblNewLabel);
 		try {
 					
 					JButton btnAnalyserDesDonnes = new JButton("Extraire et analyser des données en ligne");
@@ -149,6 +141,15 @@ public class OutilsSGDF extends JFrame {
 											gbc_btnNewButton_1.gridx = 2;
 											gbc_btnNewButton_1.gridy = 2;
 											panel.add(btnNewButton_1, gbc_btnNewButton_1);
+									
+											JLabel lblNewLabel = new JLabel("Je souhaite...");
+											lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
+											lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+											GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
+											gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
+											gbc_lblNewLabel.gridx = 1;
+											gbc_lblNewLabel.gridy = 3;
+											panel.add(lblNewLabel, gbc_lblNewLabel);
 									GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 									gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
 									gbc_btnNewButton.gridx = 2;
@@ -160,25 +161,38 @@ public class OutilsSGDF extends JFrame {
 							gbc_button.gridx = 2;
 							gbc_button.gridy = 4;
 							panel.add(button, gbc_button);
+			
+			JPanel panel_1 = new JPanel();
+			GridBagConstraints gbc_panel_1 = new GridBagConstraints();
+			gbc_panel_1.insets = new Insets(0, 0, 5, 5);
+			gbc_panel_1.fill = GridBagConstraints.BOTH;
+			gbc_panel_1.gridx = 1;
+			gbc_panel_1.gridy = 6;
+			panel.add(panel_1, gbc_panel_1);
+			panel_1.setLayout(new BorderLayout(0, 0));
 			JHyperlink btnNewButton_2 = new JHyperlink("New button", "https://www.facebook.com/groups/outilssgdf");
+			panel_1.add(btnNewButton_2, BorderLayout.NORTH);
+			btnNewButton_2.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+				}
+			});
 			btnNewButton_2.setFont(new Font("Tahoma", Font.PLAIN, 14));
-			btnNewButton_2.setText("Besoin d'aide ?");
-			GridBagConstraints gbc_btnNewButton_2 = new GridBagConstraints();
-			gbc_btnNewButton_2.insets = new Insets(0, 0, 0, 5);
-			gbc_btnNewButton_2.gridx = 1;
-			gbc_btnNewButton_2.gridy = 6;
-			panel.add(btnNewButton_2, gbc_btnNewButton_2);
+			btnNewButton_2.setText("Besoin d'aide ?\r");
+			
+			JLabel lblNewLabel_1 = new JLabel("Pour le moment, consultez le site Facebook : outilssgdf");
+			panel_1.add(lblNewLabel_1);
 			
 			JButton btnFermer = new JButton("Fermer");
+			GridBagConstraints gbc_btnFermer = new GridBagConstraints();
+			gbc_btnFermer.insets = new Insets(0, 0, 5, 0);
+			gbc_btnFermer.gridx = 3;
+			gbc_btnFermer.gridy = 6;
+			panel.add(btnFermer, gbc_btnFermer);
 			btnFermer.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					frmOutils.dispose();
 				}
 			});
-			GridBagConstraints gbc_btnFermer = new GridBagConstraints();
-			gbc_btnFermer.gridx = 3;
-			gbc_btnFermer.gridy = 6;
-			panel.add(btnFermer, gbc_btnFermer);
 		} catch (URISyntaxException e1) {
 		}
 	}

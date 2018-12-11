@@ -98,7 +98,7 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		double x = Preferences.litd(Consts.FENETRE_EXTRACTEURBATCH_X, 100);
 		double y = Preferences.litd(Consts.FENETRE_EXTRACTEURBATCH_Y, 100);
-		setBounds((int)x, (int)y, 755, 593);
+		setBounds((int)x, (int)y, 625, 593);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -144,6 +144,10 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand
 					panel_1.add(txfMotdepasse);
 				}
 			}
+			chkMemoriser = new JCheckBox("Mémoriser");
+			panel.add(chkMemoriser, BorderLayout.EAST);
+			chkMemoriser.setHorizontalAlignment(SwingConstants.CENTER);
+			chkMemoriser.setSelected(Preferences.litb(Consts.INTRANET_MEMORISER, false));
 			{
 				if (chkMemoriser.isSelected())
 				{
@@ -151,10 +155,6 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand
 					txfMotdepasse.setText(Preferences.lit(Consts.INTRANET_MOTDEPASSE, "", true));
 				}
 			}
-			chkMemoriser = new JCheckBox("Mémoriser");
-			panel.add(chkMemoriser, BorderLayout.EAST);
-			chkMemoriser.setHorizontalAlignment(SwingConstants.CENTER);
-			chkMemoriser.setSelected(Preferences.litb(Consts.INTRANET_MEMORISER, false));
 		}
 		{
 			JPanel panel = new JPanel();
@@ -169,7 +169,7 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand
 			panel.setLayout(new BorderLayout(0, 0));
 			{
 				txfCodeStructure = new JTextField();
-				txfCodeStructure.setColumns(30);
+				txfCodeStructure.setColumns(20);
 				panel.add(txfCodeStructure);
 			}
 		}
@@ -327,20 +327,30 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand
 	public boolean check() {
 		logger_.info("Vérification des paramètres");
 		if (fBatch == null) {
-			logger_.error("Batch non-sélectionnée");
+			logger_.error("Le fichier batch est non-sélectionnée");
 			return false;
 		}
 		if (fSortie == null) {
-			logger_.error("Sortie non-sélectionnée");
+			logger_.error("Le répertoire de sortie est non-sélectionnée");
 			return false;
 		}
 		if (txfIdentifiant.getText().isEmpty()) {
-			logger_.error("Identifiant est vide");
+			logger_.error("L'identifiant est vide");
 			return false;
 		}
 		if (txfMotdepasse.getPassword().length == 0) {
-			logger_.error("Mode de passe est vide");
+			logger_.error("Le mode de passe est vide");
 			return false;
+		}
+		if (txfCodeStructure.getText().isEmpty()) {
+			logger_.error("Le code de structure est vide");
+			return false;
+		}
+		if (txfCodeStructure.getText().compareTo(Consts.STRUCTURE_NATIONAL) == 0)
+		{
+			logger_.error("Code de structure interdit");
+			return false;
+			
 		}
 		return true;
 	}

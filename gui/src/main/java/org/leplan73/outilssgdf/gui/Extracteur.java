@@ -65,11 +65,10 @@ public class Extracteur extends JDialog implements LoggedDialog, GuiCommand {
 	private JPasswordField txfMotdepasse;
 	private JTextField txfCodeStructure;
 	private JTextField txfCodefonction;
-	private JComboBox cbxGenerateur;
 	private Logger logger_ = LoggerFactory.getLogger(Extracteur.class);
 
 	private JFileChooser fcSortie;
-	private File fSortie = new File("./données");
+	private File fSortie = new File("./données/export.xls");
 	private JLabel lblSortie;
 	private JTextArea txtLog;
 	private JCheckBox chkFormatIndividu;
@@ -113,7 +112,7 @@ public class Extracteur extends JDialog implements LoggedDialog, GuiCommand {
 		setTitle("Extracteur");
 		double x = Preferences.litd(Consts.FENETRE_EXTRACTEUR_X, 100);
 		double y = Preferences.litd(Consts.FENETRE_EXTRACTEUR_Y, 100);
-		setBounds((int)x, (int)y, 829, 839);
+		setBounds((int)x, (int)y, 736, 740);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -410,17 +409,6 @@ public class Extracteur extends JDialog implements LoggedDialog, GuiCommand {
 					panel_3.add(chkFormatQFInclus);
 				}
 			}
-			{
-				panel_4 = new JPanel();
-				panel_4.setBorder(new TitledBorder(null, "G\u00E9n\u00E9rateur", TitledBorder.LEADING, TitledBorder.TOP,
-						null, null));
-				panel_2_1.add(panel_4, BorderLayout.EAST);
-				{
-					cbxGenerateur = new JComboBox();
-					panel_4.add(cbxGenerateur);
-					cbxGenerateur.setModel(new DefaultComboBoxModel(new String[] {"xls", "csv", "xml"}));
-				}
-			}
 		}
 		{
 			JPanel panel = new JPanel();
@@ -448,11 +436,14 @@ public class Extracteur extends JDialog implements LoggedDialog, GuiCommand {
 								fcSortie = new JFileChooser();
 								fcSortie.setDialogTitle("Export Configuration");
 								fcSortie.setApproveButtonText("Export");
-								fcSortie.setCurrentDirectory(new File("."));
+								fcSortie.setCurrentDirectory(new File("./données"));
+								fcSortie.setSelectedFile(fSortie);
 								fcSortie.setFileSelectionMode(JFileChooser.FILES_ONLY);
 								fcSortie.removeChoosableFileFilter(fcSortie.getFileFilter());
-								fcSortie.addChoosableFileFilter(
-										new ExportFileFilter(cbxGenerateur.getSelectedItem().toString()));
+								fcSortie.removeChoosableFileFilter(fcSortie.getAcceptAllFileFilter());
+								fcSortie.addChoosableFileFilter(new ExportFileFilter("xls"));
+								fcSortie.addChoosableFileFilter(new ExportFileFilter("csv"));
+								fcSortie.addChoosableFileFilter(new ExportFileFilter("xml"));
 								int result = fcSortie.showDialog(panel, "OK");
 								if (result == JFileChooser.APPROVE_OPTION) {
 									fSortie = fcSortie.getSelectedFile();
@@ -525,7 +516,18 @@ public class Extracteur extends JDialog implements LoggedDialog, GuiCommand {
 	public boolean check() {
 		logger_.info("Vérification des paramètres");
 		if (fSortie == null) {
-			logger_.error("Le répertoire de sortie est non-sélectionnée");
+			logger_.error("Le fichier de sortie est non-sélectionnée");
+			return false;
+		}
+		if (fSortie.getName().indexOf(".") == -1)
+		{
+			logger_.error("Il manque une extension (xls, csv ou xml) au fichier de sortie");
+			return false;
+		}
+		String generateur = fSortie.getName().substring(fSortie.getName().indexOf(".")+1);
+		if (generateur.compareTo(ExtractionMain.GENERATEUR_XLS) != 0 && generateur.compareTo(ExtractionMain.GENERATEUR_XML) != 0 && generateur.compareTo(ExtractionMain.GENERATEUR_CSV) != 0)
+		{
+			logger_.error("L'extension au fichier de sortie est inconnue (xls, csv ou xml)");
 			return false;
 		}
 		if (txfIdentifiant.getText().isEmpty()) {
@@ -553,7 +555,6 @@ public class Extracteur extends JDialog implements LoggedDialog, GuiCommand {
 	private JButton btnGo;
 	private JCheckBox chkMemoriser;
 	private JPanel panel_3;
-	private JPanel panel_4;
 	private JButton button_1;
 	private JPanel panel_2;
 	private JPanel panel_5;
@@ -590,7 +591,8 @@ public class Extracteur extends JDialog implements LoggedDialog, GuiCommand {
 			boolean ret = check();
 			progress.setProgress(20);
 			if (ret) {
-				String generateur = (String) cbxGenerateur.getSelectedItem();
+				
+				String generateur = fSortie.getName().substring(fSortie.getName().indexOf(".")+1);
 				int type = GuiCommand.extract(((String) cbxType.getSelectedItem()));
 				int specialite = GuiCommand.extract((String) cbxSpecialite.getSelectedItem());
 				int categorie = GuiCommand.extract((String) cbxCategorie.getSelectedItem());

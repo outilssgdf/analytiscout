@@ -199,6 +199,7 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand
 						fcBatch.setCurrentDirectory(new File("."));
 						fcBatch.setSelectedFile(fBatch);
 						fcBatch.setFileSelectionMode(JFileChooser.FILES_ONLY);
+						fcBatch.removeChoosableFileFilter(fcBatch.getAcceptAllFileFilter());
 						fcBatch.removeChoosableFileFilter(fcBatch.getFileFilter());
 						fcBatch.addChoosableFileFilter(new ExportFileFilter("txt"));
 						int result = fcBatch.showDialog(panel, "OK");

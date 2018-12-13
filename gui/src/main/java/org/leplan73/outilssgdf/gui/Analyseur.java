@@ -141,6 +141,7 @@ public class Analyseur extends JDialog implements LoggedDialog, GuiCommand {
 						fcBatch.setSelectedFile(fBatch);
 						fcBatch.setFileSelectionMode(JFileChooser.FILES_ONLY);
 						fcBatch.removeChoosableFileFilter(fcBatch.getFileFilter());
+						fcBatch.removeChoosableFileFilter(fcBatch.getAcceptAllFileFilter());
 						fcBatch.addChoosableFileFilter(new ExportFileFilter("txt"));
 						int result = fcBatch.showDialog(panel, "OK");
 						if (result == JFileChooser.APPROVE_OPTION) {
@@ -210,6 +211,7 @@ public class Analyseur extends JDialog implements LoggedDialog, GuiCommand {
 						fcModele.setSelectedFile(fModele);
 						fcModele.setFileSelectionMode(JFileChooser.FILES_ONLY);
 						fcModele.removeChoosableFileFilter(fcModele.getFileFilter());
+						fcModele.removeChoosableFileFilter(fcModele.getAcceptAllFileFilter());
 						fcModele.addChoosableFileFilter(new ExportFileFilter("xlsx"));
 						int result = fcModele.showDialog(panel, "OK");
 						if (result == JFileChooser.APPROVE_OPTION) {
@@ -261,6 +263,7 @@ public class Analyseur extends JDialog implements LoggedDialog, GuiCommand {
 						fcSortie.setCurrentDirectory(new File("."));
 						fcSortie.setFileSelectionMode(JFileChooser.FILES_ONLY);
 						fcSortie.removeChoosableFileFilter(fcSortie.getFileFilter());
+						fcSortie.removeChoosableFileFilter(fcSortie.getAcceptAllFileFilter());
 						fcSortie.addChoosableFileFilter(new ExportFileFilter("xlsx"));
 						int result = fcSortie.showDialog(panel, "OK");
 						if (result == JFileChooser.APPROVE_OPTION) {

@@ -48,6 +48,9 @@ public class Consts {
 	public static final String FENETRE_EXTRACTEURBATCH_X = "fenetre.extracteurbatch.x";
 	public static final String FENETRE_EXTRACTEURBATCH_Y = "fenetre.extracteurbatch.y";
 	
+	public static final String FENETRE_GENERATEUR_X = "fenetre.generateur.x";
+	public static final String FENETRE_GENERATEUR_Y = "fenetre.generateur.y";
+	
 	public static final String INTRANET_IDENTIFIANT = "intranet.identifiant";
 	public static final String INTRANET_MOTDEPASSE = "intranet.motdepasse";
 	public static final String INTRANET_MEMORISER = "intranet.memoriser";

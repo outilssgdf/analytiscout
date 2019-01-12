@@ -106,7 +106,7 @@ public class OutilsSGDF extends JFrame {
 							new AnalyseurEnLigne().setVisible(true);
 						}
 					});
-					btnAnalyserDesDonnes.setFont(new Font("Tahoma", Font.PLAIN, 14));
+					btnAnalyserDesDonnes.setFont(new Font("Tahoma", Font.PLAIN, 11));
 					GridBagConstraints gbc_btnAnalyserDesDonnes = new GridBagConstraints();
 					gbc_btnAnalyserDesDonnes.insets = new Insets(0, 0, 5, 5);
 					gbc_btnAnalyserDesDonnes.gridx = 2;
@@ -114,7 +114,7 @@ public class OutilsSGDF extends JFrame {
 					panel.add(btnAnalyserDesDonnes, gbc_btnAnalyserDesDonnes);
 			
 					JButton button = new JButton("Exporter des données en batch");
-					button.setFont(new Font("Tahoma", Font.PLAIN, 14));
+					button.setFont(new Font("Tahoma", Font.PLAIN, 11));
 					button.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							new ExtracteurBatch().setVisible(true);
@@ -122,7 +122,7 @@ public class OutilsSGDF extends JFrame {
 					});
 							
 									JButton btnNewButton = new JButton("Exporter des données");
-									btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
+									btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 11));
 									btnNewButton.addActionListener(new ActionListener() {
 										public void actionPerformed(ActionEvent e) {
 											new Extracteur().setVisible(true);
@@ -130,7 +130,7 @@ public class OutilsSGDF extends JFrame {
 									});
 									
 											JButton btnNewButton_1 = new JButton("Analyser des données déjà extraites");
-											btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
+											btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 11));
 											btnNewButton_1.addActionListener(new ActionListener() {
 												public void actionPerformed(ActionEvent e) {
 													new Analyseur().setVisible(true);
@@ -176,10 +176,11 @@ public class OutilsSGDF extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 				}
 			});
-			btnNewButton_2.setFont(new Font("Tahoma", Font.PLAIN, 14));
+			btnNewButton_2.setFont(new Font("Tahoma", Font.PLAIN, 11));
 			btnNewButton_2.setText("Besoin d'aide ?\r");
 			
 			JLabel lblNewLabel_1 = new JLabel("Pour le moment, consultez le site Facebook : outilssgdf");
+			lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
 			panel_1.add(lblNewLabel_1);
 			
 			JButton btnQuitter = new JButton("Quitter");

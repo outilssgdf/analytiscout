@@ -222,23 +222,20 @@ public class Adherent {
 	
 	public String getAgeok()
 	{
-		if (this.getFonction() < Consts.CODE_COMPAS)
+		switch (this.getFonction())
 		{
-			switch (this.getFonction())
-			{
-				case Consts.CODE_FARFADETS:
-					if (ageFinDec_ < 6) return "Non";
-				break;
-				case Consts.CODE_LJ:
-					if (ageFinDec_ < 8) return "Non";
-				break;
-				case Consts.CODE_SG:
-					if (ageFinDec_ < 11) return "Non";
-				break;
-				case Consts.CODE_PIOK:
-					if (ageFinDec_ < 14) return "Non";
-				break;
-			}
+			case Consts.CODE_FARFADETS:
+				if (ageFinDec_ < 6) return "Non";
+			break;
+			case Consts.CODE_LJ:
+				if (ageFinDec_ < 8) return "Non";
+			break;
+			case Consts.CODE_SG:
+				if (ageFinDec_ < 11) return "Non";
+			break;
+			case Consts.CODE_PIOK:
+				if (ageFinDec_ < 14) return "Non";
+			break;
 		}
 		return "Oui";
 	}
@@ -247,23 +244,20 @@ public class Adherent {
 	{
 		if (ageCamp_ > 0)
 		{
-			if (this.getFonction() < Consts.CODE_COMPAS)
+			switch (this.getFonction())
 			{
-				switch (this.getFonction())
-				{
-					case Consts.CODE_FARFADETS:
-						if (ageCamp_ < 6) return "Non";
-					break;
-					case Consts.CODE_LJ:
-						if (ageCamp_ < 8) return "Non";
-					break;
-					case Consts.CODE_SG:
-						if (ageCamp_ < 11) return "Non";
-					break;
-					case Consts.CODE_PIOK:
-						if (ageCamp_ < 14) return "Non";
-					break;
-				}
+				case Consts.CODE_FARFADETS:
+					if (ageCamp_ < 6) return "Non";
+				break;
+				case Consts.CODE_LJ:
+					if (ageCamp_ < 8) return "Non";
+				break;
+				case Consts.CODE_SG:
+					if (ageCamp_ < 11) return "Non";
+				break;
+				case Consts.CODE_PIOK:
+					if (ageCamp_ < 14) return "Non";
+				break;
 			}
 			return "Oui";
 		}

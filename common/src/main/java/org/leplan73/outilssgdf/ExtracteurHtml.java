@@ -177,7 +177,7 @@ public class ExtracteurHtml {
 			{
 				AdherentForme chef = (AdherentForme)ad;
 
-				boolean dirsf = chef.getQualif("dirsf").getOk();
+				boolean dirsf = chef.getQualif("dirsf").getDefini();
 				boolean animsfQualifie = chef.getQualif("animsf").getDefini() && chef.getQualif("animsf").getTitulaire();
 				boolean animsfNonQualifie = chef.getQualif("animsf").getDefini() && !chef.getQualif("animsf").getTitulaire();
 				
@@ -242,7 +242,7 @@ public class ExtracteurHtml {
 				
 				if (animsfQualifie || dirsf)
 				{
-					uniteObj.addQualifAnnee();
+					uniteObj.addQualifannee();
 				}
 				
 				if (chef.getFormation("cham").getOk()) uniteObj.addCham();

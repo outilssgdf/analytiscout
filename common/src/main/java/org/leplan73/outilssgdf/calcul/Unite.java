@@ -77,6 +77,11 @@ public class Unite implements Comparable<Unite>
 		codeGroupe+="00";
 		return codeGroupe;
 	}
+	
+	public int getBesoindir()
+	{
+		return code_ > Consts.CODE_CHEFS_PIOK ? 0 : 1;
+	}
 
 	private int qualifs_;
 	public int getQualifieannee()
@@ -95,6 +100,11 @@ public class Unite implements Comparable<Unite>
 	{
 		return stagiaires_;
 	}
+	
+	public int getToutsf()
+	{
+		return qualifs_+stagiaires_;
+	}
 
 	public int compareTo(String o) {
 		return this.nom_.compareTo(o);
@@ -108,44 +118,6 @@ public class Unite implements Comparable<Unite>
 	@Override
 	public String toString() {
 		return nom_;
-	}
-
-	public int getDircampth() {
-		return code_ < Consts.CODE_COMPAS ? 1 : 0;
-	}
-
-	public int getAnimscampth() {
-		return code_ < Consts.CODE_COMPAS ? (jeunes_/12+1) : 0;
-	}
-
-	public int getAnimsqualifiescamp() {
-		return code_ < Consts.CODE_COMPAS ? (code_ < Consts.CODE_CHEFS_PIOK ? animsf_ : animsf_+(dirsf_> 0 ? 1:0)) : 0;
-	}
-
-	public int getAnimscamp() {
-		return code_ < Consts.CODE_COMPAS ? (code_ < Consts.CODE_CHEFS_PIOK ? animsf_+stagiaires_+autresCamp_ : animsf_+stagiaires_+autresCamp_+(dirsf_> 0 ? 1:0)) : 0;
-	}
-	
-	public String getEncadrementcamp50()
-	{
-		if (code_ < Consts.CODE_COMPAS)
-		{
-			int animscamp = getAnimscamp();
-			if (animsf_ < animscamp/2)
-				return "Pas OK";
-		}
-		return "OK";
-	}
-	
-	public String getEncadrementcamp20()
-	{
-		if (code_ < Consts.CODE_COMPAS)
-		{
-			int animscamp = getAnimscamp();
-			if (autresCamp_ > animscamp/5)
-				return "Pas OK";
-		}
-		return "OK";
 	}
 
 	public int getApf() {
@@ -174,6 +146,10 @@ public class Unite implements Comparable<Unite>
 
 	public void addAppro(boolean dir) {
 		this.appro_++;
+	}
+
+	public int getPsc1afps() {
+		return psc1_ + afps_;
 	}
 
 	public int getPsc1() {
@@ -220,7 +196,7 @@ public class Unite implements Comparable<Unite>
 		this.animsf_++;
 	}
 
-	public void addQualifAnnee() {
+	public void addQualifannee() {
 		this.qualifs_++;
 	}
 

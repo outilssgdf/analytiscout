@@ -75,7 +75,6 @@ public class CmdLine extends CmdParams {
 		}
 		
 		CmdParams cmd = (CmdParams)commandLine.getCommand();
-		Logging.initLogger(cmd.getClass(), debug);
 		
 		try
 		{

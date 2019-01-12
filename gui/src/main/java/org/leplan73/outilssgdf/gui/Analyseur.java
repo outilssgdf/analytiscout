@@ -305,8 +305,8 @@ public class Analyseur extends JDialog implements LoggedDialog, GuiCommand {
 					{
 						btnGo = new JButton("Go");
 						panel.add(btnGo);
-						JButton btnQuitter = new JButton("Quitter");
-						panel.add(btnQuitter);
+						JButton btnFermer = new JButton("Fermer");
+						panel.add(btnFermer);
 						{
 							JPanel panel_1 = new JPanel();
 							buttonPane.add(panel_1, BorderLayout.WEST);
@@ -320,7 +320,7 @@ public class Analyseur extends JDialog implements LoggedDialog, GuiCommand {
 								panel_1.add(btnAide);
 							}
 						}
-						btnQuitter.addActionListener(new ActionListener() {
+						btnFermer.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent arg0) {
 								dispose();
 							}

@@ -212,8 +212,8 @@ public class Generateur extends JDialog implements LoggedDialog, GuiCommand {
 					panel.add(button);
 				}
 				{
-					JButton button = new JButton("Quitter");
-					panel.add(button);
+					JButton btnFermer = new JButton("Fermer");
+					panel.add(btnFermer);
 				}
 			}
 			{

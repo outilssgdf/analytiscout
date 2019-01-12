@@ -86,16 +86,16 @@ public class OutilsSGDF extends JFrame {
 
 		double x = Preferences.litd(Consts.FENETRE_PRINCIPALE_X, 100.0);
 		double y = Preferences.litd(Consts.FENETRE_PRINCIPALE_Y, 100.0);
-		frmOutils.setBounds((int) x, (int) y, 683, 351);
+		frmOutils.setBounds((int) x, (int) y, 748, 353);
 		frmOutils.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmOutils.getContentPane().setLayout(new BoxLayout(frmOutils.getContentPane(), BoxLayout.X_AXIS));
 
 		JPanel panel = new JPanel();
 		frmOutils.getContentPane().add(panel);
 		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[] { 40, 169, 0, 28, 0 };
+		gbl_panel.columnWidths = new int[] { 40, 169, 0, 28, 0, 0 };
 		gbl_panel.rowHeights = new int[] { 37, 48, 51, 57, 46, 37, 0, 0, 0 };
-		gbl_panel.columnWeights = new double[] { 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE };
+		gbl_panel.columnWeights = new double[] { 0.0, 1.0, 0.0, 1.0, 0.0, Double.MIN_VALUE };
 		gbl_panel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE };
 		panel.setLayout(gbl_panel);
 		try {
@@ -182,13 +182,13 @@ public class OutilsSGDF extends JFrame {
 			JLabel lblNewLabel_1 = new JLabel("Pour le moment, consultez le site Facebook : outilssgdf");
 			panel_1.add(lblNewLabel_1);
 			
-			JButton btnFermer = new JButton("Fermer");
-			GridBagConstraints gbc_btnFermer = new GridBagConstraints();
-			gbc_btnFermer.insets = new Insets(0, 0, 5, 0);
-			gbc_btnFermer.gridx = 3;
-			gbc_btnFermer.gridy = 6;
-			panel.add(btnFermer, gbc_btnFermer);
-			btnFermer.addActionListener(new ActionListener() {
+			JButton btnQuitter = new JButton("Quitter");
+			GridBagConstraints gbc_btnQuitter = new GridBagConstraints();
+			gbc_btnQuitter.insets = new Insets(0, 0, 5, 5);
+			gbc_btnQuitter.gridx = 3;
+			gbc_btnQuitter.gridy = 6;
+			panel.add(btnQuitter, gbc_btnQuitter);
+			btnQuitter.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					frmOutils.dispose();
 				}

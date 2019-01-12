@@ -485,9 +485,9 @@ public class Extracteur extends JDialog implements LoggedDialog, GuiCommand {
 					{
 						btnGo = new JButton("Go");
 						panel_5.add(btnGo);
-						button_1 = new JButton("Quitter");
-						panel_5.add(button_1);
-						button_1.addActionListener(new ActionListener() {
+						btnFermer = new JButton("Fermer");
+						panel_5.add(btnFermer);
+						btnFermer.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
 								dispose();
 							}
@@ -555,7 +555,7 @@ public class Extracteur extends JDialog implements LoggedDialog, GuiCommand {
 	private JButton btnGo;
 	private JCheckBox chkMemoriser;
 	private JPanel panel_3;
-	private JButton button_1;
+	private JButton btnFermer;
 	private JPanel panel_2;
 	private JPanel panel_5;
 	private JPanel panel_6;

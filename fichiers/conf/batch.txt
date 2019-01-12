@@ -196,3 +196,12 @@ formation.22=265
 nom.22=apf_aavsc
 adherents.22=true
 batchtype.22=formation
+
+generateur.23=xml
+format.23=4
+diplome.23=
+qualif.23=
+formation.23=226
+nom.23=mari
+adherents.23=true
+batchtype.23=formation

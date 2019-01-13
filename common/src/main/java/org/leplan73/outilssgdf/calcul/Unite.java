@@ -192,6 +192,10 @@ public class Unite implements Comparable<Unite>
 		return animsf_;
 	}
 
+	public int getAnimsf() {
+		return animsf_;
+	}
+
 	public void addAnimsf() {
 		this.animsf_++;
 	}

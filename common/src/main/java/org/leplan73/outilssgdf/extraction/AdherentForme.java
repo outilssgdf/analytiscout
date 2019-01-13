@@ -39,24 +39,21 @@ public class AdherentForme extends Adherent {
 	{
 		if (ageCamp_ > 0)
 		{
-			if (getQualif_dirsf() > 0)
+			if (this.getFonction() < Consts.CODE_COMPAS)
 			{
-				if (this.getFonction() < Consts.CODE_COMPAS)
+				if (this.getFonction() < Consts.CODE_CHEFS_PIOK)
 				{
-					if (this.getFonction() < Consts.CODE_CHEFS_PIOK)
-					{
-						if (ageCamp_ < 19)
-							return "Non";
-						else
-							return "Oui";
-					}
+					if (ageCamp_ < 19)
+						return "Non";
 					else
-					{
-						if (ageCamp_ < 21)
-							return "Non";
-						else
-							return "Oui";
-					}
+						return "Oui";
+				}
+				else
+				{
+					if (ageCamp_ < 21)
+						return "Non";
+					else
+						return "Oui";
 				}
 			}
 		}

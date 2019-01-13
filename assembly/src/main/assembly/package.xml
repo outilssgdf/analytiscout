@@ -56,6 +56,11 @@
   <fileSet>
     <directory>../fichiers/données</directory>
     <outputDirectory>./données</outputDirectory>
+    <excludes>
+        <exclude>*.xml</exclude>
+        <exclude>*.xls</exclude>
+        <exclude>*.xlsx</exclude>
+      </excludes>
   </fileSet>
 </fileSets>
 </assembly>

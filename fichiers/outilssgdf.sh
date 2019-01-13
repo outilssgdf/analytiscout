@@ -6,7 +6,11 @@ else
   JAVACMD="$JAVA_HOME/bin/java"
 fi
 
-if [ ! -x "$JAVACMD" ] ; then
+if [ ! -f "$JAVACMD" ] ; then
+  JAVACMD=/Library/Internet\ Plug-Ins/JavaAppletPlugin.plugin/contents/Home/bin/java
+fi
+
+if [ ! -f "$JAVACMD" ] ; then
   echo "java non detecte" >&2
   exit 1
 fi
@@ -36,5 +40,4 @@ cd "$saveddir"
 
 OUTILSSGDF_JAR=$OUTILSSGDF_HOME/app/outilssgdf-cmd.jar
 OUTILSSGDF_LAUNCHER=org.leplan73.outilssgdf.cmd.CmdLine
-
-java -cp $OUTILSSGDF_JAR $OUTILSSGDF_LAUNCHER $@
+$JAVACMD -cp $OUTILSSGDF_JAR $OUTILSSGDF_LAUNCHER $@

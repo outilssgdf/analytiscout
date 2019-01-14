@@ -18,6 +18,7 @@ public class Unite implements Comparable<Unite>
 	private int bafa_;
 	private int bafd_;
 	private int animsf_;
+	private int dirsfqnonq_;
 	private int dirsf_;
 	private int cham_;
 	private int staf_;
@@ -206,6 +207,14 @@ public class Unite implements Comparable<Unite>
 
 	public int getDirsf() {
 		return dirsf_;
+	}
+
+	public int getDirsfqnonq() {
+		return dirsfqnonq_;
+	}
+
+	public void addDirsfsqnonq() {
+		this.dirsfqnonq_++;
 	}
 
 	public void addDirsf() {

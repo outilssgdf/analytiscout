@@ -178,8 +178,12 @@ public class ExtracteurHtml {
 				AdherentForme chef = (AdherentForme)ad;
 
 				boolean dirsf = chef.getQualif("dirsf").getDefini();
+				boolean dirsfQualifie = chef.getQualif("dirsf").getDefini() && chef.getQualif("dirsf").getTitulaire();
+				boolean dirsfNonQualifie = chef.getQualif("dirsf").getDefini() && !chef.getQualif("dirsf").getTitulaire();
 				boolean animsfQualifie = chef.getQualif("animsf").getDefini() && chef.getQualif("animsf").getTitulaire();
 				boolean animsfNonQualifie = chef.getQualif("animsf").getDefini() && !chef.getQualif("animsf").getTitulaire();
+				
+				boolean compa = chef.getCompa()  == 1 ? true : false;
 				
 				boolean apf = chef.getFormation("apf").getOk();
 				boolean tech = chef.getFormation("tech").getOk(); 
@@ -188,8 +192,16 @@ public class ExtracteurHtml {
 				boolean appro_accueil = chef.getFormation("appro_accueil").getOk();
 				
 				boolean aqualif = false;
-				boolean aqualifsf = false; 
+				boolean aqualifsf = false;
+				
 				if (dirsf)
+				{
+					if (uniteObj.getDirsfqnonq() == 0)
+					{
+						uniteObj.addDirsfsqnonq();
+					}
+				}
+				if (dirsfQualifie)
 				{
 					if (uniteObj.getDirsf() == 0)
 					{
@@ -203,12 +215,12 @@ public class ExtracteurHtml {
 						aqualifsf = false;
 					}
 				}
-				if (animsfQualifie && !aqualifsf)
+				if (animsfQualifie && !aqualifsf && !compa)
 				{
 					uniteObj.addAnimsf();
 					aqualif=true;
 				}
-				if (animsfNonQualifie)
+				if ((animsfNonQualifie || dirsfNonQualifie) && !animsfQualifie)
 				{
 					uniteObj.addStagiaire();
 					aqualif=true;
@@ -240,7 +252,7 @@ public class ExtracteurHtml {
 				}
 				if (!aqualif) uniteObj.addAutres();
 				
-				if (animsfQualifie || dirsf)
+				if (!compa && (animsfQualifie || dirsfQualifie))
 				{
 					uniteObj.addQualifannee();
 				}

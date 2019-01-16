@@ -112,7 +112,7 @@ public class Extracteur extends JDialog implements LoggedDialog, GuiCommand {
 		setTitle("Extracteur");
 		double x = Preferences.litd(Consts.FENETRE_EXTRACTEUR_X, 100);
 		double y = Preferences.litd(Consts.FENETRE_EXTRACTEUR_Y, 100);
-		setBounds((int)x, (int)y, 736, 740);
+		setBounds((int)x, (int)y, 858, 740);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -219,7 +219,7 @@ public class Extracteur extends JDialog implements LoggedDialog, GuiCommand {
 			gbc_panel.gridy = 2;
 			contentPanel.add(panel, gbc_panel);
 			GridBagLayout gbl_panel = new GridBagLayout();
-			gbl_panel.columnWidths = new int[] { 141, 207, 134, 0 };
+			gbl_panel.columnWidths = new int[] { 459, 207, 134, 0 };
 			gbl_panel.rowHeights = new int[] { 56, 0, 0, 0 };
 			gbl_panel.columnWeights = new double[] { 0.0, 1.0, 0.0, Double.MIN_VALUE };
 			gbl_panel.rowWeights = new double[] { 1.0, 1.0, 0.0, Double.MIN_VALUE };

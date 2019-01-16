@@ -13,8 +13,9 @@ Version 0.0.4 :
 	- Interface graphique
 	- "batch" et "modèle" ont des valeurs par défaut et ne sont plus obligatoires
 	- Ajout d'un outil d'extraction + analyse sans stockage des données en local (moins de risque de fuite de données)
-
-En cours :
+Version 0.0.5 :
 	- Gestion des quotas "années" et "camp"
 	- Ajout de la formation MARI
-	- Ajout des formations BAFA, BAFD civils 
+	- Ajout des formations BAFA, BAFD civils
+	
+En cours :

@@ -220,7 +220,7 @@ public class ExtracteurHtml {
 					uniteObj.addAnimsf();
 					aqualif=true;
 				}
-				if ((animsfNonQualifie || dirsfNonQualifie) && !animsfQualifie)
+				if ((animsfNonQualifie || dirsfNonQualifie) && (!animsfQualifie && !dirsfQualifie))
 				{
 					uniteObj.addStagiaire();
 					aqualif=true;

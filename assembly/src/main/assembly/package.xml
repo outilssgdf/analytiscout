@@ -40,6 +40,10 @@
       <outputDirectory>.</outputDirectory>
     </file>
     <file>
+      <source>../fichiers/SGDF-ParisSud-outilssgdf-manuel.pdf</source>
+      <outputDirectory>.</outputDirectory>
+    </file>
+    <file>
       <source>../cmd/target/outilssgdf-cmd.jar</source>
       <outputDirectory>./app</outputDirectory>
     </file>

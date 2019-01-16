@@ -44,6 +44,6 @@ OUTILSSGDF_LAUNCHER=org.leplan73.outilssgdf.gui.OutilsSGDF
 # detection de l'OS
 unameOut="$(uname -s)"
 case "${unameOut}" in
-    Linux*)     $JAVACMD -Dapple.laf.useScreenMenuBar=true -Xdock:name="outilsgdf" -cp $OUTILSSGDF_JAR $OUTILSSGDF_LAUNCHER $@
-    Darwin*)    $JAVACMD -cp $OUTILSSGDF_JAR $OUTILSSGDF_LAUNCHER $@
+    Linux*)     $JAVACMD -cp $OUTILSSGDF_JAR $OUTILSSGDF_LAUNCHER $@;;
+    Darwin*)    $JAVACMD -Dapple.laf.useScreenMenuBar=true -Xdock:name="outilsgdf" -cp $OUTILSSGDF_JAR $OUTILSSGDF_LAUNCHER $@;;
 esac

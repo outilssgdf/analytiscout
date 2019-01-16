@@ -2,8 +2,6 @@ package org.leplan73.outilssgdf.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Desktop;
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -13,8 +11,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;

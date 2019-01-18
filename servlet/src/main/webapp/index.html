@@ -17,7 +17,7 @@
 		$('#formCheck').ajaxForm({
 				   "formId": "formCheck",
 			        "method": "POST",
-			        "url": "/extractionsgdf/api/v1/check",
+			        "url": "/outilssgdf/api/v1/check",
 					"success" : function(data, statut) {
 						var dataset = [];
 					  	jQuery.each(data, function(i, val)
@@ -44,7 +44,7 @@
 	}); 
 </script>
 
-<form id="formConversion" method="post" action="/extractionsgdf/api/v1/convert" enctype="multipart/form-data">
+<form id="formConversion" method="post" action="/outilssgdf/api/v1/convert" enctype="multipart/form-data">
     S&eacute;lectionnez un fichier xlsx à convertir :
     <input type="file" name="fichier" id="fileToUpload">
     <input type="submit" value="Conversion" name="submit">
@@ -53,7 +53,7 @@
 <BR>
 <HR>
 <h2>Génération</h2>
-<form method="post" action="/extractionsgdf/api/v1/telecharge">
+<form method="post" action="/outilssgdf/api/v1/telecharge">
    <p>
        <label for="pseudo">identifiant :</label>
        <input type="text" name="identifiant" id="identifiant" />

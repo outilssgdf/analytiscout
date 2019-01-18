@@ -108,7 +108,7 @@
 					</descriptorRefs>
 					<archive>
 						<manifest>
-							<mainClass></mainClass>
+							<mainClass>org.leplan73.outilssgdf.gui.OutilsSGDF</mainClass>
 						</manifest>
 						<manifestEntries>
 							<version>${project.version}</version>

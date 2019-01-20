@@ -17,5 +17,8 @@ Version 0.0.5 :
 	- Gestion des quotas "années" et "camp"
 	- Ajout de la formation MARI
 	- Ajout des formations BAFA, BAFD civils
-	
+Version 0.0.6 :
+	- Correction d'affiche sous MacOS
+	- Bug dans le calcul des quotas
+	- Bug dans un script sh pour Linux/MacOS
 En cours :

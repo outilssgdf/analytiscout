@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>org.leplan73</groupId>
 		<artifactId>outilssgdf</artifactId>
-		<version>0.0.6</version>
+		<version>0.0.7</version>
 	</parent>
 	<artifactId>cmd</artifactId>
 	<name>cmd</name>
@@ -85,6 +85,9 @@
 				<configuration>
 					<archive>
 						<addMavenDescriptor>false</addMavenDescriptor>
+						<manifestEntries>
+		                <Multi-Release>true</Multi-Release>
+        			    </manifestEntries>
 					</archive>
 				</configuration>
 			</plugin>
@@ -112,6 +115,7 @@
 						</manifest>
 						<manifestEntries>
 							<version>${project.version}</version>
+		                	<Multi-Release>true</Multi-Release>
 						</manifestEntries>
 					</archive>
 				</configuration>

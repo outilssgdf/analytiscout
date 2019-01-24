@@ -401,8 +401,9 @@ public class Analyseur extends JDialog implements LoggedDialog, GuiCommand {
 						if (extra.ifTout()) {
 							fichierAdherents = fichier;
 						} else
-							extraMap.put(extra,
-									new ExtracteurExtraHtml(fichier, getChcAge().isSelected()));
+						{
+							extraMap.put(extra, new ExtracteurExtraHtml(fichier, getChcAge().isSelected()));
+						}
 						index++;
 					}
 					progress.setProgress(50);

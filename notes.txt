@@ -21,4 +21,7 @@ Version 0.0.6 :
 	- Correction d'affiche sous MacOS
 	- Bug dans le calcul des quotas
 	- Bug dans un script sh pour Linux/MacOS
-En cours :
+Version 0.0.7 :
+	- Correction de lancement sur MacOS
+	- Affichage des MODULE APPRO, MODULE ANIMATEUR et APPRO Surveillant de Baignade
+En cours : 

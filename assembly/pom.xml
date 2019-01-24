@@ -20,11 +20,6 @@
 		</dependency>
 		<dependency>
 			<groupId>org.leplan73</groupId>
-			<artifactId>common</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.leplan73</groupId>
 			<artifactId>cmd</artifactId>
 			<version>${project.version}</version>
 		</dependency>

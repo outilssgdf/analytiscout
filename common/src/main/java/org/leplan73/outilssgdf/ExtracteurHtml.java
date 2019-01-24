@@ -190,6 +190,10 @@ public class ExtracteurHtml {
 				boolean appro = chef.getFormation("appro").getOk();
 				boolean appro_anim = chef.getFormation("appro_anim").getOk();
 				boolean appro_accueil = chef.getFormation("appro_accueil").getOk();
+
+				boolean module_appro_accueil_scoutisme = chef.getFormation("module_appro_accueil_scoutisme").getOk();
+				boolean module_animateur_scoutisme_campisme = chef.getFormation("module_animateur_scoutisme_campisme").getOk();
+				boolean module_appro_surveillant_baignade = chef.getFormation("module_appro_surveillant_baignade").getOk();
 				
 				boolean aqualif = false;
 				boolean aqualifsf = false;
@@ -227,17 +231,29 @@ public class ExtracteurHtml {
 				}
 				if (appro)
 				{
-					uniteObj.addAppro(true);
+					uniteObj.addAppro();
 					aqualif=true;
+				}
+				if (module_appro_accueil_scoutisme)
+				{
+					uniteObj.addModuleApproAccueilScoutisme();
+				}
+				if (module_animateur_scoutisme_campisme)
+				{
+					uniteObj.addModuleAnimateurScoutismeCampisme();
+				}
+				if (module_appro_surveillant_baignade)
+				{
+					uniteObj.addModuleApproSurveillantBaignade();
 				}
 				if (appro_accueil)
 				{
-					uniteObj.addAppro(false);
+					uniteObj.addApproAccueil();
 					aqualif=true;
 				}
 				if (appro_anim)
 				{
-					uniteObj.addAppro(true);
+					uniteObj.addApproAnim();
 					aqualif=true;
 				}
 				if (tech)
@@ -301,7 +317,8 @@ public class ExtracteurHtml {
 				{
 					if (adherent.getCode() == code)
 					{
-						extra.add(new ChefExtra(key, adherent, map.getColonnes()));
+						ChefExtra ex = new ChefExtra(key, adherent, map.getColonnes());
+						extra.add(ex);
 					}
 				});
 			});

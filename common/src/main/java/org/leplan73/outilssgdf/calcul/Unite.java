@@ -13,6 +13,8 @@ public class Unite implements Comparable<Unite>
 	private int apf_;
 	private int tech_;
 	private int appro_;
+	private int appro_accueil_;
+	private int appro_anim_;
 	private int psc1_;
 	private int afps_;
 	private int bafa_;
@@ -23,6 +25,9 @@ public class Unite implements Comparable<Unite>
 	private int cham_;
 	private int staf_;
 	private int buchettes_;
+	private int module_appro_accueil_scoutisme_;
+	private int module_animateur_scoutisme_campisme_;
+	private int module_appro_surveillant_baignade_;
 	
 	public boolean getAvecdesjeunes()
 	{
@@ -145,7 +150,47 @@ public class Unite implements Comparable<Unite>
 		return appro_;
 	}
 
-	public void addAppro(boolean dir) {
+	public int getModule_appro_accueil_scoutisme() {
+		return module_appro_accueil_scoutisme_;
+	}
+
+	public int getModule_animateur_scoutisme_campisme() {
+		return module_animateur_scoutisme_campisme_;
+	}
+
+	public int getModule_appro_surveillant_baignade() {
+		return module_appro_surveillant_baignade_;
+	}
+	
+	public void addModuleApproAccueilScoutisme() {
+		this.module_appro_accueil_scoutisme_++;
+	}
+	
+	public void addModuleAnimateurScoutismeCampisme() {
+		this.module_animateur_scoutisme_campisme_++;
+	}
+	
+	public void addModuleApproSurveillantBaignade() {
+		this.module_appro_surveillant_baignade_++;
+	}
+
+	public void addApproAccueil() {
+		this.appro_accueil_++;
+	}
+
+	public int getAppro_accueil() {
+		return appro_accueil_;
+	}
+
+	public void addApproAnim() {
+		this.appro_anim_++;
+	}
+
+	public int getAppro_anim() {
+		return appro_anim_;
+	}
+
+	public void addAppro() {
 		this.appro_++;
 	}
 

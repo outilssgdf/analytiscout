@@ -109,8 +109,7 @@ public class AnalyseurEnLigne extends CommonParamsIntranet {
 					String nom = pbatch.getProperty("nom." + index, "");
 					String fonction = pbatch.getProperty("fonction."+index);
 					
-					ExtraKey extra = new ExtraKey(pbatch.getProperty("nom." + index, ""),
-							pbatch.getProperty("batchtype." + index, "tout"));
+					ExtraKey extra = new ExtraKey(pbatch.getProperty("nom." + index, ""), pbatch.getProperty("batchtype." + index, "tout"));
 					
 					Logging.logger_.info("Extraction de  "+nom);
 					String donnees = app.extract(structure,recursif,type,adherentsseul,fonction,specialite,categorie, diplome,qualif,formation,format, false);

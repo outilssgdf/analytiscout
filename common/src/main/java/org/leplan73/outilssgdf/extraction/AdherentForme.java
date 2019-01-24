@@ -72,6 +72,14 @@ public class AdherentForme extends Adherent {
 				diffFindDec/=(24*3600);
 				return (diffFindDec < (365+365+365+183));
 			}
+			f = getFormationNull("bafa_general");
+			if (f != null)
+			{
+				long fin = f.getDatefin().getTime() + 0;
+				long diffFindDec = (new Date().getTime()-fin)/1000;
+				diffFindDec/=(24*3600);
+				return (diffFindDec < (365+365+365+183));
+			}
 		}
 		return false;
 	}
@@ -85,11 +93,12 @@ public class AdherentForme extends Adherent {
 		public String nom_;
 		public String type_;
 		
-		public ExtraKey(String nom, String type) {
+		public ExtraKey(String nom, String type)
+		{
 			nom_ = nom;
 			type_ = type;
 		}
-		
+
 		public boolean ifTout()
 		{
 			return (type_.compareTo("tout") == 0);
@@ -127,19 +136,7 @@ public class AdherentForme extends Adherent {
 		
 		public ChefExtra(ExtraKey key, AdherentForme dir, Colonnes colonnes)
 		{
-			// Noms similaires
-			if (key.nom_.contains("appro") == true)
-			{
-				nom_ = "appro";
-			}
-			else
-				nom_ = key.nom_;
-			if (key.nom_.contains("apf") == true)
-			{
-				nom_ = "apf";
-			}
-			else
-				nom_ = key.nom_;
+			nom_ = key.nom_;
 
 			// Détections
 			isQualif_ = key.ifQualif();

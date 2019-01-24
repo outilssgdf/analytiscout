@@ -87,45 +87,39 @@ public class OutilsSGDF extends JFrame {
 
 		double x = Preferences.litd(Consts.FENETRE_PRINCIPALE_X, 100.0);
 		double y = Preferences.litd(Consts.FENETRE_PRINCIPALE_Y, 100.0);
-		frmOutils.setBounds((int) x, (int) y, 774, 353);
+		frmOutils.setBounds((int) x, (int) y, 469, 353);
 		frmOutils.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmOutils.getContentPane().setLayout(new BoxLayout(frmOutils.getContentPane(), BoxLayout.X_AXIS));
 
 		JPanel panel = new JPanel();
 		frmOutils.getContentPane().add(panel);
 		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[] { 26, 209, 185, 28, 0, 0 };
+		gbl_panel.columnWidths = new int[] { 26, 209, 135, 47, 0 };
 		gbl_panel.rowHeights = new int[] { 37, 48, 51, 57, 46, 37, 0, 0, 0 };
-		gbl_panel.columnWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
+		gbl_panel.columnWeights = new double[] { 0.0, 0.0, 1.0, 1.0, Double.MIN_VALUE };
 		gbl_panel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE };
 		panel.setLayout(gbl_panel);
 		try {
 					
-					JButton btnAnalyserDesDonnes = new JButton("Extraire et analyser des données en ligne");
-					btnAnalyserDesDonnes.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							new AnalyseurEnLigne().setVisible(true);
-						}
-					});
-					GridBagConstraints gbc_btnAnalyserDesDonnes = new GridBagConstraints();
-					gbc_btnAnalyserDesDonnes.insets = new Insets(0, 0, 5, 5);
-					gbc_btnAnalyserDesDonnes.gridx = 2;
-					gbc_btnAnalyserDesDonnes.gridy = 1;
-					panel.add(btnAnalyserDesDonnes, gbc_btnAnalyserDesDonnes);
-			
-					JButton button = new JButton("Exporter des données en batch");
-					button.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							new ExtracteurBatch().setVisible(true);
-						}
-					});
-							
-									JButton btnNewButton = new JButton("Exporter des données");
-									btnNewButton.addActionListener(new ActionListener() {
-										public void actionPerformed(ActionEvent e) {
-											new Extracteur().setVisible(true);
-										}
-									});
+							JLabel lblNewLabel = new JLabel((String) null);
+							lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+							GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
+							gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
+							gbc_lblNewLabel.gridx = 1;
+							gbc_lblNewLabel.gridy = 0;
+							panel.add(lblNewLabel, gbc_lblNewLabel);
+											
+											JButton btnAnalyserDesDonnes = new JButton("Extraire et analyser des données en ligne");
+											btnAnalyserDesDonnes.addActionListener(new ActionListener() {
+												public void actionPerformed(ActionEvent e) {
+													new AnalyseurEnLigne().setVisible(true);
+												}
+											});
+											GridBagConstraints gbc_btnAnalyserDesDonnes = new GridBagConstraints();
+											gbc_btnAnalyserDesDonnes.insets = new Insets(0, 0, 5, 5);
+											gbc_btnAnalyserDesDonnes.gridx = 1;
+											gbc_btnAnalyserDesDonnes.gridy = 1;
+											panel.add(btnAnalyserDesDonnes, gbc_btnAnalyserDesDonnes);
 									
 											JButton btnNewButton_1 = new JButton("Analyser des données déjà extraites");
 											btnNewButton_1.addActionListener(new ActionListener() {
@@ -135,26 +129,32 @@ public class OutilsSGDF extends JFrame {
 											});
 											GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
 											gbc_btnNewButton_1.insets = new Insets(0, 0, 5, 5);
-											gbc_btnNewButton_1.gridx = 2;
+											gbc_btnNewButton_1.gridx = 1;
 											gbc_btnNewButton_1.gridy = 2;
 											panel.add(btnNewButton_1, gbc_btnNewButton_1);
-									
-											JLabel lblNewLabel = new JLabel("Je souhaite...");
-											lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-											GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-											gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
-											gbc_lblNewLabel.gridx = 1;
-											gbc_lblNewLabel.gridy = 3;
-											panel.add(lblNewLabel, gbc_lblNewLabel);
+							
+									JButton btnNewButton = new JButton("Exporter des données");
+									btnNewButton.addActionListener(new ActionListener() {
+										public void actionPerformed(ActionEvent e) {
+											new Extracteur().setVisible(true);
+										}
+									});
 									GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 									gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
-									gbc_btnNewButton.gridx = 2;
+									gbc_btnNewButton.gridx = 1;
 									gbc_btnNewButton.gridy = 3;
 									panel.add(btnNewButton, gbc_btnNewButton);
+			
+					JButton button = new JButton("Exporter des données en batch");
+					button.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							new ExtracteurBatch().setVisible(true);
+						}
+					});
 					
 							GridBagConstraints gbc_button = new GridBagConstraints();
 							gbc_button.insets = new Insets(0, 0, 5, 5);
-							gbc_button.gridx = 2;
+							gbc_button.gridx = 1;
 							gbc_button.gridy = 4;
 							panel.add(button, gbc_button);
 			
@@ -181,7 +181,7 @@ public class OutilsSGDF extends JFrame {
 			JButton btnQuitter = new JButton("Quitter");
 			GridBagConstraints gbc_btnQuitter = new GridBagConstraints();
 			gbc_btnQuitter.insets = new Insets(0, 0, 5, 5);
-			gbc_btnQuitter.gridx = 3;
+			gbc_btnQuitter.gridx = 2;
 			gbc_btnQuitter.gridy = 6;
 			panel.add(btnQuitter, gbc_btnQuitter);
 			btnQuitter.addActionListener(new ActionListener() {

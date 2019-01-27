@@ -24,4 +24,8 @@ Version 0.0.6 :
 Version 0.0.7 :
 	- Correction de lancement sur MacOS
 	- Affichage des MODULE APPRO, MODULE ANIMATEUR et APPRO Surveillant de Baignade
+Version 0.0.8 :
+	- Correction de calcul pour les APF
+	- Séparation des différents APF
+	- Ajout de la formation "Accueil de scoutisme RG"
 En cours : 

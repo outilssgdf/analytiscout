@@ -186,6 +186,12 @@ public class ExtracteurHtml {
 				boolean compa = chef.getCompa()  == 1 ? true : false;
 				
 				boolean apf = chef.getFormation("apf").getOk();
+				boolean apf_chefs = chef.getFormation("apf_chefs").getOk();
+				boolean apf_rg = chef.getFormation("apf_rg").getOk();
+				boolean apf_sp = chef.getFormation("apf_sp").getOk();
+				boolean apf_rldr = chef.getFormation("apf_rldr").getOk();
+				boolean apf_aavsc = chef.getFormation("apf_aavsc").getOk();
+				
 				boolean tech = chef.getFormation("tech").getOk(); 
 				boolean appro = chef.getFormation("appro").getOk();
 				boolean appro_anim = chef.getFormation("appro_anim").getOk();
@@ -261,11 +267,15 @@ public class ExtracteurHtml {
 					uniteObj.addTech();
 					aqualif=true;
 				}
-				if (apf)
+				if (apf||apf_chefs||apf_rg)
 				{
 					uniteObj.addApf();
 					aqualif=true;
 				}
+				if (apf_sp) uniteObj.addApf();;
+				if (apf_rldr) uniteObj.addApf();
+				if (apf_aavsc) uniteObj.addApf();
+				
 				if (!aqualif) uniteObj.addAutres();
 				
 				if (!compa && (animsfQualifie || dirsfQualifie))
@@ -408,22 +418,11 @@ public class ExtracteurHtml {
 	{
 		adherents_.forEach((code,ad) ->
 		{
-			String unite = ad.getUnite();
 			if (ad.getChef() > 0)
 			{
 				AdherentForme chef = (AdherentForme)ad;
 				boolean dirsfdef = chef.getQualif("dirsf").getDefini();
-				boolean dirsfQualifie = chef.getQualif("dirsf").getOk();
-				
 				boolean animsfQualifie = chef.getQualif("animsf").getDefini() && chef.getQualif("animsf").getTitulaire();
-				boolean animsfNonQualifie = chef.getQualif("animsf").getDefini() && !chef.getQualif("animsf").getTitulaire();
-				
-				boolean apf = chef.getFormation("apf").getOk();
-				boolean tech = chef.getFormation("tech").getOk(); 
-				boolean appro = chef.getFormation("appro").getOk();
-				boolean appro_anim = chef.getFormation("appro_anim").getOk();
-				boolean appro_accueil = chef.getFormation("appro_accueil").getOk();
-				
 				if (dirsfdef)
 				{
 					global.addRgdirsf();

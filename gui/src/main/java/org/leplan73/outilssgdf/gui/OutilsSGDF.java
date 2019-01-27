@@ -24,6 +24,7 @@ import org.leplan73.outilssgdf.Consts;
 import org.leplan73.outilssgdf.gui.utils.JHyperlink;
 import org.leplan73.outilssgdf.gui.utils.Logging;
 import org.leplan73.outilssgdf.gui.utils.Preferences;
+import org.leplan73.outilssgdf.gui.utils.Version;
 
 import com.jcabi.manifests.Manifests;
 import java.awt.Font;
@@ -80,7 +81,8 @@ public class OutilsSGDF extends JFrame {
 		});
 		frmOutils.setResizable(false);
 		try {
-			frmOutils.setTitle("Outils SGDF v" + Manifests.read("version"));
+			Version v = Version.parse(Manifests.read("version"));
+			frmOutils.setTitle("Outils SGDF v" + v.toString());
 		} catch (java.lang.IllegalArgumentException e) {
 			frmOutils.setTitle("Outils SGDF (dev)");
 		}

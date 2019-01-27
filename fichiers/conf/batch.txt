@@ -259,3 +259,12 @@ formation.29=247
 nom.29=module_appro_surveillant_baignade
 adherents.29=true
 batchtype.29=formation
+
+generateur.30=xml
+format.30=4
+diplome.30=
+qualif.30=
+formation.30=286
+nom.30=accueil_scoutisme_rg
+adherents.30=true
+batchtype.30=formation

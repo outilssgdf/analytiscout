@@ -23,12 +23,13 @@ public class Version {
 	{
 		Version v = new Version();
 		v.complete_ = false;
-		String parts[] = st.split(".");
+		String parts[] = st.split("\\.");
 		if (parts.length == 3)
 		{
 			v.major_ = Integer.valueOf(parts[0]);
 			v.minor_ = Integer.valueOf(parts[1]);
 			v.subminor_ = Integer.valueOf(parts[2]);
+			v.complete_ = true;
 		}
 		return v;
 	}

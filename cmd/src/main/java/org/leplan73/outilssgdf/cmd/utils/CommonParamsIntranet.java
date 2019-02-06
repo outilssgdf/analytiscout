@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 import org.apache.http.client.ClientProtocolException;
-import org.leplan73.outilssgdf.intranet.ExtractionMain;
+import org.leplan73.outilssgdf.intranet.ExtractionIntranet;
 
 import picocli.CommandLine.Option;
 import picocli.CommandLine.PicocliException;
@@ -22,7 +22,7 @@ public class CommonParamsIntranet extends CommonParamsG {
 	@Option(names = "-motdepasse", description = "mot de passe intranet")
 	protected String motdepasse;
 	
-	protected ExtractionMain connection_;
+	protected ExtractionIntranet connection_;
 	
 	protected void charge() throws PicocliException, FileNotFoundException, IOException
 	{
@@ -48,7 +48,7 @@ public class CommonParamsIntranet extends CommonParamsG {
 		}
 	}
 
-	protected void login(ExtractionMain connection) throws ClientProtocolException, IOException, CmdLineException
+	protected void login(ExtractionIntranet connection) throws ClientProtocolException, IOException, CmdLineException
 	{
 		connection_ = connection;
 		Logging.logger_.info("Connexion");

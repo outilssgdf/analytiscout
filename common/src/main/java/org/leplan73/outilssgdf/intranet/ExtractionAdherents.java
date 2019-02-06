@@ -26,11 +26,11 @@ import org.jsoup.select.Elements;
 import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.JsonPath;
 
-public class ExtractionAdherents extends ExtractionMain {
+public class ExtractionAdherents extends ExtractionIntranet {
 
 	public String extract(int structure, boolean recursif, int type, boolean adherents, String codeFonction, int specialite, int categorie, int diplome, int qualification, int formation, int format, boolean brut) throws ClientProtocolException, IOException, JDOMException
 	{
-		HttpGet httpget = new HttpGet("https://intranet.sgdf.fr/Specialisation/Sgdf/adherents/ExtraireAdherents.aspx");
+		HttpGet httpget = new HttpGet(ExtractionIntranet.getIntranet()+"/Specialisation/Sgdf/adherents/ExtraireAdherents.aspx");
 		httpget.addHeader("User-Agent","Mozilla/5.0 (Windows NT 6.1; rv:31.0) Gecko/20100101 Firefox/31.0");
 		httpget.addHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
 		httpget.addHeader("Accept-Language","fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3");
@@ -70,12 +70,12 @@ public class ExtractionAdherents extends ExtractionMain {
 		       		}
 	       		}
 	       	}
-	       	ddStructure = (structure != ExtractionMain.STRUCTURE_TOUT) ? structureMap.get(structure) : null;
+	       	ddStructure = (structure != ExtractionIntranet.STRUCTURE_TOUT) ? structureMap.get(structure) : null;
        	}
        	
        	if (ddCodes == null)
        	{
-       		HttpPost httppostStructures = new HttpPost("https://intranet.sgdf.fr/Specialisation/Sgdf/WebServices/AutoComplete.asmx/GetStructures");
+       		HttpPost httppostStructures = new HttpPost(ExtractionIntranet.getIntranet()+"/Specialisation/Sgdf/WebServices/AutoComplete.asmx/GetStructures");
        		httppostStructures.addHeader("User-Agent","Mozilla/5.0 (Windows NT 6.1; rv:31.0) Gecko/20100101 Firefox/31.0");
        		httppostStructures.addHeader("Content-Type","application/json; charset=UTF-8");
        		httppostStructures.addHeader("Accept","application/json, text/javascript, */*; q=0.01");
@@ -99,10 +99,10 @@ public class ExtractionAdherents extends ExtractionMain {
        			Object nodeId = JsonPath.read(jsonDocument,"$.[0].id");
        			structureMap.put(structure, Integer.valueOf(nodeId.toString()));
        		}
-       		tbStructure = structure != ExtractionMain.STRUCTURE_TOUT ? structureMap.get(structure) : 0;
+       		tbStructure = structure != ExtractionIntranet.STRUCTURE_TOUT ? structureMap.get(structure) : 0;
        	}
 	       
-       	HttpPost httppost = new HttpPost("https://intranet.sgdf.fr/Specialisation/Sgdf/adherents/ExtraireAdherents.aspx");
+       	HttpPost httppost = new HttpPost(ExtractionIntranet.getIntranet()+"/Specialisation/Sgdf/adherents/ExtraireAdherents.aspx");
        	httppost.addHeader("User-Agent","Mozilla/5.0 (Windows NT 6.1; rv:31.0) Gecko/20100101 Firefox/31.0");
        	httppost.addHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
        	httppost.addHeader("Accept-Language","fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3");
@@ -149,17 +149,17 @@ public class ExtractionAdherents extends ExtractionMain {
 		formparams.add(new BasicNameValuePair("ctl00$MainContent$_ddNpai","tous"));
 		formparams.add(new BasicNameValuePair("ctl00$MainContent$_ddMailInfoMouv","-1"));
 		formparams.add(new BasicNameValuePair("ctl00$MainContent$_ddMailInfoExt","-1"));
-		if ((format & ExtractionMain.FORMAT_INDIVIDU) == ExtractionMain.FORMAT_INDIVIDU)
+		if ((format & ExtractionIntranet.FORMAT_INDIVIDU) == ExtractionIntranet.FORMAT_INDIVIDU)
 			formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbExtraireIndividu","on"));
-		if ((format & ExtractionMain.FORMAT_PARENTS) == ExtractionMain.FORMAT_PARENTS)
+		if ((format & ExtractionIntranet.FORMAT_PARENTS) == ExtractionIntranet.FORMAT_PARENTS)
 			formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbExtraireParents","on"));
-		if ((format & ExtractionMain.FORMAT_INSCRIPTION) == ExtractionMain.FORMAT_INSCRIPTION)
+		if ((format & ExtractionIntranet.FORMAT_INSCRIPTION) == ExtractionIntranet.FORMAT_INSCRIPTION)
 			formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbExtraireInscription","on"));
-		if ((format & ExtractionMain.FORMAT_ADHESION) == ExtractionMain.FORMAT_ADHESION)
+		if ((format & ExtractionIntranet.FORMAT_ADHESION) == ExtractionIntranet.FORMAT_ADHESION)
 			formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbExtraireAdhesion","on"));
-		if ((format & ExtractionMain.FORMAT_JS) == ExtractionMain.FORMAT_JS)
+		if ((format & ExtractionIntranet.FORMAT_JS) == ExtractionIntranet.FORMAT_JS)
 			formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbExtraireJsInformations","on"));
-		if ((format & ExtractionMain.FORMAT_SANS_QF) == ExtractionMain.FORMAT_SANS_QF)
+		if ((format & ExtractionIntranet.FORMAT_SANS_QF) == ExtractionIntranet.FORMAT_SANS_QF)
 			formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbInclureQF","on"));
 		formparams.add(new BasicNameValuePair("ctl00$MainContent$_btnExporter.x","53"));
 		formparams.add(new BasicNameValuePair("ctl00$MainContent$_btnExporter.y","13"));

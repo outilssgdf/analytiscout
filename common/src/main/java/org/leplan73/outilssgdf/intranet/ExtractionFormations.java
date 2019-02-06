@@ -19,11 +19,11 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
-public class ExtractionFormations extends ExtractionMain {
+public class ExtractionFormations extends ExtractionIntranet {
 
 	public String extract(int structure, String fonction, int categorie, int format) throws ClientProtocolException, IOException, JDOMException
 	{
-		HttpGet httpget = new HttpGet("https://intranet.sgdf.fr/Specialisation/Sgdf/Formations/ExtraireFormations.aspx");
+		HttpGet httpget = new HttpGet(ExtractionIntranet.getIntranet()+"/Specialisation/Sgdf/Formations/ExtraireFormations.aspx");
 	       httpget.addHeader("User-Agent","Mozilla/5.0 (Windows NT 6.1; rv:31.0) Gecko/20100101 Firefox/31.0");
 	       httpget.addHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
 	       httpget.addHeader("Accept-Language","fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3");
@@ -37,7 +37,7 @@ public class ExtractionFormations extends ExtractionMain {
             viewstate = doc.select("#__VIEWSTATE").first().val();
             response11.close();
 	       
-	       HttpPost httppost = new HttpPost("https://intranet.sgdf.fr/Specialisation/Sgdf/Formations/ExtraireFormations.aspx");
+	       HttpPost httppost = new HttpPost(ExtractionIntranet.getIntranet()+"/Specialisation/Sgdf/Formations/ExtraireFormations.aspx");
 	       httppost.addHeader("User-Agent","Mozilla/5.0 (Windows NT 6.1; rv:31.0) Gecko/20100101 Firefox/31.0");
 	       httppost.addHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
 	       httppost.addHeader("Accept-Language","fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3");
@@ -76,17 +76,17 @@ public class ExtractionFormations extends ExtractionMain {
 			formparams.add(new BasicNameValuePair("ctl00$MainContent$_btnExporter.x","53"));
 			formparams.add(new BasicNameValuePair("ctl00$MainContent$_btnExporter.y","13"));
 			formparams.add(new BasicNameValuePair("ctl00$_hidReferenceStatistiqueUtilisation","-1"));
-			if ((format & ExtractionMain.FORMAT_INDIVIDU) == ExtractionMain.FORMAT_INDIVIDU)
+			if ((format & ExtractionIntranet.FORMAT_INDIVIDU) == ExtractionIntranet.FORMAT_INDIVIDU)
 				formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbExtraireIndividu","on"));
-			if ((format & ExtractionMain.FORMAT_PARENTS) == ExtractionMain.FORMAT_PARENTS)
+			if ((format & ExtractionIntranet.FORMAT_PARENTS) == ExtractionIntranet.FORMAT_PARENTS)
 				formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbExtraireParents","on"));
-			if ((format & ExtractionMain.FORMAT_INSCRIPTION) == ExtractionMain.FORMAT_INSCRIPTION)
+			if ((format & ExtractionIntranet.FORMAT_INSCRIPTION) == ExtractionIntranet.FORMAT_INSCRIPTION)
 				formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbExtraireInscription","on"));
-			if ((format & ExtractionMain.FORMAT_ADHESION) == ExtractionMain.FORMAT_ADHESION)
+			if ((format & ExtractionIntranet.FORMAT_ADHESION) == ExtractionIntranet.FORMAT_ADHESION)
 				formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbExtraireAdhesion","on"));
-			if ((format & ExtractionMain.FORMAT_JS) == ExtractionMain.FORMAT_JS)
+			if ((format & ExtractionIntranet.FORMAT_JS) == ExtractionIntranet.FORMAT_JS)
 				formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbExtraireJsInformations","on"));
-			if ((format & ExtractionMain.FORMAT_SANS_QF) == ExtractionMain.FORMAT_SANS_QF)
+			if ((format & ExtractionIntranet.FORMAT_SANS_QF) == ExtractionIntranet.FORMAT_SANS_QF)
 				formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbInclureQF","on"));
 			  
 	        entity = new UrlEncodedFormEntity(formparams, Consts.UTF_8);

@@ -25,7 +25,7 @@ import org.leplan73.outilssgdf.cmd.utils.CommonParamsG;
 import org.leplan73.outilssgdf.cmd.utils.CommonParamsIntranet;
 import org.leplan73.outilssgdf.cmd.utils.Logging;
 import org.leplan73.outilssgdf.intranet.ExtractionAdherents;
-import org.leplan73.outilssgdf.intranet.ExtractionMain;
+import org.leplan73.outilssgdf.intranet.ExtractionIntranet;
 
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
@@ -37,28 +37,28 @@ public class Extracteur extends CommonParamsIntranet {
 	private File sortie;
 
 	@Option(names = "-qualif", description = "Filtrage sur la qualification (Valeur par défaut: ${DEFAULT-VALUE}) (Valeurs possibles : -1=Sans importance, 1=Directeur SF (CAFDSF), 2=Animateur SF (CAFASF), 3=Responsable Unité SF (CAFRUSF)")
-	private int qualif = ExtractionMain.QUALIFICATION_TOUT;
+	private int qualif = ExtractionIntranet.QUALIFICATION_TOUT;
 
 	@Option(names = "-diplome", description = "Filtrage sur le diplôme à extraire  (Valeur par défaut: ${DEFAULT-VALUE}) (Valeurs possibles : ...)")
-	private int diplome = ExtractionMain.DIPLOME_TOUT;
+	private int diplome = ExtractionIntranet.DIPLOME_TOUT;
 
 	@Option(names = "-formation", description = "Filtrage sur la formation à extraire  (Valeur par défaut: ${DEFAULT-VALUE}) (Valeurs possibles : ...)")
-	private int formation = ExtractionMain.FORMATION_TOUT;
+	private int formation = ExtractionIntranet.FORMATION_TOUT;
 
 	@Option(names = "-format", description = "Données à extraire (Valeur par défaut: ${DEFAULT-VALUE}) (Valeurs possibles (à additionner pour extraire plusieurs champs) : individu=1, parents=2, inscription=4, adhesion=8, JS=16, sans QF=32)")
-	private int format = ExtractionMain.FORMAT_INDIVIDU;
+	private int format = ExtractionIntranet.FORMAT_INDIVIDU;
 
 	@Option(names = "-categorie", description = "Catégorie à extraire (Valeur par défaut: ${DEFAULT-VALUE}) (Valeurs possibles : -1=tout, 0=jeune, 1=responsable)")
-	private int categorie = ExtractionMain.CATEGORIE_TOUT;
+	private int categorie = ExtractionIntranet.CATEGORIE_TOUT;
 
 	@Option(names = "-specialite", description = "Filtrage sur le spécialité  (Valeur par défaut: ${DEFAULT-VALUE}) (Valeurs possibles : -1=Sans importance, 622=Marine, 624=sans spécialité, 623=Vent du Large")
-	private int specialite = ExtractionMain.SPECIALITE_SANS_IMPORTANCE;
+	private int specialite = ExtractionIntranet.SPECIALITE_SANS_IMPORTANCE;
 
 	@Option(names = "-fonction", description = "Code fonction (voir doc en stock), peut contenir des * ou plusieurs séparés par des virgules")
 	private String fonction = "";
 
 	@Option(names = "-type", description = "Filtrage sur le type (Valeur par défaut: ${DEFAULT-VALUE}) (Valeurs possibles : -1=tout, 0=inscrit, 1=invite, 2=pré-inscrit)")
-	private int type = ExtractionMain.TYPE_TOUT;
+	private int type = ExtractionIntranet.TYPE_TOUT;
 
 	@Option(names = "-adherents", description = "Adhérents uniquement (Valeur par défaut: ${DEFAULT-VALUE})")
 	private boolean adherents = false;
@@ -82,7 +82,7 @@ public class Extracteur extends CommonParamsIntranet {
 		try {
 			charge();
 			
-			if (generateur.compareTo(ExtractionMain.GENERATEUR_XLS) == 0)
+			if (generateur.compareTo(ExtractionIntranet.GENERATEUR_XLS) == 0)
 			{
 				Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(sortie), Consts.ENCODING_WINDOWS));
 
@@ -98,7 +98,7 @@ public class Extracteur extends CommonParamsIntranet {
 				out.close();
 			}
 			else
-			if (generateur.compareTo(ExtractionMain.GENERATEUR_XML) == 0)
+			if (generateur.compareTo(ExtractionIntranet.GENERATEUR_XML) == 0)
 			{
 				Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(sortie), Consts.ENCODING_UTF8));
 
@@ -113,7 +113,7 @@ public class Extracteur extends CommonParamsIntranet {
 				out.close();
 			}
 			else
-			if (generateur.compareTo(ExtractionMain.GENERATEUR_CSV) == 0)
+			if (generateur.compareTo(ExtractionIntranet.GENERATEUR_CSV) == 0)
 			{
 				final CSVPrinter out = CSVFormat.DEFAULT.withFirstRecordAsHeader().print(sortie, Charset.forName(Consts.ENCODING_WINDOWS));
 				

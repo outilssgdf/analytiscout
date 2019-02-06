@@ -62,27 +62,27 @@ import com.jcabi.manifests.Manifests;
 
 import net.sf.jett.transform.ExcelTransformer;
 
-public class AnalyseurEnLigne extends JDialog implements LoggedDialog, GuiCommand {
+public class AnalyseurAdherentsEnLigne extends JDialog implements LoggedDialog, GuiCommand {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txfIdentifiant;
 	private JPasswordField txfMotdepasse;
 	private JTextArea txtLog;
 	private JFileChooser fcSortie;
-	private File fSortie = new File("./données/analyse.xlsx");
+	private File fSortie = new File("./données/analyse_adherents.xlsx");
 	private JFileChooser fcBatch;
 	private File fBatch = new File("./conf/batch.txt");
 	private JFileChooser fcModele = new JFileChooser();
-	private File fModele = new File("conf/modele.xlsx");
+	private File fModele = new File("conf/modele_adherents.xlsx");
 
-	private Logger logger_ = LoggerFactory.getLogger(AnalyseurEnLigne.class);
+	private Logger logger_ = LoggerFactory.getLogger(AnalyseurAdherentsEnLigne.class);
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			AnalyseurEnLigne dialog = new AnalyseurEnLigne();
+			AnalyseurAdherentsEnLigne dialog = new AnalyseurAdherentsEnLigne();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -93,13 +93,13 @@ public class AnalyseurEnLigne extends JDialog implements LoggedDialog, GuiComman
 	/**
 	 * Create the dialog.
 	 */
-	public AnalyseurEnLigne() {
+	public AnalyseurAdherentsEnLigne() {
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		
 		Appender.setLoggedDialog(this);
 
 		setResizable(false);
-		setTitle("Analyseur en ligne");
+		setTitle("Analyseur en ligne des adhérents");
 		setModalityType(ModalityType.APPLICATION_MODAL);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		double x = Preferences.litd(Consts.FENETRE_ANALYSEURENLIGNE_X, 100);
@@ -533,8 +533,7 @@ public class AnalyseurEnLigne extends JDialog implements LoggedDialog, GuiComman
 					    logger_.info("Génération du fichier \""+fSortie.getName()+"\" à partir du modèle \""+fModele.getName()+"\"");
 						ExcelTransformer trans = new ExcelTransformer();
 						Map<String, Object> beans = new HashMap<String, Object>();
-						beans.put("chefs", adherents.getChefsList());
-						beans.put("compas", adherents.getCompasList());
+						beans.put("adherents", adherents.getAdherentsList());
 						beans.put("unites", adherents.getUnitesList());
 						beans.put("general", general);
 						beans.put("global", global);

@@ -15,7 +15,7 @@
   <manifest></manifest>
   <icon></icon>
   <classPath>
-    <mainClass>org.leplan73.outilssgdf.gui.OutilsSGDF</mainClass>
+    <mainClass>org.leplan73.outilssgdf.gui.GuiCmd</mainClass>
   </classPath>
   <jre>
     <path></path>

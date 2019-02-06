@@ -27,7 +27,7 @@ import org.leplan73.outilssgdf.cmd.utils.CommonParamsG;
 import org.leplan73.outilssgdf.cmd.utils.CommonParamsIntranet;
 import org.leplan73.outilssgdf.cmd.utils.Logging;
 import org.leplan73.outilssgdf.intranet.ExtractionAdherents;
-import org.leplan73.outilssgdf.intranet.ExtractionMain;
+import org.leplan73.outilssgdf.intranet.ExtractionIntranet;
 
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
@@ -87,13 +87,13 @@ public class ExtracteurBatch extends CommonParamsIntranet {
 					{
 						break;
 					}
-					int diplome = pbatch.getProperty("diplome."+index,"").isEmpty() ? ExtractionMain.DIPLOME_TOUT : Integer.parseInt(pbatch.getProperty("diplome."+index));
-					int qualif = pbatch.getProperty("qualif."+index,"").isEmpty() ? ExtractionMain.QUALIFICATION_TOUT : Integer.parseInt(pbatch.getProperty("qualif."+index));
-					int formation = pbatch.getProperty("formation."+index,"").isEmpty() ? ExtractionMain.FORMATION_TOUT : Integer.parseInt(pbatch.getProperty("formation."+index));
-					int format = pbatch.getProperty("format."+index,"").isEmpty() ? ExtractionMain.FORMAT_INDIVIDU : Integer.parseInt(pbatch.getProperty("format."+index));
-					int categorie = pbatch.getProperty("categorie."+index,"").isEmpty() ? ExtractionMain.CATEGORIE_TOUT : Integer.parseInt(pbatch.getProperty("categorie."+index));
-					int type = pbatch.getProperty("type."+index,"").isEmpty() ? ExtractionMain.TYPE_TOUT : Integer.parseInt(pbatch.getProperty("type."+index));
-					int specialite = pbatch.getProperty("specialite."+index,"").isEmpty() ? ExtractionMain.SPECIALITE_SANS_IMPORTANCE : Integer.parseInt(pbatch.getProperty("specialite."+index));
+					int diplome = pbatch.getProperty("diplome."+index,"").isEmpty() ? ExtractionIntranet.DIPLOME_TOUT : Integer.parseInt(pbatch.getProperty("diplome."+index));
+					int qualif = pbatch.getProperty("qualif."+index,"").isEmpty() ? ExtractionIntranet.QUALIFICATION_TOUT : Integer.parseInt(pbatch.getProperty("qualif."+index));
+					int formation = pbatch.getProperty("formation."+index,"").isEmpty() ? ExtractionIntranet.FORMATION_TOUT : Integer.parseInt(pbatch.getProperty("formation."+index));
+					int format = pbatch.getProperty("format."+index,"").isEmpty() ? ExtractionIntranet.FORMAT_INDIVIDU : Integer.parseInt(pbatch.getProperty("format."+index));
+					int categorie = pbatch.getProperty("categorie."+index,"").isEmpty() ? ExtractionIntranet.CATEGORIE_TOUT : Integer.parseInt(pbatch.getProperty("categorie."+index));
+					int type = pbatch.getProperty("type."+index,"").isEmpty() ? ExtractionIntranet.TYPE_TOUT : Integer.parseInt(pbatch.getProperty("type."+index));
+					int specialite = pbatch.getProperty("specialite."+index,"").isEmpty() ? ExtractionIntranet.SPECIALITE_SANS_IMPORTANCE : Integer.parseInt(pbatch.getProperty("specialite."+index));
 					boolean adherents = pbatch.getProperty("adherents."+index,"").isEmpty() ? false : Boolean.parseBoolean(pbatch.getProperty("adherents."+index));
 					String nom = pbatch.getProperty("nom."+index,"");
 					String fonction = pbatch.getProperty("fonction."+index);
@@ -103,7 +103,7 @@ public class ExtracteurBatch extends CommonParamsIntranet {
 					
 					File fichier = new File(dossierStructure, nom+"."+generateur);
 					
-					if (generateur.compareTo(ExtractionMain.GENERATEUR_XLS) == 0)
+					if (generateur.compareTo(ExtractionIntranet.GENERATEUR_XLS) == 0)
 					{
 						Logging.logger_.info("Extraction du fichier "+index+" dans "+fichier);
 						
@@ -115,7 +115,7 @@ public class ExtracteurBatch extends CommonParamsIntranet {
 						Logging.logger_.info("Extraction du fichier "+index+" fait");
 					}
 					else
-					if (generateur.compareTo(ExtractionMain.GENERATEUR_XML) == 0)
+					if (generateur.compareTo(ExtractionIntranet.GENERATEUR_XML) == 0)
 					{
 						Logging.logger_.info("Extraction du fichier "+index+" dans "+fichier);
 						
@@ -127,7 +127,7 @@ public class ExtracteurBatch extends CommonParamsIntranet {
 						Logging.logger_.info("Extraction du fichier "+index+" fait");
 					}
 					else
-					if (generateur.compareTo(ExtractionMain.GENERATEUR_CSV) == 0)
+					if (generateur.compareTo(ExtractionIntranet.GENERATEUR_CSV) == 0)
 					{
 						Logging.logger_.info("Extraction du fichier "+index+" dans "+fichier);
 						

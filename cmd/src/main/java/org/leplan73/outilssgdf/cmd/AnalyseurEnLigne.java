@@ -17,7 +17,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.jdom2.JDOMException;
 import org.leplan73.outilssgdf.Consts;
 import org.leplan73.outilssgdf.ExtracteurExtraHtml;
-import org.leplan73.outilssgdf.ExtracteurHtml;
+import org.leplan73.outilssgdf.ExtracteurIndividusHtml;
 import org.leplan73.outilssgdf.ExtractionException;
 import org.leplan73.outilssgdf.calcul.General;
 import org.leplan73.outilssgdf.calcul.Global;
@@ -28,7 +28,7 @@ import org.leplan73.outilssgdf.cmd.utils.Logging;
 import org.leplan73.outilssgdf.extraction.AdherentForme.ExtraKey;
 import org.leplan73.outilssgdf.extraction.AdherentFormes;
 import org.leplan73.outilssgdf.intranet.ExtractionAdherents;
-import org.leplan73.outilssgdf.intranet.ExtractionMain;
+import org.leplan73.outilssgdf.intranet.ExtractionIntranet;
 
 import com.jcabi.manifests.Manifests;
 
@@ -98,13 +98,13 @@ public class AnalyseurEnLigne extends CommonParamsIntranet {
 					{
 						break;
 					}
-					int diplome = pbatch.getProperty("diplome."+index,"").isEmpty() ? ExtractionMain.DIPLOME_TOUT : Integer.parseInt(pbatch.getProperty("diplome."+index));
-					int qualif = pbatch.getProperty("qualif."+index,"").isEmpty() ? ExtractionMain.QUALIFICATION_TOUT : Integer.parseInt(pbatch.getProperty("qualif."+index));
-					int formation = pbatch.getProperty("formation."+index,"").isEmpty() ? ExtractionMain.FORMATION_TOUT : Integer.parseInt(pbatch.getProperty("formation."+index));
-					int format = pbatch.getProperty("format."+index,"").isEmpty() ? ExtractionMain.FORMAT_INDIVIDU : Integer.parseInt(pbatch.getProperty("format."+index));
-					int categorie = pbatch.getProperty("categorie."+index,"").isEmpty() ? ExtractionMain.CATEGORIE_TOUT : Integer.parseInt(pbatch.getProperty("categorie."+index));
-					int type = pbatch.getProperty("type."+index,"").isEmpty() ? ExtractionMain.TYPE_TOUT : Integer.parseInt(pbatch.getProperty("type."+index));
-					int specialite = pbatch.getProperty("specialite."+index,"").isEmpty() ? ExtractionMain.SPECIALITE_SANS_IMPORTANCE : Integer.parseInt(pbatch.getProperty("specialite."+index));
+					int diplome = pbatch.getProperty("diplome."+index,"").isEmpty() ? ExtractionIntranet.DIPLOME_TOUT : Integer.parseInt(pbatch.getProperty("diplome."+index));
+					int qualif = pbatch.getProperty("qualif."+index,"").isEmpty() ? ExtractionIntranet.QUALIFICATION_TOUT : Integer.parseInt(pbatch.getProperty("qualif."+index));
+					int formation = pbatch.getProperty("formation."+index,"").isEmpty() ? ExtractionIntranet.FORMATION_TOUT : Integer.parseInt(pbatch.getProperty("formation."+index));
+					int format = pbatch.getProperty("format."+index,"").isEmpty() ? ExtractionIntranet.FORMAT_INDIVIDU : Integer.parseInt(pbatch.getProperty("format."+index));
+					int categorie = pbatch.getProperty("categorie."+index,"").isEmpty() ? ExtractionIntranet.CATEGORIE_TOUT : Integer.parseInt(pbatch.getProperty("categorie."+index));
+					int type = pbatch.getProperty("type."+index,"").isEmpty() ? ExtractionIntranet.TYPE_TOUT : Integer.parseInt(pbatch.getProperty("type."+index));
+					int specialite = pbatch.getProperty("specialite."+index,"").isEmpty() ? ExtractionIntranet.SPECIALITE_SANS_IMPORTANCE : Integer.parseInt(pbatch.getProperty("specialite."+index));
 					boolean adherentsseul = pbatch.getProperty("adherents."+index,"").isEmpty() ? false : Boolean.parseBoolean(pbatch.getProperty("adherents."+index));
 					String nom = pbatch.getProperty("nom." + index, "");
 					String fonction = pbatch.getProperty("fonction."+index);
@@ -125,7 +125,7 @@ public class AnalyseurEnLigne extends CommonParamsIntranet {
 				}
 				
 				InputStream in = new ByteArrayInputStream(donneesAdherents.getBytes(Consts.ENCODING_UTF8));
-				ExtracteurHtml adherents = new ExtracteurHtml(in, extraMap,age);
+				ExtracteurIndividusHtml adherents = new ExtracteurIndividusHtml(in, extraMap,age);
 		 
 				AdherentFormes compas = new AdherentFormes();
 				compas.charge(adherents,extraMap);

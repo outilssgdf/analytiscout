@@ -54,7 +54,7 @@ import org.leplan73.outilssgdf.gui.utils.LoggedDialog;
 import org.leplan73.outilssgdf.gui.utils.Logging;
 import org.leplan73.outilssgdf.gui.utils.Preferences;
 import org.leplan73.outilssgdf.intranet.ExtractionAdherents;
-import org.leplan73.outilssgdf.intranet.ExtractionMain;
+import org.leplan73.outilssgdf.intranet.ExtractionIntranet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -525,7 +525,7 @@ public class Extracteur extends JDialog implements LoggedDialog, GuiCommand {
 			return false;
 		}
 		String generateur = fSortie.getName().substring(fSortie.getName().indexOf(".")+1);
-		if (generateur.compareTo(ExtractionMain.GENERATEUR_XLS) != 0 && generateur.compareTo(ExtractionMain.GENERATEUR_XML) != 0 && generateur.compareTo(ExtractionMain.GENERATEUR_CSV) != 0)
+		if (generateur.compareTo(ExtractionIntranet.GENERATEUR_XLS) != 0 && generateur.compareTo(ExtractionIntranet.GENERATEUR_XML) != 0 && generateur.compareTo(ExtractionIntranet.GENERATEUR_CSV) != 0)
 		{
 			logger_.error("L'extension au fichier de sortie est inconnue (xls, csv ou xml)");
 			return false;
@@ -551,7 +551,7 @@ public class Extracteur extends JDialog implements LoggedDialog, GuiCommand {
 		return true;
 	}
 
-	private ExtractionMain connection_;
+	private ExtractionIntranet connection_;
 	private JButton btnGo;
 	private JCheckBox chkMemoriser;
 	private JPanel panel_3;
@@ -561,7 +561,7 @@ public class Extracteur extends JDialog implements LoggedDialog, GuiCommand {
 	private JPanel panel_6;
 	private JButton btnAide;
 
-	private void login(ExtractionMain connection) throws ClientProtocolException, IOException {
+	private void login(ExtractionIntranet connection) throws ClientProtocolException, IOException {
 		connection_ = connection;
 		logger_.info("Connexion");
 
@@ -617,7 +617,7 @@ public class Extracteur extends JDialog implements LoggedDialog, GuiCommand {
 				logger_.info("Lancement");
 
 				try {
-					if (generateur.compareTo(ExtractionMain.GENERATEUR_XLS) == 0) {
+					if (generateur.compareTo(ExtractionIntranet.GENERATEUR_XLS) == 0) {
 						Writer out = new BufferedWriter(
 								new OutputStreamWriter(new FileOutputStream(fSortie), Consts.ENCODING_WINDOWS));
 
@@ -637,7 +637,7 @@ public class Extracteur extends JDialog implements LoggedDialog, GuiCommand {
 						out.flush();
 						out.close();
 						progress.setProgress(100);
-					} else if (generateur.compareTo(ExtractionMain.GENERATEUR_XML) == 0) {
+					} else if (generateur.compareTo(ExtractionIntranet.GENERATEUR_XML) == 0) {
 						Writer out = new BufferedWriter(
 								new OutputStreamWriter(new FileOutputStream(fSortie), Consts.ENCODING_UTF8));
 
@@ -657,7 +657,7 @@ public class Extracteur extends JDialog implements LoggedDialog, GuiCommand {
 						out.flush();
 						out.close();
 						progress.setProgress(100);
-					} else if (generateur.compareTo(ExtractionMain.GENERATEUR_CSV) == 0) {
+					} else if (generateur.compareTo(ExtractionIntranet.GENERATEUR_CSV) == 0) {
 						final CSVPrinter out = CSVFormat.DEFAULT.withFirstRecordAsHeader().print(fSortie,
 								Charset.forName(Consts.ENCODING_WINDOWS));
 

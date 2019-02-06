@@ -30,9 +30,6 @@ public class Consts {
 	static final public String DATE_DEBUT_CAMP = "01/07/2019";
 	static final public String DATE_LIMITE_JEUNE = "31/12/2018";
 	
-	static final public String PROPERTY_DATE_DEBUT_CAMP = "date.debutcamp";
-	static final public String PROPERTY_DATE_LIMITE_JEUNE = "date.limitejeune";
-	
 	public static final String FENETRE_PRINCIPALE_X = "fenetre.principale.x";
 	public static final String FENETRE_PRINCIPALE_Y = "fenetre.principale.y";
 	

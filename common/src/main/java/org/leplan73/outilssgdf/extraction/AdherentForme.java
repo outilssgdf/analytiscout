@@ -242,7 +242,6 @@ public class AdherentForme extends Adherent {
 					{
 						defini_ = false;
 						titulaire_ = false;
-						fin_validite_ = "";
 					}
 				}
 			} catch (ParseException e) {

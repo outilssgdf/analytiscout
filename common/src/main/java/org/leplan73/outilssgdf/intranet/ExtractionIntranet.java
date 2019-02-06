@@ -22,8 +22,11 @@ import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ExtractionMain {
+public class ExtractionIntranet {
 
+	private static final String HTTPS_INTRANET_SGDF_FR = "https://intranet.sgdf.fr";
+	private static final String HTTPS_TESTINTRANET_SGDF_FR = "https://http://intranet-qualification.sgdf.fr/";
+	
 	public final static String GENERATEUR_CSV = "csv";
 	public final static String GENERATEUR_XML = "xml";
 	public final static String GENERATEUR_XLS = "xls";
@@ -80,10 +83,27 @@ public class ExtractionMain {
 	protected String eventvalidation;
 	protected String viewstate;
 	protected static Logger logger_;
+	
+	protected static String getIntranet()
+	{
+		return testmode_ ? HTTPS_TESTINTRANET_SGDF_FR : HTTPS_INTRANET_SGDF_FR;
+	}
+	
+	private static boolean testmode_ = false;
     
 	static
 	{
-		logger_ = LoggerFactory.getLogger(ExtractionMain.class);
+		logger_ = LoggerFactory.getLogger(ExtractionIntranet.class);
+	}
+	
+	public static void setQualifications(boolean testmode)
+	{
+		testmode_ = testmode;
+	}
+	
+	public static String getIntranetServeur()
+	{
+		return testmode_ ? " (serveur de qualification)" : "";
 	}
 	
 	public void init()
@@ -97,7 +117,7 @@ public class ExtractionMain {
 	
 	public boolean login(String identifiant, String motdepasse) throws ClientProtocolException, IOException
 	{
-        HttpGet httpget = new HttpGet("https://intranet.sgdf.fr");
+        HttpGet httpget = new HttpGet(ExtractionIntranet.getIntranet());
         httpget.addHeader("User-Agent","Mozilla/5.0 (Windows NT 6.1; rv:31.0) Gecko/20100101 Firefox/31.0");
         httpget.addHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
         httpget.addHeader("Accept-Language","fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3");
@@ -115,7 +135,7 @@ public class ExtractionMain {
     	eventvalidation = doc.select("#__EVENTVALIDATION").first().val();
         response.close();
         	
-        HttpPost httppost = new HttpPost("https://intranet.sgdf.fr");
+        HttpPost httppost = new HttpPost(ExtractionIntranet.getIntranet());
         httppost.addHeader("User-Agent","Mozilla/5.0 (Windows NT 6.1; rv:31.0) Gecko/20100101 Firefox/31.0");
         httppost.addHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
         httppost.addHeader("Accept-Language","fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3");

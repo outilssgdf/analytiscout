@@ -54,7 +54,7 @@ import org.leplan73.outilssgdf.gui.utils.LoggedDialog;
 import org.leplan73.outilssgdf.gui.utils.Logging;
 import org.leplan73.outilssgdf.gui.utils.Preferences;
 import org.leplan73.outilssgdf.intranet.ExtractionAdherents;
-import org.leplan73.outilssgdf.intranet.ExtractionMain;
+import org.leplan73.outilssgdf.intranet.ExtractionIntranet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -303,14 +303,14 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand
 		}
 	}
 
-	private ExtractionMain connection_;
+	private ExtractionIntranet connection_;
 	private JLabel lblBatch;
 	private JLabel lblSortie;
 	private JTextField txfCodeStructure;
 	private JButton btnGo;
 	private JCheckBox chkMemoriser;
 
-	private void login(ExtractionMain connection) throws ClientProtocolException, IOException {
+	private void login(ExtractionIntranet connection) throws ClientProtocolException, IOException {
 		connection_ = connection;
 		logger_.info("Connexion");
 
@@ -402,24 +402,24 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand
 								break;
 							}
 							int diplome = pbatch.getProperty("diplome." + index, "").isEmpty()
-									? ExtractionMain.DIPLOME_TOUT
+									? ExtractionIntranet.DIPLOME_TOUT
 									: Integer.parseInt(pbatch.getProperty("diplome." + index));
 							int qualif = pbatch.getProperty("qualif." + index, "").isEmpty()
-									? ExtractionMain.QUALIFICATION_TOUT
+									? ExtractionIntranet.QUALIFICATION_TOUT
 									: Integer.parseInt(pbatch.getProperty("qualif." + index));
 							int formation = pbatch.getProperty("formation." + index, "").isEmpty()
-									? ExtractionMain.FORMATION_TOUT
+									? ExtractionIntranet.FORMATION_TOUT
 									: Integer.parseInt(pbatch.getProperty("formation." + index));
 							int format = pbatch.getProperty("format." + index, "").isEmpty()
-									? ExtractionMain.FORMAT_INDIVIDU
+									? ExtractionIntranet.FORMAT_INDIVIDU
 									: Integer.parseInt(pbatch.getProperty("format." + index));
 							int categorie = pbatch.getProperty("categorie." + index, "").isEmpty()
-									? ExtractionMain.CATEGORIE_TOUT
+									? ExtractionIntranet.CATEGORIE_TOUT
 									: Integer.parseInt(pbatch.getProperty("categorie." + index));
-							int type = pbatch.getProperty("type." + index, "").isEmpty() ? ExtractionMain.TYPE_TOUT
+							int type = pbatch.getProperty("type." + index, "").isEmpty() ? ExtractionIntranet.TYPE_TOUT
 									: Integer.parseInt(pbatch.getProperty("type." + index));
 							int specialite = pbatch.getProperty("specialite." + index, "").isEmpty()
-									? ExtractionMain.SPECIALITE_SANS_IMPORTANCE
+									? ExtractionIntranet.SPECIALITE_SANS_IMPORTANCE
 									: Integer.parseInt(pbatch.getProperty("specialite." + index));
 							boolean adherents = pbatch.getProperty("adherents." + index, "").isEmpty() ? false
 									: Boolean.parseBoolean(pbatch.getProperty("adherents." + index));
@@ -431,7 +431,7 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand
 
 							File fichier = new File(dossierStructure, nom + "." + generateur);
 
-							if (generateur.compareTo(ExtractionMain.GENERATEUR_XLS) == 0) {
+							if (generateur.compareTo(ExtractionIntranet.GENERATEUR_XLS) == 0) {
 								logger_.info("Extraction du fichier " + index + " dans " + fichier);
 
 								Writer out = new BufferedWriter(
@@ -442,7 +442,7 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand
 								out.flush();
 								out.close();
 								logger_.info("Extraction du fichier " + index + " fait");
-							} else if (generateur.compareTo(ExtractionMain.GENERATEUR_XML) == 0) {
+							} else if (generateur.compareTo(ExtractionIntranet.GENERATEUR_XML) == 0) {
 								logger_.info("Extraction du fichier " + index + " dans " + fichier);
 
 								Writer out = new BufferedWriter(
@@ -453,7 +453,7 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand
 								out.flush();
 								out.close();
 								logger_.info("Extraction du fichier " + index + " fait");
-							} else if (generateur.compareTo(ExtractionMain.GENERATEUR_CSV) == 0) {
+							} else if (generateur.compareTo(ExtractionIntranet.GENERATEUR_CSV) == 0) {
 								logger_.info("Extraction du fichier " + index + " dans " + fichier);
 
 								final CSVPrinter out = CSVFormat.DEFAULT.withFirstRecordAsHeader().print(fichier,

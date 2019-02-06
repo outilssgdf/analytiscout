@@ -27,7 +27,7 @@ import org.leplan73.outilssgdf.extraction.Adherents;
 import org.leplan73.outilssgdf.extraction.Colonnes;
 import org.leplan73.outilssgdf.extraction.Parents;
 
-public class ExtracteurHtml {
+public class ExtracteurIndividusHtml {
 	
 	protected Adherents adherents_;
 	protected Parents parents_;
@@ -38,15 +38,15 @@ public class ExtracteurHtml {
 	
 	private Map<ExtraKey, ExtracteurExtraHtml> extras_;
 	
-	public ExtracteurHtml() throws ExtractionException, IOException, JDOMException {
+	public ExtracteurIndividusHtml() throws ExtractionException, IOException, JDOMException {
 	}
 	
-	public ExtracteurHtml(InputStream input, Map<ExtraKey, ExtracteurExtraHtml> extras, boolean age) throws ExtractionException, IOException, JDOMException {
+	public ExtracteurIndividusHtml(InputStream input, Map<ExtraKey, ExtracteurExtraHtml> extras, boolean age) throws ExtractionException, IOException, JDOMException {
 		extras_ = extras;
 		charge(input, age);
 	}
 	
-	public ExtracteurHtml(File fichier, Map<ExtraKey, ExtracteurExtraHtml> extras, boolean age) throws ExtractionException, IOException, JDOMException {
+	public ExtracteurIndividusHtml(File fichier, Map<ExtraKey, ExtracteurExtraHtml> extras, boolean age) throws ExtractionException, IOException, JDOMException {
 		extras_ = extras;
 		charge(fichier, age);
 	}

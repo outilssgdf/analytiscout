@@ -205,12 +205,12 @@ public class Adherent {
 					diff = diff/(3600*365*24);
 					age_ = diff;
 					
-					Date debutFindDec = simpleDateFormat.parse(Params.get(Consts.PROPERTY_DATE_LIMITE_JEUNE, Consts.DATE_LIMITE_JEUNE));
+					Date debutFindDec = Params.getDateLimiteJeune();
 					double diffFindDec = ((debutFindDec.getTime() - dn.getTime())/1000);
 					diffFindDec = diffFindDec/(3600*365.25*24);
 					ageFinDec_ = diffFindDec;
 					
-					Date debutCamp = simpleDateFormat.parse(Params.get(Consts.PROPERTY_DATE_DEBUT_CAMP, Consts.DATE_DEBUT_CAMP));
+					Date debutCamp = Params.getDateDebutCamp();
 					double diffCamp = ((debutCamp.getTime() - dn.getTime())/1000);
 					diffCamp = diffCamp/(3600*365.25*24);
 					ageCamp_ = diffCamp;

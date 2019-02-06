@@ -14,7 +14,7 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.jdom2.JDOMException;
 import org.leplan73.outilssgdf.ExtracteurExtraHtml;
-import org.leplan73.outilssgdf.ExtracteurHtml;
+import org.leplan73.outilssgdf.ExtracteurIndividusHtml;
 import org.leplan73.outilssgdf.ExtractionException;
 import org.leplan73.outilssgdf.calcul.General;
 import org.leplan73.outilssgdf.calcul.Global;
@@ -91,7 +91,7 @@ public class AnalyseurAdherents extends CommonParamsG {
 		}
 
 		Logging.logger_.info("Chargement du fichier \""+fichierAdherents.getName()+"\"");
-		ExtracteurHtml adherents = new ExtracteurHtml(fichierAdherents, extraMap,age);
+		ExtracteurIndividusHtml adherents = new ExtracteurIndividusHtml(fichierAdherents, extraMap,age);
 		
 		General general = new General(Manifests.read("version"));
 		Global global = new Global(adherents.getGroupe(), adherents.getMarins());

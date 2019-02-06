@@ -7,6 +7,7 @@
    <appender-ref ref="appender" />
   </logger>
 
+	<logger name="com.jcabi.manifests" level="OFF"></logger>
   <root level="error">
     <appender-ref ref="appender" />
   </root>

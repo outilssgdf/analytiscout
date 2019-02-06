@@ -10,7 +10,7 @@ import java.time.Instant;
 import java.util.zip.ZipOutputStream;
 
 import org.jdom2.JDOMException;
-import org.leplan73.outilssgdf.ExtracteurHtml;
+import org.leplan73.outilssgdf.ExtracteurIndividusHtml;
 import org.leplan73.outilssgdf.ExtractionException;
 import org.leplan73.outilssgdf.cmd.utils.CmdLineException;
 import org.leplan73.outilssgdf.cmd.utils.CommonParamsG;
@@ -18,7 +18,7 @@ import org.leplan73.outilssgdf.cmd.utils.CommonParamsIntranet;
 import org.leplan73.outilssgdf.cmd.utils.Logging;
 import org.leplan73.outilssgdf.formatage.GmailCsvFormatteur;
 import org.leplan73.outilssgdf.intranet.ExtractionAdherents;
-import org.leplan73.outilssgdf.intranet.ExtractionMain;
+import org.leplan73.outilssgdf.intranet.ExtractionIntranet;
 
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
@@ -50,12 +50,12 @@ public class Generateur extends CommonParamsIntranet {
 
 			// Extraction des données
 			Logging.logger_.info("Extraction (structure="+structures[0]+")");
-			String donnees = app.extract(structures[0], true, ExtractionMain.TYPE_INSCRIT, false, null, ExtractionMain.SPECIALITE_SANS_IMPORTANCE, ExtractionMain.CATEGORIE_TOUT, ExtractionMain.DIPLOME_TOUT,ExtractionMain.QUALIFICATION_TOUT,ExtractionMain.FORMATION_TOUT, ExtractionMain.FORMAT_INDIVIDU|ExtractionMain.FORMAT_PARENTS,false);
+			String donnees = app.extract(structures[0], true, ExtractionIntranet.TYPE_INSCRIT, false, null, ExtractionIntranet.SPECIALITE_SANS_IMPORTANCE, ExtractionIntranet.CATEGORIE_TOUT, ExtractionIntranet.DIPLOME_TOUT,ExtractionIntranet.QUALIFICATION_TOUT,ExtractionIntranet.FORMATION_TOUT, ExtractionIntranet.FORMAT_INDIVIDU|ExtractionIntranet.FORMAT_PARENTS,false);
 			logout();
 			
 			// Conversion des données
 			Logging.logger_.info("Conversion");
-			ExtracteurHtml x = new ExtracteurHtml();
+			ExtracteurIndividusHtml x = new ExtracteurIndividusHtml();
 			x.charge(new ByteArrayInputStream(donnees.getBytes(Charset.forName("UTF-8"))),true);
 
 			// Génération de l'archive zip

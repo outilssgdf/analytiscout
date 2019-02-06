@@ -26,7 +26,7 @@ public class CmdParams implements IVersionProvider {
 	public void chargeParametres()
 	{
 		Logging.logger_.info("Chargement du fichier de paramètres");
-		Params.init("./conf/params.properties");
+		Params.init();
 	}
 
 	@Override

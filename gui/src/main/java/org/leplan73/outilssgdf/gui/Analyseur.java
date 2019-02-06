@@ -36,7 +36,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.jdom2.JDOMException;
 import org.leplan73.outilssgdf.Consts;
 import org.leplan73.outilssgdf.ExtracteurExtraHtml;
-import org.leplan73.outilssgdf.ExtracteurHtml;
+import org.leplan73.outilssgdf.ExtracteurIndividusHtml;
 import org.leplan73.outilssgdf.ExtractionException;
 import org.leplan73.outilssgdf.calcul.General;
 import org.leplan73.outilssgdf.calcul.Global;
@@ -408,7 +408,7 @@ public class Analyseur extends JDialog implements LoggedDialog, GuiCommand {
 					}
 					progress.setProgress(50);
 					logger_.info("Chargement du fichier \"" + fichierAdherents.getName() + "\"");
-					ExtracteurHtml adherents = new ExtracteurHtml(fichierAdherents, extraMap, getChcAge().isSelected());
+					ExtracteurIndividusHtml adherents = new ExtracteurIndividusHtml(fichierAdherents, extraMap, getChcAge().isSelected());
 
 					AdherentFormes compas = new AdherentFormes();
 					compas.charge(adherents, extraMap);

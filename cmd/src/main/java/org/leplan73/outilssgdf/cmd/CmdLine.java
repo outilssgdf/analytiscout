@@ -87,8 +87,8 @@ public class CmdLine extends CmdParams {
 		}
 	}
 
-	public static void main(String[] args) {
-		
+	public static void main(String[] args)
+	{
 		CmdLine command = new CmdLine();
 		command.go(args, CmdLine.class);
 	}

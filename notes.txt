@@ -28,4 +28,6 @@ Version 0.0.8 :
 	- Correction de calcul pour les APF
 	- Séparation des différents APF
 	- Ajout de la formation "Accueil de scoutisme RG"
-En cours : 
+Version 0.0.9 :
+	- Mise en évidence des directions qui expirent le 1er juillet de l'année du camp
+	- Analyse des jeunes

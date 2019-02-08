@@ -6,10 +6,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
 
 import org.leplan73.outilssgdf.Consts;
+import org.leplan73.outilssgdf.Params;
 
 public class AdherentForme extends Adherent {
 
@@ -158,11 +158,17 @@ public class AdherentForme extends Adherent {
 		{
 			return nom_;
 		}
+		
+		public void complete()
+		{
+			dir_.complete();
+		}
 	};
 	
 	public class Qualification
 	{
 		private boolean titulaire_;
+		private boolean estetaetetitulaire_;
 		private boolean defini_;
 		private String fin_validite_;
 		private String nom_;
@@ -171,6 +177,7 @@ public class AdherentForme extends Adherent {
 			fin_validite_ = extra.get(QUALIF_FIN_VALIDITE) != null ? extra.get(QUALIF_FIN_VALIDITE).isEmpty() ? PAS_DE_DATE : extra.get(QUALIF_FIN_VALIDITE) : PAS_DE_DATE;
 			String titulaire = extra.get(QUALIF_EST_TITULAIRE);
 			titulaire_ = (titulaire != null && titulaire.compareTo("Oui") == 0);
+			estetaetetitulaire_ = titulaire_;
 			defini_ = true;
 			nom_ = extra.nom_;
 		}
@@ -197,6 +204,11 @@ public class AdherentForme extends Adherent {
 		public boolean getTitulaire()
 		{
 			return titulaire_;
+		}
+
+		public boolean getAetaetetitulaire()
+		{
+			return estetaetetitulaire_;
 		}
 		
 		public Object getFinvalidite()
@@ -237,8 +249,7 @@ public class AdherentForme extends Adherent {
 				if (fin_validite_.compareTo(PAS_DE_DATE) != 0)
 				{
 					Date date = df.parse(fin_validite_);
-					Date aj = new Date();
-					if (date.before(aj))
+					if (date.before(Params.getDateDebutCamp()))
 					{
 						defini_ = false;
 						titulaire_ = false;
@@ -407,6 +418,17 @@ public class AdherentForme extends Adherent {
 		});
 	}
 	
+	public void complete() {
+		qualifs_.forEach((k,v) ->
+		{
+			v.complete();
+		});
+		diplomes_.forEach((k,v) ->
+		{
+			v.complete();
+		});
+	}
+
 	public Qualification getQualif(String nom)
 	{
 		Qualification f = qualifs_.get(nom);

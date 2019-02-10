@@ -12,7 +12,7 @@ public class ServerProperties
 	
 	public static URL getUrl() throws MalformedURLException {
 		try {
-			return new URL("http://"+InetAddress.getLocalHost().getHostName()+":"+8080+"/outilsgdf/api");
+			return new URL("http://"+InetAddress.getLocalHost().getHostName()+":"+8080+"/outilssgdf/api");
 		} catch (MalformedURLException | UnknownHostException e) {
 			return new URL("http://localhost:"+8080+"/outilsgdf/api");
 		}

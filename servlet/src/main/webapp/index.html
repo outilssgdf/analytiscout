@@ -1,15 +1,15 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>Conversion et check de données intranet SGDF</title>
+    <title>Outils d'analyse des donn&eacute;es intranet SGDF</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="http://malsup.github.com/jquery.form.js"></script> 
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.css"/>
  	<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.js"></script>
   </head>
   <body>
-  <H1>Outils de conversion et v&eacute;rification de donn&eacute;es intranet SGDF</H1>
-  <h2>Extraction</h2>
+  <H1>Outils d'analyse des donn&eacute;es intranet SGDF</H1>
+  <h2>Analyseur en ligne</h2>
     
 <script type="text/javascript">
 
@@ -44,44 +44,17 @@
 	}); 
 </script>
 
-<form id="formConversion" method="post" action="/outilssgdf/api/v1/convert" enctype="multipart/form-data">
-    S&eacute;lectionnez un fichier xlsx à convertir :
-    <input type="file" name="fichier" id="fileToUpload">
-    <input type="submit" value="Conversion" name="submit">
-</form>
-
-<BR>
-<HR>
-<h2>Génération</h2>
-<form method="post" action="/outilssgdf/api/v1/telecharge">
-   <p>
-       <label for="pseudo">identifiant :</label>
+<form id="formAnalyseEnLigne" method="post" action="/outilssgdf/api/v1/analyseenligne" enctype="multipart/form-data">
+    <label for="pseudo">identifiant :</label>
        <input type="text" name="identifiant" id="identifiant" />
        
        <br />
        <label for="pass">Votre mot de passe :</label>
-       <input type="password" name="password" id="password" />
+	   <input type="password" name="password" id="password" />
+	   <br />
+       <label for="code_structure">Votre code de sttucture :</label>
+       <input type="text" name="code_structure" id="code_structure" />
        <input type="submit" value="Envoyer" />
-   </p>
 </form>
-<BR>
-<HR>
-<h2>Vérification</h2>
-<form id="formCheck" method="post" enctype="multipart/form-data">
-    S&eacute;lectionnez un fichier xlsx à vérifier :
-    <input type="file" name="fichier" id="fileToUpload">
-    <input type="submit" value="Check" name="submit">
-</form><BR>
-<table id="checkTable" width="100%" cellspacing="0">
-    	<thead>
-	        <tr>
-	            <th>Unit&eacute;</th>
-	            <th>Nom</th>
-	            <th>Erreur</th>
-	        </tr>
-    	</thead>
-    	<tbody>
-    	</tbody>
-	</table>
 </body>
 </html>

@@ -27,9 +27,9 @@ public class Manager implements ServletContextListener {
 		} catch (UnknownHostException e) {
 			beanConfig.setHost("localhost:"+port);
 		}
-        beanConfig.setBasePath("/outilsgdf/api");
+        beanConfig.setBasePath("/outilssgdf/api");
         beanConfig.setResourcePackage(Server.class.getPackage().getName());
-        beanConfig.setDescription("Outils de convertion SGDF");
+        beanConfig.setDescription("Outils d'analyse SGDF");
         beanConfig.setScan( true );
  	}
     

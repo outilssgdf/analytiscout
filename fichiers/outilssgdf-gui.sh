@@ -39,7 +39,7 @@ MAVEN_HOME=`cd "$MAVEN_HOME" && pwd`
 cd "$saveddir"
 
 OUTILSSGDF_JAR=$OUTILSSGDF_HOME/app/outilssgdf-gui.jar
-OUTILSSGDF_LAUNCHER=org.leplan73.outilssgdf.gui.OutilsSGDF
+OUTILSSGDF_LAUNCHER=org.leplan73.outilssgdf.gui.GuiCmd
 
 # detection de l'OS
 unameOut="$(uname -s)"

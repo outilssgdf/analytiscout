@@ -60,11 +60,11 @@ public class Analyseur extends JDialog implements LoggedDialog, GuiCommand {
 	private final JPanel contentPanel = new JPanel();
 	private Logger logger_ = LoggerFactory.getLogger(Analyseur.class);
 	private JFileChooser fcBatch = new JFileChooser();
-	private File fBatch = new File("./conf/batch.txt");
+	private File fBatch = new File("./conf/batch_responsables.txt");
 	private JFileChooser fcEntree = new JFileChooser();
 	private File fEntree = new File("./données");
 	private JFileChooser fcModele = new JFileChooser();
-	private File fModele = new File("conf/modele.xlsx");
+	private File fModele = new File("conf/modele_responsables.xlsx");
 	private JFileChooser fcSortie = new JFileChooser();
 	private File fSortie = new File("./données/analyse.xlsx");
 	private JCheckBox chcAge;

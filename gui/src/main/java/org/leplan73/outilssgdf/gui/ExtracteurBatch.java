@@ -67,7 +67,7 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand
 	private JFileChooser fcSortie;
 	private File fSortie = new File("./données");
 	private JFileChooser fcBatch;
-	private File fBatch = new File("./conf/batch.txt");
+	private File fBatch = new File("./conf/batch_responsables.txt");
 
 	private Logger logger_ = LoggerFactory.getLogger(ExtracteurBatch.class);
 

@@ -1,0 +1,9 @@
+generateur.1=xml
+format.1=5
+type.1=0
+diplome.1=
+qualif.1=
+formation.1=
+nom.1=tout
+adherents.1=true
+batchtype.1=tout

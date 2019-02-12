@@ -37,14 +37,14 @@ import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
-@Command(name = "analyseurenligne", mixinStandardHelpOptions = true, versionProvider = CommonParamsG.class)
-public class AnalyseurEnLigne extends CommonParamsIntranet {
+@Command(name = "analyseurcompas", mixinStandardHelpOptions = true, versionProvider = CommonParamsG.class)
+public class AnalyseurCompasEnLigne extends CommonParamsIntranet {
 
 	@Option(names = "-batch", description = "Fichier de batch contenant les extractions à effectuer (Valeur par défaut: ${DEFAULT-VALUE})")
-	private File batch = new File("conf/batch_responsables.txt");
+	private File batch = new File("conf/batch_compas.txt");
 
 	@Option(names = "-modele", description = "Fichier de modèle facilitant la présentation de l'analyse (Valeur par défaut: ${DEFAULT-VALUE})")
-	private File modele = new File("conf/modele_responsables.xlsx");
+	private File modele = new File("conf/modele_compas.xlsx");
 
 	@Option(names = "-sortie", required=true, description = "Fichier de sortie")
 	private File sortie;

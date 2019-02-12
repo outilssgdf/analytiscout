@@ -35,10 +35,10 @@ import picocli.CommandLine.Option;
 public class Analyseur extends CommonParamsG {
 
 	@Option(names = "-batch", description = "Fichier de batch contenant les extractions à effectuer (Valeur par défaut: ${DEFAULT-VALUE})")
-	private File batch = new File("conf/batch.txt");
+	private File batch = new File("conf/batch_responsables.txt");
 
 	@Option(names = "-modele", description = "Fichier de modèle facilitant la présentation de l'analyse (Valeur par défaut: ${DEFAULT-VALUE})")
-	private File modele = new File("conf/modele.xlsx");
+	private File modele = new File("conf/modele_responsables.xlsx");
 
 	@Option(names = "-entree", required=true, description = "Fichier d'entrée")
 	private File entree;

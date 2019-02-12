@@ -88,7 +88,7 @@ public class OutilsSGDF extends JFrame {
 
 		double x = Preferences.litd(Consts.FENETRE_PRINCIPALE_X, 100.0);
 		double y = Preferences.litd(Consts.FENETRE_PRINCIPALE_Y, 100.0);
-		frmOutils.setBounds((int) x, (int) y, 580, 310);
+		frmOutils.setBounds((int) x, (int) y, 580, 414);
 		frmOutils.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmOutils.getContentPane().setLayout(new BoxLayout(frmOutils.getContentPane(), BoxLayout.X_AXIS));
 
@@ -97,8 +97,8 @@ public class OutilsSGDF extends JFrame {
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[] { 35, 209, 135, 47, 0 };
 		gbl_panel.rowHeights = new int[] { 35, 48, 37, 0, 0, 0 };
-		gbl_panel.columnWeights = new double[] { 1.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
-		gbl_panel.rowWeights = new double[] { 1.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
+		gbl_panel.columnWeights = new double[] { 1.0, 0.0, 1.0, 1.0, Double.MIN_VALUE };
+		gbl_panel.rowWeights = new double[] { 1.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE };
 		panel.setLayout(gbl_panel);
 		try {
 											
@@ -193,6 +193,33 @@ public class OutilsSGDF extends JFrame {
 			gbc_btnAnalyserDesDonnesAdherents.gridx = 0;
 			gbc_btnAnalyserDesDonnesAdherents.gridy = 0;
 			panel_3.add(btnAnalyserDesDonnesAdherents, gbc_btnAnalyserDesDonnesAdherents);
+			
+			JPanel panel_4 = new JPanel();
+			panel_4.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Analyse des compas", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+			GridBagConstraints gbc_panel_4 = new GridBagConstraints();
+			gbc_panel_4.insets = new Insets(0, 0, 5, 5);
+			gbc_panel_4.fill = GridBagConstraints.BOTH;
+			gbc_panel_4.gridx = 2;
+			gbc_panel_4.gridy = 2;
+			panel.add(panel_4, gbc_panel_4);
+			GridBagLayout gbl_panel_4 = new GridBagLayout();
+			gbl_panel_4.columnWidths = new int[]{231, 0};
+			gbl_panel_4.rowHeights = new int[]{23, 0};
+			gbl_panel_4.columnWeights = new double[]{0.0, Double.MIN_VALUE};
+			gbl_panel_4.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+			panel_4.setLayout(gbl_panel_4);
+			
+			JButton button_1 = new JButton("Extraire et analyser des données en ligne");
+			button_1.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					new AnalyseurCompasEnLigne().setVisible(true);
+				}
+			});
+			GridBagConstraints gbc_button_1 = new GridBagConstraints();
+			gbc_button_1.anchor = GridBagConstraints.NORTHWEST;
+			gbc_button_1.gridx = 0;
+			gbc_button_1.gridy = 0;
+			panel_4.add(button_1, gbc_button_1);
 			
 			JPanel panel_1 = new JPanel();
 			GridBagConstraints gbc_panel_1 = new GridBagConstraints();

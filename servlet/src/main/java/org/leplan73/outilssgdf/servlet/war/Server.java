@@ -50,8 +50,8 @@ public class Server {
 
 		Properties pbatch = new Properties();
 
-		File fModele = new File("conf/modele.xlsx");
-		File fBatch = new File("./conf/batch.txt");
+		File fModele = new File("conf/modele_responsables.xlsx");
+		File fBatch = new File("./conf/batch_responsables.txt");
 		pbatch.load(new FileInputStream(fBatch));
 		
 		ExtractionAdherents app = new ExtractionAdherents();

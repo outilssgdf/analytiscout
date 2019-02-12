@@ -37,7 +37,7 @@ import picocli.CommandLine.Option;
 public class ExtracteurBatch extends CommonParamsIntranet {
 
 	@Option(names = "-batch", description = "Fichier de batch contenant les extractions à effectuer (Valeur par défaut: ${DEFAULT-VALUE})")
-	private File batch = new File("conf/batch.txt");
+	private File batch = new File("conf/batch_responsables.txt");
 
 	@Option(names = "-sortie", required=true, description = "Fichier de sortie")
 	private File sortie;

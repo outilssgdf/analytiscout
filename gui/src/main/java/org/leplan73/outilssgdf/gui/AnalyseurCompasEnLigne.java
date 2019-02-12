@@ -62,27 +62,27 @@ import com.jcabi.manifests.Manifests;
 
 import net.sf.jett.transform.ExcelTransformer;
 
-public class AnalyseurAdherentsEnLigne extends JDialog implements LoggedDialog, GuiCommand {
+public class AnalyseurCompasEnLigne extends JDialog implements LoggedDialog, GuiCommand {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txfIdentifiant;
 	private JPasswordField txfMotdepasse;
 	private JTextArea txtLog;
 	private JFileChooser fcSortie;
-	private File fSortie = new File("./données/analyse_adherents.xlsx");
+	private File fSortie = new File("./données/analyse_compas.xlsx");
 	private JFileChooser fcBatch;
-	private File fBatch = new File("./conf/batch_adherents.txt");
+	private File fBatch = new File("./conf/batch_compas.txt");
 	private JFileChooser fcModele = new JFileChooser();
-	private File fModele = new File("conf/modele_adherents.xlsx");
+	private File fModele = new File("conf/modele_compas.xlsx");
 
-	private Logger logger_ = LoggerFactory.getLogger(AnalyseurAdherentsEnLigne.class);
+	private Logger logger_ = LoggerFactory.getLogger(AnalyseurCompasEnLigne.class);
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			AnalyseurAdherentsEnLigne dialog = new AnalyseurAdherentsEnLigne();
+			AnalyseurCompasEnLigne dialog = new AnalyseurCompasEnLigne();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -93,13 +93,13 @@ public class AnalyseurAdherentsEnLigne extends JDialog implements LoggedDialog, 
 	/**
 	 * Create the dialog.
 	 */
-	public AnalyseurAdherentsEnLigne() {
+	public AnalyseurCompasEnLigne() {
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		
 		Appender.setLoggedDialog(this);
 
 		setResizable(false);
-		setTitle("Analyseur en ligne des adhérents");
+		setTitle("Analyseur en ligne des compas");
 		setModalityType(ModalityType.APPLICATION_MODAL);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		double x = Preferences.litd(Consts.FENETRE_ANALYSEURENLIGNE_X, 100);
@@ -533,7 +533,8 @@ public class AnalyseurAdherentsEnLigne extends JDialog implements LoggedDialog, 
 					    logger_.info("Génération du fichier \""+fSortie.getName()+"\" à partir du modèle \""+fModele.getName()+"\"");
 						ExcelTransformer trans = new ExcelTransformer();
 						Map<String, Object> beans = new HashMap<String, Object>();
-						beans.put("adherents", adherents.getAdherentsList());
+						beans.put("chefs", adherents.getChefsList());
+						beans.put("compas", adherents.getCompasList());
 						beans.put("unites", adherents.getUnitesList());
 						beans.put("general", general);
 						beans.put("global", global);

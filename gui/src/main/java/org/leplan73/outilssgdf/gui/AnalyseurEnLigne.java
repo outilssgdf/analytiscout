@@ -71,9 +71,9 @@ public class AnalyseurEnLigne extends JDialog implements LoggedDialog, GuiComman
 	private JFileChooser fcSortie;
 	private File fSortie = new File("./données/analyse.xlsx");
 	private JFileChooser fcBatch;
-	private File fBatch = new File("./conf/batch.txt");
+	private File fBatch = new File("./conf/batch_responsables.txt");
 	private JFileChooser fcModele = new JFileChooser();
-	private File fModele = new File("conf/modele.xlsx");
+	private File fModele = new File("conf/modele_responsables.xlsx");
 
 	private Logger logger_ = LoggerFactory.getLogger(AnalyseurEnLigne.class);
 
@@ -495,9 +495,9 @@ public class AnalyseurEnLigne extends JDialog implements LoggedDialog, GuiComman
 							ExtraKey extra = new ExtraKey(pbatch.getProperty("nom." + index, ""),
 									pbatch.getProperty("batchtype." + index, "tout"));
 							
-							logger_.info("Extraction de  "+nom);
+							logger_.info("Extraction de "+nom);
 							String donnees = app.extract(structure,true,type,adherentsseuls,fonction,specialite,categorie, diplome,qualif,formation,format, false);
-							logger_.info("Extraction de  "+nom+" fait");
+							logger_.info("Extraction de "+nom+" fait");
 							
 							if (extra.ifTout()) {
 								donneesAdherents = donnees;

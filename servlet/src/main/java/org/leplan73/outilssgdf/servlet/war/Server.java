@@ -106,8 +106,7 @@ public class Server {
 				String nom = pbatch.getProperty("nom." + index, "");
 				String fonction = pbatch.getProperty("fonction." + index);
 
-				ExtraKey extra = new ExtraKey(pbatch.getProperty("nom." + index, ""),
-						pbatch.getProperty("batchtype." + index, "tout"));
+				ExtraKey extra = new ExtraKey(pbatch.getProperty("fichier." + index, nom), nom, pbatch.getProperty("batchtype." + index, "tout_responsables"));
 				
 				String donnees = app.extract(structure,true,type,adherentsseuls,fonction,specialite,categorie, diplome,qualif,formation,format, false);
 				

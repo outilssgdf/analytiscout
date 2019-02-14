@@ -108,6 +108,7 @@ public class ExtractionAdherents extends ExtractionIntranet {
        	httppost.addHeader("Accept-Language","fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3");
        	List<NameValuePair> formparams = new ArrayList<NameValuePair>();
        	formparams.add(new BasicNameValuePair("__EVENTTARGET",""));
+//   	formparams.add(new BasicNameValuePair("__EVENTTARGET","ctl00$MainContent$_btnExporter"));
 	   	formparams.add(new BasicNameValuePair("__EVENTARGUMENT",""));
 		formparams.add(new BasicNameValuePair("__eo_obj_states","")); 
 		formparams.add(new BasicNameValuePair("__eo_sc",""));
@@ -135,7 +136,7 @@ public class ExtractionAdherents extends ExtractionIntranet {
 		if (structure != 0 && recursif)
 			formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbRecursif","on"));
 		formparams.add(new BasicNameValuePair("ctl00$MainContent$_tbCodesFonctions",codeFonction != null ? codeFonction : "")); 
-		formparams.add(new BasicNameValuePair("ctl00$MainContent$CodesFonctionsSignifications","_rbCFS_FonctionsPrincipales"));
+		formparams.add(new BasicNameValuePair("ctl00$MainContent$CodesFonctionsSignifications","_rbCFS_FonctionsPrincipalesEtSecondaires"));
 		formparams.add(new BasicNameValuePair("ctl00$MainContent$_ddCategorieMembre",""+categorie));
 		formparams.add(new BasicNameValuePair("ctl00$MainContent$_ddTypeInscription",""+type));
 		if (adherents)

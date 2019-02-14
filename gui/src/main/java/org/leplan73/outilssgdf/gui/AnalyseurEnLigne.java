@@ -13,6 +13,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URISyntaxException;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
@@ -50,6 +51,7 @@ import org.leplan73.outilssgdf.extraction.AdherentFormes;
 import org.leplan73.outilssgdf.gui.utils.Appender;
 import org.leplan73.outilssgdf.gui.utils.ExportFileFilter;
 import org.leplan73.outilssgdf.gui.utils.GuiCommand;
+import org.leplan73.outilssgdf.gui.utils.JHyperlink;
 import org.leplan73.outilssgdf.gui.utils.LoggedDialog;
 import org.leplan73.outilssgdf.gui.utils.Logging;
 import org.leplan73.outilssgdf.gui.utils.Preferences;
@@ -78,28 +80,24 @@ public class AnalyseurEnLigne extends JDialog implements LoggedDialog, GuiComman
 	private Logger logger_ = LoggerFactory.getLogger(AnalyseurEnLigne.class);
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			AnalyseurEnLigne dialog = new AnalyseurEnLigne();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
 	 * Create the dialog.
+	 * @param fModele 
+	 * @param fBatch 
+	 * @param fSortie 
+	 * @param logger 
+	 * @throws URISyntaxException 
 	 */
-	public AnalyseurEnLigne() {
+	public AnalyseurEnLigne(String titre, Logger logger, File pfSortie, File pfBatch, File pfModele) {
+		this.logger_ = logger;
+		this.fSortie = pfSortie;
+		this.fBatch = pfBatch;
+		this.fModele = pfModele;
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		
 		Appender.setLoggedDialog(this);
 
 		setResizable(false);
-		setTitle("Analyseur en ligne");
+		setTitle(titre);
 		setModalityType(ModalityType.APPLICATION_MODAL);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		double x = Preferences.litd(Consts.FENETRE_ANALYSEURENLIGNE_X, 100);
@@ -175,6 +173,7 @@ public class AnalyseurEnLigne extends JDialog implements LoggedDialog, GuiComman
 			{
 				txfCodeStructure = new JTextField();
 				txfCodeStructure.setColumns(30);
+				txfCodeStructure.setText(Preferences.lit(Consts.INTRANET_STRUCTURE, "", true));
 				panel.add(txfCodeStructure, BorderLayout.NORTH);
 			}
 		}
@@ -453,6 +452,12 @@ public class AnalyseurEnLigne extends JDialog implements LoggedDialog, GuiComman
 						String donneesAdherents=null;
 						int index = 1;
 						for (;;) {
+							
+							if (progress.isCanceled()) {
+								logger_.info("Action annulée");
+								break;
+							}
+							
 							// generateur.x
 							// format.x
 							// categorie.x
@@ -492,8 +497,7 @@ public class AnalyseurEnLigne extends JDialog implements LoggedDialog, GuiComman
 							String nom = pbatch.getProperty("nom." + index, "");
 							String fonction = pbatch.getProperty("fonction." + index);
 
-							ExtraKey extra = new ExtraKey(pbatch.getProperty("nom." + index, ""),
-									pbatch.getProperty("batchtype." + index, "tout"));
+							ExtraKey extra = new ExtraKey(pbatch.getProperty("fichier." + index, nom), nom, pbatch.getProperty("batchtype." + index, "tout_responsables"));
 							
 							logger_.info("Extraction de "+nom);
 							String donnees = app.extract(structure,true,type,adherentsseuls,fonction,specialite,categorie, diplome,qualif,formation,format, false);
@@ -533,6 +537,7 @@ public class AnalyseurEnLigne extends JDialog implements LoggedDialog, GuiComman
 					    logger_.info("Génération du fichier \""+fSortie.getName()+"\" à partir du modèle \""+fModele.getName()+"\"");
 						ExcelTransformer trans = new ExcelTransformer();
 						Map<String, Object> beans = new HashMap<String, Object>();
+						beans.put("adherents", adherents.getAdherentsList());
 						beans.put("chefs", adherents.getChefsList());
 						beans.put("compas", adherents.getCompasList());
 						beans.put("unites", adherents.getUnitesList());
@@ -572,6 +577,7 @@ public class AnalyseurEnLigne extends JDialog implements LoggedDialog, GuiComman
 			Preferences.sauve(Consts.INTRANET_IDENTIFIANT, "", true);
 			Preferences.sauve(Consts.INTRANET_MOTDEPASSE, "", true);
 		}
+		Preferences.sauve(Consts.INTRANET_STRUCTURE, txfCodeStructure.getText(), true);
 		super.dispose();
 	}
 

@@ -76,7 +76,7 @@ type.9=0
 diplome.9=
 qualif.9=
 formation.9=
-nom.9=tout
+nom.9=tout_responsables
 adherents.9=true
 batchtype.9=tout
 

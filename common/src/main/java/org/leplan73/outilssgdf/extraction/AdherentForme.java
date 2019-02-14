@@ -91,11 +91,13 @@ public class AdherentForme extends Adherent {
 	
 	static public class ExtraKey implements Comparable<ExtraKey>
 	{
+		public String fichier_;
 		public String nom_;
 		public String type_;
 		
-		public ExtraKey(String nom, String type)
+		public ExtraKey(String fichier, String nom, String type)
 		{
+			fichier_ = fichier;
 			nom_ = nom;
 			type_ = type;
 		}

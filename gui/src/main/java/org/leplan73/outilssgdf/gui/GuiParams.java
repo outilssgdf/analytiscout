@@ -11,6 +11,9 @@ public class GuiParams implements IVersionProvider {
 	@Option(names = "-qualifications", hidden=true)
 	protected boolean qualifications = false;
 	
+	@Option(names = "-avance", hidden=true)
+	protected boolean avance = false;
+	
 	@Override
 	public String[] getVersion() throws Exception {
 		try {

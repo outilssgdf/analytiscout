@@ -45,7 +45,6 @@ import org.leplan73.outilssgdf.extraction.AdherentFormes;
 import org.leplan73.outilssgdf.gui.utils.Appender;
 import org.leplan73.outilssgdf.gui.utils.ExportFileFilter;
 import org.leplan73.outilssgdf.gui.utils.GuiCommand;
-import org.leplan73.outilssgdf.gui.utils.JHyperlink;
 import org.leplan73.outilssgdf.gui.utils.LoggedDialog;
 import org.leplan73.outilssgdf.gui.utils.Logging;
 import org.leplan73.outilssgdf.gui.utils.Preferences;
@@ -56,18 +55,18 @@ import com.jcabi.manifests.Manifests;
 
 import net.sf.jett.transform.ExcelTransformer;
 
-public class Analyseur extends JDialog implements LoggedDialog, GuiCommand {
+public class AnalyseurResponsables extends JDialog implements LoggedDialog, GuiCommand {
 
 	private final JPanel contentPanel = new JPanel();
-	protected Logger logger_ = LoggerFactory.getLogger(Analyseur.class);
+	private Logger logger_ = LoggerFactory.getLogger(AnalyseurResponsables.class);
 	private JFileChooser fcBatch = new JFileChooser();
-	protected File fBatch = new File("./conf/batch_responsables.txt");
+	private File fBatch = new File("./conf/batch_responsables.txt");
 	private JFileChooser fcEntree = new JFileChooser();
 	private File fEntree = new File("./données");
 	private JFileChooser fcModele = new JFileChooser();
-	protected File fModele = new File("conf/modele_responsables.xlsx");
+	private File fModele = new File("conf/modele_responsables.xlsx");
 	private JFileChooser fcSortie = new JFileChooser();
-	protected File fSortie = new File("./données/analyse.xlsx");
+	private File fSortie = new File("./données/analyse.xlsx");
 	private JCheckBox chcAge;
 	private JLabel lblSortie;
 	private JLabel lblBatch;
@@ -77,20 +76,29 @@ public class Analyseur extends JDialog implements LoggedDialog, GuiCommand {
 	private JButton btnGo;
 
 	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		try {
+			AnalyseurResponsables dialog = new AnalyseurResponsables();
+			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
 	 * Create the dialog.
 	 */
-	public Analyseur(String titre, Logger logger_, File pfSortie, File pfBatch, File pfModele) {
-		this.logger_ = logger_;
-		this.fSortie = pfSortie;
-		this.fBatch = pfBatch;
-		this.fModele = pfModele;
+	public AnalyseurResponsables() {
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 
 		Appender.setLoggedDialog(this);
 
 		setModalityType(ModalityType.APPLICATION_MODAL);
 		setResizable(false);
-		setTitle(titre);
+		setTitle("Analyseur");
 		double x = Preferences.litd(Consts.FENETRE_ANALYSEUR_X, 100);
 		double y = Preferences.litd(Consts.FENETRE_ANALYSEUR_Y, 100);
 		setBounds((int)x, (int)y, 778, 608);
@@ -422,7 +430,6 @@ public class Analyseur extends JDialog implements LoggedDialog, GuiCommand {
 							+ "\" à partir du modèle \"" + fModele.getName() + "\"");
 					ExcelTransformer trans = new ExcelTransformer();
 					Map<String, Object> beans = new HashMap<String, Object>();
-					beans.put("adherents", adherents.getAdherentsList());
 					beans.put("chefs", adherents.getChefsList());
 					beans.put("compas", adherents.getCompasList());
 					beans.put("unites", adherents.getUnitesList());

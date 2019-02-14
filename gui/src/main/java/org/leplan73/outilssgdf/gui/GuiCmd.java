@@ -14,6 +14,8 @@ public class GuiCmd extends GuiParams
 {
 	private void go(String[] args)
 	{
+		boolean avance = false;
+		
 		CommandLine commandLine = new CommandLine(this);
 		List<CommandLine> parsed = commandLine.parse(args);
 		if (parsed != null && parsed.size() > 0)
@@ -24,8 +26,15 @@ public class GuiCmd extends GuiParams
 			{
 				ExtractionIntranet.setQualifications(true);
 			}
+			if (cmd.avance == true)
+			{
+				avance = true;
+			}
 		}
 		
+		if (avance)
+			new OutilsSGDFAvance().go();
+		else
 		new OutilsSGDF().go();
 	}
 	

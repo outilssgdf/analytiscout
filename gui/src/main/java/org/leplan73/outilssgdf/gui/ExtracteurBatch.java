@@ -67,33 +67,20 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand
 	private JFileChooser fcSortie;
 	private File fSortie = new File("./données");
 	private JFileChooser fcBatch;
-	private File fBatch = new File("./conf/batch_responsables.txt");
+	protected File fBatch = new File("./conf/batch.txt");
 
-	private Logger logger_ = LoggerFactory.getLogger(ExtracteurBatch.class);
+	protected Logger logger_ = LoggerFactory.getLogger(ExtracteurBatch.class);
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			ExtracteurBatch dialog = new ExtracteurBatch();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * Create the dialog.
-	 */
-	public ExtracteurBatch() {
+	public ExtracteurBatch(String titre, Logger logger, File pfBatch) {
+		this.logger_ = logger;
+		this.fBatch = pfBatch;
+		
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		
 		Appender.setLoggedDialog(this);
 
 		setResizable(false);
-		setTitle("ExtracteurBatch");
+		setTitle(titre);
 		setModalityType(ModalityType.APPLICATION_MODAL);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		double x = Preferences.litd(Consts.FENETRE_EXTRACTEURBATCH_X, 100);
@@ -170,6 +157,7 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand
 			{
 				txfCodeStructure = new JTextField();
 				txfCodeStructure.setColumns(20);
+				txfCodeStructure.setText(Preferences.lit(Consts.INTRANET_STRUCTURE, "", true));
 				panel.add(txfCodeStructure);
 			}
 		}
@@ -387,6 +375,11 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand
 
 						int index = 1;
 						for (;;) {
+							if (progress.isCanceled()) {
+								logger_.info("Action annulée");
+								break;
+							}
+							
 							// generateur.x
 							// format.x
 							// categorie.x
@@ -425,11 +418,12 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand
 									: Boolean.parseBoolean(pbatch.getProperty("adherents." + index));
 							String nom = pbatch.getProperty("nom." + index, "");
 							String fonction = pbatch.getProperty("fonction." + index);
+							String nfichier = pbatch.getProperty("fichier." + index, nom);
 
 							File dossierStructure = fSortie;
 							dossierStructure.mkdirs();
 
-							File fichier = new File(dossierStructure, nom + "." + generateur);
+							File fichier = new File(dossierStructure, nfichier + "." + generateur);
 
 							if (generateur.compareTo(ExtractionIntranet.GENERATEUR_XLS) == 0) {
 								logger_.info("Extraction du fichier " + index + " dans " + fichier);
@@ -524,6 +518,7 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand
 			Preferences.sauve(Consts.INTRANET_IDENTIFIANT, "", true);
 			Preferences.sauve(Consts.INTRANET_MOTDEPASSE, "", true);
 		}
+		Preferences.sauve(Consts.INTRANET_STRUCTURE, txfCodeStructure.getText(), true);
 		super.dispose();
 	}
 

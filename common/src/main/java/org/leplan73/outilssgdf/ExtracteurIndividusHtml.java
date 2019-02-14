@@ -84,7 +84,7 @@ public class ExtracteurIndividusHtml {
 	public List<AdherentForme> getCompasList() {
 		List<AdherentForme> adherents = new ArrayList<AdherentForme>();
 		adherents_.forEach((k,v) -> {
-			if (v.getCompa() == 1)
+			if (v.getCompa() == 1 && v.getChef() == 0)
 				adherents.add((AdherentForme)v);
 		});
 		return adherents;

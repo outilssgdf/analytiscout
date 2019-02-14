@@ -32,6 +32,7 @@ public class Colonnes {
 
 	private int stuctureNom = -1;
 	private int structureCode = -1;
+	private int delegations = -1;
 
 	public void add(int id, String nom) {
 		ids_.put(id, nom);
@@ -42,6 +43,10 @@ public class Colonnes {
 	{
 		ids_.forEach((key, value) ->
 		{
+			if (ids_.get(key).compareTo("Inscription.Delegations") == 0)
+			{
+				delegations = key;
+			}
 			if (ids_.get(key).compareTo("Structure.Nom") == 0)
 			{
 				stuctureNom = key;
@@ -223,5 +228,9 @@ public class Colonnes {
 
 	public int getStructureCode() {
 		return structureCode;
+	}
+
+	public int getDelegations() {
+		return delegations;
 	}
 }

@@ -116,6 +116,22 @@ public class Adherent {
 		return this.get(colonnes_.getFonctionCodeId());
 	}
 	
+	public String getFonctionsecondairecomplet()
+	{
+		String delegations = this.get(colonnes_.getDelegations());
+		if (!delegations.isEmpty())
+		{
+			String[] parts = delegations.split(";");
+			String fonctionSecondaire = parts[0];
+			int index = fonctionSecondaire.indexOf(" -");
+			if (index != -1)
+			{
+				return fonctionSecondaire.substring(0, index);
+			}
+		}
+		return "";
+	}
+	
 	public int getJeune()
 	{
 		int fonction = extraitCode();
@@ -124,6 +140,9 @@ public class Adherent {
 	
 	public int getCompa()
 	{
+		int fonctionSecondaire = extraitCodeSecondaire();
+		if (fonctionSecondaire ==  Consts.CODE_COMPAS_T1T2 || fonctionSecondaire == Consts.CODE_COMPAS_T3)
+			return 1;
 		int fonction = extraitCode();
 		return (fonction ==  Consts.CODE_COMPAS_T1T2 || fonction == Consts.CODE_COMPAS_T3) ? 1 : 0;
 	}
@@ -147,6 +166,11 @@ public class Adherent {
 	public String getCodestructure()
 	{
 		return this.get(colonnes_.getStructureCode());
+	}
+	
+	public String getDelegations()
+	{
+		return this.get(colonnes_.getDelegations());
 	}
 	
 	public String getCodegroupe()
@@ -180,6 +204,17 @@ public class Adherent {
 	private int extraitCode()
 	{
 		String code = this.get(colonnes_.getFonctionCodeId());
+		char lcode = code.charAt(code.length()-1);
+		if (lcode > 'A')
+			code = code.substring(0, 3);
+		return Integer.valueOf(code);
+	}
+	
+	private int extraitCodeSecondaire()
+	{
+		String code = this.getFonctionsecondairecomplet();
+		if (code.isEmpty())
+			return 0;
 		char lcode = code.charAt(code.length()-1);
 		if (lcode > 'A')
 			code = code.substring(0, 3);

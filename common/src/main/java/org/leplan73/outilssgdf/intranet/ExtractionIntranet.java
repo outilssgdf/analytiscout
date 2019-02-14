@@ -103,7 +103,9 @@ public class ExtractionIntranet {
 	
 	public static String getIntranetServeur()
 	{
-		return testmode_ ? " (serveur de qualification)" : "";
+		if (testmode_)
+			return " (serveur de qualification)";
+		return "";
 	}
 	
 	public void init()
@@ -148,8 +150,12 @@ public class ExtractionIntranet {
         formparams.add(new BasicNameValuePair("ctl00$MainContent$login",identifiant));
         formparams.add(new BasicNameValuePair("ctl00$MainContent$password",motdepasse));
         formparams.add(new BasicNameValuePair("ctl00$MainContent$_btnValider","Se connecter"));
+//        formparams.add(new BasicNameValuePair("login",identifiant));
+//        formparams.add(new BasicNameValuePair("password",motdepasse));
+//        formparams.add(new BasicNameValuePair("_btnValider","Se connecter"));
         formparams.add(new BasicNameValuePair("eo_version","11.0.20.2"));
         formparams.add(new BasicNameValuePair("eo_style_keys","/wFk"));
+        
 		if (logger_.isDebugEnabled())
 		{
 			formparams.forEach(k ->

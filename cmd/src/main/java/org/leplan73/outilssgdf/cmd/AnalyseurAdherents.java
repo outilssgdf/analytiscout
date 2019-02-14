@@ -76,8 +76,9 @@ public class AnalyseurAdherents extends CommonParamsG {
 				break;
 			}
 
-			ExtraKey extra = new ExtraKey(pbatch.getProperty("nom."+index,""), pbatch.getProperty("batchtype."+index,"tout"));
-			File fichier = new File(dossierStructure, extra.nom_+"."+generateur);
+			ExtraKey extra = new ExtraKey(pbatch.getProperty("fichier." + index, pbatch.getProperty("nom." + index, "")), pbatch.getProperty("nom." + index, ""),
+					pbatch.getProperty("batchtype." + index, "tout_adherents"));
+			File fichier = new File(dossierStructure, extra.fichier_+"."+generateur);
 			
 		    Logging.logger_.info("Chargement du fichier \""+fichier.getName()+"\"");
 		    
@@ -103,6 +104,8 @@ public class AnalyseurAdherents extends CommonParamsG {
 		ExcelTransformer trans = new ExcelTransformer();
 		Map<String, Object> beans = new HashMap<String, Object>();
 		beans.put("adherents", adherents.getAdherentsList());
+		beans.put("chefs", adherents.getChefsList());
+		beans.put("compas", adherents.getCompasList());
 		beans.put("unites", adherents.getUnitesList());
 		beans.put("general", general);
 		beans.put("global", global);

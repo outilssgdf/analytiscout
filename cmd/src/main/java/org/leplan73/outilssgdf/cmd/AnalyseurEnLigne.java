@@ -109,7 +109,7 @@ public class AnalyseurEnLigne extends CommonParamsIntranet {
 					String nom = pbatch.getProperty("nom." + index, "");
 					String fonction = pbatch.getProperty("fonction."+index);
 					
-					ExtraKey extra = new ExtraKey(pbatch.getProperty("nom." + index, ""), pbatch.getProperty("batchtype." + index, "tout"));
+					ExtraKey extra = new ExtraKey(pbatch.getProperty("fichier." + index, nom), nom, pbatch.getProperty("batchtype." + index, "tout_responsables"));
 					
 					Logging.logger_.info("Extraction de  "+nom);
 					String donnees = app.extract(structure,recursif,type,adherentsseul,fonction,specialite,categorie, diplome,qualif,formation,format, false);
@@ -146,6 +146,7 @@ public class AnalyseurEnLigne extends CommonParamsIntranet {
 			    Logging.logger_.info("Génération du fichier \""+sortie.getName()+"\" à partir du modèle \""+modele.getName()+"\"");
 				ExcelTransformer trans = new ExcelTransformer();
 				Map<String, Object> beans = new HashMap<String, Object>();
+				beans.put("adherents", adherents.getAdherentsList());
 				beans.put("chefs", adherents.getChefsList());
 				beans.put("compas", adherents.getCompasList());
 				beans.put("unites", adherents.getUnitesList());

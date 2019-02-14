@@ -19,12 +19,13 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ExtractionIntranet {
 
-	private static final String HTTPS_INTRANET_SGDF_FR = "https://intranet.sgdf.fr";
+	private static final String HTTPS_INTRANET_SGDF_FR = "https://intranet.sgdf.fr/";
 	private static final String HTTPS_TESTINTRANET_SGDF_FR = "https://http://intranet-qualification.sgdf.fr/";
 	
 	public final static String GENERATEUR_CSV = "csv";
@@ -90,6 +91,7 @@ public class ExtractionIntranet {
 	}
 	
 	private static boolean testmode_ = false;
+	private boolean nouvelIntranet_ = true;
     
 	static
 	{
@@ -135,6 +137,13 @@ public class ExtractionIntranet {
     	Document doc = Jsoup.parse(obj);
     	viewstate = doc.select("#__VIEWSTATE").first().val();
     	eventvalidation = doc.select("#__EVENTVALIDATION").first().val();
+    	
+    	Element login = doc.select("#_divFormulaire").first();
+    	if (login != null)
+    	{
+    		nouvelIntranet_ = false;
+    	}
+    	
         response.close();
         	
         HttpPost httppost = new HttpPost(ExtractionIntranet.getIntranet());
@@ -147,12 +156,18 @@ public class ExtractionIntranet {
         formparams.add(new BasicNameValuePair("__EVENTARGUMENT",""));
         formparams.add(new BasicNameValuePair("__VIEWSTATE",viewstate));
         formparams.add(new BasicNameValuePair("__VIEWSTATEGENERATOR","F4403698"));
-        formparams.add(new BasicNameValuePair("ctl00$MainContent$login",identifiant));
-        formparams.add(new BasicNameValuePair("ctl00$MainContent$password",motdepasse));
-        formparams.add(new BasicNameValuePair("ctl00$MainContent$_btnValider","Se connecter"));
-//        formparams.add(new BasicNameValuePair("login",identifiant));
-//        formparams.add(new BasicNameValuePair("password",motdepasse));
-//        formparams.add(new BasicNameValuePair("_btnValider","Se connecter"));
+        if (nouvelIntranet_)
+        {
+			formparams.add(new BasicNameValuePair("login",identifiant));
+			formparams.add(new BasicNameValuePair("password",motdepasse));
+			formparams.add(new BasicNameValuePair("_btnValider","Se connecter"));
+        }
+        else
+        {
+            formparams.add(new BasicNameValuePair("ctl00$MainContent$login",identifiant));
+            formparams.add(new BasicNameValuePair("ctl00$MainContent$password",motdepasse));
+            formparams.add(new BasicNameValuePair("ctl00$MainContent$_btnValider","Se connecter"));
+        }
         formparams.add(new BasicNameValuePair("eo_version","11.0.20.2"));
         formparams.add(new BasicNameValuePair("eo_style_keys","/wFk"));
         

@@ -27,7 +27,7 @@ formation.3=
 nom.3=compas_tout
 adherents.3=true
 batchtype.3=tout
-fonction.3=140,140M,141
+fonction.3=140,140M,141,141M
 
 generateur.4=xml
 format.4=4

@@ -35,4 +35,4 @@ Version 0.0.10 :
 	- Analyse des unités compas avec lesformations spécifiques
 	- Ajout de la fonction secondaire dans les feuilles "responsables" & "compas"
 	- Compatibilité avec la nouvel intranet
-
+Version 0.0.11 :

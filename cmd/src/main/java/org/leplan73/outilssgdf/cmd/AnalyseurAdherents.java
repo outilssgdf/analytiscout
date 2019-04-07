@@ -5,19 +5,26 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.Instant;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.TreeMap;
 
-import org.apache.commons.compress.archivers.dump.InvalidFormatException;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.jdom2.JDOMException;
 import org.leplan73.outilssgdf.ExtracteurExtraHtml;
 import org.leplan73.outilssgdf.ExtracteurIndividusHtml;
 import org.leplan73.outilssgdf.ExtractionException;
+import org.leplan73.outilssgdf.calcul.General;
+import org.leplan73.outilssgdf.calcul.Global;
 import org.leplan73.outilssgdf.cmd.utils.CommonParamsG;
 import org.leplan73.outilssgdf.cmd.utils.Logging;
 import org.leplan73.outilssgdf.extraction.AdherentForme.ExtraKey;
 
+import com.jcabi.manifests.Manifests;
+
+import net.sf.jett.transform.ExcelTransformer;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -85,13 +92,25 @@ public class AnalyseurAdherents extends CommonParamsG {
 		}
 
 		Logging.logger_.info("Chargement du fichier \""+fichierAdherents.getName()+"\"");
-		ExtracteurIndividusHtml adherents = new ExtracteurIndividusHtml(fichierAdherents, extraMap,age, version_);
-		adherents.calculGlobal();
+		ExtracteurIndividusHtml adherents = new ExtracteurIndividusHtml(fichierAdherents, extraMap,age);
+		
+		General general = new General(Manifests.read("version"));
+		Global global = new Global(adherents.getGroupe(), adherents.getMarins());
+		adherents.calculGlobal(global);
 
 		FileOutputStream outputStream = new FileOutputStream(sortie);
 
 	    Logging.logger_.info("Generation du fichier \""+sortie.getName()+"\" à partir du modèle \""+modele.getName()+"\"");
-		adherents.transforme(modele, outputStream);
+		ExcelTransformer trans = new ExcelTransformer();
+		Map<String, Object> beans = new HashMap<String, Object>();
+		beans.put("adherents", adherents.getAdherentsList());
+		beans.put("chefs", adherents.getChefsList());
+		beans.put("compas", adherents.getCompasList());
+		beans.put("unites", adherents.getUnitesList());
+		beans.put("general", general);
+		beans.put("global", global);
+		Workbook workbook = trans.transform(new FileInputStream(modele), beans);
+		workbook.write(outputStream);
 		
 		outputStream.flush();
 		outputStream.close();

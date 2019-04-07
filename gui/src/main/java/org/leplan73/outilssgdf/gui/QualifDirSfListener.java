@@ -1,14 +1,29 @@
 package org.leplan73.outilssgdf.gui;
 
-import org.jxls.common.AreaListener;
-import org.jxls.common.CellRef;
-import org.jxls.common.Context;
+import java.util.Date;
 
-public class QualifDirSfListener implements AreaListener {
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.leplan73.outilssgdf.Params;
+
+import net.sf.jett.event.TagEvent;
+import net.sf.jett.event.TagListener;
+import net.sf.jett.model.Block;
+
+public class QualifDirSfListener implements TagListener {
 
 	@Override
-	public void afterTransformCell(CellRef srcCell, CellRef targetCell, Context context) {
-/*		Block block = event.getBlock();
+	public boolean beforeTagProcessed(TagEvent event) {
+		return true;
+	}
+
+	@Override
+	public void onTagProcessed(TagEvent event) {
+		Block block = event.getBlock();
 		Sheet sheet = event.getSheet();
 		Workbook workbook = sheet.getWorkbook();
 		Row row = sheet.getRow(block.getTopRowNum());
@@ -30,19 +45,7 @@ public class QualifDirSfListener implements AreaListener {
 				}
 				
 			}
-		}*/
-	}
-
-	@Override
-	public void beforeApplyAtCell(CellRef cellRef, Context context) {
-	}
-
-	@Override
-	public void afterApplyAtCell(CellRef cellRef, Context context) {
-	}
-
-	@Override
-	public void beforeTransformCell(CellRef srcCell, CellRef targetCell, Context context) {
+		}
 	}
 
 }

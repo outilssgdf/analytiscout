@@ -12,6 +12,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.Instant;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.TreeMap;
@@ -30,23 +31,32 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.jdom2.JDOMException;
 import org.leplan73.outilssgdf.Consts;
 import org.leplan73.outilssgdf.ExtracteurExtraHtml;
 import org.leplan73.outilssgdf.ExtracteurIndividusHtml;
 import org.leplan73.outilssgdf.ExtractionException;
+import org.leplan73.outilssgdf.calcul.General;
+import org.leplan73.outilssgdf.calcul.Global;
 import org.leplan73.outilssgdf.extraction.AdherentForme.ExtraKey;
 import org.leplan73.outilssgdf.extraction.AdherentFormes;
 import org.leplan73.outilssgdf.gui.utils.Appender;
 import org.leplan73.outilssgdf.gui.utils.ExportFileFilter;
 import org.leplan73.outilssgdf.gui.utils.GuiCommand;
+import org.leplan73.outilssgdf.gui.utils.JHyperlink;
 import org.leplan73.outilssgdf.gui.utils.LoggedDialog;
 import org.leplan73.outilssgdf.gui.utils.Logging;
 import org.leplan73.outilssgdf.gui.utils.Preferences;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Analyseur extends Dialogue implements LoggedDialog, GuiCommand {
+import com.jcabi.manifests.Manifests;
+
+import net.sf.jett.transform.ExcelTransformer;
+
+public class Analyseur extends JDialog implements LoggedDialog, GuiCommand {
 
 	private final JPanel contentPanel = new JPanel();
 	protected Logger logger_ = LoggerFactory.getLogger(Analyseur.class);
@@ -338,8 +348,6 @@ public class Analyseur extends Dialogue implements LoggedDialog, GuiCommand {
 
 	@Override
 	public void go() {
-		super.go();
-		
 		ProgressMonitor progress = new ProgressMonitor(this, "Analyseur", "", 0, 100);
 		progress.setMillisToPopup(0);
 		progress.setMillisToDecideToPopup(0);
@@ -392,24 +400,41 @@ public class Analyseur extends Dialogue implements LoggedDialog, GuiCommand {
 					}
 					progress.setProgress(50);
 					logger_.info("Chargement du fichier \"" + fichierAdherents.getName() + "\"");
-					ExtracteurIndividusHtml adherents = new ExtracteurIndividusHtml(fichierAdherents, extraMap, getChcAge().isSelected(), version_);
+					ExtracteurIndividusHtml adherents = new ExtracteurIndividusHtml(fichierAdherents, extraMap, getChcAge().isSelected());
 
 					AdherentFormes compas = new AdherentFormes();
 					compas.charge(adherents, extraMap);
 					progress.setProgress(60);
 
-					adherents.calculGlobal();
+					String version = "";
+					try {
+						version = Manifests.read("version");
+					} catch (java.lang.IllegalArgumentException e) {
+					}
+					General general = new General(version);
+					Global global = new Global(adherents.getGroupe(), adherents.getMarins());
+					adherents.calculGlobal(global);
 					progress.setProgress(80);
 
 					FileOutputStream outputStream = new FileOutputStream(fSortie);
 
 					logger_.info("Génération du fichier \"" + fSortie.getName()
 							+ "\" à partir du modèle \"" + fModele.getName() + "\"");
-					adherents.transforme(fModele, outputStream);
+					ExcelTransformer trans = new ExcelTransformer();
+					Map<String, Object> beans = new HashMap<String, Object>();
+					beans.put("adherents", adherents.getAdherentsList());
+					beans.put("chefs", adherents.getChefsList());
+					beans.put("compas", adherents.getCompasList());
+					beans.put("unites", adherents.getUnitesList());
+					beans.put("general", general);
+					beans.put("global", global);
+					Workbook workbook = trans.transform(new FileInputStream(fModele), beans);
+					workbook.write(outputStream);
+
 					outputStream.flush();
 					outputStream.close();
 
-				} catch (IOException | JDOMException | ExtractionException e) {
+				} catch (IOException | JDOMException | InvalidFormatException | ExtractionException e) {
 					logger_.error(Logging.dumpStack(null, e));
 				}
 			}

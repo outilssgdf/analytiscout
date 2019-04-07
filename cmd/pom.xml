@@ -18,6 +18,39 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>net.sf.jett</groupId>
+			<artifactId>jett-core</artifactId>
+			<version>${jett.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.logging.log4j</groupId>
+					<artifactId>log4j-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.logging.log4j</groupId>
+					<artifactId>log4j-core</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.logging.log4j</groupId>
+					<artifactId>log4j-jcl</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>${poi.version.old}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>${poi.version.old}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<version>${slf4j.version}</version>
@@ -53,8 +86,8 @@
 					<archive>
 						<addMavenDescriptor>false</addMavenDescriptor>
 						<manifestEntries>
-							<Multi-Release>true</Multi-Release>
-						</manifestEntries>
+		                <Multi-Release>true</Multi-Release>
+        			    </manifestEntries>
 					</archive>
 				</configuration>
 			</plugin>
@@ -82,7 +115,7 @@
 						</manifest>
 						<manifestEntries>
 							<version>${project.version}</version>
-							<Multi-Release>true</Multi-Release>
+		                	<Multi-Release>true</Multi-Release>
 						</manifestEntries>
 					</archive>
 				</configuration>

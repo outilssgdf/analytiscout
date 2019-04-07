@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.TreeMap;
@@ -17,12 +18,16 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.jdom2.JDOMException;
 import org.leplan73.outilssgdf.Consts;
 import org.leplan73.outilssgdf.ExtracteurExtraHtml;
 import org.leplan73.outilssgdf.ExtracteurIndividusHtml;
 import org.leplan73.outilssgdf.ExtractionException;
+import org.leplan73.outilssgdf.calcul.General;
+import org.leplan73.outilssgdf.calcul.Global;
 import org.leplan73.outilssgdf.extraction.AdherentForme.ExtraKey;
 import org.leplan73.outilssgdf.extraction.AdherentFormes;
 import org.leplan73.outilssgdf.intranet.ExtractionAdherents;
@@ -31,6 +36,7 @@ import org.leplan73.outilssgdf.intranet.ExtractionIntranet;
 import com.jcabi.manifests.Manifests;
 
 import io.swagger.annotations.Api;
+import net.sf.jett.transform.ExcelTransformer;
 
 @Path("/v1")
 @Api(value = "Server")
@@ -40,7 +46,7 @@ public class Server {
     @Path("/analyseenligne")
 	@Produces(MediaType.TEXT_PLAIN)
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
-    public Response analyseenligne(@FormDataParam(value = "identifiant") String identifiant, @FormDataParam(value = "password") String motdepasse, @FormDataParam(value = "code_structure") String code_structure) throws ExtractionException, IOException, JDOMException {
+    public Response analyseenligne(@FormDataParam(value = "identifiant") String identifiant, @FormDataParam(value = "password") String motdepasse, @FormDataParam(value = "code_structure") String code_structure) throws ExtractionException, IOException, JDOMException, InvalidFormatException {
 
 		Properties pbatch = new Properties();
 
@@ -113,6 +119,12 @@ public class Server {
 				index++;
 			}
 			
+			InputStream in = new ByteArrayInputStream(donneesAdherents.getBytes(Consts.ENCODING_UTF8));
+			ExtracteurIndividusHtml adherents = new ExtracteurIndividusHtml(in, extraMap,true);
+	 
+			AdherentFormes compas = new AdherentFormes();
+			compas.charge(adherents,extraMap);
+			
 			String version = "";
 			try
 			{
@@ -120,17 +132,21 @@ public class Server {
 			}
 			catch(java.lang.IllegalArgumentException e) {
 			}
-			
-			InputStream in = new ByteArrayInputStream(donneesAdherents.getBytes(Consts.ENCODING_UTF8));
-			ExtracteurIndividusHtml adherents = new ExtracteurIndividusHtml(in, extraMap,true, version);
-	 
-			AdherentFormes compas = new AdherentFormes();
-			compas.charge(adherents,extraMap);
-			adherents.calculGlobal();
+			General general = new General(version);
+			Global global = new Global(adherents.getGroupe(), adherents.getMarins());
+			adherents.calculGlobal(global);
 	
 			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-
-			adherents.transforme(fModele, outputStream);
+	
+			ExcelTransformer trans = new ExcelTransformer();
+			Map<String, Object> beans = new HashMap<String, Object>();
+			beans.put("chefs", adherents.getChefsList());
+			beans.put("compas", adherents.getCompasList());
+			beans.put("unites", adherents.getUnitesList());
+			beans.put("general", general);
+			beans.put("global", global);
+			Workbook workbook = trans.transform(new FileInputStream(fModele), beans);
+			workbook.write(outputStream);
 			
 			outputStream.flush();
 			outputStream.close();

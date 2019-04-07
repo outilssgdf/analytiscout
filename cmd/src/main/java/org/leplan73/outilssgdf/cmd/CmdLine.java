@@ -3,7 +3,7 @@ package org.leplan73.outilssgdf.cmd;
 import java.io.IOException;
 import java.util.List;
 
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.commons.compress.archivers.dump.InvalidFormatException;
 import org.jdom2.JDOMException;
 import org.leplan73.outilssgdf.ExtractionException;
 import org.leplan73.outilssgdf.cmd.utils.CmdLineException;
@@ -16,7 +16,7 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.PicocliException;
 
 @Command(name = "outilsgdf", mixinStandardHelpOptions = true, versionProvider = CommonParamsG.class,
-	subcommands = {Analyseur.class, AnalyseurAdherents.class, Extracteur.class, ExtracteurBatch.class, Generateur.class, AnalyseurEnLigne.class, AnalyseurCompasEnLigne.class, AnalyseurAdherents.class})
+	subcommands = {Analyseur.class, AnalyseurAdherents.class, Extracteur.class, ExtracteurBatch.class, Generateur.class, AnalyseurEnLigne.class, AnalyseurCompasEnLigne.class})
 public class CmdLine extends CmdParams {
 	
 	@Override

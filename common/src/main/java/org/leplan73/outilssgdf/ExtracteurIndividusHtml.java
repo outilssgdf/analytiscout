@@ -3,8 +3,11 @@ package org.leplan73.outilssgdf;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -16,6 +19,9 @@ import org.jdom2.Text;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.xpath.XPathExpression;
 import org.jdom2.xpath.XPathFactory;
+import org.jxls.common.Context;
+import org.jxls.util.JxlsHelper;
+import org.leplan73.outilssgdf.calcul.General;
 import org.leplan73.outilssgdf.calcul.Global;
 import org.leplan73.outilssgdf.calcul.Unite;
 import org.leplan73.outilssgdf.calcul.Unites;
@@ -35,20 +41,51 @@ public class ExtracteurIndividusHtml {
 	protected Unites unites_;
 	protected String groupe_;
 	protected boolean marins_;
+	protected Global global_;
+	protected General general_;
 	
 	private Map<ExtraKey, ExtracteurExtraHtml> extras_;
 	
 	public ExtracteurIndividusHtml() throws ExtractionException, IOException, JDOMException {
 	}
 	
-	public ExtracteurIndividusHtml(InputStream input, Map<ExtraKey, ExtracteurExtraHtml> extras, boolean age) throws ExtractionException, IOException, JDOMException {
+	public ExtracteurIndividusHtml(InputStream input, Map<ExtraKey, ExtracteurExtraHtml> extras, boolean age, String version) throws ExtractionException, IOException, JDOMException {
 		extras_ = extras;
 		charge(input, age);
+		general_ = new General(version);
 	}
 	
-	public ExtracteurIndividusHtml(File fichier, Map<ExtraKey, ExtracteurExtraHtml> extras, boolean age) throws ExtractionException, IOException, JDOMException {
+	public ExtracteurIndividusHtml(File fichier, Map<ExtraKey, ExtracteurExtraHtml> extras, boolean age, String version) throws ExtractionException, IOException, JDOMException {
 		extras_ = extras;
 		charge(fichier, age);
+		general_ = new General(version);
+	}
+	
+	public void transforme(File modele, OutputStream outputStream) throws IOException
+	{
+		FileInputStream in = null;
+		try {
+			in = new FileInputStream(modele);
+			JxlsHelper.getInstance().processTemplate(in, outputStream, getBeans());
+		} catch (IOException e) {
+			throw e;
+		}
+		finally
+		{
+			in.close();
+		}
+	}
+	
+	private Context getBeans()
+	{
+		Context context = new Context();
+		context.putVar("adherents", getAdherentsList());
+		context.putVar("chefs", getChefsList());
+		context.putVar("compas", getCompasList());
+		context.putVar("unites", getUnitesList());
+		context.putVar("general", general_);
+		context.putVar("global", global_);
+		return context;
 	}
 
 	public Adherents getAdherents()
@@ -414,8 +451,9 @@ public class ExtracteurIndividusHtml {
 		}
 	}
 
-	public void calculGlobal(Global global)
+	public void calculGlobal()
 	{
+		global_ = new Global(getGroupe(), getMarins());
 		adherents_.forEach((code,ad) ->
 		{
 			if (ad.getChef() > 0)
@@ -425,11 +463,11 @@ public class ExtracteurIndividusHtml {
 				boolean animsfQualifie = chef.getQualif("animsf").getDefini() && chef.getQualif("animsf").getTitulaire();
 				if (dirsfdef)
 				{
-					global.addRgdirsf();
+					global_.addRgdirsf();
 				}
 				if (animsfQualifie)
 				{
-					global.addAnimsfQualifie();
+					global_.addAnimsfQualifie();
 				}
 			}
 		});

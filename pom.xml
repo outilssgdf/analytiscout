@@ -23,7 +23,7 @@
 		<httpmime.version>4.5.3</httpmime.version>
 		<log4j.version>2.11.1</log4j.version>
 		<jett.version>0.11.0</jett.version>
-		<poi.version>4.0.0</poi.version>
+		<poi.version>4.0.1</poi.version>
 		<poi.version.old>3.14</poi.version.old>
 		<slf4j.version>1.7.25</slf4j.version>
 		<picocli.version>3.6.1</picocli.version>

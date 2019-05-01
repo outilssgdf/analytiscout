@@ -5,7 +5,7 @@ import java.util.TreeMap;
 
 import org.leplan73.outilssgdf.ExtractionException;
 
-public class Colonnes {
+public class ColonnesAdherents {
 
 	private Map<Integer, String> ids_ = new TreeMap<Integer, String>();
 	private Map<String, Integer> map_ = new TreeMap<String, Integer>();

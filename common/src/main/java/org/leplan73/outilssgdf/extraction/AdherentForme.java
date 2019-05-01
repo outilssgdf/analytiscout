@@ -132,12 +132,12 @@ public class AdherentForme extends Adherent {
 	{
 		public String nom_;
 		public AdherentForme dir_;
-		public Colonnes colonnes2_;
+		public ColonnesAdherents colonnes2_;
 		public boolean isQualif_;
 		public boolean isFormation_;
 		public boolean isDiplome_;
 		
-		public ChefExtra(ExtraKey key, AdherentForme dir, Colonnes colonnes)
+		public ChefExtra(ExtraKey key, AdherentForme dir, ColonnesAdherents colonnes)
 		{
 			nom_ = key.nom_;
 

@@ -35,6 +35,8 @@ public class ExtractionFormations extends ExtractionIntranet {
             	logger_.debug(obj);
             Document doc = Jsoup.parse(obj);
             viewstate = doc.select("#__VIEWSTATE").first().val();
+            String viewstategenerator = doc.select("#__VIEWSTATEGENERATOR").first().val();
+            String eventvalidation = doc.select("#__EVENTVALIDATION").first().val();
             response11.close();
 	       
 	       HttpPost httppost = new HttpPost(ExtractionIntranet.getIntranet()+"/Specialisation/Sgdf/Formations/ExtraireFormations.aspx");
@@ -48,7 +50,8 @@ public class ExtractionFormations extends ExtractionIntranet {
 			formparams.add(new BasicNameValuePair("__eo_sc",""));
 			formparams.add(new BasicNameValuePair("__LASTFOCUS","")); 
 			formparams.add(new BasicNameValuePair("__VIEWSTATE",viewstate));
-			formparams.add(new BasicNameValuePair("__VIEWSTATEGENERATOR","D7E61A64"));
+			formparams.add(new BasicNameValuePair("__VIEWSTATEGENERATOR",viewstategenerator));
+			formparams.add(new BasicNameValuePair("__EVENTVALIDATION",eventvalidation));
 			formparams.add(new BasicNameValuePair("ctl00$_tbRechAdherent",""));
 			formparams.add(new BasicNameValuePair("ctl00$_tbRechStructure","")); 
 			formparams.add(new BasicNameValuePair("eo_version","11.0.20.2"));

@@ -18,14 +18,14 @@ import org.leplan73.outilssgdf.calcul.Unite;
 import org.leplan73.outilssgdf.calcul.Unites;
 import org.leplan73.outilssgdf.extraction.Adherent;
 import org.leplan73.outilssgdf.extraction.Adherents;
-import org.leplan73.outilssgdf.extraction.Colonnes;
+import org.leplan73.outilssgdf.extraction.ColonnesAdherents;
 import org.leplan73.outilssgdf.extraction.Parents;
 
 public class ExtracteurXlsx {
 	
 	protected Adherents adherents_;
 	protected Parents parents_;
-	protected Colonnes colonnes_;
+	protected ColonnesAdherents colonnes_;
 	protected Unites unites_;
 	
 	public Adherents getAdherents()
@@ -38,7 +38,7 @@ public class ExtracteurXlsx {
 		return parents_;
 	}
 	
-	public Colonnes getColonnes()
+	public ColonnesAdherents getColonnes()
 	{
 		return colonnes_;
 	}
@@ -70,7 +70,7 @@ public class ExtracteurXlsx {
         
         // Scan des colonnes
         int nbColumns = 0;
-        colonnes_ = new Colonnes();
+        colonnes_ = new ColonnesAdherents();
         Row firstRow = datatypeSheet.getRow(0);
         Iterator<Cell> firstCellIterator = firstRow.iterator();
         while (firstCellIterator.hasNext()) {

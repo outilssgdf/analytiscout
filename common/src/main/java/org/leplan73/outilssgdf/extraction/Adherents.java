@@ -10,14 +10,14 @@ public class Adherents extends HashMap<Integer,Adherent> {
 	
 	private static final long serialVersionUID = 1L;
 	
-	public void check(Colonnes colonnes, final Unite unite, List<Check> checks) {
+	public void check(ColonnesAdherents colonnes, final Unite unite, List<Check> checks) {
 		this.forEach((id,adherent) ->
 		{
 			adherent.check(colonnes, unite, checks);
 		});
 	}
 
-	public Parents parents(Colonnes colonnes) {
+	public Parents parents(ColonnesAdherents colonnes) {
 		Parents parents = new Parents();
 		this.forEach((id,adherent) ->
 		{

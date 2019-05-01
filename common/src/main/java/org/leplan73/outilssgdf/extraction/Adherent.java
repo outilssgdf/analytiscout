@@ -24,12 +24,12 @@ public class Adherent {
 	protected String codePapa_;
 	protected String codeMaman_;
 	protected String unite_;
-	protected Colonnes colonnes_;
+	protected ColonnesAdherents colonnes_;
 	protected double age_ = -1;
 	protected double ageFinDec_ = -1;
 	protected double ageCamp_ = -1;
 	
-	public Adherent(Colonnes colonnes)
+	public Adherent(ColonnesAdherents colonnes)
 	{
 		colonnes_ = colonnes;
 	}
@@ -314,7 +314,7 @@ public class Adherent {
 			return "";
 	}
 	
-	public void check(Colonnes colonnes, Unite unite, List<Check> checks)
+	public void check(ColonnesAdherents colonnes, Unite unite, List<Check> checks)
 	{
 		String unitAdherent = (String)this.get(colonnes.getUniteId());
 		if (unite != null && unitAdherent.compareTo(unite.getNom()) != 0) return;
@@ -352,7 +352,7 @@ public class Adherent {
 		if (indivMere2) checks.add(new Check(unite.getNom(), nomIndividu + " : " + prenomIndividu, "emailIndividu2 == emailMere"));
 	}
 	
-	public boolean listeChefCvs(Colonnes colonnes, Unite unite, CSVPrinter os) throws IOException {
+	public boolean listeChefCvs(ColonnesAdherents colonnes, Unite unite, CSVPrinter os) throws IOException {
 		String unitAdherent = (String)this.get(colonnes.getUniteId());
 		if (unite != null && unitAdherent.compareTo(unite.getNom()) != 0) return false;
 		
@@ -422,7 +422,7 @@ public class Adherent {
 		return false;
 	}
 	
-	public void listeEmailChef(Colonnes colonnes, Unite unite, PrintStream os) {
+	public void listeEmailChef(ColonnesAdherents colonnes, Unite unite, PrintStream os) {
 		String unitAdherent = (String)this.get(colonnes.getUniteId());
 		if (unite != null && unitAdherent.compareTo(unite.getNom()) != 0) return;
 		
@@ -435,7 +435,7 @@ public class Adherent {
 		}
 	}
 
-	public void listeEmail(Colonnes colonnes, Unite unite, PrintStream os) {
+	public void listeEmail(ColonnesAdherents colonnes, Unite unite, PrintStream os) {
 		String unitAdherent = (String)this.get(colonnes.getUniteId());
 		if (unite != null && unitAdherent.compareTo(unite.getNom()) != 0) return;
 		

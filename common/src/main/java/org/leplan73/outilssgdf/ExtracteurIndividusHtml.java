@@ -24,14 +24,14 @@ import org.leplan73.outilssgdf.extraction.AdherentForme;
 import org.leplan73.outilssgdf.extraction.AdherentForme.ChefExtra;
 import org.leplan73.outilssgdf.extraction.AdherentForme.ExtraKey;
 import org.leplan73.outilssgdf.extraction.Adherents;
-import org.leplan73.outilssgdf.extraction.Colonnes;
+import org.leplan73.outilssgdf.extraction.ColonnesAdherents;
 import org.leplan73.outilssgdf.extraction.Parents;
 
 public class ExtracteurIndividusHtml {
 	
 	protected Adherents adherents_;
 	protected Parents parents_;
-	protected Colonnes colonnes_;
+	protected ColonnesAdherents colonnes_;
 	protected Unites unites_;
 	protected String groupe_;
 	protected boolean marins_;
@@ -100,7 +100,7 @@ public class ExtracteurIndividusHtml {
 		return parents_;
 	}
 	
-	public Colonnes getColonnes()
+	public ColonnesAdherents getColonnes()
 	{
 		return colonnes_;
 	}
@@ -134,7 +134,7 @@ public class ExtracteurIndividusHtml {
 		XPathFactory xpfac = XPathFactory.instance();
 		
         // Scan des colonnes
-        colonnes_ = new Colonnes();
+        colonnes_ = new ColonnesAdherents();
 		XPathExpression<?> xpac = xpfac.compile("tbody/tr[1]/td/text()");
 		 List<?> resultsc = xpac.evaluate(docx);
 		 Iterator<?> firstCellIterator = resultsc.iterator();

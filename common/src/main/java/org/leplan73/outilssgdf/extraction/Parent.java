@@ -17,7 +17,7 @@ public class Parent extends TreeMap<Integer,Adherent>
 	private int type_;
 	private Set<String> unitesEnfants_ = new HashSet<String>();
 	
-	public boolean init(Colonnes colonnes, Adherent adherent, boolean pere)
+	public boolean init(ColonnesAdherents colonnes, Adherent adherent, boolean pere)
 	{
 		String nom = (String)adherent.get(pere ? colonnes.getNomPereId() : colonnes.getNomMereId());
 		String prenom = (String)adherent.get(pere ? colonnes.getPrenomPereId() : colonnes.getPrenomMereId());
@@ -64,7 +64,7 @@ public class Parent extends TreeMap<Integer,Adherent>
 		return type_;
 	}
 	
-	public boolean afficheParentsCvs(Colonnes colonnes, Adherent adherent, Set<String> unitesEnfants, int type, CSVPrinter os) throws IOException {
+	public boolean afficheParentsCvs(ColonnesAdherents colonnes, Adherent adherent, Set<String> unitesEnfants, int type, CSVPrinter os) throws IOException {
 		String nomPere = (String)adherent.get(colonnes.getNomPereId());
 		String prenomPere = (String)adherent.get(colonnes.getPrenomPereId());
 		String emailPere = (String)adherent.get(colonnes.getEmailPereId());
@@ -129,7 +129,7 @@ public class Parent extends TreeMap<Integer,Adherent>
 		return ret;
 	}
 	
-	public boolean afficheParentsEnfantCvs(Colonnes colonnes, Adherent adherent, String unite, int type, CSVPrinter os) throws IOException {
+	public boolean afficheParentsEnfantCvs(ColonnesAdherents colonnes, Adherent adherent, String unite, int type, CSVPrinter os) throws IOException {
 		String nom = (String)adherent.get(colonnes.getNomIndividuId());
 		String prenom = (String)adherent.get(colonnes.getPrenomIndividuId());
 		String nomPere = (String)adherent.get(colonnes.getNomPereId());

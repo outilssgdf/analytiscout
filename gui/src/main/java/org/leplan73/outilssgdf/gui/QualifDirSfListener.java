@@ -4,6 +4,8 @@ import java.util.Date;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -30,7 +32,7 @@ public class QualifDirSfListener implements TagListener {
 		Cell cell = row.getCell(block.getLeftColNum());
 		if (cell != null)
 		{
-			if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC)
+			if (cell.getCellType() == CellType.NUMERIC)
 			{
 				Date fin_validite = cell.getDateCellValue();
 				Date debutCamp = Params.getDateDebutCamp();
@@ -40,7 +42,7 @@ public class QualifDirSfListener implements TagListener {
 					backgroundStyle.cloneStyleFrom(cell.getCellStyle());
 					backgroundStyle.setFillBackgroundColor(IndexedColors.RED.getIndex());
 					backgroundStyle.setFillForegroundColor(IndexedColors.RED.getIndex());
-					backgroundStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
+					backgroundStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 					cell.setCellStyle(backgroundStyle);
 				}
 				

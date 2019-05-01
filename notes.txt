@@ -36,3 +36,6 @@ Version 0.0.10 :
 	- Ajout de la fonction secondaire dans les feuilles "responsables" & "compas"
 Version 1.0.0 :
 	- Compatibilité avec la nouvel intranet
+Version en dev :
+	- Changements internes (suppression de log4j)
+	- Ajout des formations FIF et FCF

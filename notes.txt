@@ -39,3 +39,4 @@ Version 1.0.0 :
 Version en dev :
 	- Changements internes (suppression de log4j)
 	- Ajout des formations FIF et FCF
+	- Filtrage du unité "non-jeune" dans les quotas de camp

@@ -9,7 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.HashMap;
@@ -32,12 +31,12 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.apache.poi.ss.usermodel.Workbook;
 import org.jdom2.JDOMException;
 import org.leplan73.outilssgdf.Consts;
 import org.leplan73.outilssgdf.ExtracteurExtraHtml;
 import org.leplan73.outilssgdf.ExtracteurIndividusHtml;
 import org.leplan73.outilssgdf.ExtractionException;
+import org.leplan73.outilssgdf.Transformeur;
 import org.leplan73.outilssgdf.calcul.General;
 import org.leplan73.outilssgdf.calcul.Global;
 import org.leplan73.outilssgdf.extraction.AdherentForme.ExtraKey;
@@ -45,7 +44,6 @@ import org.leplan73.outilssgdf.extraction.AdherentFormes;
 import org.leplan73.outilssgdf.gui.utils.Appender;
 import org.leplan73.outilssgdf.gui.utils.ExportFileFilter;
 import org.leplan73.outilssgdf.gui.utils.GuiCommand;
-import org.leplan73.outilssgdf.gui.utils.JHyperlink;
 import org.leplan73.outilssgdf.gui.utils.LoggedDialog;
 import org.leplan73.outilssgdf.gui.utils.Logging;
 import org.leplan73.outilssgdf.gui.utils.Preferences;
@@ -53,8 +51,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.jcabi.manifests.Manifests;
-
-import net.sf.jett.transform.ExcelTransformer;
 
 public class Analyseur extends JDialog implements LoggedDialog, GuiCommand {
 
@@ -416,11 +412,8 @@ public class Analyseur extends JDialog implements LoggedDialog, GuiCommand {
 					adherents.calculGlobal(global);
 					progress.setProgress(80);
 
-					FileOutputStream outputStream = new FileOutputStream(fSortie);
-
 					logger_.info("Génération du fichier \"" + fSortie.getName()
 							+ "\" à partir du modèle \"" + fModele.getName() + "\"");
-					ExcelTransformer trans = new ExcelTransformer();
 					Map<String, Object> beans = new HashMap<String, Object>();
 					beans.put("adherents", adherents.getAdherentsList());
 					beans.put("chefs", adherents.getChefsList());
@@ -428,11 +421,8 @@ public class Analyseur extends JDialog implements LoggedDialog, GuiCommand {
 					beans.put("unites", adherents.getUnitesList());
 					beans.put("general", general);
 					beans.put("global", global);
-					Workbook workbook = trans.transform(new FileInputStream(fModele), beans);
-					workbook.write(outputStream);
 
-					outputStream.flush();
-					outputStream.close();
+					Transformeur.go(fModele, beans, fSortie);
 
 				} catch (IOException | JDOMException | InvalidFormatException | ExtractionException e) {
 					logger_.error(Logging.dumpStack(null, e));

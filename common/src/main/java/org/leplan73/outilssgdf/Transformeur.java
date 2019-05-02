@@ -1,5 +1,6 @@
 package org.leplan73.outilssgdf;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -24,5 +25,16 @@ public class Transformeur {
 		inModele.close();
 		outputStream.flush();
 		outputStream.close();
+	}
+	
+	public static void go(File modele, Map<String, Object> beans, ByteArrayOutputStream sortie) throws InvalidFormatException, IOException
+	{
+		InputStream inModele = new FileInputStream(modele);
+		ExcelTransformer trans = new ExcelTransformer();
+		Workbook workbook = trans.transform(inModele, beans);
+		workbook.write(sortie);
+		inModele.close();
+		sortie.flush();
+		sortie.close();
 	}
 }

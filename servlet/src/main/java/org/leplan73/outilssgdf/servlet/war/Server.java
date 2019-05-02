@@ -19,13 +19,13 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.apache.poi.ss.usermodel.Workbook;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.jdom2.JDOMException;
 import org.leplan73.outilssgdf.Consts;
 import org.leplan73.outilssgdf.ExtracteurExtraHtml;
 import org.leplan73.outilssgdf.ExtracteurIndividusHtml;
 import org.leplan73.outilssgdf.ExtractionException;
+import org.leplan73.outilssgdf.Transformeur;
 import org.leplan73.outilssgdf.calcul.General;
 import org.leplan73.outilssgdf.calcul.Global;
 import org.leplan73.outilssgdf.extraction.AdherentForme.ExtraKey;
@@ -36,7 +36,6 @@ import org.leplan73.outilssgdf.intranet.ExtractionIntranet;
 import com.jcabi.manifests.Manifests;
 
 import io.swagger.annotations.Api;
-import net.sf.jett.transform.ExcelTransformer;
 
 @Path("/v1")
 @Api(value = "Server")
@@ -136,21 +135,16 @@ public class Server {
 			Global global = new Global(adherents.getGroupe(), adherents.getMarins());
 			adherents.calculGlobal(global);
 	
-			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-	
-			ExcelTransformer trans = new ExcelTransformer();
 			Map<String, Object> beans = new HashMap<String, Object>();
 			beans.put("chefs", adherents.getChefsList());
 			beans.put("compas", adherents.getCompasList());
 			beans.put("unites", adherents.getUnitesList());
 			beans.put("general", general);
 			beans.put("global", global);
-			Workbook workbook = trans.transform(new FileInputStream(fModele), beans);
-			workbook.write(outputStream);
-			
-			outputStream.flush();
-			outputStream.close();
-		app.close();
+
+			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+			Transformeur.go(fModele, beans, outputStream);
+			app.close();
 		return Response.ok(outputStream).type(MediaType.TEXT_PLAIN).header("Content-Disposition","attachment; filename=\"file.zip\"").build();
 	}
 }

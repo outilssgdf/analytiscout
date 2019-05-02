@@ -67,6 +67,11 @@ public class Unite implements Comparable<Unite>
 		codeStructure_ = codeStructure;
 	}
 	
+	public boolean getNonPrincipal()
+	{
+		return (getCodestructure().compareTo(getCodegroupe()) != 0);
+	}
+	
 	public String getNom()
 	{
 		return nom_;

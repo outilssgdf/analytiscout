@@ -56,6 +56,7 @@ import org.leplan73.outilssgdf.intranet.ExtractionAdherents;
 import org.leplan73.outilssgdf.intranet.ExtractionIntranet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.awt.Toolkit;
 
 public class Extracteur extends JDialog implements LoggedDialog, GuiCommand {
 
@@ -102,6 +103,7 @@ public class Extracteur extends JDialog implements LoggedDialog, GuiCommand {
 	 * Create the dialog.
 	 */
 	public Extracteur() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Extracteur.class.getResource("/org/leplan73/outilssgdf/gui/icone.png")));
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 
 		Appender.setLoggedDialog(this);

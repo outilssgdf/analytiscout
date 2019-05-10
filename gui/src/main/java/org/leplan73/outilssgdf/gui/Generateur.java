@@ -34,6 +34,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Toolkit;
 
 public class Generateur extends JDialog implements LoggedDialog, GuiCommand {
 
@@ -66,6 +67,7 @@ public class Generateur extends JDialog implements LoggedDialog, GuiCommand {
 	 * Create the dialog.
 	 */
 	public Generateur() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Generateur.class.getResource("/org/leplan73/outilssgdf/gui/icone.png")));
 		setTitle("Générateur");
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 

@@ -30,6 +30,7 @@ import org.leplan73.outilssgdf.gui.utils.Version;
 import org.leplan73.outilssgdf.intranet.ExtractionIntranet;
 
 import com.jcabi.manifests.Manifests;
+import java.awt.Toolkit;
 
 public class OutilsSGDF extends JFrame {
 
@@ -70,6 +71,7 @@ public class OutilsSGDF extends JFrame {
 	 */
 	private void initialize() {
 		frmOutils = new JFrame();
+		frmOutils.setIconImage(Toolkit.getDefaultToolkit().getImage(OutilsSGDF.class.getResource("/org/leplan73/outilssgdf/gui/icone.png")));
 		frmOutils.setFont(new Font("Dialog", Font.PLAIN, 12));
 		frmOutils.addWindowListener(new WindowAdapter() {
 			@Override

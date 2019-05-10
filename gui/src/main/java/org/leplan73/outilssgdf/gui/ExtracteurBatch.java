@@ -57,6 +57,7 @@ import org.leplan73.outilssgdf.intranet.ExtractionAdherents;
 import org.leplan73.outilssgdf.intranet.ExtractionIntranet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.awt.Toolkit;
 
 public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand {
 
@@ -72,6 +73,7 @@ public class ExtracteurBatch extends JDialog implements LoggedDialog, GuiCommand
 	protected Logger logger_ = LoggerFactory.getLogger(ExtracteurBatch.class);
 
 	public ExtracteurBatch(String titre, Logger logger, File pfBatch) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(ExtracteurBatch.class.getResource("/org/leplan73/outilssgdf/gui/icone.png")));
 		this.logger_ = logger;
 		this.fBatch = pfBatch;
 		

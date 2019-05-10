@@ -51,6 +51,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.jcabi.manifests.Manifests;
+import java.awt.Toolkit;
 
 public class Analyseur extends JDialog implements LoggedDialog, GuiCommand {
 
@@ -76,6 +77,7 @@ public class Analyseur extends JDialog implements LoggedDialog, GuiCommand {
 	 * Create the dialog.
 	 */
 	public Analyseur(String titre, Logger logger_, File pfSortie, File pfBatch, File pfModele) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Analyseur.class.getResource("/org/leplan73/outilssgdf/gui/icone.png")));
 		this.logger_ = logger_;
 		this.fSortie = pfSortie;
 		this.fBatch = pfBatch;

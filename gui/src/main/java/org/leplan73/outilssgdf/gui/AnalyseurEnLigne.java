@@ -59,6 +59,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.jcabi.manifests.Manifests;
+import java.awt.Toolkit;
 
 public class AnalyseurEnLigne extends JDialog implements LoggedDialog, GuiCommand {
 
@@ -84,6 +85,7 @@ public class AnalyseurEnLigne extends JDialog implements LoggedDialog, GuiComman
 	 * @throws URISyntaxException 
 	 */
 	public AnalyseurEnLigne(String titre, Logger logger, File pfSortie, File pfBatch, File pfModele) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(AnalyseurEnLigne.class.getResource("/org/leplan73/outilssgdf/gui/icone.png")));
 		this.logger_ = logger;
 		this.fSortie = pfSortie;
 		this.fBatch = pfBatch;

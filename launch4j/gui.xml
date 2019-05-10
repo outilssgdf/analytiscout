@@ -13,7 +13,7 @@
   <stayAlive>true</stayAlive>
   <restartOnCrash>false</restartOnCrash>
   <manifest></manifest>
-  <icon></icon>
+  <icon>icone.ico</icon>
   <classPath>
     <mainClass>org.leplan73.outilssgdf.gui.GuiCmd</mainClass>
   </classPath>

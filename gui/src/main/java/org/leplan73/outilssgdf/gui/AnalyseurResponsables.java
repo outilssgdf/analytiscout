@@ -51,6 +51,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.jcabi.manifests.Manifests;
+import java.awt.Toolkit;
 
 public class AnalyseurResponsables extends JDialog implements LoggedDialog, GuiCommand {
 
@@ -89,6 +90,7 @@ public class AnalyseurResponsables extends JDialog implements LoggedDialog, GuiC
 	 * Create the dialog.
 	 */
 	public AnalyseurResponsables() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(AnalyseurResponsables.class.getResource("/org/leplan73/outilssgdf/gui/icone.png")));
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 
 		Appender.setLoggedDialog(this);

@@ -40,3 +40,4 @@ Version en dev :
 	- Changements internes (suppression de log4j)
 	- Ajout des formations FIF et FCF
 	- Filtrage du unité "non-jeune" dans les quotas de camp
+	- Ajout d'une jolie icône

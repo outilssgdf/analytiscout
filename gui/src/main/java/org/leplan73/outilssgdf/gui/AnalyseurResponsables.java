@@ -42,6 +42,7 @@ import org.leplan73.outilssgdf.calcul.Global;
 import org.leplan73.outilssgdf.extraction.AdherentForme.ExtraKey;
 import org.leplan73.outilssgdf.extraction.AdherentFormes;
 import org.leplan73.outilssgdf.gui.utils.Appender;
+import org.leplan73.outilssgdf.gui.utils.Dialogue;
 import org.leplan73.outilssgdf.gui.utils.ExportFileFilter;
 import org.leplan73.outilssgdf.gui.utils.GuiCommand;
 import org.leplan73.outilssgdf.gui.utils.LoggedDialog;
@@ -51,9 +52,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.jcabi.manifests.Manifests;
-import java.awt.Toolkit;
 
-public class AnalyseurResponsables extends JDialog implements LoggedDialog, GuiCommand {
+public class AnalyseurResponsables extends Dialogue implements LoggedDialog, GuiCommand {
 
 	private final JPanel contentPanel = new JPanel();
 	private Logger logger_ = LoggerFactory.getLogger(AnalyseurResponsables.class);
@@ -90,7 +90,7 @@ public class AnalyseurResponsables extends JDialog implements LoggedDialog, GuiC
 	 * Create the dialog.
 	 */
 	public AnalyseurResponsables() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(AnalyseurResponsables.class.getResource("/org/leplan73/outilssgdf/gui/icone.png")));
+		super();
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 
 		Appender.setLoggedDialog(this);

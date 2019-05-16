@@ -1,42 +1,40 @@
 package org.leplan73.outilssgdf.gui;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
+import java.awt.Color;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.TitledBorder;
 
 import org.leplan73.outilssgdf.Consts;
 import org.leplan73.outilssgdf.gui.utils.Appender;
+import org.leplan73.outilssgdf.gui.utils.Dialogue;
 import org.leplan73.outilssgdf.gui.utils.ExportFileFilter;
 import org.leplan73.outilssgdf.gui.utils.GuiCommand;
 import org.leplan73.outilssgdf.gui.utils.LoggedDialog;
 import org.leplan73.outilssgdf.gui.utils.Preferences;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import javax.swing.border.TitledBorder;
-import javax.swing.JCheckBox;
-import javax.swing.JTextField;
-import javax.swing.JPasswordField;
-import javax.swing.BoxLayout;
-import java.awt.Insets;
-import java.io.File;
 
-import javax.swing.UIManager;
-import java.awt.Color;
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.Toolkit;
-
-public class Generateur extends JDialog implements LoggedDialog, GuiCommand {
+public class Generateur extends Dialogue implements LoggedDialog, GuiCommand {
 
 	private final JPanel contentPanel = new JPanel();
 
@@ -67,7 +65,7 @@ public class Generateur extends JDialog implements LoggedDialog, GuiCommand {
 	 * Create the dialog.
 	 */
 	public Generateur() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(Generateur.class.getResource("/org/leplan73/outilssgdf/gui/icone.png")));
+		super();
 		setTitle("Générateur");
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 

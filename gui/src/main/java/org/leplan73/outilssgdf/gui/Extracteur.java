@@ -47,6 +47,7 @@ import org.jdom2.xpath.XPathExpression;
 import org.jdom2.xpath.XPathFactory;
 import org.leplan73.outilssgdf.Consts;
 import org.leplan73.outilssgdf.gui.utils.Appender;
+import org.leplan73.outilssgdf.gui.utils.Dialogue;
 import org.leplan73.outilssgdf.gui.utils.ExportFileFilter;
 import org.leplan73.outilssgdf.gui.utils.GuiCommand;
 import org.leplan73.outilssgdf.gui.utils.LoggedDialog;
@@ -56,9 +57,8 @@ import org.leplan73.outilssgdf.intranet.ExtractionAdherents;
 import org.leplan73.outilssgdf.intranet.ExtractionIntranet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.awt.Toolkit;
 
-public class Extracteur extends JDialog implements LoggedDialog, GuiCommand {
+public class Extracteur extends Dialogue implements LoggedDialog, GuiCommand {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txfIdentifiant;
@@ -103,7 +103,7 @@ public class Extracteur extends JDialog implements LoggedDialog, GuiCommand {
 	 * Create the dialog.
 	 */
 	public Extracteur() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(Extracteur.class.getResource("/org/leplan73/outilssgdf/gui/icone.png")));
+		super();
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 
 		Appender.setLoggedDialog(this);

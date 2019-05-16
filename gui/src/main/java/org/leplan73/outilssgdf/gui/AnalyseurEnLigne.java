@@ -48,6 +48,7 @@ import org.leplan73.outilssgdf.calcul.Global;
 import org.leplan73.outilssgdf.extraction.AdherentForme.ExtraKey;
 import org.leplan73.outilssgdf.extraction.AdherentFormes;
 import org.leplan73.outilssgdf.gui.utils.Appender;
+import org.leplan73.outilssgdf.gui.utils.Dialogue;
 import org.leplan73.outilssgdf.gui.utils.ExportFileFilter;
 import org.leplan73.outilssgdf.gui.utils.GuiCommand;
 import org.leplan73.outilssgdf.gui.utils.LoggedDialog;
@@ -59,9 +60,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.jcabi.manifests.Manifests;
-import java.awt.Toolkit;
 
-public class AnalyseurEnLigne extends JDialog implements LoggedDialog, GuiCommand {
+public class AnalyseurEnLigne extends Dialogue implements LoggedDialog, GuiCommand {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txfIdentifiant;
@@ -85,7 +85,7 @@ public class AnalyseurEnLigne extends JDialog implements LoggedDialog, GuiComman
 	 * @throws URISyntaxException 
 	 */
 	public AnalyseurEnLigne(String titre, Logger logger, File pfSortie, File pfBatch, File pfModele) {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(AnalyseurEnLigne.class.getResource("/org/leplan73/outilssgdf/gui/icone.png")));
+		super();
 		this.logger_ = logger;
 		this.fSortie = pfSortie;
 		this.fBatch = pfBatch;

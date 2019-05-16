@@ -1,27 +1,27 @@
 # Outilssgdf
 
-Un jeu d'outils en Java pour faciliter la conversion des données de l'internet SGDF ([Scouts et Guides de France](https://www.sgdf.fr))
+Un jeu d'outils en Java pour faciliter la conversion des donnÃ©es de l'internet SGDF ([Scouts et Guides de France](https://www.sgdf.fr))
 
 ## Contenu des outils
-- extraction-convertisseur : Code permettant de construire une structure java avec les données intranet
+- extraction-convertisseur : Code permettant de construire une structure java avec les donnÃ©es intranet
 - exemple-convertisseur : Exemple d'utilisation en ligne de commande
 - extraction-servlet : Servlet utilisant la librairie d'extraction (une page html est disponible ainsi qu'une API swagger)
-- extraction-embeddedtomcat : Tomcat embedded lançant la servlet sur le port 8080 (sous l'url http://127.0.0.1:8080/extractionsgdf)
+- extraction-embeddedtomcat : Tomcat embedded lanÃ§ant la servlet sur le port 8080 (sous l'url http://127.0.0.1:8080/extractionsgdf)
 
-## Comment convertir un fichier "adhérents" ?
+## Comment convertir un fichier "adhÃ©rents" ?
 - Utiliser le menu d'extraction de l'intranet (VOUS SAVEZ CE QUE VOUS FAITES ICI)
-- Sauver le fichier au format xlsx (important) : Cette étape est malheureusement manuel...
+- Sauver le fichier au format xlsx (important) : Cette Ã©tape est malheureusement manuel...
 - Passer le fichier au convertisseur (via la servlet)
 
-## Le résultat
+## Le rÃ©sultat
 On obtient une archive zip avec plein de fichiers :
-- tout.csv : Fichier CSV importable dans Gmail créant un groupe par unité
-- maitrises.cvs : Fichier CSV importable dans Gmail avec les coordonnées des chefs et cheftaines
-- <unité>_enfants.cvs : Fichier CSV importable dans Gmail pour une unité avec les coordonnées des parents sous la forme "Papa de..." et "Maman de..."
-- <unité>_parents.cvs : Fichier CSV importable dans Gmail pour une unité avec les coordonnées des parents avec leurs noms
-- chefs_<unité>.txt : Fichiers textes contenant les adresses email des chefs et cheftaines
+- tout.csv : Fichier CSV importable dans Gmail crÃ©ant un groupe par unitÃ©
+- maitrises.cvs : Fichier CSV importable dans Gmail avec les coordonnÃ©es des chefs et cheftaines
+- <unitÃ©>_enfants.cvs : Fichier CSV importable dans Gmail pour une unitÃ© avec les coordonnÃ©es des parents sous la forme "Papa de..." et "Maman de..."
+- <unitÃ©>_parents.cvs : Fichier CSV importable dans Gmail pour une unitÃ© avec les coordonnÃ©es des parents avec leurs noms
+- chefs_<unitÃ©>.txt : Fichiers textes contenant les adresses email des chefs et cheftaines
 - parents.txt : Fichiers textes contenant les adresses email des parents
-- parents_<unité>.txt : Fichiers textes contenant les adresses email des parents pour une unité
+- parents_<unitÃ©>.txt : Fichiers textes contenant les adresses email des parents pour une unitÃ©
 
 ## Outils
 - Java 8

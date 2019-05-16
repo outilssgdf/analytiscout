@@ -42,6 +42,7 @@ import org.leplan73.outilssgdf.calcul.Global;
 import org.leplan73.outilssgdf.extraction.AdherentForme.ExtraKey;
 import org.leplan73.outilssgdf.extraction.AdherentFormes;
 import org.leplan73.outilssgdf.gui.utils.Appender;
+import org.leplan73.outilssgdf.gui.utils.Dialogue;
 import org.leplan73.outilssgdf.gui.utils.ExportFileFilter;
 import org.leplan73.outilssgdf.gui.utils.GuiCommand;
 import org.leplan73.outilssgdf.gui.utils.LoggedDialog;
@@ -51,9 +52,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.jcabi.manifests.Manifests;
-import java.awt.Toolkit;
 
-public class Analyseur extends JDialog implements LoggedDialog, GuiCommand {
+public class Analyseur extends Dialogue implements LoggedDialog, GuiCommand {
 
 	private final JPanel contentPanel = new JPanel();
 	protected Logger logger_ = LoggerFactory.getLogger(Analyseur.class);
@@ -77,7 +77,7 @@ public class Analyseur extends JDialog implements LoggedDialog, GuiCommand {
 	 * Create the dialog.
 	 */
 	public Analyseur(String titre, Logger logger_, File pfSortie, File pfBatch, File pfModele) {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(Analyseur.class.getResource("/org/leplan73/outilssgdf/gui/icone.png")));
+		super();
 		this.logger_ = logger_;
 		this.fSortie = pfSortie;
 		this.fBatch = pfBatch;

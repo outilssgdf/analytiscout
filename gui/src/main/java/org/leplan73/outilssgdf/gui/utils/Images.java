@@ -4,7 +4,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 
 public class Images {
-	public final static String ROOT_FOLDER = "org/leplan73/outilssgdf/gui/resources";
+	public final static String ROOT_FOLDER = "org/leplan73/outilssgdf/gui";
 
 	public static Image getIcon() {
 		return Toolkit.getDefaultToolkit()

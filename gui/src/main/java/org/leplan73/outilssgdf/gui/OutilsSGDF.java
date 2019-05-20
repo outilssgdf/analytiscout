@@ -40,8 +40,7 @@ public class OutilsSGDF extends JFrame {
 	{
 		try {
 			Preferences.init();
-//			UIManager.setLookAndFeel(useopenjdk ? "javax.swing.plaf.windows.WindowsLookAndFeel" : "com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+			UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
 		} catch (ClassNotFoundException e1) {
 		} catch (InstantiationException e1) {
 		} catch (IllegalAccessException e1) {
@@ -90,16 +89,16 @@ public class OutilsSGDF extends JFrame {
 
 		double x = Preferences.litd(Consts.FENETRE_PRINCIPALE_X, 100.0);
 		double y = Preferences.litd(Consts.FENETRE_PRINCIPALE_Y, 100.0);
-		frmOutils.setBounds((int) x, (int) y, 580, 331);
+		frmOutils.setBounds((int) x, (int) y, 660, 360);
 		frmOutils.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmOutils.getContentPane().setLayout(new BoxLayout(frmOutils.getContentPane(), BoxLayout.X_AXIS));
 
 		JPanel panel = new JPanel();
 		frmOutils.getContentPane().add(panel);
 		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[] { 35, 209, 135, 47, 0 };
+		gbl_panel.columnWidths = new int[] { 19, 209, 135, 20, 0 };
 		gbl_panel.rowHeights = new int[] { 63, 48, 37, 46, 0, 0, 0 };
-		gbl_panel.columnWeights = new double[] { 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE };
+		gbl_panel.columnWeights = new double[] { 0.0, 1.0, 1.0, 0.0, Double.MIN_VALUE };
 		gbl_panel.rowWeights = new double[] { 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		panel.setLayout(gbl_panel);
 		try {
@@ -214,7 +213,7 @@ public class OutilsSGDF extends JFrame {
 			JPanel panel_1 = new JPanel();
 			GridBagConstraints gbc_panel_1 = new GridBagConstraints();
 			gbc_panel_1.insets = new Insets(0, 0, 5, 5);
-			gbc_panel_1.fill = GridBagConstraints.VERTICAL;
+			gbc_panel_1.fill = GridBagConstraints.BOTH;
 			gbc_panel_1.gridx = 1;
 			gbc_panel_1.gridy = 4;
 			panel.add(panel_1, gbc_panel_1);
@@ -233,7 +232,7 @@ public class OutilsSGDF extends JFrame {
 			
 			JButton btnQuitter = new JButton("Quitter");
 			GridBagConstraints gbc_btnQuitter = new GridBagConstraints();
-			gbc_btnQuitter.anchor = GridBagConstraints.EAST;
+			gbc_btnQuitter.fill = GridBagConstraints.HORIZONTAL;
 			gbc_btnQuitter.insets = new Insets(0, 0, 5, 5);
 			gbc_btnQuitter.gridx = 2;
 			gbc_btnQuitter.gridy = 4;

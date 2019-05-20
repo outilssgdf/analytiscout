@@ -181,6 +181,13 @@ public class Adherent {
 		return codeGroupe;
 	}
 	
+	public String getCodebranche()
+	{
+		String codeStructure = this.get(colonnes_.getStructureCode());
+		String codeBranche = codeStructure.substring(codeStructure.length()-2, codeStructure.length()-1);
+		return codeBranche;
+	}
+	
 	public String getCodePapa()
 	{
 		return codePapa_;

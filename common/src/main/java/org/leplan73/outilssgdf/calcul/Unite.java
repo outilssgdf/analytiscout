@@ -89,6 +89,12 @@ public class Unite implements Comparable<Unite>
 		return codeGroupe;
 	}
 	
+	public String getCodebranche()
+	{
+		String codeBranche = codeStructure_.substring(codeStructure_.length()-2, codeStructure_.length()-1);
+		return codeBranche;
+	}
+	
 	public int getBesoindir()
 	{
 		return code_ > Consts.CODE_CHEFS_PIOK ? 0 : 1;

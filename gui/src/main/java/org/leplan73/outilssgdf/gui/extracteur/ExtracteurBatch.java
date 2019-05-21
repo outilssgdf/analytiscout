@@ -362,7 +362,7 @@ abstract public class ExtracteurBatch extends Dialogue implements LoggedDialog, 
 					}
 					
 					EngineExtracteurBatch en = new EngineExtracteurBatch(connection_, progress, logger_);
-					en.go(txfIdentifiant.getText(), new String(txfMotdepasse.getPassword()), fBatch, fSortie, structures, true);
+					en.go(txfIdentifiant.getText(), new String(txfMotdepasse.getPassword()), fBatch, fSortie, structures, true, false);
 				} catch (Exception e) {
 					logger_.error(Logging.dumpStack(null, e));
 				}

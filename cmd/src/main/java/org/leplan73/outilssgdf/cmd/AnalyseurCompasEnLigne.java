@@ -37,7 +37,8 @@ public class AnalyseurCompasEnLigne extends CommonParamsIntranet {
 		chargeParametres();
 
 		try {
-			EngineAnalyseurEnLigne en = new EngineAnalyseurEnLigne(connection_, null, Logging.logger_);
+			CmdProgress progress = new CmdProgress();
+			EngineAnalyseurEnLigne en = new EngineAnalyseurEnLigne(connection_, progress, Logging.logger_);
 			en.go(identifiant,motdepasse, batch, sortie, modele, structures, age, "tout_compas", recursif);
 		} catch (Exception e) {
 			Logging.logger_.error(Logging.dumpStack(null, e));

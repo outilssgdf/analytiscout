@@ -37,7 +37,8 @@ public class Analyseur extends CommonParamsG {
 	public void run(CommandLine commandLine) throws CmdLineException
 	{
 		try {
-			EngineAnalyseur en = new EngineAnalyseur(null, Logging.logger_);
+			CmdProgress progress = new CmdProgress();
+			EngineAnalyseur en = new EngineAnalyseur(progress, Logging.logger_);
 			en.go(entree, batch, sortie, modele, structures, age, "tout_responsables");
 		} catch (IOException|JDOMException | InvalidFormatException | ExtractionException e) {
 			Logging.logError(e);

@@ -36,7 +36,8 @@ public class AnalyseurAdherents extends CommonParamsG {
 	public void run(CommandLine commandLine) throws IOException, ExtractionException, JDOMException, InvalidFormatException
 	{
 		try {
-			EngineAnalyseur en = new EngineAnalyseur(null, Logging.logger_);
+			CmdProgress progress = new CmdProgress();
+			EngineAnalyseur en = new EngineAnalyseur(progress, Logging.logger_);
 			en.go(entree, batch, sortie, modele, structures, age, "tout_adherents");
 		} catch (IOException|JDOMException | InvalidFormatException | ExtractionException e) {
 			Logging.logError(e);

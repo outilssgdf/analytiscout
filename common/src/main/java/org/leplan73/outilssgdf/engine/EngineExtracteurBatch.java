@@ -55,11 +55,8 @@ public class EngineExtracteurBatch {
 		connection_.close();
 	}
 	
-	public void go(String identifiant, String motdepasse, File batch, File sortie, int[] structures, boolean recursif) throws Exception {
+	public void go(String identifiant, String motdepasse, File batch, File sortie, int[] structures, boolean recursif, boolean sous_dossier) throws Exception {
 		Instant now = Instant.now();
-		
-		logger_.info("Lancement");
-	    
 		try {
 			Properties pbatch = new Properties();
 			pbatch.load(new FileInputStream(batch));
@@ -108,7 +105,7 @@ public class EngineExtracteurBatch {
 					String fonction = pbatch.getProperty("fonction."+index);
 					String nfichier = pbatch.getProperty("fichier." + index, nom);
 					
-					File dossierStructure = sortie;
+					File dossierStructure = sous_dossier ? new File(sortie,""+structure) : sortie;
 					dossierStructure.mkdirs();
 					
 					File fichier = new File(dossierStructure, nfichier + "." + generateur);

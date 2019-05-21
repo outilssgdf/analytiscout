@@ -63,7 +63,7 @@ import org.leplan73.outilssgdf.intranet.ExtractionIntranet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ExtracteurBatch extends Dialogue implements LoggedDialog, GuiCommand {
+abstract public class ExtracteurBatch extends Dialogue implements LoggedDialog, GuiCommand {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txfIdentifiant;

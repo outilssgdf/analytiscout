@@ -106,11 +106,12 @@ public class EngineExtracteurBatch {
 					boolean adherents = pbatch.getProperty("adherents."+index,"").isEmpty() ? false : Boolean.parseBoolean(pbatch.getProperty("adherents."+index));
 					String nom = pbatch.getProperty("nom."+index,"");
 					String fonction = pbatch.getProperty("fonction."+index);
+					String nfichier = pbatch.getProperty("fichier." + index, nom);
 					
-					File dossierStructure = new File(sortie,""+structure);
+					File dossierStructure = sortie;
 					dossierStructure.mkdirs();
 					
-					File fichier = new File(dossierStructure, nom+"."+generateur);
+					File fichier = new File(dossierStructure, nfichier + "." + generateur);
 					
 					if (generateur.compareTo(ExtractionIntranet.GENERATEUR_XLS) == 0)
 					{

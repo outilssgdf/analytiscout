@@ -1,4 +1,4 @@
-package org.leplan73.outilssgdf.guianalyseurenligne;
+package org.leplan73.outilssgdf.gui.analyseurenligne;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -41,7 +41,7 @@ import org.leplan73.outilssgdf.intranet.ExtractionIntranet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class AnalyseurEnLigne extends Dialogue implements LoggedDialog, GuiCommand {
+abstract public class AnalyseurEnLigne extends Dialogue implements LoggedDialog, GuiCommand {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txfIdentifiant;
@@ -400,9 +400,14 @@ public class AnalyseurEnLigne extends Dialogue implements LoggedDialog, GuiComma
 			if (ret) {
 				try {
 					String stStructures[] = txfCodeStructure.getText().split(",");
-					
+					int structures[] = new int[stStructures.length];
+					int index = 0;
+					for (String stStructure : stStructures)
+					{
+						structures[index++] = Integer.parseInt(stStructure);
+					}
 					EngineAnalyseurEnLigne en = new EngineAnalyseurEnLigne(connection_, progress, logger_);
-					en.go(txfIdentifiant.getText(), new String(txfMotdepasse.getPassword()), fBatch, fSortie, fModele, stStructures, ret, "tout_responsables", true);
+					en.go(txfIdentifiant.getText(), new String(txfMotdepasse.getPassword()), fBatch, fSortie, fModele, structures, ret, "tout_responsables", true);
 				} catch (Exception e) {
 					logger_.error(Logging.dumpStack(null, e));
 				}

@@ -24,14 +24,14 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.TitledBorder;
 
 import org.leplan73.outilssgdf.Consts;
+import org.leplan73.outilssgdf.gui.analyseurenligne.AnalyseurEnLigneAdherents;
+import org.leplan73.outilssgdf.gui.analyseurenligne.AnalyseurEnLigneCompas;
+import org.leplan73.outilssgdf.gui.analyseurenligne.AnalyseurEnLigneResponsables;
 import org.leplan73.outilssgdf.gui.extracteur.Extracteur;
 import org.leplan73.outilssgdf.gui.utils.Images;
 import org.leplan73.outilssgdf.gui.utils.JHyperlink;
 import org.leplan73.outilssgdf.gui.utils.Preferences;
 import org.leplan73.outilssgdf.gui.utils.Version;
-import org.leplan73.outilssgdf.guianalyseurenligne.AnalyseurEnLigneAdherents;
-import org.leplan73.outilssgdf.guianalyseurenligne.AnalyseurEnLigneCompas;
-import org.leplan73.outilssgdf.guianalyseurenligne.AnalyseurEnLigneResponsables;
 import org.leplan73.outilssgdf.intranet.ExtractionIntranet;
 
 import com.jcabi.manifests.Manifests;

@@ -1,4 +1,4 @@
-package org.leplan73.outilssgdf.guianalyseurenligne;
+package org.leplan73.outilssgdf.gui.analyseurenligne;
 
 import java.io.File;
 

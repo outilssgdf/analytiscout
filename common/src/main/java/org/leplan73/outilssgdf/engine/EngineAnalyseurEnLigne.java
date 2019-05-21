@@ -40,8 +40,9 @@ public class EngineAnalyseurEnLigne {
 		logger_ = logger;
 	}
 
-	private void login(String identifiant, String motdepasse) throws ClientProtocolException, IOException, EngineException
+	private void login(ExtractionAdherents connection, String identifiant, String motdepasse) throws ClientProtocolException, IOException, EngineException
 	{
+		connection_ = connection;
 		logger_.info("Connexion");
 		
 		connection_.init();
@@ -56,7 +57,7 @@ public class EngineAnalyseurEnLigne {
 		connection_.close();
 	}
 
-	public void go(String identifiant, String motdepasse, File batch, File sortie, File modele, String[] structures, boolean age, String batch_type, boolean recursif) throws Exception
+	public void go(String identifiant, String motdepasse, File batch, File sortie, File modele, int[] structures, boolean age, String batch_type, boolean recursif) throws Exception
 	{
 		Instant now = Instant.now();
 		try
@@ -66,12 +67,10 @@ public class EngineAnalyseurEnLigne {
 			pbatch.load(new FileInputStream(batch));
 	
 			ExtractionAdherents app = new ExtractionAdherents();
-			login(identifiant, motdepasse);
+			login(app, identifiant, motdepasse);
 			progress_.setProgress(40);
 	
-			for (String stStructure : structures) {
-				int structure = Integer.parseInt(stStructure);
-	
+			for (int structure : structures) {
 				logger_.info("Traitement de la structure " + structure);
 	
 				Map<ExtraKey, ExtracteurExtraHtml> extraMap = new TreeMap<ExtraKey, ExtracteurExtraHtml>();

@@ -37,7 +37,7 @@ import org.leplan73.outilssgdf.gui.utils.Preferences;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Analyseur extends Dialogue implements LoggedDialog, GuiCommand {
+abstract public class Analyseur extends Dialogue implements LoggedDialog, GuiCommand {
 
 	private final JPanel contentPanel = new JPanel();
 	protected Logger logger_ = LoggerFactory.getLogger(Analyseur.class);
@@ -347,11 +347,8 @@ public class Analyseur extends Dialogue implements LoggedDialog, GuiCommand {
 			progress.setProgress(20);
 			if (ret) {
 				logger_.info("Lancement");
-
 				try {
 					en.go(fEntree, fBatch, fSortie, fModele, null, getChcAge().isSelected(), "tout_responsables");
-					logger_.info("Chargement du fichier de traitement");
-
 				} catch (Exception e) {
 					logger_.error(Logging.dumpStack(null, e));
 				}

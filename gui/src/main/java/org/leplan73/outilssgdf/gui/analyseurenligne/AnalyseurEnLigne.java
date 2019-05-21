@@ -1,4 +1,4 @@
-package org.leplan73.outilssgdf.gui;
+package org.leplan73.outilssgdf.gui.analyseurenligne;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -7,17 +7,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.URISyntaxException;
-import java.time.Instant;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
-import java.util.TreeMap;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -35,18 +26,10 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
-import org.apache.http.client.ClientProtocolException;
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.jdom2.JDOMException;
 import org.leplan73.outilssgdf.Consts;
-import org.leplan73.outilssgdf.ExtracteurExtraHtml;
-import org.leplan73.outilssgdf.ExtracteurIndividusHtml;
-import org.leplan73.outilssgdf.ExtractionException;
-import org.leplan73.outilssgdf.Transformeur;
-import org.leplan73.outilssgdf.calcul.General;
-import org.leplan73.outilssgdf.calcul.Global;
-import org.leplan73.outilssgdf.extraction.AdherentForme.ExtraKey;
-import org.leplan73.outilssgdf.extraction.AdherentFormes;
+import org.leplan73.outilssgdf.Progress;
+import org.leplan73.outilssgdf.engine.EngineAnalyseurEnLigne;
+import org.leplan73.outilssgdf.gui.GuiProgress;
 import org.leplan73.outilssgdf.gui.utils.Appender;
 import org.leplan73.outilssgdf.gui.utils.Dialogue;
 import org.leplan73.outilssgdf.gui.utils.ExportFileFilter;
@@ -54,14 +37,11 @@ import org.leplan73.outilssgdf.gui.utils.GuiCommand;
 import org.leplan73.outilssgdf.gui.utils.LoggedDialog;
 import org.leplan73.outilssgdf.gui.utils.Logging;
 import org.leplan73.outilssgdf.gui.utils.Preferences;
-import org.leplan73.outilssgdf.intranet.ExtractionAdherents;
 import org.leplan73.outilssgdf.intranet.ExtractionIntranet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.jcabi.manifests.Manifests;
-
-public class AnalyseurEnLigne extends Dialogue implements LoggedDialog, GuiCommand {
+abstract public class AnalyseurEnLigne extends Dialogue implements LoggedDialog, GuiCommand {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txfIdentifiant;
@@ -370,20 +350,6 @@ public class AnalyseurEnLigne extends Dialogue implements LoggedDialog, GuiComma
 	private JCheckBox chkAge;
 	private JLabel lblModele;
 
-	private void login(ExtractionIntranet connection) throws ClientProtocolException, IOException {
-		connection_ = connection;
-		logger_.info("Connexion");
-
-		connection_.init();
-		if (connection_.login(txfIdentifiant.getText(), new String(txfMotdepasse.getPassword())) == false) {
-			throw new IOException("erreur de connexion");
-		}
-	}
-
-	public void logout() throws IOException {
-		connection_.close();
-	}
-
 	@Override
 	public boolean check() {
 		logger_.info("Vérification des paramètres");
@@ -418,138 +384,34 @@ public class AnalyseurEnLigne extends Dialogue implements LoggedDialog, GuiComma
 
 	@Override
 	public void go() {
-		ProgressMonitor progress = new ProgressMonitor(this, "ExtractionBatch", "", 0, 100);
+		
+		ProgressMonitor guiprogress = new ProgressMonitor(this, "AnalyseurEnLigne", "", 0, 100);
+		
+		Progress progress = new GuiProgress(guiprogress);
 		progress.setMillisToPopup(0);
 		progress.setMillisToDecideToPopup(0);
-
+		
 		new Thread(() -> {
 			progress.setProgress(0);
 			txtLog.setText("");
-
-			Instant now = Instant.now();
 
 			boolean ret = check();
 			progress.setProgress(20);
 			if (ret) {
 				try {
-					Properties pbatch = new Properties();
-					pbatch.load(new FileInputStream(fBatch));
-
-					ExtractionAdherents app = new ExtractionAdherents();
-					login(app);
-					progress.setProgress(40);
-
 					String stStructures[] = txfCodeStructure.getText().split(",");
-					for (String stStructure : stStructures) {
-						int structure = Integer.parseInt(stStructure);
-
-						logger_.info("Traitement de la structure " + structure);
-
-						Map<ExtraKey, ExtracteurExtraHtml> extraMap = new TreeMap<ExtraKey, ExtracteurExtraHtml>();
-						
-						String donneesAdherents=null;
-						int index = 1;
-						for (;;) {
-							
-							if (progress.isCanceled()) {
-								logger_.info("Action annulée");
-								break;
-							}
-							
-							// generateur.x
-							// format.x
-							// categorie.x
-							// specialite.x
-							// fonction.x
-							// diplome.x
-							// qualif.x
-							// formation.x
-							// nom.x
-							// type.x
-							String generateur = pbatch.getProperty("generateur." + index);
-							if (generateur == null) {
-								break;
-							}
-							int diplome = pbatch.getProperty("diplome." + index, "").isEmpty()
-									? ExtractionIntranet.DIPLOME_TOUT
-									: Integer.parseInt(pbatch.getProperty("diplome." + index));
-							int qualif = pbatch.getProperty("qualif." + index, "").isEmpty()
-									? ExtractionIntranet.QUALIFICATION_TOUT
-									: Integer.parseInt(pbatch.getProperty("qualif." + index));
-							int formation = pbatch.getProperty("formation." + index, "").isEmpty()
-									? ExtractionIntranet.FORMATION_TOUT
-									: Integer.parseInt(pbatch.getProperty("formation." + index));
-							int format = pbatch.getProperty("format." + index, "").isEmpty()
-									? ExtractionIntranet.FORMAT_INDIVIDU
-									: Integer.parseInt(pbatch.getProperty("format." + index));
-							int categorie = pbatch.getProperty("categorie." + index, "").isEmpty()
-									? ExtractionIntranet.CATEGORIE_TOUT
-									: Integer.parseInt(pbatch.getProperty("categorie." + index));
-							int type = pbatch.getProperty("type." + index, "").isEmpty() ? ExtractionIntranet.TYPE_TOUT
-									: Integer.parseInt(pbatch.getProperty("type." + index));
-							int specialite = pbatch.getProperty("specialite." + index, "").isEmpty()
-									? ExtractionIntranet.SPECIALITE_SANS_IMPORTANCE
-									: Integer.parseInt(pbatch.getProperty("specialite." + index));
-							boolean adherentsseuls = pbatch.getProperty("adherents." + index, "").isEmpty() ? false
-									: Boolean.parseBoolean(pbatch.getProperty("adherents." + index));
-							String nom = pbatch.getProperty("nom." + index, "");
-							String fonction = pbatch.getProperty("fonction." + index);
-
-							ExtraKey extra = new ExtraKey(pbatch.getProperty("fichier." + index, nom), nom, pbatch.getProperty("batchtype." + index, "tout_responsables"));
-							
-							logger_.info("Extraction de "+nom);
-							String donnees = app.extract(structure,true,type,adherentsseuls,fonction,specialite,categorie, diplome,qualif,formation,format, false);
-							logger_.info("Extraction de "+nom+" fait");
-							
-							if (extra.ifTout()) {
-								donneesAdherents = donnees;
-							} else {
-								InputStream in = new ByteArrayInputStream(donnees.getBytes(Consts.ENCODING_UTF8));
-								extraMap.put(extra, new ExtracteurExtraHtml(in, chkAge.isSelected()));
-							}
-							index++;
-						}
-						progress.setProgress(50);
-						
-						InputStream in = new ByteArrayInputStream(donneesAdherents.getBytes(Consts.ENCODING_UTF8));
-						ExtracteurIndividusHtml adherents = new ExtracteurIndividusHtml(in, extraMap,chkAge.isSelected());
-				 
-						AdherentFormes compas = new AdherentFormes();
-						compas.charge(adherents,extraMap);
-						progress.setProgress(60);
-						
-						String version = "";
-						try
-						{
-							version = Manifests.read("version");
-						}
-						catch(java.lang.IllegalArgumentException e) {
-						}
-						General general = new General(version);
-						Global global = new Global(adherents.getGroupe(), adherents.getMarins());
-						adherents.calculGlobal(global);
-						progress.setProgress(80);
-				
-					    logger_.info("Génération du fichier \""+fSortie.getName()+"\" à partir du modèle \""+fModele.getName()+"\"");
-						Map<String, Object> beans = new HashMap<String, Object>();
-						beans.put("adherents", adherents.getAdherentsList());
-						beans.put("chefs", adherents.getChefsList());
-						beans.put("compas", adherents.getCompasList());
-						beans.put("unites", adherents.getUnitesList());
-						beans.put("general", general);
-						beans.put("global", global);
-
-						Transformeur.go(fModele, beans, fSortie);
+					int structures[] = new int[stStructures.length];
+					int index = 0;
+					for (String stStructure : stStructures)
+					{
+						structures[index++] = Integer.parseInt(stStructure);
 					}
-					logout();
-				} catch (IOException | JDOMException | InvalidFormatException | ExtractionException e) {
+					EngineAnalyseurEnLigne en = new EngineAnalyseurEnLigne(connection_, progress, logger_);
+					en.go(txfIdentifiant.getText(), new String(txfMotdepasse.getPassword()), fBatch, fSortie, fModele, structures, ret, "tout_responsables", true);
+				} catch (Exception e) {
 					logger_.error(Logging.dumpStack(null, e));
 				}
 			}
-			progress.setProgress(100);
-
-			long d = Instant.now().getEpochSecond() - now.getEpochSecond();
-			logger_.info("Terminé en " + d + " secondes");
 		}).start();
 	}
 

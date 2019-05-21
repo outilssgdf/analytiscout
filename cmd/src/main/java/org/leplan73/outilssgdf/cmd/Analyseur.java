@@ -1,29 +1,15 @@
 package org.leplan73.outilssgdf.cmd;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.time.Instant;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
-import java.util.TreeMap;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.jdom2.JDOMException;
-import org.leplan73.outilssgdf.ExtracteurExtraHtml;
-import org.leplan73.outilssgdf.ExtracteurIndividusHtml;
 import org.leplan73.outilssgdf.ExtractionException;
-import org.leplan73.outilssgdf.Transformeur;
-import org.leplan73.outilssgdf.calcul.General;
-import org.leplan73.outilssgdf.calcul.Global;
 import org.leplan73.outilssgdf.cmd.utils.CmdLineException;
 import org.leplan73.outilssgdf.cmd.utils.CommonParamsG;
 import org.leplan73.outilssgdf.cmd.utils.Logging;
-import org.leplan73.outilssgdf.extraction.AdherentForme.ExtraKey;
-import org.leplan73.outilssgdf.extraction.AdherentFormes;
-
-import com.jcabi.manifests.Manifests;
+import org.leplan73.outilssgdf.engine.EngineAnalyseur;
 
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
@@ -50,81 +36,13 @@ public class Analyseur extends CommonParamsG {
 	@Override
 	public void run(CommandLine commandLine) throws CmdLineException
 	{
-		Instant now = Instant.now();
-		
-		Logging.logger_.info("Lancement");
-	    
-	    chargeParametres();
-
 		try {
-		    Logging.logger_.info("Chargement du fichier de traitement");
-			
-			Properties pbatch = new Properties();
-			pbatch.load(new FileInputStream(batch));
-	
-			Map<ExtraKey, ExtracteurExtraHtml> extraMap = new TreeMap<ExtraKey, ExtracteurExtraHtml>();
-			File fichierAdherents = null;
-	
-			File dossierStructure = new File(entree,""+structures[0]);
-			dossierStructure.exists();
-			
-			int index=1;
-			for(;;)
-			{
-				String generateur = pbatch.getProperty("generateur."+index);
-				if (generateur == null)
-				{
-					break;
-				}
-				
-				ExtraKey extra = new ExtraKey(pbatch.getProperty("fichier." + index, pbatch.getProperty("nom." + index, "")), pbatch.getProperty("nom." + index, ""),
-						pbatch.getProperty("batchtype." + index, "tout_responsables"));
-				File fichier = new File(dossierStructure, extra.fichier_+"."+generateur);
-				
-			    Logging.logger_.info("Chargement du fichier \""+fichier.getName()+"\"");
-			    
-				if (extra.ifTout())
-				{
-					fichierAdherents = fichier;
-				}
-				else
-					extraMap.put(extra, new ExtracteurExtraHtml(fichier,age));
-				index++;
-			}
-	
-			Logging.logger_.info("Chargement du fichier \""+fichierAdherents.getName()+"\"");
-			ExtracteurIndividusHtml adherents = new ExtracteurIndividusHtml(fichierAdherents, extraMap,age);
-			 
-			AdherentFormes compas = new AdherentFormes();
-			compas.charge(adherents,extraMap);
-			
-			String version = "";
-			try
-			{
-				version = Manifests.read("version");
-			}
-			catch(java.lang.IllegalArgumentException e) {
-			}
-			General general = new General(version);
-			Global global = new Global(adherents.getGroupe(), adherents.getMarins());
-			adherents.calculGlobal(global);
-	
-		    Logging.logger_.info("Génération du fichier \""+sortie.getName()+"\" à partir du modèle \""+modele.getName()+"\"");
-			Map<String, Object> beans = new HashMap<String, Object>();
-			beans.put("adherents", adherents.getAdherentsList());
-			beans.put("chefs", adherents.getChefsList());
-			beans.put("compas", adherents.getCompasList());
-			beans.put("unites", adherents.getUnitesList());
-			beans.put("general", general);
-			beans.put("global", global);
-
-			Transformeur.go(modele, beans, sortie);
-			
+			EngineAnalyseur en = new EngineAnalyseur(null, Logging.logger_);
+			en.go(entree, batch, sortie, modele, structures, age, "tout_responsables");
 		} catch (IOException|JDOMException | InvalidFormatException | ExtractionException e) {
 			Logging.logError(e);
+		} catch (Exception e) {
+			Logging.logError(e);
 		}
-		
-		long d = Instant.now().getEpochSecond() - now.getEpochSecond();
-		Logging.logger_.info("Terminé en "+d+" seconds");
 	}
 }

@@ -1,4 +1,4 @@
-package org.leplan73.outilssgdf.cmd;
+package org.leplan73.outilssgdf.engine;
 
 import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
@@ -16,66 +16,71 @@ import java.util.Properties;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
+import org.apache.http.client.ClientProtocolException;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.xpath.XPathExpression;
 import org.jdom2.xpath.XPathFactory;
 import org.leplan73.outilssgdf.Consts;
-import org.leplan73.outilssgdf.cmd.utils.CmdLineException;
-import org.leplan73.outilssgdf.cmd.utils.CommonParamsG;
-import org.leplan73.outilssgdf.cmd.utils.CommonParamsIntranet;
-import org.leplan73.outilssgdf.cmd.utils.Logging;
-import org.leplan73.outilssgdf.engine.EngineExtracteurBatch;
+import org.leplan73.outilssgdf.Progress;
 import org.leplan73.outilssgdf.intranet.ExtractionAdherents;
 import org.leplan73.outilssgdf.intranet.ExtractionIntranet;
+import org.slf4j.Logger;
 
-import picocli.CommandLine;
-import picocli.CommandLine.Command;
-import picocli.CommandLine.Option;
+public class EngineExtracteurBatch {
+	private Progress progress_;
+	private Logger logger_;
+	private ExtractionIntranet connection_;
 
-@Command(name = "extracteurbatch", mixinStandardHelpOptions = true, versionProvider = CommonParamsG.class)
-public class ExtracteurBatch extends CommonParamsIntranet {
+	public EngineExtracteurBatch(ExtractionIntranet connection, Progress progress, Logger logger) {
+		progress_ = progress;
+		logger_ = logger;
+	}
 
-	@Option(names = "-batch", description = "Fichier de batch contenant les extractions à effectuer (Valeur par défaut: ${DEFAULT-VALUE})")
-	private File batch = new File("conf/batch_responsables.txt");
-
-	@Option(names = "-sortie", required=true, description = "Fichier de sortie")
-	private File sortie;
-
-	@Option(names = "-recursif", description = "Extraction récursive (Valeur par défaut: ${DEFAULT-VALUE})")
-	private boolean recursif = true;
-
-	@Override
-	public void run(CommandLine commandLine) throws CmdLineException {
-		Instant now = Instant.now();
-		checkParams();
+	private void login(ExtractionIntranet connection, String identifiant, String motdepasse) throws ClientProtocolException, IOException, EngineException
+	{
+		connection_ = connection;
+		logger_.info("Connexion");
 		
-		Logging.logger_.info("Lancement");
-	    
-	    chargeParametres();
+		connection_.init();
+		if (connection_.login(identifiant,motdepasse) == false)
+		{
+			throw new EngineException("erreur de connexion", true);
+		}
+	}
+	
+	private void logout() throws IOException
+	{
+		connection_.close();
+	}
+	
+	public void go(String identifiant, String motdepasse, File batch, File sortie, int[] structures, boolean recursif) throws Exception {
+		Instant now = Instant.now();
+		
+		logger_.info("Lancement");
 	    
 		try {
-			charge();
-
-			EngineExtracteurBatch en = new EngineExtracteurBatch(connection_, null, Logging.logger_);
-			en.go(identifiant, motdepasse, batch, sortie, structures, true);
-			
-			Logging.logger_.info("Chargement du fichier de traitement");
-			
 			Properties pbatch = new Properties();
 			pbatch.load(new FileInputStream(batch));
-			
+
+			progress_.setProgress(20);
 			ExtractionAdherents app = new ExtractionAdherents();
-			login(app);
+			login(app, identifiant, motdepasse);
+			progress_.setProgress(40);
 			
 			for (int structure : structures)
 			{
-				Logging.logger_.info("Traitement de la structure "+structure);
+				logger_.info("Traitement de la structure "+structure);
 				
 				int index=1;
 				for(;;)
 				{
+					if (progress_.isCanceled()) {
+						logger_.info("Action annulée");
+						break;
+					}
+					
 					// generateur.x
 					// format.x
 					// categorie.x
@@ -109,31 +114,31 @@ public class ExtracteurBatch extends CommonParamsIntranet {
 					
 					if (generateur.compareTo(ExtractionIntranet.GENERATEUR_XLS) == 0)
 					{
-						Logging.logger_.info("Extraction du fichier "+index+" dans "+fichier);
+						logger_.info("Extraction du fichier "+index+" dans "+fichier);
 						
 						Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fichier), Consts.ENCODING_WINDOWS));
-						String donnees = app.extract(structure,recursif,type,adherents,fonction,specialite,categorie, diplome,qualif,formation,format, true);
+						String donnees = app.extract(structure,recursif,type,adherents,fonction,specialite,categorie,diplome,qualif,formation,format, true);
 						out.write(donnees);
 						out.flush();
 						out.close();
-						Logging.logger_.info("Extraction du fichier "+index+" fait");
+						logger_.info("Extraction du fichier "+index+" fait");
 					}
 					else
 					if (generateur.compareTo(ExtractionIntranet.GENERATEUR_XML) == 0)
 					{
-						Logging.logger_.info("Extraction du fichier "+index+" dans "+fichier);
+						logger_.info("Extraction du fichier "+index+" dans "+fichier);
 						
 						Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fichier), Consts.ENCODING_UTF8));
-						String donnees = app.extract(structure,recursif,type,adherents,fonction,specialite,categorie, diplome,qualif,formation,format, false);
+						String donnees = app.extract(structure,recursif,type,adherents,fonction,specialite,categorie,diplome,qualif,formation,format, false);
 						out.write(donnees);
 						out.flush();
 						out.close();
-						Logging.logger_.info("Extraction du fichier "+index+" fait");
+						logger_.info("Extraction du fichier "+index+" fait");
 					}
 					else
 					if (generateur.compareTo(ExtractionIntranet.GENERATEUR_CSV) == 0)
 					{
-						Logging.logger_.info("Extraction du fichier "+index+" dans "+fichier);
+						logger_.info("Extraction du fichier "+index+" dans "+fichier);
 						
 						final CSVPrinter out = CSVFormat.DEFAULT.withFirstRecordAsHeader().print(fichier, Charset.forName(Consts.ENCODING_WINDOWS));
 						
@@ -168,19 +173,18 @@ public class ExtracteurBatch extends CommonParamsIntranet {
 						out.flush();
 						out.close();
 						
-						Logging.logger_.info("Extraction du fichier "+index+" fait");
+						logger_.info("Extraction du fichier "+index+" fait");
 					}
 					index++;
 				}
 			}
 			logout();
+			progress_.setProgress(100);
 		} catch (IOException|JDOMException e) {
-			Logging.logError(e);
-		} catch (Exception e) {
-			Logging.logError(e);
+			throw e;
 		}
 
 		long d = Instant.now().getEpochSecond() - now.getEpochSecond();
-		Logging.logger_.info("Terminé en "+d+" seconds");
+		logger_.info("Terminé en "+d+" seconds");
 	}
 }

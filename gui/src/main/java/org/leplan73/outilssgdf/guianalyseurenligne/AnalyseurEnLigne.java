@@ -1,4 +1,4 @@
-package org.leplan73.outilssgdf.gui;
+package org.leplan73.outilssgdf.guianalyseurenligne;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -8,13 +8,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.time.Instant;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
-import java.util.TreeMap;
+import java.net.URISyntaxException;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -23,24 +17,19 @@ import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.ProgressMonitor;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.jdom2.JDOMException;
 import org.leplan73.outilssgdf.Consts;
-import org.leplan73.outilssgdf.ExtracteurExtraHtml;
-import org.leplan73.outilssgdf.ExtracteurIndividusHtml;
-import org.leplan73.outilssgdf.ExtractionException;
-import org.leplan73.outilssgdf.Transformeur;
-import org.leplan73.outilssgdf.calcul.General;
-import org.leplan73.outilssgdf.calcul.Global;
-import org.leplan73.outilssgdf.extraction.AdherentForme.ExtraKey;
-import org.leplan73.outilssgdf.extraction.AdherentFormes;
+import org.leplan73.outilssgdf.Progress;
+import org.leplan73.outilssgdf.engine.EngineAnalyseurEnLigne;
+import org.leplan73.outilssgdf.gui.GuiProgress;
 import org.leplan73.outilssgdf.gui.utils.Appender;
 import org.leplan73.outilssgdf.gui.utils.Dialogue;
 import org.leplan73.outilssgdf.gui.utils.ExportFileFilter;
@@ -48,78 +37,134 @@ import org.leplan73.outilssgdf.gui.utils.GuiCommand;
 import org.leplan73.outilssgdf.gui.utils.LoggedDialog;
 import org.leplan73.outilssgdf.gui.utils.Logging;
 import org.leplan73.outilssgdf.gui.utils.Preferences;
+import org.leplan73.outilssgdf.intranet.ExtractionIntranet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.jcabi.manifests.Manifests;
-
-public class AnalyseurResponsables extends Dialogue implements LoggedDialog, GuiCommand {
+public class AnalyseurEnLigne extends Dialogue implements LoggedDialog, GuiCommand {
 
 	private final JPanel contentPanel = new JPanel();
-	private Logger logger_ = LoggerFactory.getLogger(AnalyseurResponsables.class);
-	private JFileChooser fcBatch = new JFileChooser();
+	private JTextField txfIdentifiant;
+	private JPasswordField txfMotdepasse;
+	private JTextArea txtLog;
+	private JFileChooser fcSortie;
+	private File fSortie = new File("./données/analyse.xlsx");
+	private JFileChooser fcBatch;
 	private File fBatch = new File("./conf/batch_responsables.txt");
-	private JFileChooser fcEntree = new JFileChooser();
-	private File fEntree = new File("./données");
 	private JFileChooser fcModele = new JFileChooser();
 	private File fModele = new File("conf/modele_responsables.xlsx");
-	private JFileChooser fcSortie = new JFileChooser();
-	private File fSortie = new File("./données/analyse.xlsx");
-	private JCheckBox chcAge;
-	private JLabel lblSortie;
-	private JLabel lblBatch;
-	private JLabel lblEntree;
-	private JLabel lblModele;
-	private JTextArea txtLog;
-	private JButton btnGo;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			AnalyseurResponsables dialog = new AnalyseurResponsables();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+	private Logger logger_ = LoggerFactory.getLogger(AnalyseurEnLigne.class);
 
 	/**
 	 * Create the dialog.
+	 * @param fModele 
+	 * @param fBatch 
+	 * @param fSortie 
+	 * @param logger 
+	 * @throws URISyntaxException 
 	 */
-	public AnalyseurResponsables() {
+	public AnalyseurEnLigne(String titre, Logger logger, File pfSortie, File pfBatch, File pfModele) {
 		super();
+		this.logger_ = logger;
+		this.fSortie = pfSortie;
+		this.fBatch = pfBatch;
+		this.fModele = pfModele;
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-
+		
 		Appender.setLoggedDialog(this);
 
-		setModalityType(ModalityType.APPLICATION_MODAL);
 		setResizable(false);
-		setTitle("Analyseur");
-		double x = Preferences.litd(Consts.FENETRE_ANALYSEUR_X, 100);
-		double y = Preferences.litd(Consts.FENETRE_ANALYSEUR_Y, 100);
-		setBounds((int)x, (int)y, 778, 608);
+		setTitle(titre);
+		setModalityType(ModalityType.APPLICATION_MODAL);
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		double x = Preferences.litd(Consts.FENETRE_ANALYSEURENLIGNE_X, 100);
+		double y = Preferences.litd(Consts.FENETRE_ANALYSEURENLIGNE_Y, 100);
+		setBounds((int)x, (int)y, 726, 627);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		GridBagLayout gbl_contentPanel = new GridBagLayout();
-		gbl_contentPanel.columnWidths = new int[] { 211, 0 };
-		gbl_contentPanel.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0 };
+		gbl_contentPanel.columnWidths = new int[] { 121, 0 };
+		gbl_contentPanel.rowHeights = new int[] { 46, 0, 0, 0, 0, 0, 0, 0 };
 		gbl_contentPanel.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
-		gbl_contentPanel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
+		gbl_contentPanel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		contentPanel.setLayout(gbl_contentPanel);
 		{
 			JPanel panel = new JPanel();
-			panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Batch", TitledBorder.LEADING,
-					TitledBorder.TOP, null, new Color(0, 0, 0)));
+			panel.setBorder(
+					new TitledBorder(null, "Acc\u00E8s Intranet", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			GridBagConstraints gbc_panel = new GridBagConstraints();
+			gbc_panel.insets = new Insets(0, 0, 5, 0);
+			gbc_panel.fill = GridBagConstraints.HORIZONTAL;
+			gbc_panel.anchor = GridBagConstraints.NORTH;
+			gbc_panel.gridx = 0;
+			gbc_panel.gridy = 0;
+			contentPanel.add(panel, gbc_panel);
+			panel.setLayout(new BorderLayout(0, 0));
+			{
+				JPanel panel_1 = new JPanel();
+				panel_1.setBorder(
+						new TitledBorder(null, "Identifiant", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+				panel.add(panel_1, BorderLayout.WEST);
+				panel_1.setLayout(new BoxLayout(panel_1, BoxLayout.X_AXIS));
+				{
+					txfIdentifiant = new JTextField();
+					txfIdentifiant.setColumns(15);
+					panel_1.add(txfIdentifiant);
+				}
+			}
+			{
+				JPanel panel_1 = new JPanel();
+				panel_1.setBorder(
+						new TitledBorder(null, "Mot de passe", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+				panel.add(panel_1, BorderLayout.CENTER);
+				panel_1.setLayout(new BoxLayout(panel_1, BoxLayout.X_AXIS));
+				{
+					txfMotdepasse = new JPasswordField();
+					txfMotdepasse.setColumns(10);
+					panel_1.add(txfMotdepasse);
+				}
+			}
+			{
+				chkMemoriser = new JCheckBox("Mémoriser");
+				chkMemoriser.setSelected(Preferences.litb(Consts.INTRANET_MEMORISER, false));
+				if (chkMemoriser.isSelected())
+				{
+					txfIdentifiant.setText(Preferences.lit(Consts.INTRANET_IDENTIFIANT, "", true));
+					txfMotdepasse.setText(Preferences.lit(Consts.INTRANET_MOTDEPASSE, "", true));
+				}
+				panel.add(chkMemoriser, BorderLayout.EAST);
+			}
+		}
+		{
+			JPanel panel = new JPanel();
+			panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Code structure", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 			GridBagConstraints gbc_panel = new GridBagConstraints();
 			gbc_panel.anchor = GridBagConstraints.NORTH;
 			gbc_panel.insets = new Insets(0, 0, 5, 0);
 			gbc_panel.fill = GridBagConstraints.HORIZONTAL;
 			gbc_panel.gridx = 0;
-			gbc_panel.gridy = 0;
+			gbc_panel.gridy = 1;
+			contentPanel.add(panel, gbc_panel);
+			panel.setLayout(new BorderLayout(0, 0));
+			{
+				txfCodeStructure = new JTextField();
+				txfCodeStructure.setColumns(30);
+				txfCodeStructure.setText(Preferences.lit(Consts.INTRANET_STRUCTURE, "", true));
+				panel.add(txfCodeStructure, BorderLayout.NORTH);
+			}
+		}
+		{
+			JPanel panel = new JPanel();
+			panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Batch", TitledBorder.LEADING,
+					TitledBorder.TOP, null, new Color(0, 0, 0)));
+			GridBagConstraints gbc_panel = new GridBagConstraints();
+			gbc_panel.insets = new Insets(0, 0, 5, 0);
+			gbc_panel.fill = GridBagConstraints.HORIZONTAL;
+			gbc_panel.anchor = GridBagConstraints.NORTH;
+			gbc_panel.gridx = 0;
+			gbc_panel.gridy = 2;
 			contentPanel.add(panel, gbc_panel);
 			panel.setLayout(new BorderLayout(0, 0));
 			{
@@ -130,10 +175,11 @@ public class AnalyseurResponsables extends Dialogue implements LoggedDialog, Gui
 				JButton button = new JButton("Fichier...");
 				button.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						fcBatch = new JFileChooser();
 						fcBatch.setDialogTitle("Fichier batch");
 						fcBatch.setApproveButtonText("Go");
-						fcBatch.setCurrentDirectory(new File("."));
 						fcBatch.setSelectedFile(fBatch);
+						fcBatch.setCurrentDirectory(new File("."));
 						fcBatch.setFileSelectionMode(JFileChooser.FILES_ONLY);
 						fcBatch.removeChoosableFileFilter(fcBatch.getFileFilter());
 						fcBatch.removeChoosableFileFilter(fcBatch.getAcceptAllFileFilter());
@@ -150,46 +196,13 @@ public class AnalyseurResponsables extends Dialogue implements LoggedDialog, Gui
 		}
 		{
 			JPanel panel = new JPanel();
-			panel.setBorder(new TitledBorder(null, "Entr\u00E9e", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-			GridBagConstraints gbc_panel = new GridBagConstraints();
-			gbc_panel.anchor = GridBagConstraints.NORTH;
-			gbc_panel.insets = new Insets(0, 0, 5, 0);
-			gbc_panel.fill = GridBagConstraints.HORIZONTAL;
-			gbc_panel.gridx = 0;
-			gbc_panel.gridy = 1;
-			contentPanel.add(panel, gbc_panel);
-			panel.setLayout(new BorderLayout(0, 0));
-			{
-				lblEntree = new JLabel(fEntree.getAbsolutePath());
-				panel.add(lblEntree, BorderLayout.WEST);
-			}
-			{
-				JButton btnDossier = new JButton("Répertoire...");
-				btnDossier.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						fcEntree.setDialogTitle("Répertoire de données");
-						fcEntree.setApproveButtonText("Go");
-						fcEntree.setCurrentDirectory(new File("."));
-						fcEntree.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-						int result = fcEntree.showDialog(panel, "OK");
-						if (result == JFileChooser.APPROVE_OPTION) {
-							fEntree = fcEntree.getSelectedFile();
-							lblEntree.setText(fEntree.getPath());
-						}
-					}
-				});
-				panel.add(btnDossier, BorderLayout.EAST);
-			}
-		}
-		{
-			JPanel panel = new JPanel();
 			panel.setBorder(new TitledBorder(null, "Mod\u00E8le", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			GridBagConstraints gbc_panel = new GridBagConstraints();
 			gbc_panel.anchor = GridBagConstraints.NORTH;
 			gbc_panel.insets = new Insets(0, 0, 5, 0);
 			gbc_panel.fill = GridBagConstraints.HORIZONTAL;
 			gbc_panel.gridx = 0;
-			gbc_panel.gridy = 2;
+			gbc_panel.gridy = 3;
 			contentPanel.add(panel, gbc_panel);
 			panel.setLayout(new BorderLayout(0, 0));
 			{
@@ -199,7 +212,7 @@ public class AnalyseurResponsables extends Dialogue implements LoggedDialog, Gui
 			{
 				JButton button = new JButton("Fichier...");
 				button.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
+					public void actionPerformed(ActionEvent arg0) {
 						fcModele.setDialogTitle("Fichier modèle");
 						fcModele.setApproveButtonText("Go");
 						fcModele.setCurrentDirectory(new File("."));
@@ -220,29 +233,29 @@ public class AnalyseurResponsables extends Dialogue implements LoggedDialog, Gui
 		}
 		{
 			JPanel panel = new JPanel();
-			panel.setBorder(new TitledBorder(null, "Options", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Options", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 			GridBagConstraints gbc_panel = new GridBagConstraints();
-			gbc_panel.anchor = GridBagConstraints.NORTH;
 			gbc_panel.insets = new Insets(0, 0, 5, 0);
+			gbc_panel.anchor = GridBagConstraints.NORTH;
 			gbc_panel.fill = GridBagConstraints.HORIZONTAL;
 			gbc_panel.gridx = 0;
-			gbc_panel.gridy = 3;
+			gbc_panel.gridy = 4;
 			contentPanel.add(panel, gbc_panel);
 			panel.setLayout(new BorderLayout(0, 0));
 			{
-				chcAge = new JCheckBox("Gestion de l'âge");
-				panel.add(chcAge, BorderLayout.NORTH);
+				chkAge = new JCheckBox("Gestion de l'âge");
+				panel.add(chkAge, BorderLayout.WEST);
 			}
 		}
 		{
 			JPanel panel = new JPanel();
 			panel.setBorder(new TitledBorder(null, "Sortie", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			GridBagConstraints gbc_panel = new GridBagConstraints();
-			gbc_panel.anchor = GridBagConstraints.NORTH;
 			gbc_panel.insets = new Insets(0, 0, 5, 0);
+			gbc_panel.anchor = GridBagConstraints.NORTH;
 			gbc_panel.fill = GridBagConstraints.HORIZONTAL;
 			gbc_panel.gridx = 0;
-			gbc_panel.gridy = 4;
+			gbc_panel.gridy = 5;
 			contentPanel.add(panel, gbc_panel);
 			panel.setLayout(new BorderLayout(0, 0));
 			{
@@ -253,6 +266,7 @@ public class AnalyseurResponsables extends Dialogue implements LoggedDialog, Gui
 				JButton button = new JButton("Fichier...");
 				button.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						fcSortie = new JFileChooser();
 						fcSortie.setDialogTitle("Export Configuration");
 						fcSortie.setApproveButtonText("Export");
 						fcSortie.setCurrentDirectory(new File("."));
@@ -276,7 +290,7 @@ public class AnalyseurResponsables extends Dialogue implements LoggedDialog, Gui
 			GridBagConstraints gbc_panel = new GridBagConstraints();
 			gbc_panel.fill = GridBagConstraints.BOTH;
 			gbc_panel.gridx = 0;
-			gbc_panel.gridy = 5;
+			gbc_panel.gridy = 6;
 			contentPanel.add(panel, gbc_panel);
 			panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
 			{
@@ -297,160 +311,122 @@ public class AnalyseurResponsables extends Dialogue implements LoggedDialog, Gui
 				{
 					JPanel panel = new JPanel();
 					buttonPane.add(panel, BorderLayout.EAST);
+					btnGo = new JButton("Go");
+					panel.add(btnGo);
 					{
-						btnGo = new JButton("Go");
-						panel.add(btnGo);
 						JButton btnFermer = new JButton("Fermer");
 						panel.add(btnFermer);
-						{
-							JPanel panel_1 = new JPanel();
-							buttonPane.add(panel_1, BorderLayout.WEST);
-							{
-								JButton btnAide = new JButton("Aide");
-								btnAide.setEnabled(false);
-								btnAide.addActionListener(new ActionListener() {
-									public void actionPerformed(ActionEvent e) {
-									}
-								});
-								panel_1.add(btnAide);
-							}
-						}
 						btnFermer.addActionListener(new ActionListener() {
-							public void actionPerformed(ActionEvent arg0) {
+							public void actionPerformed(ActionEvent e) {
 								dispose();
 							}
 						});
-						btnGo.addActionListener(new ActionListener() {
-							public void actionPerformed(ActionEvent arg0) {
-								go();
-							}
-						});
+					}
+					btnGo.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							go();
+						}
+					});
+				}
+				{
+					JPanel panel = new JPanel();
+					buttonPane.add(panel, BorderLayout.WEST);
+					{
+						JButton btnAide = new JButton("Aide");
+						btnAide.setEnabled(false);
+						panel.add(btnAide);
 					}
 				}
 			}
 		}
 	}
 
+	private ExtractionIntranet connection_;
+	private JLabel lblBatch;
+	private JLabel lblSortie;
+	private JTextField txfCodeStructure;
+	private JButton btnGo;
+	private JCheckBox chkMemoriser;
+	private JCheckBox chkAge;
+	private JLabel lblModele;
+
 	@Override
 	public boolean check() {
 		logger_.info("Vérification des paramètres");
 		if (fBatch == null) {
-			logger_.error("Batch non-sélectionnée");
-			return false;
-		}
-		if (fEntree == null) {
-			logger_.error("Entrée non-sélectionnée");
-			return false;
-		}
-		if (fModele == null) {
-			logger_.error("Modèle non-sélectionnée");
+			logger_.error("Le fichier batch est non-sélectionnée");
 			return false;
 		}
 		if (fSortie == null) {
-			logger_.error("Sortie non-sélectionnée");
+			logger_.error("Le répertoire de sortie est non-sélectionnée");
 			return false;
+		}
+		if (txfIdentifiant.getText().isEmpty()) {
+			logger_.error("L'identifiant est vide");
+			return false;
+		}
+		if (txfMotdepasse.getPassword().length == 0) {
+			logger_.error("Le mode de passe est vide");
+			return false;
+		}
+		if (txfCodeStructure.getText().isEmpty()) {
+			logger_.error("Le code de structure est vide");
+			return false;
+		}
+		if (txfCodeStructure.getText().compareTo(Consts.STRUCTURE_NATIONAL) == 0)
+		{
+			logger_.error("Code de structure interdit");
+			return false;
+			
 		}
 		return true;
 	}
 
 	@Override
 	public void go() {
-		ProgressMonitor progress = new ProgressMonitor(this, "Analyseur", "", 0, 100);
+		
+		ProgressMonitor guiprogress = new ProgressMonitor(this, "AnalyseurEnLigne", "", 0, 100);
+		
+		Progress progress = new GuiProgress(guiprogress);
 		progress.setMillisToPopup(0);
 		progress.setMillisToDecideToPopup(0);
-
+		
 		new Thread(() -> {
 			progress.setProgress(0);
 			txtLog.setText("");
-			btnGo.setEnabled(false);
-
-			Instant now = Instant.now();
 
 			boolean ret = check();
 			progress.setProgress(20);
 			if (ret) {
-				logger_.info("Lancement");
-
 				try {
-					logger_.info("Chargement du fichier de traitement");
-
-					Properties pbatch = new Properties();
-					pbatch.load(new FileInputStream(fBatch));
-
-					Map<ExtraKey, ExtracteurExtraHtml> extraMap = new TreeMap<ExtraKey, ExtracteurExtraHtml>();
-					File fichierAdherents = null;
-
-					File dossierStructure = fEntree;
-					dossierStructure.exists();
-					progress.setProgress(40);
-
-					int index = 1;
-					for (;;) {
-						String generateur = pbatch.getProperty("generateur." + index);
-						if (generateur == null) {
-							break;
-						}
-
-						ExtraKey extra = new ExtraKey(pbatch.getProperty("fichier." + index, pbatch.getProperty("nom." + index, "")), pbatch.getProperty("nom." + index, ""),
-								pbatch.getProperty("batchtype." + index, "tout_responsables"));
-						File fichier = new File(dossierStructure, extra.fichier_ + "." + generateur);
-
-						logger_.info("Chargement du fichier \"" + fichier.getName() + "\"");
-
-						if (extra.ifTout()) {
-							fichierAdherents = fichier;
-						} else
-						{
-							extraMap.put(extra, new ExtracteurExtraHtml(fichier, getChcAge().isSelected()));
-						}
-						index++;
-					}
-					progress.setProgress(50);
-					logger_.info("Chargement du fichier \"" + fichierAdherents.getName() + "\"");
-					ExtracteurIndividusHtml adherents = new ExtracteurIndividusHtml(fichierAdherents, extraMap, getChcAge().isSelected());
-
-					AdherentFormes compas = new AdherentFormes();
-					compas.charge(adherents, extraMap);
-					progress.setProgress(60);
-
-					String version = "";
-					try {
-						version = Manifests.read("version");
-					} catch (java.lang.IllegalArgumentException e) {
-					}
-					General general = new General(version);
-					Global global = new Global(adherents.getGroupe(), adherents.getMarins());
-					adherents.calculGlobal(global);
-					progress.setProgress(80);
-
-					logger_.info("Génération du fichier \"" + fSortie.getName()
-							+ "\" à partir du modèle \"" + fModele.getName() + "\"");
-					Map<String, Object> beans = new HashMap<String, Object>();
-					beans.put("chefs", adherents.getChefsList());
-					beans.put("compas", adherents.getCompasList());
-					beans.put("unites", adherents.getUnitesList());
-					beans.put("general", general);
-					beans.put("global", global);
-
-					Transformeur.go(fModele, beans, fSortie);
-
-				} catch (IOException | JDOMException | InvalidFormatException | ExtractionException e) {
+					String stStructures[] = txfCodeStructure.getText().split(",");
+					
+					EngineAnalyseurEnLigne en = new EngineAnalyseurEnLigne(connection_, progress, logger_);
+					en.go(txfIdentifiant.getText(), new String(txfMotdepasse.getPassword()), fBatch, fSortie, fModele, stStructures, ret, "tout_responsables", true);
+				} catch (Exception e) {
 					logger_.error(Logging.dumpStack(null, e));
 				}
 			}
-			progress.setProgress(100);
-			long d = Instant.now().getEpochSecond() - now.getEpochSecond();
-			logger_.info("Terminé en " + d + " secondes");
-
-			btnGo.setEnabled(true);
 		}).start();
 	}
 
 	@Override
 	public void dispose() {
 		Appender.setLoggedDialog(null);
-		Preferences.sauved(Consts.FENETRE_ANALYSEUR_X, this.getLocation().getX());
-		Preferences.sauved(Consts.FENETRE_ANALYSEUR_Y, this.getLocation().getY());
+		Preferences.sauveb(Consts.INTRANET_MEMORISER, chkMemoriser.isSelected());
+		Preferences.sauved(Consts.FENETRE_ANALYSEURENLIGNE_X, this.getLocation().getX());
+		Preferences.sauved(Consts.FENETRE_ANALYSEURENLIGNE_Y, this.getLocation().getY());
+		if (chkMemoriser.isSelected())
+		{
+			Preferences.sauve(Consts.INTRANET_IDENTIFIANT, txfIdentifiant.getText(), true);
+			Preferences.sauve(Consts.INTRANET_MOTDEPASSE, new String(txfMotdepasse.getPassword()), true);
+		}
+		else
+		{
+			Preferences.sauve(Consts.INTRANET_IDENTIFIANT, "", true);
+			Preferences.sauve(Consts.INTRANET_MOTDEPASSE, "", true);
+		}
+		Preferences.sauve(Consts.INTRANET_STRUCTURE, txfCodeStructure.getText(), true);
 		super.dispose();
 	}
 
@@ -463,31 +439,40 @@ public class AnalyseurResponsables extends Dialogue implements LoggedDialog, Gui
 		txtLog.setCaretPosition(txtLog.getDocument().getLength());
 	}
 
-	public JCheckBox getChcAge() {
-		return chcAge;
+	public JPasswordField getTxfMotdepasse() {
+		return txfMotdepasse;
 	}
 
-	public JLabel getLblSortie() {
-		return lblSortie;
-	}
-
-	public JLabel getLblBatch() {
-		return lblBatch;
-	}
-
-	public JLabel getLblEntree() {
-		return lblEntree;
-	}
-
-	public JLabel getLblModele() {
-		return lblModele;
+	public JTextField getTxfIdentifiant() {
+		return txfIdentifiant;
 	}
 
 	public JTextArea getTxtLog() {
 		return txtLog;
 	}
 
+	public JLabel getLblBatch() {
+		return lblBatch;
+	}
+
+	public JLabel getLblSortie() {
+		return lblSortie;
+	}
+
+	public JTextField getTfStructure() {
+		return txfCodeStructure;
+	}
+
 	public JButton getBtnGo() {
 		return btnGo;
+	}
+	public JCheckBox getChkMemoriser() {
+		return chkMemoriser;
+	}
+	public JCheckBox getChkAge() {
+		return chkAge;
+	}
+	public JLabel getLblModele() {
+		return lblModele;
 	}
 }

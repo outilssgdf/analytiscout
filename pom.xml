@@ -24,7 +24,7 @@
 		<jett.version>0.11.1-SNAPSHOT</jett.version>
 		<poi.version>4.0.1</poi.version>
 		<slf4j.version>1.7.25</slf4j.version>
-		<picocli.version>3.6.1</picocli.version>
+		<picocli.version>3.9.6</picocli.version>
 		<jansi.version>1.17.1</jansi.version>
 		<jersey.version>2.27</jersey.version>
 		<tomcat.version>8.5.34</tomcat.version>

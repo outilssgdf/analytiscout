@@ -55,7 +55,119 @@ public class EngineExtracteurBatch {
 		connection_.close();
 	}
 	
-	public void go(String identifiant, String motdepasse, File batch, File sortie, int[] structures, boolean recursif, boolean sous_dossier) throws Exception {
+	private boolean gopriv(ExtractionAdherents app, Properties pbatch, String identifiant, String motdepasse, File batch, File sortie, int structure, boolean recursif, boolean sous_dossier) throws ClientProtocolException, IOException, JDOMException
+	{
+		logger_.info("Traitement de la structure "+structure);
+		
+		int index=1;
+		for(;;)
+		{
+			if (progress_.isCanceled()) {
+				logger_.info("Action annulée");
+				return false;
+			}
+			
+			// generateur.x
+			// format.x
+			// categorie.x
+			// specialite.x
+			// fonction.x
+			// diplome.x
+			// qualif.x
+			// formation.x
+			// nom.x
+			// type.x
+			String generateur = pbatch.getProperty("generateur."+index);
+			if (generateur == null)
+			{
+				break;
+			}
+			int diplome = pbatch.getProperty("diplome."+index,"").isEmpty() ? ExtractionIntranet.DIPLOME_TOUT : Integer.parseInt(pbatch.getProperty("diplome."+index));
+			int qualif = pbatch.getProperty("qualif."+index,"").isEmpty() ? ExtractionIntranet.QUALIFICATION_TOUT : Integer.parseInt(pbatch.getProperty("qualif."+index));
+			int formation = pbatch.getProperty("formation."+index,"").isEmpty() ? ExtractionIntranet.FORMATION_TOUT : Integer.parseInt(pbatch.getProperty("formation."+index));
+			int format = pbatch.getProperty("format."+index,"").isEmpty() ? ExtractionIntranet.FORMAT_INDIVIDU : Integer.parseInt(pbatch.getProperty("format."+index));
+			int categorie = pbatch.getProperty("categorie."+index,"").isEmpty() ? ExtractionIntranet.CATEGORIE_TOUT : Integer.parseInt(pbatch.getProperty("categorie."+index));
+			int type = pbatch.getProperty("type."+index,"").isEmpty() ? ExtractionIntranet.TYPE_TOUT : Integer.parseInt(pbatch.getProperty("type."+index));
+			int specialite = pbatch.getProperty("specialite."+index,"").isEmpty() ? ExtractionIntranet.SPECIALITE_SANS_IMPORTANCE : Integer.parseInt(pbatch.getProperty("specialite."+index));
+			boolean adherents = pbatch.getProperty("adherents."+index,"").isEmpty() ? false : Boolean.parseBoolean(pbatch.getProperty("adherents."+index));
+			String nom = pbatch.getProperty("nom."+index,"");
+			String fonction = pbatch.getProperty("fonction."+index);
+			String nfichier = pbatch.getProperty("fichier." + index, nom);
+			
+			File dossierStructure = sous_dossier ? new File(sortie,""+structure) : sortie;
+			dossierStructure.mkdirs();
+			
+			File fichier = new File(dossierStructure, nfichier + "." + generateur);
+			
+			if (generateur.compareTo(ExtractionIntranet.GENERATEUR_XLS) == 0)
+			{
+				logger_.info("Extraction du fichier "+index+" dans "+fichier);
+				
+				Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fichier), Consts.ENCODING_WINDOWS));
+				String donnees = app.extract(structure,recursif,type,adherents,fonction,specialite,categorie,diplome,qualif,formation,format, true);
+				out.write(donnees);
+				out.flush();
+				out.close();
+				logger_.info("Extraction du fichier "+index+" fait");
+			}
+			else
+			if (generateur.compareTo(ExtractionIntranet.GENERATEUR_XML) == 0)
+			{
+				logger_.info("Extraction du fichier "+index+" dans "+fichier);
+				
+				Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fichier), Consts.ENCODING_UTF8));
+				String donnees = app.extract(structure,recursif,type,adherents,fonction,specialite,categorie,diplome,qualif,formation,format, false);
+				out.write(donnees);
+				out.flush();
+				out.close();
+				logger_.info("Extraction du fichier "+index+" fait");
+			}
+			else
+			if (generateur.compareTo(ExtractionIntranet.GENERATEUR_CSV) == 0)
+			{
+				logger_.info("Extraction du fichier "+index+" dans "+fichier);
+				
+				final CSVPrinter out = CSVFormat.DEFAULT.withFirstRecordAsHeader().print(fichier, Charset.forName(Consts.ENCODING_WINDOWS));
+				
+				String donnees = app.extract(structure,recursif,type,adherents,fonction,specialite,categorie,diplome,qualif,formation,format, false);
+				
+				XPathFactory xpfac = XPathFactory.instance();
+				SAXBuilder builder = new SAXBuilder();
+		        org.jdom2.Document docx = builder.build(new ByteArrayInputStream(donnees.getBytes(Charset.forName(Consts.ENCODING_UTF8))));
+		        
+		        // Scan des colonnes
+		     	XPathExpression<?> xpac = xpfac.compile("tbody/tr[1]/td/text()");
+		     	List<?> resultsc = xpac.evaluate(docx);
+		     	int nbColumns = resultsc.size();	 
+		     			 
+		        XPathExpression<?> xpa = xpfac.compile("tbody/tr/td");
+		        
+		        List<?> results = xpa.evaluate(docx);
+		        
+		        int indexCsv = 0;
+				Iterator<?> iter = results.iterator();
+				while (iter.hasNext())
+				{
+					Object result = iter.next();
+					Element resultElement = (Element) result;
+					out.print(resultElement.getText());
+					indexCsv++;
+		        	if (indexCsv % nbColumns == 0)
+		        	{
+		        		out.println();
+		        	}
+				}
+				out.flush();
+				out.close();
+				
+				logger_.info("Extraction du fichier "+index+" fait");
+			}
+			index++;
+		}
+		return true;
+	}
+	
+	public void go(String identifiant, String motdepasse, File batch, File sortie, int structure, int[] structures, boolean recursif) throws Exception {
 		Instant now = Instant.now();
 		try {
 			Properties pbatch = new Properties();
@@ -66,119 +178,22 @@ public class EngineExtracteurBatch {
 			login(app, identifiant, motdepasse);
 			progress_.setProgress(40);
 			
-			for (int structure : structures)
+			if (structures == null)
 			{
-				logger_.info("Traitement de la structure "+structure);
-				
-				int index=1;
-				for(;;)
+				gopriv(app, pbatch, identifiant, motdepasse, batch, sortie, structure, recursif, false);
+			}
+			else
+			{
+				for (int istructure : structures)
 				{
-					if (progress_.isCanceled()) {
-						logger_.info("Action annulée");
+					boolean ret = gopriv(app, pbatch, identifiant, motdepasse, batch, sortie, istructure, recursif, true);
+					if (ret == false)
 						break;
-					}
-					
-					// generateur.x
-					// format.x
-					// categorie.x
-					// specialite.x
-					// fonction.x
-					// diplome.x
-					// qualif.x
-					// formation.x
-					// nom.x
-					// type.x
-					String generateur = pbatch.getProperty("generateur."+index);
-					if (generateur == null)
-					{
-						break;
-					}
-					int diplome = pbatch.getProperty("diplome."+index,"").isEmpty() ? ExtractionIntranet.DIPLOME_TOUT : Integer.parseInt(pbatch.getProperty("diplome."+index));
-					int qualif = pbatch.getProperty("qualif."+index,"").isEmpty() ? ExtractionIntranet.QUALIFICATION_TOUT : Integer.parseInt(pbatch.getProperty("qualif."+index));
-					int formation = pbatch.getProperty("formation."+index,"").isEmpty() ? ExtractionIntranet.FORMATION_TOUT : Integer.parseInt(pbatch.getProperty("formation."+index));
-					int format = pbatch.getProperty("format."+index,"").isEmpty() ? ExtractionIntranet.FORMAT_INDIVIDU : Integer.parseInt(pbatch.getProperty("format."+index));
-					int categorie = pbatch.getProperty("categorie."+index,"").isEmpty() ? ExtractionIntranet.CATEGORIE_TOUT : Integer.parseInt(pbatch.getProperty("categorie."+index));
-					int type = pbatch.getProperty("type."+index,"").isEmpty() ? ExtractionIntranet.TYPE_TOUT : Integer.parseInt(pbatch.getProperty("type."+index));
-					int specialite = pbatch.getProperty("specialite."+index,"").isEmpty() ? ExtractionIntranet.SPECIALITE_SANS_IMPORTANCE : Integer.parseInt(pbatch.getProperty("specialite."+index));
-					boolean adherents = pbatch.getProperty("adherents."+index,"").isEmpty() ? false : Boolean.parseBoolean(pbatch.getProperty("adherents."+index));
-					String nom = pbatch.getProperty("nom."+index,"");
-					String fonction = pbatch.getProperty("fonction."+index);
-					String nfichier = pbatch.getProperty("fichier." + index, nom);
-					
-					File dossierStructure = sous_dossier ? new File(sortie,""+structure) : sortie;
-					dossierStructure.mkdirs();
-					
-					File fichier = new File(dossierStructure, nfichier + "." + generateur);
-					
-					if (generateur.compareTo(ExtractionIntranet.GENERATEUR_XLS) == 0)
-					{
-						logger_.info("Extraction du fichier "+index+" dans "+fichier);
-						
-						Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fichier), Consts.ENCODING_WINDOWS));
-						String donnees = app.extract(structure,recursif,type,adherents,fonction,specialite,categorie,diplome,qualif,formation,format, true);
-						out.write(donnees);
-						out.flush();
-						out.close();
-						logger_.info("Extraction du fichier "+index+" fait");
-					}
-					else
-					if (generateur.compareTo(ExtractionIntranet.GENERATEUR_XML) == 0)
-					{
-						logger_.info("Extraction du fichier "+index+" dans "+fichier);
-						
-						Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fichier), Consts.ENCODING_UTF8));
-						String donnees = app.extract(structure,recursif,type,adherents,fonction,specialite,categorie,diplome,qualif,formation,format, false);
-						out.write(donnees);
-						out.flush();
-						out.close();
-						logger_.info("Extraction du fichier "+index+" fait");
-					}
-					else
-					if (generateur.compareTo(ExtractionIntranet.GENERATEUR_CSV) == 0)
-					{
-						logger_.info("Extraction du fichier "+index+" dans "+fichier);
-						
-						final CSVPrinter out = CSVFormat.DEFAULT.withFirstRecordAsHeader().print(fichier, Charset.forName(Consts.ENCODING_WINDOWS));
-						
-						String donnees = app.extract(structure,recursif,type,adherents,fonction,specialite,categorie,diplome,qualif,formation,format, false);
-						
-						XPathFactory xpfac = XPathFactory.instance();
-						SAXBuilder builder = new SAXBuilder();
-				        org.jdom2.Document docx = builder.build(new ByteArrayInputStream(donnees.getBytes(Charset.forName(Consts.ENCODING_UTF8))));
-				        
-				        // Scan des colonnes
-				     	XPathExpression<?> xpac = xpfac.compile("tbody/tr[1]/td/text()");
-				     	List<?> resultsc = xpac.evaluate(docx);
-				     	int nbColumns = resultsc.size();	 
-				     			 
-				        XPathExpression<?> xpa = xpfac.compile("tbody/tr/td");
-				        
-				        List<?> results = xpa.evaluate(docx);
-				        
-				        int indexCsv = 0;
-						Iterator<?> iter = results.iterator();
-						while (iter.hasNext())
-						{
-							Object result = iter.next();
-							Element resultElement = (Element) result;
-							out.print(resultElement.getText());
-							indexCsv++;
-				        	if (indexCsv % nbColumns == 0)
-				        	{
-				        		out.println();
-				        	}
-						}
-						out.flush();
-						out.close();
-						
-						logger_.info("Extraction du fichier "+index+" fait");
-					}
-					index++;
 				}
 			}
 			logout();
 			progress_.setProgress(100);
-		} catch (IOException|JDOMException e) {
+		} catch (IOException e) {
 			throw e;
 		}
 

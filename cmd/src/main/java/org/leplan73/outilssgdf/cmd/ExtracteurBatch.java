@@ -31,10 +31,11 @@ public class ExtracteurBatch extends CommonParamsIntranet {
 		Logging.logger_.info("Lancement");
 		checkParams();
 		try {
+			check();
 			charge();
 			CmdProgress progress = new CmdProgress();
 			EngineExtracteurBatch en = new EngineExtracteurBatch(connection_, progress, Logging.logger_);
-			en.go(identifiant, motdepasse, batch, sortie, structures, true, true);
+			en.go(identifiant, motdepasse, batch, sortie, structure, structures, true);
 		} catch (IOException|JDOMException e) {
 			Logging.logError(e);
 		} catch (Exception e) {

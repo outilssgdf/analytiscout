@@ -12,7 +12,7 @@ import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
-@Command(name = "analyseurcompas", mixinStandardHelpOptions = true, versionProvider = CommonParamsG.class)
+@Command(name = "analyseurenlignecompas", mixinStandardHelpOptions = true, versionProvider = CommonParamsG.class)
 public class AnalyseurCompasEnLigne extends CommonParamsIntranet {
 
 	@Option(names = "-batch", description = "Fichier de batch contenant les extractions à effectuer (Valeur par défaut: ${DEFAULT-VALUE})")
@@ -37,9 +37,10 @@ public class AnalyseurCompasEnLigne extends CommonParamsIntranet {
 		chargeParametres();
 
 		try {
+			check();
 			CmdProgress progress = new CmdProgress();
 			EngineAnalyseurEnLigne en = new EngineAnalyseurEnLigne(connection_, progress, Logging.logger_);
-			en.go(identifiant,motdepasse, batch, sortie, modele, structures, age, "tout_compas", recursif);
+			en.go(identifiant,motdepasse, batch, sortie, modele, structure, structures, age, "tout_compas", recursif, "compas_");
 		} catch (Exception e) {
 			Logging.logger_.error(Logging.dumpStack(null, e));
 		}

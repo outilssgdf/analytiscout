@@ -407,7 +407,7 @@ abstract public class AnalyseurEnLigne extends Dialogue implements LoggedDialog,
 						structures[index++] = Integer.parseInt(stStructure);
 					}
 					EngineAnalyseurEnLigne en = new EngineAnalyseurEnLigne(connection_, progress, logger_);
-					en.go(txfIdentifiant.getText(), new String(txfMotdepasse.getPassword()), fBatch, fSortie, fModele, structures[0], null, ret, "tout_responsables", true, null);
+					en.go(txfIdentifiant.getText(), new String(txfMotdepasse.getPassword()), fBatch, fSortie, fModele, structures[0], null, chkAge.isSelected(), "tout_responsables", true, null);
 				} catch (Exception e) {
 					logger_.error(Logging.dumpStack(null, e));
 				}

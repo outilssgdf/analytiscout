@@ -12,6 +12,9 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+    <scm>
+    <developerConnection>scm:git:https://github.com/sbouchex/outilssgdf.git</developerConnection>
+  </scm>
 	<packaging>pom</packaging>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -47,4 +50,15 @@
 		<module>gui</module>
     <module>assembly</module>
   </modules>
+  <build>
+  <plugins>
+  <plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-release-plugin</artifactId>
+    <configuration>
+        <tagNameFormat>@{project.version}</tagNameFormat>
+    </configuration>
+</plugin>
+</plugins>
+</build>
 </project>

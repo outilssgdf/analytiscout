@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.leplan73</groupId>
 		<artifactId>outilssgdf</artifactId>
-		<version>1.0.1-SNAPSHOT</version>
+		<version>1.0.1</version>
 	</parent>
 	<artifactId>servlet</artifactId>
 	<name>servlet</name>

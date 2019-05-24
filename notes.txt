@@ -42,3 +42,4 @@ Version 1.0.1 :
 	- Ajout d'une colonne Code de branche pour faciliter le filtrage
 	- Filtrage du unité "non-jeune" dans les quotas de camp
 	- Changements esthétiques : icône, image, LAF
+Version 1.0.2 (en cours) :

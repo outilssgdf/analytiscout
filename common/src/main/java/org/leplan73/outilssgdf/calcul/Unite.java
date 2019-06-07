@@ -1,14 +1,9 @@
 package org.leplan73.outilssgdf.calcul;
 
-import org.leplan73.outilssgdf.Consts;
-
-public class Unite implements Comparable<Unite>
+public class Unite extends UniteSimple implements Comparable<Unite>
 {
-	private String nom_;
 	private int jeunes_;
 	private int chefs_;
-	private int code_=999;
-	private String codeStructure_;
 	
 	private int apf_;
 	private int tech_;
@@ -28,6 +23,10 @@ public class Unite implements Comparable<Unite>
 	private int module_appro_accueil_scoutisme_;
 	private int module_animateur_scoutisme_campisme_;
 	private int module_appro_surveillant_baignade_;
+	
+	public Unite(String nom, String codeStructure, int fonction) {
+		super(nom, codeStructure, fonction);
+	}
 	
 	public boolean getAvecdesjeunes()
 	{
@@ -49,55 +48,10 @@ public class Unite implements Comparable<Unite>
 		return chefs_;
 	}
 	
-	public int getCode()
-	{
-		return code_;
-	}
-	
 	public void ajouter(int jeune, int chef)
 	{
 		jeunes_+=jeune;
 		chefs_+=chef;
-	}
-	
-	public Unite(String nom, String codeStructure, int fonction)
-	{
-		nom_ = nom;
-		code_ = fonction;
-		codeStructure_ = codeStructure;
-	}
-	
-	public boolean getNonPrincipal()
-	{
-		return (getCodestructure().compareTo(getCodegroupe()) != 0);
-	}
-	
-	public String getNom()
-	{
-		return nom_;
-	}
-	
-	public String getCodestructure()
-	{
-		return codeStructure_;
-	}
-	
-	public String getCodegroupe()
-	{
-		String codeGroupe = codeStructure_.substring(0, codeStructure_.length()-2);
-		codeGroupe+="00";
-		return codeGroupe;
-	}
-	
-	public String getCodebranche()
-	{
-		String codeBranche = codeStructure_.substring(codeStructure_.length()-2, codeStructure_.length()-1);
-		return codeBranche;
-	}
-	
-	public int getBesoindir()
-	{
-		return code_ > Consts.CODE_CHEFS_PIOK ? 0 : 1;
 	}
 
 	private int qualifs_;
@@ -121,20 +75,6 @@ public class Unite implements Comparable<Unite>
 	public int getToutsf()
 	{
 		return qualifs_+stagiaires_;
-	}
-
-	public int compareTo(String o) {
-		return this.nom_.compareTo(o);
-	}
-
-	@Override
-	public int compareTo(Unite o) {
-		return this.nom_.compareTo(o.nom_);
-	}
-	
-	@Override
-	public String toString() {
-		return nom_;
 	}
 
 	public int getApf() {
@@ -299,9 +239,5 @@ public class Unite implements Comparable<Unite>
 
 	public void addBuchettes() {
 		this.buchettes_++;
-	}
-
-	public void setCode(int code) {
-		code_ = Math.min(code_,(code/10)*10);
 	}
 }

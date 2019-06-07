@@ -8,7 +8,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
-import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -18,6 +19,16 @@ import org.apache.commons.csv.CSVRecord;
 public class ExtracteurRegistrePresence {
 	
 	private Map<String, RegistrePresenceUnite> unites_ = new TreeMap<String, RegistrePresenceUnite>();
+	
+	public Collection<RegistrePresenceUnite> getUnites()
+	{
+		return unites_.values();
+	}
+	
+	public void construitActivites(List<RegistrePresenceActivite> activites)
+	{
+		unites_.forEach((k,v) -> v.construitActivites(activites));
+	}
 	
 	public void charge(final InputStream stream)
 	{
@@ -88,7 +99,6 @@ public class ExtracteurRegistrePresence {
 				}
 				v.exportInfluxDb(groupe,os);	
 			});
-			
 			os.flush();
 			os.close();
 		} catch (FileNotFoundException e) {
@@ -96,9 +106,7 @@ public class ExtracteurRegistrePresence {
 		}
 	}
 
-	public ArrayList<RegistrePresenceActiviteHeure> getActivites() {
-		ArrayList<RegistrePresenceActiviteHeure> activites = new ArrayList<RegistrePresenceActiviteHeure>();
-		unites_.forEach((k,v) -> v.genere(activites));
-		return activites;
+	public void getActivites(List<RegistrePresenceActiviteHeure> activites, List<RegistrePresenceActiviteHeure> activites_jeunes, List<RegistrePresenceActiviteHeure> activites_chefs) {
+		unites_.forEach((k,v) -> v.genere(activites, activites_jeunes, activites_chefs));
 	}
 }

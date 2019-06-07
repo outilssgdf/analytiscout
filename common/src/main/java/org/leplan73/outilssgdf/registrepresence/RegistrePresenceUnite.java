@@ -119,14 +119,14 @@ public class RegistrePresenceUnite {
 		{
 			for (int i=2;i<record.size()-1;i++)
 			{
-				activites_.get(i-2).complete();
+				activites_.get(i-2).complete(nom_);
 			}
 		}
 		if (nom.compareTo("Volume horaire forfaitaire") == 0)
 		{
 			for (int i=2;i<record.size()-1;i++)
 			{
-				activites_.get(i-2).complete();
+				activites_.get(i-2).complete(nom_);
 			}
 		}
 		if (nom.compareTo("Animateurs") == 0)
@@ -137,6 +137,13 @@ public class RegistrePresenceUnite {
 		{
 			animateurs_ = false;
 			jeunes_ = true;
+		}
+		if (nom.compareTo("Description de l'activité") == 0)
+		{
+			for (int i=2;i<record.size()-1;i++)
+			{
+				activites_.get(i-2).setDescription(record.get(i));
+			}
 		}
 		if (nom.compareTo("Total jeunes par activité") == 0)
 		{
@@ -158,7 +165,11 @@ public class RegistrePresenceUnite {
 		}
 	}
 
-	public void genere(List<RegistrePresenceActiviteHeure> activites) {
-		activites_.forEach(v -> v.genere(nom_, nom_court_, structure_, code_groupe_, groupe_, activites));
+	public void genere(List<RegistrePresenceActiviteHeure> activites, List<RegistrePresenceActiviteHeure> activites_jeunes, List<RegistrePresenceActiviteHeure> activites_chefs) {
+		activites_.forEach(v -> v.genere(nom_, nom_court_, structure_, code_groupe_, groupe_, activites, activites_jeunes, activites_chefs));
+	}
+
+	public void construitActivites(List<RegistrePresenceActivite> activites) {
+		activites_.forEach(v -> activites.add(v));
 	}
 }

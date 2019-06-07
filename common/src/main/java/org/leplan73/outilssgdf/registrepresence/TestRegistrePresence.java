@@ -5,7 +5,9 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -30,12 +32,24 @@ public class TestRegistrePresence {
 	public static void main(String[] args) throws InvalidFormatException, IOException {
 		System.setProperty("line.separator","\n");
 		ExtracteurRegistrePresence ex = new ExtracteurRegistrePresence();
-		ex.charge(new FileInputStream(new File("C:\\dev\\outilssgdf_data\\RegistrePresence_2018_territoire.csv")));
-		ex.exportInfluxDb();
+		ex.charge(new FileInputStream(new File("C:\\dev\\outilssgdf_data\\registrepresence.csv")));
+//		ex.exportInfluxDb();
+		
+		List<RegistrePresenceActiviteHeure> activites = new ArrayList<RegistrePresenceActiviteHeure>();
+		List<RegistrePresenceActiviteHeure> activites_jeunes = new ArrayList<RegistrePresenceActiviteHeure>();
+		List<RegistrePresenceActiviteHeure> activites_chefs = new ArrayList<RegistrePresenceActiviteHeure>();
+		ex.getActivites(activites, activites_jeunes, activites_chefs);
+		
+		List<RegistrePresenceActivite> activites_total = new ArrayList<RegistrePresenceActivite>();
+		ex.construitActivites(activites_total);
 		
 		Map<String, Object> beans = new HashMap<String, Object>();
-		beans.put("activites", ex.getActivites());
+		beans.put("unites", ex.getUnites());
+		beans.put("activites", activites_total);
+		beans.put("activites_heures", activites);
+		beans.put("activites_heures_jeunes", activites_jeunes);
+		beans.put("activites_heures_chefs", activites_chefs);
 		
-		go(new File("C:\\dev\\outilssgdf\\fichiers\\conf\\modele_registrepresence.xlsx"), beans, new File("C:\\dev\\outilssgdf_data\\RegistrePresence_2018_territoire.xlsx"));
+		go(new File("C:\\dev\\outilssgdf\\fichiers\\conf\\modele_registrepresence.xlsx"), beans, new File("C:\\dev\\outilssgdf_data\\registrepresence.xlsx"));
 	}
 }

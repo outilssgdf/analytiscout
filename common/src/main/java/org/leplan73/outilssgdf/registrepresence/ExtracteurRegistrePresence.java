@@ -30,9 +30,10 @@ public class ExtracteurRegistrePresence {
 		unites_.forEach((k,v) -> v.construitActivites(activites));
 	}
 	
-	public void charge(final InputStream stream)
+	public int charge(final InputStream stream)
 	{
 		RegistrePresenceUnite unite = null;
+		int anneeDebut = -1;
 		try {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(stream,"ISO-8859-1"));
 			Iterable<CSVRecord> records = CSVFormat.DEFAULT.withDelimiter(';').parse(reader);
@@ -43,41 +44,55 @@ public class ExtracteurRegistrePresence {
 				{
 					if (unite != null)
 					{
+						// Fin d'unité
 						unite.complete(groupe);
-						unites_.put(unite.structure(), unite);
+						unites_.put(unite.getStructure(), unite);
+						unite = null;
 					}
-					unite = new RegistrePresenceUnite(record.get(0));
+					
+					RegistrePresenceUnite nunite = new RegistrePresenceUnite(record.get(0));
+					if (unites_.containsKey(nunite.getStructure()))
+					{
+						unite = unites_.get(nunite.getStructure());
+					}
+					else
+					{
+						unite = new RegistrePresenceUnite(record.get(0));
+					}
 					boolean est_groupe = unite.estGroupe();
 					if (est_groupe)
 					{
-						groupe = unite.nom_court();
+						groupe = unite.getNom();
 					}
 					else
 					{
 						RegistrePresenceUnite u = unites_.get(unite.code_groupe());
-						groupe = u.nom_court();
+						groupe = u.getNom();
 					}
 				}
 				else
 				{
 					if (unite != null)
 					{
-						unite.charge(record);
+						int a = unite.charge(record);
+						if (anneeDebut == -1)
+							anneeDebut = a;
 					}
 				}
 			}
 			unite.complete(groupe);
-			unites_.put(unite.structure(), unite);
+			unites_.put(unite.getStructure(), unite);
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
 		}
+		return anneeDebut;
 	}
 
-	public void exportInfluxDb() {
+	public void exportInfluxDb(File out) {
 		PrintStream os;
 		try {
-			os = new PrintStream(new FileOutputStream(new File("C:\\dev\\outilssgdf_data\\export.txt")));
+			os = new PrintStream(new FileOutputStream(out));
 			os.println("# DDL");
 			os.println("CREATE DATABASE import");
 			os.println();
@@ -91,11 +106,11 @@ public class ExtracteurRegistrePresence {
 				if (est_groupe == false)
 				{
 					RegistrePresenceUnite u = unites_.get(v.code_groupe());
-					groupe = u.nom_court();
+					groupe = u.getNom();
 				}
 				else
 				{
-					groupe = v.nom_court();
+					groupe = v.getNom();
 				}
 				v.exportInfluxDb(groupe,os);	
 			});
@@ -108,5 +123,13 @@ public class ExtracteurRegistrePresence {
 
 	public void getActivites(List<RegistrePresenceActiviteHeure> activites, List<RegistrePresenceActiviteHeure> activites_jeunes, List<RegistrePresenceActiviteHeure> activites_chefs) {
 		unites_.forEach((k,v) -> v.genere(activites, activites_jeunes, activites_chefs));
+	}
+
+	public void getActivitesCec(int anneeDebut, List<RegistrePresenceActiviteHeure> activites_heures_cec, List<RegistrePresenceActiviteHeure> activites_cec) {
+		unites_.forEach((k,v) -> v.genereCec(anneeDebut, activites_heures_cec, activites_cec));
+	}
+
+	public void getActivitesCecChef(String chef, RegistrePresenceUnite unite, int anneeDebut, List<RegistrePresenceActiviteHeure> activites_cec) {
+		unite.genereCecChef(chef, anneeDebut, activites_cec);
 	}
 }

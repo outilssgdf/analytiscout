@@ -10,8 +10,9 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 import org.leplan73.outilssgdf.Consts;
-import org.leplan73.outilssgdf.gui.dialogues.AnalyseAdherents;
+import org.leplan73.outilssgdf.gui.dialogues.AnalyseAdherents2;
 import org.leplan73.outilssgdf.gui.dialogues.Camps;
+import org.leplan73.outilssgdf.gui.dialogues.ExportAdherents;
 import org.leplan73.outilssgdf.gui.dialogues.RegistrePresence;
 import org.leplan73.outilssgdf.gui.utils.Images;
 import org.leplan73.outilssgdf.gui.utils.Preferences;
@@ -20,7 +21,7 @@ import org.leplan73.outilssgdf.intranet.ExtractionIntranet;
 
 import com.jcabi.manifests.Manifests;
 
-public class OutilsSGDF extends JFrame {
+public class OutilsSGDFAdvanced extends JFrame {
 
 	private JPanel contentPane;
 	
@@ -32,7 +33,7 @@ public class OutilsSGDF extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public OutilsSGDF() {
+	public OutilsSGDFAdvanced() {
 		setTitle("Outils SGDF v0.0.0");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -54,8 +55,7 @@ public class OutilsSGDF extends JFrame {
 		
 		double x = Preferences.litd(Consts.FENETRE_PRINCIPALE_X, 100.0);
 		double y = Preferences.litd(Consts.FENETRE_PRINCIPALE_Y, 100.0);
-		setBounds(100, 100, 799, 460);
-		setBounds((int) x, (int) y, 799, 428);
+		setBounds((int) x, (int) y, 799, 430);
 		
 		contentPane = new JPanel();
 		contentPane.setBorder(null);
@@ -66,7 +66,7 @@ public class OutilsSGDF extends JFrame {
 		tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 		contentPane.add(tabbedPane, BorderLayout.CENTER);
 		
-		AnalyseAdherents a = new AnalyseAdherents();
+		AnalyseAdherents2 a = new AnalyseAdherents2();
 		tabbedPane.addTab("Formations, qualifications et diplômes",a);
 		
 		RegistrePresence c = new RegistrePresence();
@@ -74,6 +74,9 @@ public class OutilsSGDF extends JFrame {
 		
 		Camps d = new Camps();
 		tabbedPane.addTab("Camps",d);
+		
+		ExportAdherents b = new ExportAdherents();
+		tabbedPane.addTab("Exporter",b);
 	}
 
 }

@@ -130,8 +130,8 @@ public class EngineAnalyseurEnLigne {
 		InputStream in = new ByteArrayInputStream(donneesAdherents.getBytes(Consts.ENCODING_UTF8));
 		ExtracteurIndividusHtml adherents = new ExtracteurIndividusHtml(in, extraMap,age);
  
-		AdherentFormes compas = new AdherentFormes();
-		compas.charge(adherents,extraMap);
+		AdherentFormes adherentsFormes = new AdherentFormes();
+		adherentsFormes.charge(adherents,extraMap);
 		progress_.setProgress(60);
 		
 		String version = "";
@@ -187,8 +187,6 @@ public class EngineAnalyseurEnLigne {
 						break;
 				}
 			}
-	
-			
 			logout();
 		} catch (IOException | JDOMException | InvalidFormatException | ExtractionException e) {
 			throw e;

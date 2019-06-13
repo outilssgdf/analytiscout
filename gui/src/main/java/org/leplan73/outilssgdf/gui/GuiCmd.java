@@ -2,8 +2,12 @@ package org.leplan73.outilssgdf.gui;
 
 import java.util.List;
 
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
 import org.leplan73.outilssgdf.Params;
 import org.leplan73.outilssgdf.gui.utils.Logging;
+import org.leplan73.outilssgdf.gui.utils.Preferences;
 import org.leplan73.outilssgdf.intranet.ExtractionIntranet;
 
 import picocli.CommandLine;
@@ -32,8 +36,14 @@ public class GuiCmd extends GuiParams
 			}
 		}
 		
+		Preferences.init();
+		try {
+			UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
+		}
+		
 		if (avance)
-			new OutilsSGDFAvance().go();
+			new OutilsSGDFAdvanced().go();
 		else
 		new OutilsSGDF().go();
 	}

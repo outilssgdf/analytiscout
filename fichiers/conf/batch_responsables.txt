@@ -287,3 +287,22 @@ nom.32=fcf
 adherents.32=true
 batchtype.32=formation
 
+generateur.33=xml
+format.33=4
+diplome.33=
+qualif.33=
+formation.33=276
+nom.33=fc1
+fichier.33=fc1
+adherents.33=true
+batchtype.33=formation
+
+generateur.34=xml
+format.34=4
+diplome.34=
+qualif.34=
+formation.34=277
+nom.34=fc2
+fichier.34=fc2
+adherents.34=true
+batchtype.34=formation

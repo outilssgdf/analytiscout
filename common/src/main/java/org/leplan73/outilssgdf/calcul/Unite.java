@@ -1,5 +1,7 @@
 package org.leplan73.outilssgdf.calcul;
 
+import org.leplan73.outilssgdf.Consts;
+
 public class Unite extends UniteSimple implements Comparable<Unite>
 {
 	private int jeunes_;
@@ -31,6 +33,11 @@ public class Unite extends UniteSimple implements Comparable<Unite>
 	public boolean getAvecdesjeunes()
 	{
 		return jeunes_ > 0;
+	}
+	
+	public int getBesoindir()
+	{
+		return code_ > Consts.CODE_CHEFS_PIOK ? 0 : 1;
 	}
 	
 	public double getRatio()

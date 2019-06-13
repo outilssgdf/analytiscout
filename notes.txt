@@ -43,3 +43,6 @@ Version 1.0.1/1.0.2 :
 	- Filtrage du unité "non-jeune" dans les quotas de camp
 	- Changements esthétiques : icône, image, LAF
 Version 1.0.3 (en cours) :
+	- Préparation de l'intégration des registres de présence 
+	- Préparation de l'intégration des camps
+	- Fusion des analyses responsables et compas

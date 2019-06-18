@@ -10,10 +10,10 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import org.leplan73.outilssgdf.gui.ElementFactory;
 import org.leplan73.outilssgdf.gui.Template;
 import org.leplan73.outilssgdf.gui.analyseur.AnalyseurResponsables;
 import org.leplan73.outilssgdf.gui.extracteur.ExtracteurBatchResponsables;
+import org.leplan73.outilssgdf.gui.utils.ElementFactory;
 
 public class AnalyseAdherents2 extends Template {
 

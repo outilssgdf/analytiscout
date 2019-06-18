@@ -11,10 +11,10 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import org.leplan73.outilssgdf.gui.ElementFactory;
 import org.leplan73.outilssgdf.gui.Template;
 import org.leplan73.outilssgdf.gui.extracteur.Extracteur;
 import org.leplan73.outilssgdf.gui.generateur.Generateur;
+import org.leplan73.outilssgdf.gui.utils.ElementFactory;
 
 public class ExportAdherents extends Template {
 

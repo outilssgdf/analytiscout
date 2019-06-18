@@ -135,7 +135,7 @@ public class ExtractionRegistrePresence extends ExtractionIntranet {
 			{
 			   formparams.add(new BasicNameValuePair("ctl00$MainContent$_EditeurRegistrePresence$_navigateur$_ddStructure",""+ddStructure));
 			}
-		   formparams.add(new BasicNameValuePair("ctl00$MainContent$_EditeurRegistrePresence$_ddPeriodes,",""+period));
+		   formparams.add(new BasicNameValuePair("ctl00$MainContent$_EditeurRegistrePresence$_ddPeriodes",""+period));
 		   formparams.add(new BasicNameValuePair("ctl00$MainContent$_EditeurRegistrePresence$_cbAdherentsUniquement","on"));
 		   formparams.add(new BasicNameValuePair("ctl00$MainContent$_EditeurRegistrePresence$_cbExporterSousStructure","on"));
 		   formparams.add(new BasicNameValuePair("ctl00$MainContent$_EditeurRegistrePresence$ModeVolumeHoraire",forfaitaire ? "_rdbModeVolumeHoraireForfaitaire" : "_rdbModeVolumeHoraireReel"));

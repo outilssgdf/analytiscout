@@ -3,15 +3,17 @@ package org.leplan73.outilssgdf.gui.dialogues;
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import org.leplan73.outilssgdf.gui.ElementFactory;
 import org.leplan73.outilssgdf.gui.Template;
+import org.leplan73.outilssgdf.gui.registredepresence.AnalyseRegistreDePresence;
 import org.leplan73.outilssgdf.gui.registredepresence.ExtractionRegistreDePresence;
+import org.leplan73.outilssgdf.gui.utils.ElementFactory;
 
 public class RegistrePresence2 extends Template {
 
@@ -22,7 +24,7 @@ public class RegistrePresence2 extends Template {
 		super();
 
 		JPanel panel_title1 = ElementFactory
-				.createActionTitle("<html><b>Extraction du registre de présence</b></html>");
+				.createActionTitle("<html><b>Registre de présence</b></html>");
 		GridBagLayout gbl_panel_title1 = (GridBagLayout) panel_title1.getLayout();
 		gbl_panel_title1.rowWeights = new double[] { 0.0 };
 		gbl_panel_title1.rowHeights = new int[] { 0 };
@@ -43,9 +45,9 @@ public class RegistrePresence2 extends Template {
 		panel_7.setBorder(null);
 		panel_6.add(panel_7);
 		GridBagLayout gbl_panel_7 = new GridBagLayout();
-		gbl_panel_7.columnWidths = new int[]{232, 0};
+		gbl_panel_7.columnWidths = new int[]{144, 0, 0};
 		gbl_panel_7.rowHeights = new int[]{0, 0};
-		gbl_panel_7.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+		gbl_panel_7.columnWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
 		gbl_panel_7.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		panel_7.setLayout(gbl_panel_7);
 		
@@ -57,9 +59,23 @@ public class RegistrePresence2 extends Template {
 		});
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 		gbc_btnNewButton.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnNewButton.insets = new Insets(0, 0, 0, 5);
 		gbc_btnNewButton.gridx = 0;
 		gbc_btnNewButton.gridy = 0;
 		panel_7.add(btnNewButton, gbc_btnNewButton);
+		
+		JButton btnAnalyse = new JButton("Analyse");
+		btnAnalyse.setEnabled(false);
+		btnAnalyse.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new AnalyseRegistreDePresence().setVisible(true);
+			}
+		});
+		GridBagConstraints gbc_btnAnalyse = new GridBagConstraints();
+		gbc_btnAnalyse.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnAnalyse.gridx = 1;
+		gbc_btnAnalyse.gridy = 0;
+		panel_7.add(btnAnalyse, gbc_btnAnalyse);
 	}
 
 }

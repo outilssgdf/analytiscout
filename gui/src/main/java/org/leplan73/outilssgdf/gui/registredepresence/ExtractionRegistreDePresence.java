@@ -27,6 +27,7 @@ import javax.swing.border.TitledBorder;
 
 import org.leplan73.outilssgdf.Consts;
 import org.leplan73.outilssgdf.Progress;
+import org.leplan73.outilssgdf.engine.EngineRegistreDePresence;
 import org.leplan73.outilssgdf.gui.GuiProgress;
 import org.leplan73.outilssgdf.gui.utils.Appender;
 import org.leplan73.outilssgdf.gui.utils.Dialogue;
@@ -43,9 +44,10 @@ public class ExtractionRegistreDePresence extends Dialogue implements GuiCommand
 	private JPasswordField txfMotdepasse;
 	private JCheckBox chkMemoriser;
 	private JTextField txfAnnee;
+	private JTextField txfCodeStructure;
 	private JLabel lblSortie;
 	private JFileChooser fcSortie;
-	private File fSortie = new File(".");
+	private File fSortie = new File("./données/registredepresence.csv");
 
 	/**
 	 * Create the dialog.
@@ -54,6 +56,7 @@ public class ExtractionRegistreDePresence extends Dialogue implements GuiCommand
 		logger_ = LoggerFactory.getLogger(ExtractionRegistreDePresence.class);
 		
 		setResizable(false);
+		setTitle("Extraction registre de présence");
 		setModalityType(ModalityType.APPLICATION_MODAL);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 
@@ -67,9 +70,9 @@ public class ExtractionRegistreDePresence extends Dialogue implements GuiCommand
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		GridBagLayout gbl_contentPanel = new GridBagLayout();
 		gbl_contentPanel.columnWidths = new int[]{60, 0};
-		gbl_contentPanel.rowHeights = new int[]{66, 0, 0, 191};
+		gbl_contentPanel.rowHeights = new int[]{66, 0, 0, 0, 191};
 		gbl_contentPanel.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gbl_contentPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0};
+		gbl_contentPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0};
 		contentPanel.setLayout(gbl_contentPanel);
 		{
 			JPanel buttonPane = new JPanel();
@@ -160,7 +163,7 @@ public class ExtractionRegistreDePresence extends Dialogue implements GuiCommand
 				gbc_panelannee.anchor = GridBagConstraints.NORTH;
 				gbc_panelannee.fill = GridBagConstraints.HORIZONTAL;
 				gbc_panelannee.gridx = 0;
-				gbc_panelannee.gridy = 1;
+				gbc_panelannee.gridy = 2;
 				contentPanel.add(panelannee, gbc_panelannee);
 				panelannee.setLayout(new BorderLayout(0, 0));
 				{
@@ -182,13 +185,31 @@ public class ExtractionRegistreDePresence extends Dialogue implements GuiCommand
 		}
 		{
 			JPanel panel = new JPanel();
+			panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Code structure", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+			GridBagConstraints gbc_panel = new GridBagConstraints();
+			gbc_panel.insets = new Insets(0, 0, 5, 0);
+			gbc_panel.anchor = GridBagConstraints.NORTH;
+			gbc_panel.fill = GridBagConstraints.HORIZONTAL;
+			gbc_panel.gridx = 0;
+			gbc_panel.gridy = 1;
+			contentPanel.add(panel, gbc_panel);
+			panel.setLayout(new BorderLayout(0, 0));
+			{
+				txfCodeStructure = new JTextField();
+				txfCodeStructure.setColumns(30);
+				txfCodeStructure.setText(Preferences.lit(Consts.INTRANET_STRUCTURE, "", true));
+				panel.add(txfCodeStructure, BorderLayout.NORTH);
+			}
+		}
+		{
+			JPanel panel = new JPanel();
 			panel.setBorder(new TitledBorder(null, "Sortie", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			GridBagConstraints gbc_panel = new GridBagConstraints();
 			gbc_panel.insets = new Insets(0, 0, 5, 0);
 			gbc_panel.anchor = GridBagConstraints.NORTH;
 			gbc_panel.fill = GridBagConstraints.HORIZONTAL;
 			gbc_panel.gridx = 0;
-			gbc_panel.gridy = 2;
+			gbc_panel.gridy = 3;
 			contentPanel.add(panel, gbc_panel);
 			panel.setLayout(new BorderLayout(0, 0));
 			{
@@ -223,7 +244,7 @@ public class ExtractionRegistreDePresence extends Dialogue implements GuiCommand
 			GridBagConstraints gbc_panel = new GridBagConstraints();
 			gbc_panel.fill = GridBagConstraints.BOTH;
 			gbc_panel.gridx = 0;
-			gbc_panel.gridy = 3;
+			gbc_panel.gridy = 4;
 			contentPanel.add(panel, gbc_panel);
 			panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
 			{
@@ -273,6 +294,8 @@ public class ExtractionRegistreDePresence extends Dialogue implements GuiCommand
 			progress.setProgress(20);
 			if (ret) {
 				try {
+					EngineRegistreDePresence en = new EngineRegistreDePresence(progress, logger_);
+					en.go(txfIdentifiant.getText(), new String(txfMotdepasse.getPassword()), fSortie, Integer.parseInt(txfCodeStructure.getText()), Integer.parseInt(txfAnnee.getText()));
 				} catch (Exception e) {
 					logger_.error(Logging.dumpStack(null, e));
 				}
@@ -298,6 +321,25 @@ public class ExtractionRegistreDePresence extends Dialogue implements GuiCommand
 		if (txfAnnee.getText().isEmpty()) {
 			logger_.error("L'année est vide");
 			return false;
+		}
+		try
+		{
+			Integer.parseInt(txfAnnee.getText());
+		}
+		catch (NumberFormatException e)
+		{
+			logger_.error("Erreur lors de la validation de l'année",e);
+			return false;
+		}
+		if (txfCodeStructure.getText().isEmpty()) {
+			logger_.error("Le code de structure est vide");
+			return false;
+		}
+		if (txfCodeStructure.getText().compareTo(Consts.STRUCTURE_NATIONAL) == 0)
+		{
+			logger_.error("Code de structure interdit");
+			return false;
+			
 		}
 		return true;
 	}

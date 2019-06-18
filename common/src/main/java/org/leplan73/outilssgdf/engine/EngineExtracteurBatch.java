@@ -28,14 +28,13 @@ import org.leplan73.outilssgdf.intranet.ExtractionAdherents;
 import org.leplan73.outilssgdf.intranet.ExtractionIntranet;
 import org.slf4j.Logger;
 
-public class EngineExtracteurBatch {
+public class EngineExtracteurBatch extends Engine {
 	private Progress progress_;
 	private Logger logger_;
 	private ExtractionIntranet connection_;
 
 	public EngineExtracteurBatch(ExtractionIntranet connection, Progress progress, Logger logger) {
-		progress_ = progress;
-		logger_ = logger;
+		super(progress, logger);
 	}
 
 	private void login(ExtractionIntranet connection, String identifiant, String motdepasse) throws ClientProtocolException, IOException, EngineException

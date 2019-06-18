@@ -55,7 +55,6 @@ import org.leplan73.outilssgdf.gui.utils.Logging;
 import org.leplan73.outilssgdf.gui.utils.Preferences;
 import org.leplan73.outilssgdf.intranet.ExtractionAdherents;
 import org.leplan73.outilssgdf.intranet.ExtractionIntranet;
-import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class Extracteur extends Dialogue implements LoggedDialog, GuiCommand {
@@ -65,12 +64,10 @@ public class Extracteur extends Dialogue implements LoggedDialog, GuiCommand {
 	private JPasswordField txfMotdepasse;
 	private JTextField txfCodeStructure;
 	private JTextField txfCodefonction;
-	private Logger logger_ = LoggerFactory.getLogger(Extracteur.class);
 
 	private JFileChooser fcSortie;
 	private File fSortie = new File("./données/export.xls");
 	private JLabel lblSortie;
-	private JTextArea txtLog;
 	private JCheckBox chkFormatIndividu;
 	private JCheckBox chkFormatParents;
 	private JCheckBox chkFormatInscription;
@@ -87,23 +84,12 @@ public class Extracteur extends Dialogue implements LoggedDialog, GuiCommand {
 	private JComboBox cbxDiplome;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			Extracteur dialog = new Extracteur();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
 	 * Create the dialog.
 	 */
 	public Extracteur() {
 		super();
+		logger_ = LoggerFactory.getLogger(Extracteur.class);
+				
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 
 		Appender.setLoggedDialog(this);

@@ -1,0 +1,89 @@
+package org.leplan73.outilssgdf.engine;
+
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.time.Instant;
+import java.util.zip.ZipOutputStream;
+
+import org.apache.http.client.ClientProtocolException;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.jdom2.JDOMException;
+import org.leplan73.outilssgdf.ExtracteurIndividusHtml;
+import org.leplan73.outilssgdf.ExtractionException;
+import org.leplan73.outilssgdf.Progress;
+import org.leplan73.outilssgdf.formatage.GmailCsvFormatteur;
+import org.leplan73.outilssgdf.intranet.ExtractionAdherents;
+import org.leplan73.outilssgdf.intranet.ExtractionIntranet;
+import org.slf4j.Logger;
+
+public class EngineGenerateur extends Engine {
+
+	private ExtractionIntranet connection_;
+	
+	public EngineGenerateur(Progress progress, Logger logger) {
+		super(progress, logger);
+	}
+	
+	private void login(ExtractionAdherents connection, String identifiant, String motdepasse) throws ClientProtocolException, IOException, EngineException
+	{
+		connection_ = connection;
+		logger_.info("Connexion");
+		
+		connection_.init();
+		if (connection_.login(identifiant,motdepasse) == false)
+		{
+			throw new EngineException("erreur de connexion", true);
+		}
+	}
+	
+	private void logout() throws IOException
+	{
+		connection_.close();
+	}
+	
+	private boolean gopriv(ExtractionAdherents app, String identifiant, String motdepasse, File sortie, int structure) throws ClientProtocolException, IOException, JDOMException, InvalidFormatException, ExtractionException
+	{
+		logger_.info("Extraction (structure="+structure+")");
+		String donnees = app.extract(structure, true, ExtractionIntranet.TYPE_INSCRIT, true, null, ExtractionIntranet.SPECIALITE_SANS_IMPORTANCE, ExtractionIntranet.CATEGORIE_TOUT, ExtractionIntranet.DIPLOME_TOUT,ExtractionIntranet.QUALIFICATION_TOUT,ExtractionIntranet.FORMATION_TOUT, ExtractionIntranet.FORMAT_INDIVIDU|ExtractionIntranet.FORMAT_PARENTS,false);
+		
+		logger_.info("Conversion");
+		ExtracteurIndividusHtml x = new ExtracteurIndividusHtml();
+		x.charge(new ByteArrayInputStream(donnees.getBytes(Charset.forName("UTF-8"))),true);
+		
+		// Génération de l'archive zip
+		logger_.info("Génération de l'archive "+sortie.getName());
+		ZipOutputStream zipOut = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(sortie)));
+		GmailCsvFormatteur f = new GmailCsvFormatteur();
+	    f.genereEmail(x.getUnites(), x.getParents(), x.getAdherents(), x.getColonnes(), null, zipOut);
+	    zipOut.flush();
+	    zipOut.close();
+		return true;
+	}
+
+	public void go(String identifiant, String motdepasse, File sortie, int structure, int[] structures) throws Exception
+	{
+		Instant now = Instant.now();
+		try
+		{
+			ExtractionAdherents app = new ExtractionAdherents();
+			login(app, identifiant, motdepasse);
+			progress_.setProgress(40);
+			
+			gopriv(app, identifiant, motdepasse, sortie, structure);
+			progress_.setProgress(80);
+			
+			logout();
+		} catch (IOException | JDOMException | InvalidFormatException | ExtractionException e) {
+			throw e;
+		}
+		progress_.setProgress(100);
+
+		long d = Instant.now().getEpochSecond() - now.getEpochSecond();
+		logger_.info("Terminé en " + d + " secondes");
+	}
+
+}

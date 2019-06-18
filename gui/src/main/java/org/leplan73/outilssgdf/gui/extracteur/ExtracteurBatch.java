@@ -39,20 +39,16 @@ import org.leplan73.outilssgdf.gui.utils.Logging;
 import org.leplan73.outilssgdf.gui.utils.Preferences;
 import org.leplan73.outilssgdf.intranet.ExtractionIntranet;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 abstract public class ExtracteurBatch extends Dialogue implements LoggedDialog, GuiCommand {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txfIdentifiant;
 	private JPasswordField txfMotdepasse;
-	private JTextArea txtLog;
 	private JFileChooser fcSortie;
 	private File fSortie = new File("./données");
 	private JFileChooser fcBatch;
 	protected File fBatch = new File("./conf/batch.txt");
-
-	protected Logger logger_ = LoggerFactory.getLogger(ExtracteurBatch.class);
 
 	public ExtracteurBatch(String titre, Logger logger, File pfBatch) {
 		super();

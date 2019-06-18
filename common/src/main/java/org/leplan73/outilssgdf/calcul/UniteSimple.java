@@ -1,6 +1,6 @@
 package org.leplan73.outilssgdf.calcul;
 
-public class UniteSimple implements Comparable<Unite> {
+public class UniteSimple implements Comparable<UniteSimple> {
 	protected String nomcomplet_;
 	protected String nom_;
 	protected int code_=999;
@@ -85,7 +85,7 @@ public class UniteSimple implements Comparable<Unite> {
 	}
 
 	@Override
-	public int compareTo(Unite o) {
+	public int compareTo(UniteSimple o) {
 		return this.nom_.compareTo(o.nom_);
 	}
 	

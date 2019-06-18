@@ -34,17 +34,18 @@ public class TestRegistrePresence {
 	public static void main(String[] args) throws InvalidFormatException, IOException {
 		System.setProperty("line.separator","\n");
 		ExtracteurRegistrePresence ex = new ExtracteurRegistrePresence();
-		final int anneeDebut = ex.charge(new FileInputStream(new File("C:\\dev\\outilssgdf_data\\registrepresence_2018_2019.csv")))+1;
+		final int anneeDebut = ex.charge(new FileInputStream(new File("C:\\dev\\outilssgdf_data\\registrepresence_2018_2019_f.csv")))+1;
 //		final int anneeDebut = ex.charge(new FileInputStream(new File("C:\\dev\\outilssgdf_data\\2018\\registrepresence-1.csv")))+1;
 //		ex.charge(new FileInputStream(new File("C:\\dev\\outilssgdf_data\\2018\\registrepresence-2.csv")));
 //		ex.exportInfluxDb(new File("C:\\dev\\outilssgdf_data\\export.txt"));
 		
 		List<RegistrePresenceActiviteHeure> activites = new ArrayList<RegistrePresenceActiviteHeure>();
+		List<RegistrePresenceActiviteHeure> activitesForfaitaire = new ArrayList<RegistrePresenceActiviteHeure>();
 		List<RegistrePresenceActiviteHeure> activites_jeunes = new ArrayList<RegistrePresenceActiviteHeure>();
 		List<RegistrePresenceActiviteHeure> activites_chefs = new ArrayList<RegistrePresenceActiviteHeure>();
 		List<RegistrePresenceActiviteHeure> activites_heures_cec = new ArrayList<RegistrePresenceActiviteHeure>();
 		List<RegistrePresenceActiviteHeure> activites_cec = new ArrayList<RegistrePresenceActiviteHeure>();
-		ex.getActivites(activites, activites_jeunes, activites_chefs);
+		ex.getActivites(activites, activitesForfaitaire, activites_jeunes, activites_chefs);
 		ex.getActivitesCec(anneeDebut, activites_heures_cec, activites_cec);
 		
 		List<RegistrePresenceActivite> activites_total = new ArrayList<RegistrePresenceActivite>();
@@ -77,6 +78,7 @@ public class TestRegistrePresence {
 		beans.put("unites", ex.getUnites());
 		beans.put("activites", activites_total);
 		beans.put("activites_heures", activites);
+		beans.put("activites_forfaitaires", activitesForfaitaire);
 		beans.put("activites_heures_cec", activites_heures_cec);
 		beans.put("activites_cec", activites_cec);
 		beans.put("activites_heures_jeunes", activites_jeunes);

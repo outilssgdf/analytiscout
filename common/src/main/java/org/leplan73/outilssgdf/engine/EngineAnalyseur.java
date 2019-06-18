@@ -26,13 +26,12 @@ import org.slf4j.Logger;
 
 import com.jcabi.manifests.Manifests;
 
-public class EngineAnalyseur {
+public class EngineAnalyseur extends Engine {
 	private Progress progress_;
 	private Logger logger_;
 
 	public EngineAnalyseur(Progress progress, Logger logger) {
-		progress_ = progress;
-		logger_ = logger;
+		super(progress, logger);
 	}
 	
 	public void chargeParametres()

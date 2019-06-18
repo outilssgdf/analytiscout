@@ -1,4 +1,4 @@
-package org.leplan73.outilssgdf.gui;
+package org.leplan73.outilssgdf.gui.generateur;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -20,16 +20,21 @@ import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ProgressMonitor;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
 import org.leplan73.outilssgdf.Consts;
+import org.leplan73.outilssgdf.Progress;
+import org.leplan73.outilssgdf.engine.EngineGenerateur;
+import org.leplan73.outilssgdf.gui.GuiProgress;
 import org.leplan73.outilssgdf.gui.utils.Appender;
 import org.leplan73.outilssgdf.gui.utils.Dialogue;
 import org.leplan73.outilssgdf.gui.utils.ExportFileFilter;
 import org.leplan73.outilssgdf.gui.utils.GuiCommand;
 import org.leplan73.outilssgdf.gui.utils.LoggedDialog;
+import org.leplan73.outilssgdf.gui.utils.Logging;
 import org.leplan73.outilssgdf.gui.utils.Preferences;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,19 +52,6 @@ public class Generateur extends Dialogue implements LoggedDialog, GuiCommand {
 	private JFileChooser fcSortie;
 	private File fSortie = new File("./données/archive.zip");
 	private JLabel lblSortie;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			Generateur dialog = new Generateur();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 
 	/**
 	 * Create the dialog.
@@ -141,6 +133,7 @@ public class Generateur extends Dialogue implements LoggedDialog, GuiCommand {
 			{
 				txfCodeStructure = new JTextField();
 				txfCodeStructure.setColumns(30);
+				txfCodeStructure.setText(Preferences.lit(Consts.INTRANET_STRUCTURE, "", true));
 				panel.add(txfCodeStructure, BorderLayout.NORTH);
 			}
 		}
@@ -156,7 +149,7 @@ public class Generateur extends Dialogue implements LoggedDialog, GuiCommand {
 			contentPanel.add(panel, gbc_panel);
 			panel.setLayout(new BorderLayout(0, 0));
 			{
-				lblSortie = new JLabel("C:\\WINDOWS\\system32\\.\\données\\archive.zip");
+				lblSortie = new JLabel(fSortie.getAbsolutePath());
 				panel.add(lblSortie, BorderLayout.WEST);
 			}
 			{
@@ -209,10 +202,20 @@ public class Generateur extends Dialogue implements LoggedDialog, GuiCommand {
 				buttonPane.add(panel, BorderLayout.EAST);
 				{
 					JButton button = new JButton("Go");
+					button.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							go();
+						}
+					});
 					panel.add(button);
 				}
 				{
 					JButton btnFermer = new JButton("Fermer");
+					btnFermer.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							dispose();
+						}
+					});
 					panel.add(btnFermer);
 				}
 			}
@@ -258,6 +261,34 @@ public class Generateur extends Dialogue implements LoggedDialog, GuiCommand {
 
 	@Override
 	public void go() {
+		ProgressMonitor guiprogress = new ProgressMonitor(this, "Generateur", "", 0, 100);
+		
+		Progress progress = new GuiProgress(guiprogress);
+		progress.setMillisToPopup(0);
+		progress.setMillisToDecideToPopup(0);
+		
+		new Thread(() -> {
+			progress.setProgress(0);
+			txtLog.setText("");
+
+			boolean ret = check();
+			progress.setProgress(20);
+			if (ret) {
+				try {
+					String stStructures[] = txfCodeStructure.getText().split(",");
+					int structures[] = new int[stStructures.length];
+					int index = 0;
+					for (String stStructure : stStructures)
+					{
+						structures[index++] = Integer.parseInt(stStructure);
+					}
+					EngineGenerateur en = new EngineGenerateur(progress, logger_);
+					en.go(txfIdentifiant.getText(), new String(txfMotdepasse.getPassword()), fSortie, structures[0], structures);
+				} catch (Exception e) {
+					logger_.error(Logging.dumpStack(null, e));
+				}
+			}
+		}).start();
 	}
 
 	@Override

@@ -35,12 +35,10 @@ import org.leplan73.outilssgdf.gui.utils.LoggedDialog;
 import org.leplan73.outilssgdf.gui.utils.Logging;
 import org.leplan73.outilssgdf.gui.utils.Preferences;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 abstract public class Analyseur extends Dialogue implements LoggedDialog, GuiCommand {
 
 	private final JPanel contentPanel = new JPanel();
-	protected Logger logger_ = LoggerFactory.getLogger(Analyseur.class);
 	private JFileChooser fcBatch = new JFileChooser();
 	protected File fBatch = new File("./conf/batch_responsables.txt");
 	private JFileChooser fcEntree = new JFileChooser();
@@ -54,15 +52,14 @@ abstract public class Analyseur extends Dialogue implements LoggedDialog, GuiCom
 	private JLabel lblBatch;
 	private JLabel lblEntree;
 	private JLabel lblModele;
-	private JTextArea txtLog;
 	private JButton btnGo;
 
 	/**
 	 * Create the dialog.
 	 */
-	public Analyseur(String titre, Logger logger_, File pfSortie, File pfBatch, File pfModele) {
+	public Analyseur(String titre, Logger logger, File pfSortie, File pfBatch, File pfModele) {
 		super();
-		this.logger_ = logger_;
+		this.logger_ = logger;
 		this.fSortie = pfSortie;
 		this.fBatch = pfBatch;
 		this.fModele = pfModele;

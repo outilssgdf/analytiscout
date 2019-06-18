@@ -39,7 +39,6 @@ import org.leplan73.outilssgdf.gui.utils.Logging;
 import org.leplan73.outilssgdf.gui.utils.Preferences;
 import org.leplan73.outilssgdf.intranet.ExtractionIntranet;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 abstract public class AnalyseurEnLigne extends Dialogue implements LoggedDialog, GuiCommand {
 
@@ -53,8 +52,6 @@ abstract public class AnalyseurEnLigne extends Dialogue implements LoggedDialog,
 	private File fBatch = new File("./conf/batch_responsables.txt");
 	private JFileChooser fcModele = new JFileChooser();
 	private File fModele = new File("conf/modele_responsables.xlsx");
-
-	private Logger logger_ = LoggerFactory.getLogger(AnalyseurEnLigne.class);
 
 	/**
 	 * Create the dialog.

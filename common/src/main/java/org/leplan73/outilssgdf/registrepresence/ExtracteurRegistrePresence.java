@@ -121,8 +121,8 @@ public class ExtracteurRegistrePresence {
 		}
 	}
 
-	public void getActivites(List<RegistrePresenceActiviteHeure> activites, List<RegistrePresenceActiviteHeure> activites_jeunes, List<RegistrePresenceActiviteHeure> activites_chefs) {
-		unites_.forEach((k,v) -> v.genere(activites, activites_jeunes, activites_chefs));
+	public void getActivites(List<RegistrePresenceActiviteHeure> activites, List<RegistrePresenceActiviteHeure> activitesForfaitaire, List<RegistrePresenceActiviteHeure> activites_jeunes, List<RegistrePresenceActiviteHeure> activites_chefs) {
+		unites_.forEach((k,v) -> v.genereReel(activites, activitesForfaitaire, activites_jeunes, activites_chefs));
 	}
 
 	public void getActivitesCec(int anneeDebut, List<RegistrePresenceActiviteHeure> activites_heures_cec, List<RegistrePresenceActiviteHeure> activites_cec) {

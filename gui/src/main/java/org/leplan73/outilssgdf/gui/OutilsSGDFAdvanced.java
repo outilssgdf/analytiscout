@@ -13,7 +13,7 @@ import org.leplan73.outilssgdf.Consts;
 import org.leplan73.outilssgdf.gui.dialogues.AnalyseAdherents2;
 import org.leplan73.outilssgdf.gui.dialogues.Camps;
 import org.leplan73.outilssgdf.gui.dialogues.ExportAdherents;
-import org.leplan73.outilssgdf.gui.dialogues.RegistrePresence;
+import org.leplan73.outilssgdf.gui.dialogues.RegistrePresence2;
 import org.leplan73.outilssgdf.gui.utils.Images;
 import org.leplan73.outilssgdf.gui.utils.Preferences;
 import org.leplan73.outilssgdf.gui.utils.Version;
@@ -69,7 +69,7 @@ public class OutilsSGDFAdvanced extends JFrame {
 		AnalyseAdherents2 a = new AnalyseAdherents2();
 		tabbedPane.addTab("Formations, qualifications et diplômes",a);
 		
-		RegistrePresence c = new RegistrePresence();
+		RegistrePresence2 c = new RegistrePresence2();
 		tabbedPane.addTab("Registre de présence / CEC",c);
 		
 		Camps d = new Camps();

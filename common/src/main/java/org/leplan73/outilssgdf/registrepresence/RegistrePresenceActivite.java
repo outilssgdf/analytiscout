@@ -24,6 +24,7 @@ public class RegistrePresenceActivite {
 	private Date fin_;
 	private Map<String, Integer> presencesChefs_ = new TreeMap<String, Integer>();
 	private Map<String, Integer> presencesJeunes_ = new TreeMap<String, Integer>();
+	private int dureeFortaitaire_;
 
 	final static SimpleDateFormat parser_ = new SimpleDateFormat("EEEEE dd/MM/yyyy HH:mm");
 
@@ -143,8 +144,45 @@ public class RegistrePresenceActivite {
 			presencesJeunes_.put(nom, 0);
 		}
 	}
+	
+	public void exportInfluxDbForfaitaire(String prefix, PrintStream os) {
 
-	public void exportInfluxDb(String prefix, PrintStream os) {
+		long debut = debut_.getTime()/1000;
+		Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis(debut*1000);
+		presencesChefs_.forEach((k,v) -> {
+			if (v== 1)
+			{
+				os.print(prefix.replaceAll("\\s", "-"));
+				os.print(",nom=");
+				os.print(type_.replaceAll("\\s", "-"));
+				os.print(",personne=");
+				os.print(k.replaceAll("\\s", "-"));
+				os.print(",mois=");
+				os.print(cal.get(Calendar.MONTH)+1);
+				os.print(",chef=1 forfait="+dureeFortaitaire_+" ");
+				os.print(debut);
+				os.println();
+			}
+		});
+		presencesJeunes_.forEach((k,v) -> {
+			if (v== 1)
+			{
+				os.print(prefix.replaceAll("\\s", "-"));
+				os.print(",nom=");
+				os.print(type_.replaceAll("\\s", "-"));
+				os.print(",personne=");
+				os.print(k.replaceAll("\\s", "-"));
+				os.print(",mois=");
+				os.print(cal.get(Calendar.MONTH)+1);
+				os.print(",chef=0 forfait="+dureeFortaitaire_+" ");
+				os.print(debut);
+				os.println();
+			}
+		});
+	}
+
+	public void exportInfluxDbReel(String prefix, PrintStream os) {
 		long debut = debut_.getTime()/1000;
 		long fin = fin_.getTime()/1000;
 		
@@ -181,7 +219,7 @@ public class RegistrePresenceActivite {
 		}
 	}
 
-	public void genere(String unite, String unite_court, String structure, String groupe, String code_groupe, List<RegistrePresenceActiviteHeure> activites, List<RegistrePresenceActiviteHeure> activites_jeunes, List<RegistrePresenceActiviteHeure> activites_chefs) {
+	public void generer(String unite, String unite_court, String structure, String groupe, String code_groupe, List<RegistrePresenceActiviteHeure> activites, List<RegistrePresenceActiviteHeure> activitesForfaitaire, List<RegistrePresenceActiviteHeure> activites_jeunes, List<RegistrePresenceActiviteHeure> activites_chefs) {
 		long debut = debut_.getTime()/1000;
 		long fin = fin_.getTime()/1000;
 		
@@ -193,19 +231,34 @@ public class RegistrePresenceActivite {
 			presencesChefs_.forEach((nom,v) -> {
 				if (v.intValue() == 1)
 				{
-					activites.add(new RegistrePresenceActiviteHeure(unite, unite_court, structure, code_groupe, groupe, type_, nom, true, cal.get(Calendar.MONTH)+1,cal.get(Calendar.YEAR)));
-					activites_chefs.add(new RegistrePresenceActiviteHeure(unite, unite_court, structure, code_groupe, groupe, type_, nom, true, cal.get(Calendar.MONTH)+1,cal.get(Calendar.YEAR)));
+					activites.add(new RegistrePresenceActiviteHeure(unite, unite_court, structure, code_groupe, groupe, type_, nom, true, cal.get(Calendar.MONTH)+1,cal.get(Calendar.YEAR), 1));
+					activites_chefs.add(new RegistrePresenceActiviteHeure(unite, unite_court, structure, code_groupe, groupe, type_, nom, true, cal.get(Calendar.MONTH)+1,cal.get(Calendar.YEAR), 1));
 				}
 			});
 			presencesJeunes_.forEach((nom,v) -> {
 				if (v.intValue() == 1)
 				{
-					activites.add(new RegistrePresenceActiviteHeure(unite, unite_court, structure, code_groupe, groupe, type_, nom, false, cal.get(Calendar.MONTH)+1,cal.get(Calendar.YEAR)));
-					activites_jeunes.add(new RegistrePresenceActiviteHeure(unite, unite_court, structure, code_groupe, groupe, type_, nom, false, cal.get(Calendar.MONTH)+1,cal.get(Calendar.YEAR)));
+					activites.add(new RegistrePresenceActiviteHeure(unite, unite_court, structure, code_groupe, groupe, type_, nom, false, cal.get(Calendar.MONTH)+1,cal.get(Calendar.YEAR), 1));
+					activites_jeunes.add(new RegistrePresenceActiviteHeure(unite, unite_court, structure, code_groupe, groupe, type_, nom, false, cal.get(Calendar.MONTH)+1,cal.get(Calendar.YEAR), 1));
 				}
 			});
 			t.addAndGet(3600);
 		}
+
+		Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis(debut_.getTime());
+		presencesChefs_.forEach((nom,v) -> {
+			if (v.intValue() == 1)
+			{
+				activitesForfaitaire.add(new RegistrePresenceActiviteHeure(unite, unite_court, structure, code_groupe, groupe, type_, nom, true, cal.get(Calendar.MONTH)+1,cal.get(Calendar.YEAR), dureeFortaitaire_));
+			}
+		});
+		presencesJeunes_.forEach((nom,v) -> {
+			if (v.intValue() == 1)
+			{
+				activitesForfaitaire.add(new RegistrePresenceActiviteHeure(unite, unite_court, structure, code_groupe, groupe, type_, nom, false, cal.get(Calendar.MONTH)+1,cal.get(Calendar.YEAR), dureeFortaitaire_));
+			}
+		});
 	}
 
 	public void genereCec(String unite, String unite_court, String structure, String groupe, String code_groupe, int anneeDebut, List<RegistrePresenceActiviteHeure> activites_heures_cec, List<RegistrePresenceActiviteHeure> activites_cec) {
@@ -221,7 +274,7 @@ public class RegistrePresenceActivite {
 				cal.setTimeInMillis(t.longValue()*1000);
 				presencesChefs_.forEach((nom,v) -> {
 					if (v.intValue() == 1)
-						activites_heures_cec.add(new RegistrePresenceActiviteHeure(unite, unite_court, structure, code_groupe, groupe, type_, nom, true, cal.get(Calendar.MONTH)+1,cal.get(Calendar.YEAR)));
+						activites_heures_cec.add(new RegistrePresenceActiviteHeure(unite, unite_court, structure, code_groupe, groupe, type_, nom, true, cal.get(Calendar.MONTH)+1,cal.get(Calendar.YEAR), dureeFortaitaire_));
 				});
 				t.addAndGet(3600);
 			}
@@ -231,7 +284,7 @@ public class RegistrePresenceActivite {
 				{
 					Calendar cal = Calendar.getInstance();
 					cal.setTimeInMillis(debut*1000);
-					activites_cec.add(new RegistrePresenceActiviteHeure(unite, unite_court, structure, code_groupe, groupe, type_, nom, true, cal.get(Calendar.MONTH)+1,cal.get(Calendar.YEAR)));
+					activites_cec.add(new RegistrePresenceActiviteHeure(unite, unite_court, structure, code_groupe, groupe, type_, nom, true, cal.get(Calendar.MONTH)+1,cal.get(Calendar.YEAR), dureeFortaitaire_));
 				}
 			});
 	}
@@ -247,7 +300,7 @@ public class RegistrePresenceActivite {
 				{
 					Calendar cal = Calendar.getInstance();
 					cal.setTimeInMillis(debut*1000);
-					activites_cec.add(new RegistrePresenceActiviteHeure(unite, unite_court, structure, code_groupe, groupe, type_, nom, true, cal.get(Calendar.MONTH)+1,cal.get(Calendar.YEAR)));
+					activites_cec.add(new RegistrePresenceActiviteHeure(unite, unite_court, structure, code_groupe, groupe, type_, nom, true, cal.get(Calendar.MONTH)+1,cal.get(Calendar.YEAR), 1));
 				}
 			});
 		}
@@ -257,5 +310,13 @@ public class RegistrePresenceActivite {
 		presencesChefs_.forEach((nom,v) -> {
 			chefs.add(nom);
 		});
+	}
+
+	public void setDureeFortaitaire(String duree) {
+		dureeFortaitaire_ = Integer.parseInt(duree);
+	}
+	
+	public int getDureeforfaitaire() {
+		return dureeFortaitaire_;
 	}
 }

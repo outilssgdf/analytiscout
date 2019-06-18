@@ -30,14 +30,13 @@ import org.slf4j.Logger;
 
 import com.jcabi.manifests.Manifests;
 
-public class EngineAnalyseurEnLigne {
+public class EngineAnalyseurEnLigne extends Engine {
 	private Progress progress_;
 	private Logger logger_;
 	private ExtractionIntranet connection_;
 
 	public EngineAnalyseurEnLigne(ExtractionIntranet connection, Progress progress, Logger logger) {
-		progress_ = progress;
-		logger_ = logger;
+		super(progress, logger);
 	}
 
 	private void login(ExtractionAdherents connection, String identifiant, String motdepasse) throws ClientProtocolException, IOException, EngineException

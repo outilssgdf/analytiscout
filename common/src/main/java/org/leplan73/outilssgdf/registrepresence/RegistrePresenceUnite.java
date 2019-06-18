@@ -26,7 +26,8 @@ public class RegistrePresenceUnite extends UniteSimple {
 	
 	public void exportInfluxDb(String groupe, PrintStream os) {
 		String prefix = "activite,unitecomplet="+nomcomplet_+",unite="+nom_+",structure="+structure_+",code_groupe="+code_groupe_+",groupe="+groupe;
-		activites_.forEach(v -> v.exportInfluxDb(prefix,os));
+		activites_.forEach(v -> v.exportInfluxDbReel(prefix,os));
+		activites_.forEach(v -> v.exportInfluxDbForfaitaire(prefix,os));
 	}
 	
 	@Override
@@ -49,6 +50,14 @@ public class RegistrePresenceUnite extends UniteSimple {
 			{
 				RegistrePresenceActivite activite = new RegistrePresenceActivite(record.get(i));
 				activites_.add(activite);
+			}
+		}
+		if (nom.compareTo("Volume horaire forfaitaire") == 0)
+		{
+			for (int i=2;i<record.size()-1;i++)
+			{
+				int index = activites_.size()-record.size()+i+1;
+				activites_.get(index).setDureeFortaitaire(record.get(i));
 			}
 		}
 		if (nom.compareTo("Date de début et de fin") == 0)
@@ -155,8 +164,8 @@ public class RegistrePresenceUnite extends UniteSimple {
 		return anneeDebut;
 	}
 
-	public void genere(List<RegistrePresenceActiviteHeure> activites, List<RegistrePresenceActiviteHeure> activites_jeunes, List<RegistrePresenceActiviteHeure> activites_chefs) {
-		activites_.forEach(v -> v.genere(nomcomplet_, nom_, structure_, code_groupe_, groupe_, activites, activites_jeunes, activites_chefs));
+	public void genereReel(List<RegistrePresenceActiviteHeure> activites, List<RegistrePresenceActiviteHeure> activitesForfaitaire, List<RegistrePresenceActiviteHeure> activites_jeunes, List<RegistrePresenceActiviteHeure> activites_chefs) {
+		activites_.forEach(v -> v.generer(nomcomplet_, nom_, structure_, code_groupe_, groupe_, activites, activitesForfaitaire, activites_jeunes, activites_chefs));
 	}
 
 	public void genereCec(int anneeDebut, List<RegistrePresenceActiviteHeure> activites_heures_cec, List<RegistrePresenceActiviteHeure> activites_cec) {

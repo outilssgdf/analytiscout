@@ -2,7 +2,7 @@ package org.leplan73.outilssgdf.calcul;
 
 import org.leplan73.outilssgdf.Consts;
 
-public class Unite extends UniteSimple implements Comparable<Unite>
+public class Unite extends UniteSimple
 {
 	private int jeunes_;
 	private int chefs_;

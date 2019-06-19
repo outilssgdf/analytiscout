@@ -11,6 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import org.leplan73.outilssgdf.gui.Template;
+import org.leplan73.outilssgdf.gui.cec.AnalyseCEC;
 import org.leplan73.outilssgdf.gui.registredepresence.AnalyseRegistreDePresence;
 import org.leplan73.outilssgdf.gui.registredepresence.ExtractionRegistreDePresence;
 import org.leplan73.outilssgdf.gui.utils.ElementFactory;
@@ -38,7 +39,7 @@ public class RegistrePresence2 extends Template {
 		panel_1.add(panel_title1, BorderLayout.NORTH);
 		
 		JPanel panel_6 = new JPanel();
-		panel_1.add(panel_6, BorderLayout.SOUTH);
+		panel_1.add(panel_6, BorderLayout.CENTER);
 		panel_6.setLayout(new BorderLayout(0, 0));
 		
 		JPanel panel_7 = new JPanel();
@@ -76,6 +77,32 @@ public class RegistrePresence2 extends Template {
 		gbc_btnAnalyse.gridx = 1;
 		gbc_btnAnalyse.gridy = 0;
 		panel_7.add(btnAnalyse, gbc_btnAnalyse);
+		
+		JPanel panel_title2 = ElementFactory
+				.createActionTitle("<html><b>CEC</b></html>");
+		GridBagLayout gbl_panel_title2 = (GridBagLayout) panel_title2.getLayout();
+		gbl_panel_title2.rowWeights = new double[] { 0.0 };
+		gbl_panel_title2.rowHeights = new int[] { 0 };
+		gbl_panel_title2.columnWeights = new double[] { 0.0, 0.0 };
+		gbl_panel_title2.columnWidths = new int[] { 0, 0 };
+		
+		JPanel panel_2 = new JPanel();
+		panel_2.setLayout(new BorderLayout(0, 0));
+		panel_2.setBorder(null);
+		panel_collection.add(panel_2, BorderLayout.CENTER);
+		panel_2.add(panel_title2, BorderLayout.NORTH);
+		
+		JPanel panel = new JPanel();
+		panel_2.add(panel, BorderLayout.CENTER);
+		panel.setLayout(new BorderLayout(0, 0));
+		
+		JButton btnNewButton_1 = new JButton("Génération");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new AnalyseCEC().setVisible(true);
+			}
+		});
+		panel.add(btnNewButton_1, BorderLayout.NORTH);
 	}
 
 }

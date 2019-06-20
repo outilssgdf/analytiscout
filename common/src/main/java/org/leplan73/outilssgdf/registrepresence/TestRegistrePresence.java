@@ -34,7 +34,7 @@ public class TestRegistrePresence {
 	public static void main(String[] args) throws InvalidFormatException, IOException {
 		System.setProperty("line.separator","\n");
 		ExtracteurRegistrePresence ex = new ExtracteurRegistrePresence();
-		final int anneeDebut = ex.charge(new FileInputStream(new File("C:\\dev\\outilssgdf_data\\registrepresence_2018_2019_f.csv")))+1;
+		final int anneeDebut = ex.charge(new FileInputStream(new File("C:\\dev\\outilssgdf_data\\registrepresence.csv")))+1;
 //		final int anneeDebut = ex.charge(new FileInputStream(new File("C:\\dev\\outilssgdf_data\\2018\\registrepresence-1.csv")))+1;
 //		ex.charge(new FileInputStream(new File("C:\\dev\\outilssgdf_data\\2018\\registrepresence-2.csv")));
 //		ex.exportInfluxDb(new File("C:\\dev\\outilssgdf_data\\export.txt"));

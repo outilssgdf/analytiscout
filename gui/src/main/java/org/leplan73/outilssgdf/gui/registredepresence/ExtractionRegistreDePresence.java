@@ -169,7 +169,7 @@ public class ExtractionRegistreDePresence extends Dialogue implements GuiCommand
 				{
 					txfAnnee = new JTextField();
 					txfAnnee.setColumns(30);
-					txfAnnee.setText("");
+					txfAnnee.setText("2019");
 					panelannee.add(txfAnnee, BorderLayout.NORTH);
 				}
 			}
@@ -275,6 +275,7 @@ public class ExtractionRegistreDePresence extends Dialogue implements GuiCommand
 			Preferences.sauve(Consts.INTRANET_IDENTIFIANT, "", true);
 			Preferences.sauve(Consts.INTRANET_MOTDEPASSE, "", true);
 		}
+		Preferences.sauve(Consts.INTRANET_STRUCTURE, txfCodeStructure.getText(), true);
 		super.dispose();
 	}
 

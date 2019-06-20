@@ -35,7 +35,7 @@ public class ExtracteurRegistrePresence {
 		RegistrePresenceUnite unite = null;
 		int anneeDebut = -1;
 		try {
-			BufferedReader reader = new BufferedReader(new InputStreamReader(stream,"ISO-8859-1"));
+			BufferedReader reader = new BufferedReader(new InputStreamReader(stream,"UTF8"));
 			Iterable<CSVRecord> records = CSVFormat.DEFAULT.withDelimiter(';').parse(reader);
 			
 			String groupe = null;

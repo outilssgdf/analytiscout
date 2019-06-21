@@ -39,14 +39,9 @@ public class TestRegistrePresence {
 //		ex.charge(new FileInputStream(new File("C:\\dev\\outilssgdf_data\\2018\\registrepresence-2.csv")));
 //		ex.exportInfluxDb(new File("C:\\dev\\outilssgdf_data\\export.txt"));
 		
-		List<RegistrePresenceActiviteHeure> activites = new ArrayList<RegistrePresenceActiviteHeure>();
+		List<RegistrePresenceActiviteHeure> activitesReel = new ArrayList<RegistrePresenceActiviteHeure>();
 		List<RegistrePresenceActiviteHeure> activitesForfaitaire = new ArrayList<RegistrePresenceActiviteHeure>();
-		List<RegistrePresenceActiviteHeure> activites_jeunes = new ArrayList<RegistrePresenceActiviteHeure>();
-		List<RegistrePresenceActiviteHeure> activites_chefs = new ArrayList<RegistrePresenceActiviteHeure>();
-		List<RegistrePresenceActiviteHeure> activites_heures_cec = new ArrayList<RegistrePresenceActiviteHeure>();
-		List<RegistrePresenceActiviteHeure> activites_cec = new ArrayList<RegistrePresenceActiviteHeure>();
-		ex.getActivites(activites, activitesForfaitaire, activites_jeunes, activites_chefs);
-		ex.getActivitesCec(anneeDebut, activites_heures_cec, activites_cec);
+		ex.getActivites(activitesReel, activitesForfaitaire);
 		
 		List<RegistrePresenceActivite> activites_total = new ArrayList<RegistrePresenceActivite>();
 		ex.construitActivites(activites_total);
@@ -73,16 +68,11 @@ public class TestRegistrePresence {
 			});
 		});
 		
-		
 		Map<String, Object> beans = new HashMap<String, Object>();
 		beans.put("unites", ex.getUnites());
 		beans.put("activites", activites_total);
-		beans.put("activites_heures", activites);
 		beans.put("activites_forfaitaires", activitesForfaitaire);
-		beans.put("activites_heures_cec", activites_heures_cec);
-		beans.put("activites_cec", activites_cec);
-		beans.put("activites_heures_jeunes", activites_jeunes);
-		beans.put("activites_heures_chefs", activites_chefs);
+		beans.put("activites_reel", activitesReel);
 		go(new File("C:\\dev\\outilssgdf\\fichiers\\conf\\modele_registrepresence.xlsx"), beans, new File("C:\\dev\\outilssgdf_data\\registrepresence.xlsx"));
 	}
 }

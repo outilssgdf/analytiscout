@@ -164,12 +164,8 @@ public class RegistrePresenceUnite extends UniteSimple {
 		return anneeDebut;
 	}
 
-	public void genereReel(List<RegistrePresenceActiviteHeure> activites, List<RegistrePresenceActiviteHeure> activitesForfaitaire, List<RegistrePresenceActiviteHeure> activites_jeunes, List<RegistrePresenceActiviteHeure> activites_chefs) {
-		activites_.forEach(v -> v.generer(nomcomplet_, nom_, structure_, code_groupe_, groupe_, activites, activitesForfaitaire, activites_jeunes, activites_chefs));
-	}
-
-	public void genereCec(int anneeDebut, List<RegistrePresenceActiviteHeure> activites_heures_cec, List<RegistrePresenceActiviteHeure> activites_cec) {
-		activites_.forEach(v -> v.genereCec(nomcomplet_, nom_, structure_, code_groupe_, groupe_, anneeDebut, activites_heures_cec, activites_cec));
+	public void genereReel(List<RegistrePresenceActiviteHeure> activitesReel, List<RegistrePresenceActiviteHeure> activitesForfaitaire) {
+		activites_.forEach(v -> v.generer(nomcomplet_, nom_, structure_, code_groupe_, groupe_, activitesReel, activitesForfaitaire));
 	}
 
 	public void construitActivites(List<RegistrePresenceActivite> activites) {

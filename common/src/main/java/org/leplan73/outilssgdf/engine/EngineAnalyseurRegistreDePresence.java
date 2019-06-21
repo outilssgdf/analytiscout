@@ -35,13 +35,10 @@ public class EngineAnalyseurRegistreDePresence extends Engine {
 		int anneeDebut = ex.charge(new FileInputStream(entree))+1;
 		progress_.setProgress(40);
 		
-		List<RegistrePresenceActiviteHeure> activites = new ArrayList<RegistrePresenceActiviteHeure>();
+		List<RegistrePresenceActiviteHeure> activitesReel = new ArrayList<RegistrePresenceActiviteHeure>();
 		List<RegistrePresenceActiviteHeure> activitesForfaitaire = new ArrayList<RegistrePresenceActiviteHeure>();
-		List<RegistrePresenceActiviteHeure> activites_jeunes = new ArrayList<RegistrePresenceActiviteHeure>();
-		List<RegistrePresenceActiviteHeure> activites_chefs = new ArrayList<RegistrePresenceActiviteHeure>();
-		List<RegistrePresenceActiviteHeure> activites_heures_cec = new ArrayList<RegistrePresenceActiviteHeure>();
 		List<RegistrePresenceActiviteHeure> activites_cec = new ArrayList<RegistrePresenceActiviteHeure>();
-		ex.getActivites(activites, activitesForfaitaire, activites_jeunes, activites_chefs);
+		ex.getActivites(activitesReel, activitesForfaitaire);
 		
 		List<RegistrePresenceActivite> activites_total = new ArrayList<RegistrePresenceActivite>();
 		ex.construitActivites(activites_total);
@@ -49,12 +46,9 @@ public class EngineAnalyseurRegistreDePresence extends Engine {
 		Map<String, Object> beans = new HashMap<String, Object>();
 		beans.put("unites", ex.getUnites());
 		beans.put("activites", activites_total);
-		beans.put("activites_heures", activites);
 		beans.put("activites_forfaitaires", activitesForfaitaire);
-		beans.put("activites_heures_cec", activites_heures_cec);
+		beans.put("activites_reel", activitesReel);
 		beans.put("activites_cec", activites_cec);
-		beans.put("activites_heures_jeunes", activites_jeunes);
-		beans.put("activites_heures_chefs", activites_chefs);
 
 		Transformeur.go(modele, beans, sortie);
 		

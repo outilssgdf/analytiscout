@@ -24,4 +24,8 @@ public class CmdProgress implements Progress {
 	public boolean isCanceled() {
 		return false;
 	}
+
+	@Override
+	public void setNote(String note) {
+	}
 }

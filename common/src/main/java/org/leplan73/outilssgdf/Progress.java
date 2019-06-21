@@ -7,6 +7,8 @@ public interface Progress {
 	void setMillisToDecideToPopup(int i);
 
 	void setProgress(int i);
+	
+	void setNote(String note);
 
 	boolean isCanceled();
 

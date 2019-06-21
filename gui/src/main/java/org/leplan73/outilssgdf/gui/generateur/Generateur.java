@@ -275,13 +275,7 @@ public class Generateur extends Dialogue implements LoggedDialog, GuiCommand {
 			progress.setProgress(20);
 			if (ret) {
 				try {
-					String stStructures[] = txfCodeStructure.getText().split(",");
-					int structures[] = new int[stStructures.length];
-					int index = 0;
-					for (String stStructure : stStructures)
-					{
-						structures[index++] = Integer.parseInt(stStructure);
-					}
+					int structures[] = construitStructures(txfCodeStructure);
 					EngineGenerateur en = new EngineGenerateur(progress, logger_);
 					en.go(txfIdentifiant.getText(), new String(txfMotdepasse.getPassword()), fSortie, structures[0], structures);
 				} catch (Exception e) {
@@ -307,15 +301,6 @@ public class Generateur extends Dialogue implements LoggedDialog, GuiCommand {
 			Preferences.sauve(Consts.INTRANET_MOTDEPASSE, "", true);
 		}
 		super.dispose();
-	}
-
-	@Override
-	public void addLog(String message) {
-		String texte = txtLog.getText();
-		if (texte.length() > 0)
-			txtLog.append("\n");
-		txtLog.append(message);
-		txtLog.setCaretPosition(txtLog.getDocument().getLength());
 	}
 
 	public JTextArea getTxtLog() {

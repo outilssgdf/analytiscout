@@ -362,15 +362,6 @@ abstract public class Analyseur extends Dialogue implements LoggedDialog, GuiCom
 		super.dispose();
 	}
 
-	@Override
-	public void addLog(String message) {
-		String texte = txtLog.getText();
-		if (texte.length() > 0)
-			txtLog.append("\n");
-		txtLog.append(message);
-		txtLog.setCaretPosition(txtLog.getDocument().getLength());
-	}
-
 	public JCheckBox getChcAge() {
 		return chcAge;
 	}

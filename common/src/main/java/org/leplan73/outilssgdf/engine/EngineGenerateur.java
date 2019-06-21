@@ -20,29 +20,10 @@ import org.leplan73.outilssgdf.intranet.ExtractionAdherents;
 import org.leplan73.outilssgdf.intranet.ExtractionIntranet;
 import org.slf4j.Logger;
 
-public class EngineGenerateur extends Engine {
+public class EngineGenerateur extends EngineConnecte {
 
-	private ExtractionIntranet connection_;
-	
 	public EngineGenerateur(Progress progress, Logger logger) {
 		super(progress, logger);
-	}
-	
-	private void login(ExtractionAdherents connection, String identifiant, String motdepasse) throws ClientProtocolException, IOException, EngineException
-	{
-		connection_ = connection;
-		logger_.info("Connexion");
-		
-		connection_.init();
-		if (connection_.login(identifiant,motdepasse) == false)
-		{
-			throw new EngineException("erreur de connexion", true);
-		}
-	}
-	
-	private void logout() throws IOException
-	{
-		connection_.close();
 	}
 	
 	private boolean gopriv(ExtractionAdherents app, String identifiant, String motdepasse, File sortie, int structure) throws ClientProtocolException, IOException, JDOMException, InvalidFormatException, ExtractionException

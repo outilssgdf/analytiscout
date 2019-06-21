@@ -15,6 +15,7 @@ import org.jdom2.JDOMException;
 import org.leplan73.outilssgdf.ExtractionException;
 import org.leplan73.outilssgdf.Progress;
 import org.leplan73.outilssgdf.Transformeur;
+import org.leplan73.outilssgdf.TransformeurException;
 import org.leplan73.outilssgdf.registrepresence.ExtracteurRegistrePresence;
 import org.leplan73.outilssgdf.registrepresence.RegistrePresenceActivite;
 import org.leplan73.outilssgdf.registrepresence.RegistrePresenceActiviteHeure;
@@ -26,10 +27,13 @@ public class EngineAnalyseurRegistreDePresence extends Engine {
 		super(progress, logger);
 	}
 	
-	private boolean gopriv(File entree, File modele, File sortie) throws ClientProtocolException, IOException, JDOMException, InvalidFormatException, ExtractionException
+	private boolean gopriv(File entree, File modele, File sortie) throws ClientProtocolException, IOException, JDOMException, InvalidFormatException, ExtractionException, TransformeurException
 	{
+		progress_.setProgress(20);
 		ExtracteurRegistrePresence ex = new ExtracteurRegistrePresence();
+		logger_.info("Chargement du fichier \"" + entree.getName() + "\"");
 		int anneeDebut = ex.charge(new FileInputStream(entree))+1;
+		progress_.setProgress(40);
 		
 		List<RegistrePresenceActiviteHeure> activites = new ArrayList<RegistrePresenceActiviteHeure>();
 		List<RegistrePresenceActiviteHeure> activitesForfaitaire = new ArrayList<RegistrePresenceActiviteHeure>();
@@ -60,17 +64,10 @@ public class EngineAnalyseurRegistreDePresence extends Engine {
 	public void go(File entree, File modele, File sortie) throws Exception
 	{
 		Instant now = Instant.now();
-		try
-		{
-			gopriv(entree, modele, sortie);
-			progress_.setProgress(80);
-		} catch (IOException | JDOMException | InvalidFormatException | ExtractionException e) {
-			throw e;
-		}
+		gopriv(entree, modele, sortie);
 		progress_.setProgress(100);
 
 		long d = Instant.now().getEpochSecond() - now.getEpochSecond();
 		logger_.info("Terminé en " + d + " secondes");
 	}
-
 }

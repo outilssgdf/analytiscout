@@ -9,8 +9,6 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.TreeMap;
 
-import org.apache.http.client.ClientProtocolException;
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.jdom2.JDOMException;
 import org.leplan73.outilssgdf.ExtracteurExtraHtml;
 import org.leplan73.outilssgdf.ExtracteurIndividusHtml;
@@ -18,6 +16,7 @@ import org.leplan73.outilssgdf.ExtractionException;
 import org.leplan73.outilssgdf.Params;
 import org.leplan73.outilssgdf.Progress;
 import org.leplan73.outilssgdf.Transformeur;
+import org.leplan73.outilssgdf.TransformeurException;
 import org.leplan73.outilssgdf.calcul.General;
 import org.leplan73.outilssgdf.calcul.Global;
 import org.leplan73.outilssgdf.extraction.AdherentForme.ExtraKey;
@@ -27,8 +26,6 @@ import org.slf4j.Logger;
 import com.jcabi.manifests.Manifests;
 
 public class EngineAnalyseur extends Engine {
-	private Progress progress_;
-	private Logger logger_;
 
 	public EngineAnalyseur(Progress progress, Logger logger) {
 		super(progress, logger);
@@ -40,7 +37,7 @@ public class EngineAnalyseur extends Engine {
 		Params.init();
 	}
 	
-	private boolean gopriv(Properties pbatch, File entree, File batch, File sortie, File modele, int structure, boolean age, String batch_type, boolean sous_dossier, String nom_fichier_sortie) throws ClientProtocolException, IOException, JDOMException, InvalidFormatException, ExtractionException
+	private boolean gopriv(Properties pbatch, File entree, File batch, File sortie, File modele, int structure, boolean age, String batch_type, boolean sous_dossier, String nom_fichier_sortie) throws TransformeurException, ExtractionException, IOException, JDOMException
 	{
 		logger_.info("Traitement de la structure "+structure);
 		
@@ -132,7 +129,7 @@ public class EngineAnalyseur extends Engine {
 						break;
 				}
 			}
-		} catch (IOException | JDOMException | InvalidFormatException | ExtractionException e) {
+		} catch (IOException | JDOMException | ExtractionException e) {
 			throw e;
 		}
 

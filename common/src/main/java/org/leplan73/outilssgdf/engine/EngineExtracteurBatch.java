@@ -28,32 +28,11 @@ import org.leplan73.outilssgdf.intranet.ExtractionAdherents;
 import org.leplan73.outilssgdf.intranet.ExtractionIntranet;
 import org.slf4j.Logger;
 
-public class EngineExtracteurBatch extends Engine {
-	private Progress progress_;
-	private Logger logger_;
-	private ExtractionIntranet connection_;
-
-	public EngineExtracteurBatch(ExtractionIntranet connection, Progress progress, Logger logger) {
+public class EngineExtracteurBatch extends EngineConnecte {
+	public EngineExtracteurBatch(Progress progress, Logger logger) {
 		super(progress, logger);
 	}
 
-	private void login(ExtractionIntranet connection, String identifiant, String motdepasse) throws ClientProtocolException, IOException, EngineException
-	{
-		connection_ = connection;
-		logger_.info("Connexion");
-		
-		connection_.init();
-		if (connection_.login(identifiant,motdepasse) == false)
-		{
-			throw new EngineException("erreur de connexion", true);
-		}
-	}
-	
-	private void logout() throws IOException
-	{
-		connection_.close();
-	}
-	
 	private boolean gopriv(ExtractionAdherents app, Properties pbatch, String identifiant, String motdepasse, File batch, File sortie, int structure, boolean recursif, boolean sous_dossier) throws ClientProtocolException, IOException, JDOMException
 	{
 		logger_.info("Traitement de la structure "+structure);

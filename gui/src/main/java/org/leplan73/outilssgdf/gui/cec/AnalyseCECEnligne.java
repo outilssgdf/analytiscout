@@ -1,6 +1,7 @@
 package org.leplan73.outilssgdf.gui.cec;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -10,6 +11,7 @@ import java.io.File;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -17,14 +19,15 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.ProgressMonitor;
+import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
 import org.leplan73.outilssgdf.Consts;
 import org.leplan73.outilssgdf.Progress;
-import org.leplan73.outilssgdf.engine.EngineAnalyseurCEC;
-import org.leplan73.outilssgdf.engine.EngineAnalyseurRegistreDePresence;
+import org.leplan73.outilssgdf.engine.EngineAnalyseurCECEnLigne;
 import org.leplan73.outilssgdf.gui.GuiProgress;
 import org.leplan73.outilssgdf.gui.utils.Appender;
 import org.leplan73.outilssgdf.gui.utils.Dialogue;
@@ -34,9 +37,6 @@ import org.leplan73.outilssgdf.gui.utils.LoggedDialog;
 import org.leplan73.outilssgdf.gui.utils.Logging;
 import org.leplan73.outilssgdf.gui.utils.Preferences;
 import org.slf4j.LoggerFactory;
-import javax.swing.JTextField;
-import javax.swing.UIManager;
-import java.awt.Color;
 
 public class AnalyseCECEnligne extends Dialogue implements LoggedDialog, GuiCommand {
 
@@ -49,9 +49,10 @@ public class AnalyseCECEnligne extends Dialogue implements LoggedDialog, GuiComm
 	private JLabel lblModele;
 	private JButton btnGo;
 	private JTextField txfAnnee;
-	private JTextField textField;
+	private JTextField txfCodeStructure;
 	private JTextField txfIdentifiant;
 	private JPasswordField txfMotdepasse;
+	private JCheckBox chkMemoriser;
 
 	/**
 	 * Create the dialog.
@@ -112,6 +113,16 @@ public class AnalyseCECEnligne extends Dialogue implements LoggedDialog, GuiComm
 					panel_1.add(txfMotdepasse);
 				}
 			}
+			{
+				chkMemoriser = new JCheckBox("Mémoriser");
+				chkMemoriser.setSelected(Preferences.litb(Consts.INTRANET_MEMORISER, false));
+				if (chkMemoriser.isSelected())
+				{
+					txfIdentifiant.setText(Preferences.lit(Consts.INTRANET_IDENTIFIANT, "", true));
+					txfMotdepasse.setText(Preferences.lit(Consts.INTRANET_MOTDEPASSE, "", true));
+				}
+				panel.add(chkMemoriser, BorderLayout.EAST);
+			}
 		}
 		{
 			JPanel panel = new JPanel();
@@ -124,10 +135,10 @@ public class AnalyseCECEnligne extends Dialogue implements LoggedDialog, GuiComm
 			contentPanel.add(panel, gbc_panel);
 			panel.setLayout(new BorderLayout(0, 0));
 			{
-				textField = new JTextField();
-				textField.setText("");
-				textField.setColumns(30);
-				panel.add(textField, BorderLayout.CENTER);
+				txfCodeStructure = new JTextField();
+				txfCodeStructure.setText("");
+				txfCodeStructure.setColumns(30);
+				panel.add(txfCodeStructure, BorderLayout.CENTER);
 			}
 		}
 		{
@@ -310,7 +321,7 @@ public class AnalyseCECEnligne extends Dialogue implements LoggedDialog, GuiComm
 		progress.setMillisToPopup(0);
 		progress.setMillisToDecideToPopup(0);
 		
-		EngineAnalyseurCEC en = new EngineAnalyseurCEC(progress, logger_);
+		EngineAnalyseurCECEnLigne en = new EngineAnalyseurCECEnLigne(progress, logger_);
 
 		new Thread(() -> {
 			progress.setProgress(0);
@@ -322,7 +333,8 @@ public class AnalyseCECEnligne extends Dialogue implements LoggedDialog, GuiComm
 			if (ret) {
 				logger_.info("Lancement");
 				try {
-					en.go(null, null, fSortie, fModele);
+					int structures[] = construitStructures(txfCodeStructure);
+					en.go(txfIdentifiant.getText(), new String(txfMotdepasse.getPassword()), fSortie, fModele, Integer.parseInt(txfAnnee.getText()), structures);
 				} catch (Exception e) {
 					logger_.error(Logging.dumpStack(null, e));
 				}
@@ -336,16 +348,18 @@ public class AnalyseCECEnligne extends Dialogue implements LoggedDialog, GuiComm
 		Appender.setLoggedDialog(null);
 		Preferences.sauved(Consts.FENETRE_ANALYSEUR_X, this.getLocation().getX());
 		Preferences.sauved(Consts.FENETRE_ANALYSEUR_Y, this.getLocation().getY());
+		if (chkMemoriser.isSelected())
+		{
+			Preferences.sauve(Consts.INTRANET_IDENTIFIANT, txfIdentifiant.getText(), true);
+			Preferences.sauve(Consts.INTRANET_MOTDEPASSE, new String(txfMotdepasse.getPassword()), true);
+		}
+		else
+		{
+			Preferences.sauve(Consts.INTRANET_IDENTIFIANT, "", true);
+			Preferences.sauve(Consts.INTRANET_MOTDEPASSE, "", true);
+		}
+		Preferences.sauve(Consts.INTRANET_STRUCTURE, txfCodeStructure.getText(), true);
 		super.dispose();
-	}
-
-	@Override
-	public void addLog(String message) {
-		String texte = txtLog.getText();
-		if (texte.length() > 0)
-			txtLog.append("\n");
-		txtLog.append(message);
-		txtLog.setCaretPosition(txtLog.getDocument().getLength());
 	}
 
 	public JLabel getLblSortie() {

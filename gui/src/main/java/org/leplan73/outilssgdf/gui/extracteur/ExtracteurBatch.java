@@ -326,16 +326,8 @@ abstract public class ExtracteurBatch extends Dialogue implements LoggedDialog, 
 			progress.setProgress(20);
 			if (ret) {
 				try {
-					String stStructures[] = txfCodeStructure.getText().split(",");
-					int structures[] = new int[stStructures.length];
-					
-					int index = 0;
-					for (String stStructure : stStructures)
-					{
-						structures[index++] = Integer.parseInt(stStructure);
-					}
-					
-					EngineExtracteurBatch en = new EngineExtracteurBatch(connection_, progress, logger_);
+					int structures[] = construitStructures(txfCodeStructure);
+					EngineExtracteurBatch en = new EngineExtracteurBatch(progress, logger_);
 					en.go(txfIdentifiant.getText(), new String(txfMotdepasse.getPassword()), fBatch, fSortie, 0, structures, true);
 				} catch (Exception e) {
 					logger_.error(Logging.dumpStack(null, e));
@@ -363,15 +355,6 @@ abstract public class ExtracteurBatch extends Dialogue implements LoggedDialog, 
 		}
 		Preferences.sauve(Consts.INTRANET_STRUCTURE, txfCodeStructure.getText(), true);
 		super.dispose();
-	}
-
-	@Override
-	public void addLog(String message) {
-		String texte = txtLog.getText();
-		if (texte.length() > 0)
-			txtLog.append("\n");
-		txtLog.append(message);
-		txtLog.setCaretPosition(txtLog.getDocument().getLength());
 	}
 
 	public JPasswordField getTxfMotdepasse() {

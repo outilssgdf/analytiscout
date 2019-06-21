@@ -33,4 +33,9 @@ public class GuiProgress implements Progress {
 		if (progress_ != null) return progress_.isCanceled();
 		return false;
 	}
+
+	@Override
+	public void setNote(String note) {
+		if (progress_ != null) progress_.setNote(note);
+	}
 }

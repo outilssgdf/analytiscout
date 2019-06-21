@@ -12,7 +12,6 @@ import java.util.Properties;
 import java.util.TreeMap;
 
 import org.apache.http.client.ClientProtocolException;
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.jdom2.JDOMException;
 import org.leplan73.outilssgdf.Consts;
 import org.leplan73.outilssgdf.ExtracteurExtraHtml;
@@ -20,6 +19,7 @@ import org.leplan73.outilssgdf.ExtracteurIndividusHtml;
 import org.leplan73.outilssgdf.ExtractionException;
 import org.leplan73.outilssgdf.Progress;
 import org.leplan73.outilssgdf.Transformeur;
+import org.leplan73.outilssgdf.TransformeurException;
 import org.leplan73.outilssgdf.calcul.General;
 import org.leplan73.outilssgdf.calcul.Global;
 import org.leplan73.outilssgdf.extraction.AdherentForme.ExtraKey;
@@ -30,33 +30,13 @@ import org.slf4j.Logger;
 
 import com.jcabi.manifests.Manifests;
 
-public class EngineAnalyseurEnLigne extends Engine {
-	private Progress progress_;
-	private Logger logger_;
-	private ExtractionIntranet connection_;
+public class EngineAnalyseurEnLigne extends EngineConnecte {
 
-	public EngineAnalyseurEnLigne(ExtractionIntranet connection, Progress progress, Logger logger) {
+	public EngineAnalyseurEnLigne(Progress progress, Logger logger) {
 		super(progress, logger);
 	}
 
-	private void login(ExtractionAdherents connection, String identifiant, String motdepasse) throws ClientProtocolException, IOException, EngineException
-	{
-		connection_ = connection;
-		logger_.info("Connexion");
-		
-		connection_.init();
-		if (connection_.login(identifiant,motdepasse) == false)
-		{
-			throw new EngineException("erreur de connexion", true);
-		}
-	}
-	
-	private void logout() throws IOException
-	{
-		connection_.close();
-	}
-	
-	private boolean gopriv(ExtractionAdherents app, Properties pbatch, String identifiant, String motdepasse, File batch, File sortie, File modele, int structure, boolean age, String batch_type, boolean sous_dossier, String nom_fichier_sortie) throws ClientProtocolException, IOException, JDOMException, InvalidFormatException, ExtractionException
+	private boolean gopriv(ExtractionAdherents app, Properties pbatch, String identifiant, String motdepasse, File batch, File sortie, File modele, int structure, boolean age, String batch_type, boolean sous_dossier, String nom_fichier_sortie) throws ExtractionException, TransformeurException, ClientProtocolException, IOException, JDOMException
 	{
 		logger_.info("Traitement de la structure " + structure);
 		
@@ -187,7 +167,7 @@ public class EngineAnalyseurEnLigne extends Engine {
 				}
 			}
 			logout();
-		} catch (IOException | JDOMException | InvalidFormatException | ExtractionException e) {
+		} catch (IOException | JDOMException | ExtractionException e) {
 			throw e;
 		}
 		progress_.setProgress(100);

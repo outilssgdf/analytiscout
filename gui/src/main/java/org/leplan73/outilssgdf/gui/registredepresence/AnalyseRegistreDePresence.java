@@ -295,15 +295,6 @@ public class AnalyseRegistreDePresence extends Dialogue implements LoggedDialog,
 		super.dispose();
 	}
 
-	@Override
-	public void addLog(String message) {
-		String texte = txtLog.getText();
-		if (texte.length() > 0)
-			txtLog.append("\n");
-		txtLog.append(message);
-		txtLog.setCaretPosition(txtLog.getDocument().getLength());
-	}
-
 	public JLabel getLblSortie() {
 		return lblSortie;
 	}

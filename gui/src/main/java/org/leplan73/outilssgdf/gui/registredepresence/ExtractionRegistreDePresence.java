@@ -47,7 +47,7 @@ public class ExtractionRegistreDePresence extends Dialogue implements GuiCommand
 	private JTextField txfCodeStructure;
 	private JLabel lblSortie;
 	private JFileChooser fcSortie;
-	private File fSortie = new File("./données/registredepresence.csv");
+	private File fSortie = new File("./données/registrepresence.csv");
 
 	/**
 	 * Create the dialog.

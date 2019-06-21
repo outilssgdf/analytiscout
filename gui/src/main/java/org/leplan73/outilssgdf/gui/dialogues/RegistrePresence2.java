@@ -66,7 +66,6 @@ public class RegistrePresence2 extends Template {
 		panel_7.add(btnNewButton, gbc_btnNewButton);
 		
 		JButton btnAnalyse = new JButton("Analyse");
-		btnAnalyse.setEnabled(false);
 		btnAnalyse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new AnalyseRegistreDePresence().setVisible(true);

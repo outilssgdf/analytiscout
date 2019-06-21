@@ -37,7 +37,7 @@ public class AnalyseRegistreDePresence extends Dialogue implements LoggedDialog,
 
 	private final JPanel contentPanel = new JPanel();
 	private JFileChooser fcEntree = new JFileChooser();
-	private File fEntree = new File("./données/registrepresence.csv");
+	private File fEntree = new File("./données/registredepresence.csv");
 	private JFileChooser fcModele = new JFileChooser();
 	protected File fModele = new File("conf/modele_registrepresence.xlsx");
 	private JFileChooser fcSortie = new JFileChooser();
@@ -278,7 +278,7 @@ public class AnalyseRegistreDePresence extends Dialogue implements LoggedDialog,
 			if (ret) {
 				logger_.info("Lancement");
 				try {
-					en.go(fEntree, fSortie, fModele);
+					en.go(fEntree, fModele, fSortie);
 				} catch (Exception e) {
 					logger_.error(Logging.dumpStack(null, e));
 				}

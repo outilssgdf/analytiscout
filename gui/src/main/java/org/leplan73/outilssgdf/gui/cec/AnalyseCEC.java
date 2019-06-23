@@ -23,7 +23,6 @@ import javax.swing.border.TitledBorder;
 import org.leplan73.outilssgdf.Consts;
 import org.leplan73.outilssgdf.Progress;
 import org.leplan73.outilssgdf.engine.EngineAnalyseurCEC;
-import org.leplan73.outilssgdf.engine.EngineAnalyseurRegistreDePresence;
 import org.leplan73.outilssgdf.gui.GuiProgress;
 import org.leplan73.outilssgdf.gui.utils.Appender;
 import org.leplan73.outilssgdf.gui.utils.Dialogue;
@@ -97,7 +96,8 @@ public class AnalyseCEC extends Dialogue implements LoggedDialog, GuiCommand {
 					public void actionPerformed(ActionEvent e) {
 						fcEntreeAnnee.setDialogTitle("Fichier de données");
 						fcEntreeAnnee.setApproveButtonText("Go");
-						fcEntreeAnnee.setCurrentDirectory(new File("."));
+						fcEntreeAnnee.setSelectedFile(fEntreeAnnee);
+						fcEntreeAnnee.setCurrentDirectory(new File("./données"));
 						fcEntreeAnnee.setFileSelectionMode(JFileChooser.FILES_ONLY);
 						fcEntreeAnnee.addChoosableFileFilter(new ExportFileFilter("csv"));
 						int result = fcEntreeAnnee.showDialog(panel, "OK");
@@ -130,7 +130,8 @@ public class AnalyseCEC extends Dialogue implements LoggedDialog, GuiCommand {
 					public void actionPerformed(ActionEvent e) {
 						fcEntreeAnneeP.setDialogTitle("Fichier de données");
 						fcEntreeAnneeP.setApproveButtonText("Go");
-						fcEntreeAnneeP.setCurrentDirectory(new File("."));
+						fcEntreeAnneeP.setCurrentDirectory(new File("./données"));
+						fcEntreeAnneeP.setSelectedFile(fEntreeAnneeP);
 						fcEntreeAnneeP.setFileSelectionMode(JFileChooser.FILES_ONLY);
 						fcEntreeAnneeP.addChoosableFileFilter(new ExportFileFilter("csv"));
 						int result = fcEntreeAnneeP.showDialog(panel, "OK");
@@ -164,7 +165,7 @@ public class AnalyseCEC extends Dialogue implements LoggedDialog, GuiCommand {
 					public void actionPerformed(ActionEvent e) {
 						fcModele.setDialogTitle("Fichier modèle");
 						fcModele.setApproveButtonText("Go");
-						fcModele.setCurrentDirectory(new File("."));
+						fcModele.setCurrentDirectory(new File("./données"));
 						fcModele.setSelectedFile(fModele);
 						fcModele.setFileSelectionMode(JFileChooser.FILES_ONLY);
 						fcModele.removeChoosableFileFilter(fcModele.getFileFilter());
@@ -201,7 +202,7 @@ public class AnalyseCEC extends Dialogue implements LoggedDialog, GuiCommand {
 					public void actionPerformed(ActionEvent e) {
 						fcSortie.setDialogTitle("Export Configuration");
 						fcSortie.setApproveButtonText("Export");
-						fcSortie.setCurrentDirectory(new File("."));
+						fcSortie.setCurrentDirectory(new File("./données"));
 						fcSortie.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 						fcSortie.removeChoosableFileFilter(fcSortie.getFileFilter());
 						fcSortie.removeChoosableFileFilter(fcSortie.getAcceptAllFileFilter());

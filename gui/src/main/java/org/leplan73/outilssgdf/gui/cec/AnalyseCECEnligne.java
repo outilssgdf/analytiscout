@@ -182,7 +182,7 @@ public class AnalyseCECEnligne extends Dialogue implements LoggedDialog, GuiComm
 					public void actionPerformed(ActionEvent e) {
 						fcModele.setDialogTitle("Fichier modèle");
 						fcModele.setApproveButtonText("Go");
-						fcModele.setCurrentDirectory(new File("."));
+						fcModele.setCurrentDirectory(new File("./données"));
 						fcModele.setSelectedFile(fModele);
 						fcModele.setFileSelectionMode(JFileChooser.FILES_ONLY);
 						fcModele.removeChoosableFileFilter(fcModele.getFileFilter());
@@ -219,7 +219,7 @@ public class AnalyseCECEnligne extends Dialogue implements LoggedDialog, GuiComm
 					public void actionPerformed(ActionEvent e) {
 						fcSortie.setDialogTitle("Export Configuration");
 						fcSortie.setApproveButtonText("Export");
-						fcSortie.setCurrentDirectory(new File("."));
+						fcSortie.setCurrentDirectory(new File("./données"));
 						fcSortie.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 						fcSortie.removeChoosableFileFilter(fcSortie.getFileFilter());
 						fcSortie.removeChoosableFileFilter(fcSortie.getAcceptAllFileFilter());

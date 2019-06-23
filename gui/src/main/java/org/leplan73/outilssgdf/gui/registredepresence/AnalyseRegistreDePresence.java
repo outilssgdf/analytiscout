@@ -93,7 +93,8 @@ public class AnalyseRegistreDePresence extends Dialogue implements LoggedDialog,
 					public void actionPerformed(ActionEvent e) {
 						fcEntree.setDialogTitle("Répertoire de données");
 						fcEntree.setApproveButtonText("Go");
-						fcEntree.setCurrentDirectory(new File("."));
+						fcEntree.setSelectedFile(fEntree);
+						fcEntree.setCurrentDirectory(new File("./données"));
 						fcEntree.setFileSelectionMode(JFileChooser.FILES_ONLY);
 						fcEntree.addChoosableFileFilter(new ExportFileFilter("csv"));
 						int result = fcEntree.showDialog(panel, "OK");
@@ -127,7 +128,7 @@ public class AnalyseRegistreDePresence extends Dialogue implements LoggedDialog,
 					public void actionPerformed(ActionEvent e) {
 						fcModele.setDialogTitle("Fichier modèle");
 						fcModele.setApproveButtonText("Go");
-						fcModele.setCurrentDirectory(new File("."));
+						fcModele.setCurrentDirectory(new File("./données"));
 						fcModele.setSelectedFile(fModele);
 						fcModele.setFileSelectionMode(JFileChooser.FILES_ONLY);
 						fcModele.removeChoosableFileFilter(fcModele.getFileFilter());
@@ -164,8 +165,9 @@ public class AnalyseRegistreDePresence extends Dialogue implements LoggedDialog,
 					public void actionPerformed(ActionEvent e) {
 						fcSortie.setDialogTitle("Export Configuration");
 						fcSortie.setApproveButtonText("Export");
-						fcSortie.setCurrentDirectory(new File("."));
+						fcSortie.setCurrentDirectory(new File("./données"));
 						fcSortie.setFileSelectionMode(JFileChooser.FILES_ONLY);
+						fcSortie.setSelectedFile(fSortie);
 						fcSortie.removeChoosableFileFilter(fcSortie.getFileFilter());
 						fcSortie.removeChoosableFileFilter(fcSortie.getAcceptAllFileFilter());
 						fcSortie.addChoosableFileFilter(new ExportFileFilter("xlsx"));

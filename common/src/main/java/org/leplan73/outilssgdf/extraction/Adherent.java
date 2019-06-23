@@ -262,6 +262,54 @@ public class Adherent {
 		}
 	}
 	
+	public String getBranche()
+	{
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		try {
+		String date = get(colonnes_.getDatedeNaissanceId());
+		Date dn = simpleDateFormat.parse(date);
+		Date debutFindDec = Params.getDateDebutCamp();
+		double diffFindDec = ((debutFindDec.getTime() - dn.getTime())/1000);
+		diffFindDec = diffFindDec/(3600*365.25*24);
+		if (diffFindDec < 8)
+			return "F";
+		if (diffFindDec < 11)
+			return "LJ";
+		if (diffFindDec < 14)
+			return "SG";
+		if (diffFindDec < 18)
+			return "PC";
+		if (diffFindDec < 22)
+			return "C";
+		} catch (ParseException e) {
+		}
+		return "R";
+	}
+	
+	public String getBrancheanneeprochaine()
+	{
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		try {
+		String date = get(colonnes_.getDatedeNaissanceId());
+		Date dn = simpleDateFormat.parse(date);
+		Date debutFindDec = Params.getDateDebutCamp();
+		double diffFindDec = ((debutFindDec.getTime() - dn.getTime())/1000);
+		diffFindDec = diffFindDec/(3600*365.25*24)+1;
+		if (diffFindDec < 8)
+			return "F";
+		if (diffFindDec < 11)
+			return "LJ";
+		if (diffFindDec < 14)
+			return "SG";
+		if (diffFindDec < 18)
+			return "PC";
+		if (diffFindDec < 22)
+			return "C";
+		} catch (ParseException e) {
+		}
+		return "R";
+	}
+	
 	public String getAgeok()
 	{
 		switch (this.getFonction())

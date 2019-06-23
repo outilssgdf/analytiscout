@@ -328,7 +328,7 @@ abstract public class ExtracteurBatch extends Dialogue implements LoggedDialog, 
 				try {
 					int structures[] = construitStructures(txfCodeStructure);
 					EngineExtracteurBatch en = new EngineExtracteurBatch(progress, logger_);
-					en.go(txfIdentifiant.getText(), new String(txfMotdepasse.getPassword()), fBatch, fSortie, 0, structures, true);
+					en.go(txfIdentifiant.getText(), new String(txfMotdepasse.getPassword()), fBatch, fSortie, structures[0], null, true);
 				} catch (Exception e) {
 					logger_.error(Logging.dumpStack(null, e));
 				}

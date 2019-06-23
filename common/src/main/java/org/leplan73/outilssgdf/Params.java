@@ -18,6 +18,7 @@ public class Params extends Properties {
 	
 	static private Date dateDebutCamp_;
 	static private Date dateLimiteJeune_;
+	static private Date dateLimiteJeuneSuivant_;
     
 	static {
 		this_ = new Params();
@@ -38,6 +39,7 @@ public class Params extends Properties {
 			try {
 				dateDebutCamp_ = simpleDateFormat.parse(m <= 6 ? "01/07/"+y : "01/07/"+(y+1));
 				dateLimiteJeune_ = simpleDateFormat.parse(m <= 6 ? "31/12/"+(y-1) : "31/12/"+y);
+				dateLimiteJeuneSuivant_ = simpleDateFormat.parse(m <= 6 ? "31/12/"+(y-1+1) : "31/12/"+(y+1));
 			} catch (ParseException e) {
 				logger_.error(e.getLocalizedMessage());
 			}
@@ -68,5 +70,9 @@ public class Params extends Properties {
 
 	public static Date getDateLimiteJeune() {
 		return dateLimiteJeune_;
+	}
+
+	public static Date getDateLimiteJeuneSuivant() {
+		return dateLimiteJeuneSuivant_;
 	}
 }

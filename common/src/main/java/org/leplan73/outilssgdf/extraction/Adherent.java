@@ -292,9 +292,9 @@ public class Adherent {
 		try {
 		String date = get(colonnes_.getDatedeNaissanceId());
 		Date dn = simpleDateFormat.parse(date);
-		Date debutFindDec = Params.getDateLimiteJeune();
+		Date debutFindDec = Params.getDateLimiteJeuneSuivant();
 		double diffFindDec = ((debutFindDec.getTime() - dn.getTime())/1000);
-		diffFindDec = diffFindDec/(3600*365.25*24)+1;
+		diffFindDec = diffFindDec/(3600*365.25*24);
 		if (diffFindDec < 8)
 			return "F";
 		if (diffFindDec < 11)

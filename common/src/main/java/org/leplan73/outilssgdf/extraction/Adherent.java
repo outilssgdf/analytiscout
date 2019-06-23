@@ -132,25 +132,25 @@ public class Adherent {
 		return "";
 	}
 	
-	public int getJeune()
+	public boolean getJeune()
 	{
 		int fonction = extraitCode();
-		return fonction < Consts.CODE_RESPONSABLES ? 1 : 0;
+		return fonction < Consts.CODE_RESPONSABLES ? true : false;
 	}
 	
-	public int getCompa()
+	public boolean getCompa()
 	{
 		int fonctionSecondaire = extraitCodeSecondaire();
 		if (fonctionSecondaire ==  Consts.CODE_COMPAS_T1T2 || fonctionSecondaire == Consts.CODE_COMPAS_T3)
-			return 1;
+			return true;
 		int fonction = extraitCode();
-		return (fonction ==  Consts.CODE_COMPAS_T1T2 || fonction == Consts.CODE_COMPAS_T3) ? 1 : 0;
+		return (fonction ==  Consts.CODE_COMPAS_T1T2 || fonction == Consts.CODE_COMPAS_T3) ? true : false;
 	}
 	
-	public int getChef()
+	public boolean getChef()
 	{
 		int fonction = extraitCode();
-		return fonction >= Consts.CODE_RESPONSABLES ? 1 : 0;
+		return fonction >= Consts.CODE_RESPONSABLES ? true : false;
 	}
 	
 	public String getChamp(String nom)
@@ -268,7 +268,7 @@ public class Adherent {
 		try {
 		String date = get(colonnes_.getDatedeNaissanceId());
 		Date dn = simpleDateFormat.parse(date);
-		Date debutFindDec = Params.getDateDebutCamp();
+		Date debutFindDec = Params.getDateLimiteJeune();
 		double diffFindDec = ((debutFindDec.getTime() - dn.getTime())/1000);
 		diffFindDec = diffFindDec/(3600*365.25*24);
 		if (diffFindDec < 8)
@@ -277,7 +277,7 @@ public class Adherent {
 			return "LJ";
 		if (diffFindDec < 14)
 			return "SG";
-		if (diffFindDec < 18)
+		if (diffFindDec < 17)
 			return "PC";
 		if (diffFindDec < 22)
 			return "C";
@@ -292,7 +292,7 @@ public class Adherent {
 		try {
 		String date = get(colonnes_.getDatedeNaissanceId());
 		Date dn = simpleDateFormat.parse(date);
-		Date debutFindDec = Params.getDateDebutCamp();
+		Date debutFindDec = Params.getDateLimiteJeune();
 		double diffFindDec = ((debutFindDec.getTime() - dn.getTime())/1000);
 		diffFindDec = diffFindDec/(3600*365.25*24)+1;
 		if (diffFindDec < 8)
@@ -301,7 +301,7 @@ public class Adherent {
 			return "LJ";
 		if (diffFindDec < 14)
 			return "SG";
-		if (diffFindDec < 18)
+		if (diffFindDec < 17)
 			return "PC";
 		if (diffFindDec < 22)
 			return "C";

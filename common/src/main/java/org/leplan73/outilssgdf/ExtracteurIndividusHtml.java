@@ -75,7 +75,7 @@ public class ExtracteurIndividusHtml {
 	public List<AdherentForme> getChefsList() {
 		List<AdherentForme> adherents = new ArrayList<AdherentForme>();
 		adherents_.forEach((k,v) -> {
-			if (v.getChef() == 1)
+			if (v.getChef())
 				adherents.add((AdherentForme)v);
 		});
 		return adherents;
@@ -84,7 +84,7 @@ public class ExtracteurIndividusHtml {
 	public List<AdherentForme> getCompasList() {
 		List<AdherentForme> adherents = new ArrayList<AdherentForme>();
 		adherents_.forEach((k,v) -> {
-			if (v.getCompa() == 1 && v.getChef() == 0)
+			if (v.getCompa() == true && v.getChef() == false)
 				adherents.add((AdherentForme)v);
 		});
 		return adherents;
@@ -173,7 +173,7 @@ public class ExtracteurIndividusHtml {
 			Unite uniteObj = unites_.computeIfAbsent(unite, k -> new Unite(unite, ad.getCodestructure(), ad.getFonction()));
 			uniteObj.setCode(ad.getFonction());
 			
-			if (ad.getChef() > 0)
+			if (ad.getChef())
 			{
 				AdherentForme chef = (AdherentForme)ad;
 
@@ -183,7 +183,7 @@ public class ExtracteurIndividusHtml {
 				boolean animsfQualifie = chef.getQualif("animsf").getDefini() && chef.getQualif("animsf").getTitulaire();
 				boolean animsfNonQualifie = chef.getQualif("animsf").getDefini() && !chef.getQualif("animsf").getTitulaire();
 				
-				boolean compa = chef.getCompa()  == 1 ? true : false;
+				boolean compa = chef.getCompa();
 				
 				boolean apf = chef.getFormation("apf").getOk();
 				boolean apf_chefs = chef.getFormation("apf_chefs").getOk();
@@ -383,7 +383,7 @@ public class ExtracteurIndividusHtml {
 				{
 					marins_ = true;
 				}
-				if (adherent.getChef() == 1)
+				if (adherent.getChef())
 				{
 					AdherentForme chef = new AdherentForme(adherent);
 					chef.init(age);
@@ -395,7 +395,7 @@ public class ExtracteurIndividusHtml {
 						chef.addExtras(extras2);
 					}
 				}
-				else if (adherent.getCompa() == 1)
+				else if (adherent.getCompa())
 				{
 					AdherentForme compa = new AdherentForme(adherent);
 					compa.init(age);
@@ -418,7 +418,7 @@ public class ExtracteurIndividusHtml {
 	{
 		adherents_.forEach((code,ad) ->
 		{
-			if (ad.getChef() > 0)
+			if (ad.getChef())
 			{
 				AdherentForme chef = (AdherentForme)ad;
 				boolean dirsfdef = chef.getQualif("dirsf").getDefini();

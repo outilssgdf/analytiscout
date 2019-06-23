@@ -55,10 +55,10 @@ public class Unite extends UniteSimple
 		return chefs_;
 	}
 	
-	public void ajouter(int jeune, int chef)
+	public void ajouter(boolean jeune, boolean chef)
 	{
-		jeunes_+=jeune;
-		chefs_+=chef;
+		jeunes_+=jeune ? 1 : 0;
+		chefs_+=chef ? 1 : 0;
 	}
 
 	private int qualifs_;

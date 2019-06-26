@@ -10,13 +10,14 @@ import org.leplan73.outilssgdf.cmd.utils.CmdLineException;
 import org.leplan73.outilssgdf.cmd.utils.CmdParams;
 import org.leplan73.outilssgdf.cmd.utils.CommonParamsG;
 import org.leplan73.outilssgdf.cmd.utils.Logging;
+import org.leplan73.outilssgdf.engine.EngineAnalyseurCEC;
 
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.PicocliException;
 
 @Command(name = "outilsgdf", mixinStandardHelpOptions = true, versionProvider = CommonParamsG.class,
-	subcommands = {Analyseur.class, AnalyseurAdherents.class, Extracteur.class, ExtracteurBatch.class, Generateur.class, AnalyseurEnLigne.class})
+	subcommands = {Analyseur.class, AnalyseurAdherents.class, Extracteur.class, ExtracteurBatch.class, Generateur.class, AnalyseurEnLigne.class, AnalyseurRegistreDePresenceEnLigne.class, ExtracteurRegistreDePresence.class, AnalyseurRegistreDePresence.class, EngineAnalyseurCEC.class, AnalyseurCECEnLigne.class})
 public class CmdLine extends CmdParams {
 	
 	@Override

@@ -21,6 +21,29 @@ public class Version {
 		return "0.0.0";
 	}
 	
+	public boolean compare(Version v)
+	{
+		if (v.major_ > this.major_) return true;
+		if (v.minor_ > this.minor_) return true;
+		if (v.subminor_ > this.subminor_) return true;
+		return false;
+	}
+	
+	public void update(String major, String minor, String subminor, String mode)
+	{
+		try
+		{
+			major_ = Integer.valueOf(major);
+			minor_ = Integer.valueOf(minor);
+			subminor_ = Integer.valueOf(subminor);
+			mode_ = mode;
+			complete_ = true;
+		}
+		catch (NumberFormatException e)
+		{
+		}
+	}
+	
 	public static Version parse(final String st)
 	{
 		Version v = new Version();

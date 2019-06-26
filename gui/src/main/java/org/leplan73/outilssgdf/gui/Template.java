@@ -33,7 +33,7 @@ public class Template extends JPanel {
 		JPanel panel_illustration = new JPanel();
 		add(panel_illustration, BorderLayout.WEST);
 																									
-		panel_illustration.setBorder(new EmptyBorder(10, 5, 10, 5));
+		panel_illustration.setBorder(new EmptyBorder(0, 0, 0, 0));
 		panel_illustration.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 																									
 		lblBanner = new JLabel("");

@@ -45,11 +45,11 @@ public class GuiCmd extends GuiParams
 		if (avance)
 			new OutilsSGDFAdvanced().go();
 		else
-		new OutilsSGDF().go();
+		new OutilsSGDFNormal().go();
 	}
 	
 	public static void main(String[] args) {
-		Logging.initLogger(OutilsSGDF.class, true);
+		Logging.initLogger(OutilsSGDFNormal.class, true);
 		Params.init();
 		new GuiCmd().go(args);
 	}

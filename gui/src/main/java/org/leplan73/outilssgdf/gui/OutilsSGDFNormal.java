@@ -13,10 +13,9 @@ import javax.swing.JTabbedPane;
 import javax.swing.border.EmptyBorder;
 
 import org.leplan73.outilssgdf.Consts;
-import org.leplan73.outilssgdf.gui.dialogues.AnalyseAdherents2;
+import org.leplan73.outilssgdf.gui.dialogues.AnalyseAdherents;
 import org.leplan73.outilssgdf.gui.dialogues.Camps;
-import org.leplan73.outilssgdf.gui.dialogues.ExportAdherents;
-import org.leplan73.outilssgdf.gui.dialogues.RegistrePresence2;
+import org.leplan73.outilssgdf.gui.dialogues.RegistrePresence;
 import org.leplan73.outilssgdf.gui.utils.Images;
 import org.leplan73.outilssgdf.gui.utils.JHyperlink;
 import org.leplan73.outilssgdf.gui.utils.Preferences;
@@ -25,12 +24,12 @@ import org.leplan73.outilssgdf.intranet.ExtractionIntranet;
 
 import com.jcabi.manifests.Manifests;
 
-public class OutilsSGDFAdvanced extends OutilsSGDF {
+public class OutilsSGDFNormal extends OutilsSGDF {
 
 	/**
 	 * Create the frame.
 	 */
-	public OutilsSGDFAdvanced() {
+	public OutilsSGDFNormal() {
 		super();
 		setTitle("Outils SGDF v0.0.0");
 		setResizable(false);
@@ -53,7 +52,8 @@ public class OutilsSGDFAdvanced extends OutilsSGDF {
 		
 		double x = Preferences.litd(Consts.FENETRE_PRINCIPALE_X, 100.0);
 		double y = Preferences.litd(Consts.FENETRE_PRINCIPALE_Y, 100.0);
-		setBounds((int) x, (int) y, 799, 430);
+		setBounds(100, 100, 799, 460);
+		setBounds((int) x, (int) y, 799, 428);
 		
 		contentPane = new JPanel();
 		contentPane.setBorder(null);
@@ -64,17 +64,14 @@ public class OutilsSGDFAdvanced extends OutilsSGDF {
 		tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 		contentPane.add(tabbedPane, BorderLayout.CENTER);
 		
-		AnalyseAdherents2 a = new AnalyseAdherents2();
+		AnalyseAdherents a = new AnalyseAdherents();
 		tabbedPane.addTab("Formations, qualifications et diplômes",a);
 		
-		RegistrePresence2 c = new RegistrePresence2();
+		RegistrePresence c = new RegistrePresence();
 		tabbedPane.addTab("Registre de présence / CEC",c);
 		
 		Camps d = new Camps();
 		tabbedPane.addTab("Camps",d);
-		
-		ExportAdherents b = new ExportAdherents();
-		tabbedPane.addTab("Exporter",b);
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new EmptyBorder(0, 5, 0, 0));
@@ -90,17 +87,15 @@ public class OutilsSGDFAdvanced extends OutilsSGDF {
 			JPanel panel_1 = new JPanel();
 			panel.add(panel_1, BorderLayout.EAST);
 			panel_1.setLayout(new BorderLayout(0, 0));
-			
-			JLabel lblNewLabel = new JLabel("Besoin d'aide ? -");
-			panel_1.add(lblNewLabel, BorderLayout.WEST);
 			btnNewButton_2 = new JHyperlink("New button", "https://www.facebook.com/groups/outilssgdf");
-			panel_1.add(btnNewButton_2);
+			panel_1.add(btnNewButton_2, BorderLayout.CENTER);
 			btnNewButton_2.setText("Consultez le groupe Facebook : outilssgdf");
+			
+			JLabel lblBesoinDaide = new JLabel("Besoin d'aide ? -");
+			panel_1.add(lblBesoinDaide, BorderLayout.WEST);
 		} catch (URISyntaxException e) {
 		}
 		
 		updateVersion(lblVersionStatus);
-
 	}
-
 }

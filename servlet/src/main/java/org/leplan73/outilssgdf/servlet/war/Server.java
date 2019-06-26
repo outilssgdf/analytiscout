@@ -26,6 +26,7 @@ import org.leplan73.outilssgdf.ExtracteurExtraHtml;
 import org.leplan73.outilssgdf.ExtracteurIndividusHtml;
 import org.leplan73.outilssgdf.ExtractionException;
 import org.leplan73.outilssgdf.Transformeur;
+import org.leplan73.outilssgdf.TransformeurException;
 import org.leplan73.outilssgdf.calcul.General;
 import org.leplan73.outilssgdf.calcul.Global;
 import org.leplan73.outilssgdf.extraction.AdherentForme.ExtraKey;
@@ -45,7 +46,7 @@ public class Server {
     @Path("/analyseenligne")
 	@Produces(MediaType.TEXT_PLAIN)
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
-    public Response analyseenligne(@FormDataParam(value = "identifiant") String identifiant, @FormDataParam(value = "password") String motdepasse, @FormDataParam(value = "code_structure") String code_structure) throws ExtractionException, IOException, JDOMException, InvalidFormatException {
+    public Response analyseenligne(@FormDataParam(value = "identifiant") String identifiant, @FormDataParam(value = "password") String motdepasse, @FormDataParam(value = "code_structure") String code_structure) throws ExtractionException, IOException, JDOMException, InvalidFormatException, TransformeurException {
 
 		Properties pbatch = new Properties();
 

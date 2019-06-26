@@ -39,19 +39,15 @@ import org.slf4j.Logger;
 abstract public class Analyseur extends Dialogue implements LoggedDialog, GuiCommand {
 
 	private final JPanel contentPanel = new JPanel();
-	private JFileChooser fcBatch = new JFileChooser();
 	protected File fBatch = new File("./conf/batch_responsables.txt");
 	private JFileChooser fcEntree = new JFileChooser();
 	private File fEntree = new File("./données");
-	private JFileChooser fcModele = new JFileChooser();
 	protected File fModele = new File("conf/modele_responsables.xlsx");
 	private JFileChooser fcSortie = new JFileChooser();
 	protected File fSortie = new File("./données/analyse.xlsx");
 	private JCheckBox chcAge;
 	private JLabel lblSortie;
-	private JLabel lblBatch;
 	private JLabel lblEntree;
-	private JLabel lblModele;
 	private JButton btnGo;
 
 	/**
@@ -78,48 +74,10 @@ abstract public class Analyseur extends Dialogue implements LoggedDialog, GuiCom
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		GridBagLayout gbl_contentPanel = new GridBagLayout();
 		gbl_contentPanel.columnWidths = new int[] { 211, 0 };
-		gbl_contentPanel.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0 };
+		gbl_contentPanel.rowHeights = new int[] { 0, 0, 0, 0, 0 };
 		gbl_contentPanel.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
-		gbl_contentPanel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
+		gbl_contentPanel.rowWeights = new double[] { 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		contentPanel.setLayout(gbl_contentPanel);
-		{
-			JPanel panel = new JPanel();
-			panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Batch", TitledBorder.LEADING,
-					TitledBorder.TOP, null, new Color(0, 0, 0)));
-			GridBagConstraints gbc_panel = new GridBagConstraints();
-			gbc_panel.anchor = GridBagConstraints.NORTH;
-			gbc_panel.insets = new Insets(0, 0, 5, 0);
-			gbc_panel.fill = GridBagConstraints.HORIZONTAL;
-			gbc_panel.gridx = 0;
-			gbc_panel.gridy = 0;
-			contentPanel.add(panel, gbc_panel);
-			panel.setLayout(new BorderLayout(0, 0));
-			{
-				lblBatch = new JLabel(fBatch.getAbsolutePath());
-				panel.add(lblBatch, BorderLayout.WEST);
-			}
-			{
-				JButton button = new JButton("Fichier...");
-				button.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						fcBatch.setDialogTitle("Fichier batch");
-						fcBatch.setApproveButtonText("Go");
-						fcBatch.setCurrentDirectory(new File("."));
-						fcBatch.setSelectedFile(fBatch);
-						fcBatch.setFileSelectionMode(JFileChooser.FILES_ONLY);
-						fcBatch.removeChoosableFileFilter(fcBatch.getFileFilter());
-						fcBatch.removeChoosableFileFilter(fcBatch.getAcceptAllFileFilter());
-						fcBatch.addChoosableFileFilter(new ExportFileFilter("txt"));
-						int result = fcBatch.showDialog(panel, "OK");
-						if (result == JFileChooser.APPROVE_OPTION) {
-							fBatch = fcBatch.getSelectedFile();
-							lblBatch.setText(fBatch.getPath());
-						}
-					}
-				});
-				panel.add(button, BorderLayout.EAST);
-			}
-		}
 		{
 			JPanel panel = new JPanel();
 			panel.setBorder(new TitledBorder(null, "Entr\u00E9e", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -128,7 +86,7 @@ abstract public class Analyseur extends Dialogue implements LoggedDialog, GuiCom
 			gbc_panel.insets = new Insets(0, 0, 5, 0);
 			gbc_panel.fill = GridBagConstraints.HORIZONTAL;
 			gbc_panel.gridx = 0;
-			gbc_panel.gridy = 1;
+			gbc_panel.gridy = 0;
 			contentPanel.add(panel, gbc_panel);
 			panel.setLayout(new BorderLayout(0, 0));
 			{
@@ -155,50 +113,13 @@ abstract public class Analyseur extends Dialogue implements LoggedDialog, GuiCom
 		}
 		{
 			JPanel panel = new JPanel();
-			panel.setBorder(new TitledBorder(null, "Mod\u00E8le", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-			GridBagConstraints gbc_panel = new GridBagConstraints();
-			gbc_panel.anchor = GridBagConstraints.NORTH;
-			gbc_panel.insets = new Insets(0, 0, 5, 0);
-			gbc_panel.fill = GridBagConstraints.HORIZONTAL;
-			gbc_panel.gridx = 0;
-			gbc_panel.gridy = 2;
-			contentPanel.add(panel, gbc_panel);
-			panel.setLayout(new BorderLayout(0, 0));
-			{
-				lblModele = new JLabel(fModele.getAbsolutePath());
-				panel.add(lblModele, BorderLayout.WEST);
-			}
-			{
-				JButton button = new JButton("Fichier...");
-				button.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						fcModele.setDialogTitle("Fichier modèle");
-						fcModele.setApproveButtonText("Go");
-						fcModele.setCurrentDirectory(new File("."));
-						fcModele.setSelectedFile(fModele);
-						fcModele.setFileSelectionMode(JFileChooser.FILES_ONLY);
-						fcModele.removeChoosableFileFilter(fcModele.getFileFilter());
-						fcModele.removeChoosableFileFilter(fcModele.getAcceptAllFileFilter());
-						fcModele.addChoosableFileFilter(new ExportFileFilter("xlsx"));
-						int result = fcModele.showDialog(panel, "OK");
-						if (result == JFileChooser.APPROVE_OPTION) {
-							fModele = fcModele.getSelectedFile();
-							lblModele.setText(fModele.getPath());
-						}
-					}
-				});
-				panel.add(button, BorderLayout.EAST);
-			}
-		}
-		{
-			JPanel panel = new JPanel();
 			panel.setBorder(new TitledBorder(null, "Options", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			GridBagConstraints gbc_panel = new GridBagConstraints();
 			gbc_panel.anchor = GridBagConstraints.NORTH;
 			gbc_panel.insets = new Insets(0, 0, 5, 0);
 			gbc_panel.fill = GridBagConstraints.HORIZONTAL;
 			gbc_panel.gridx = 0;
-			gbc_panel.gridy = 3;
+			gbc_panel.gridy = 1;
 			contentPanel.add(panel, gbc_panel);
 			panel.setLayout(new BorderLayout(0, 0));
 			{
@@ -214,7 +135,7 @@ abstract public class Analyseur extends Dialogue implements LoggedDialog, GuiCom
 			gbc_panel.insets = new Insets(0, 0, 5, 0);
 			gbc_panel.fill = GridBagConstraints.HORIZONTAL;
 			gbc_panel.gridx = 0;
-			gbc_panel.gridy = 4;
+			gbc_panel.gridy = 2;
 			contentPanel.add(panel, gbc_panel);
 			panel.setLayout(new BorderLayout(0, 0));
 			{
@@ -248,7 +169,7 @@ abstract public class Analyseur extends Dialogue implements LoggedDialog, GuiCom
 			GridBagConstraints gbc_panel = new GridBagConstraints();
 			gbc_panel.fill = GridBagConstraints.BOTH;
 			gbc_panel.gridx = 0;
-			gbc_panel.gridy = 5;
+			gbc_panel.gridy = 3;
 			contentPanel.add(panel, gbc_panel);
 			panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
 			{
@@ -370,16 +291,8 @@ abstract public class Analyseur extends Dialogue implements LoggedDialog, GuiCom
 		return lblSortie;
 	}
 
-	public JLabel getLblBatch() {
-		return lblBatch;
-	}
-
 	public JLabel getLblEntree() {
 		return lblEntree;
-	}
-
-	public JLabel getLblModele() {
-		return lblModele;
 	}
 
 	public JTextArea getTxtLog() {

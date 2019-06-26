@@ -48,9 +48,7 @@ abstract public class AnalyseurEnLigne extends Dialogue implements LoggedDialog,
 	private JTextArea txtLog;
 	private JFileChooser fcSortie;
 	private File fSortie = new File("./données/analyse.xlsx");
-	private JFileChooser fcBatch;
 	private File fBatch = new File("./conf/batch_responsables.txt");
-	private JFileChooser fcModele = new JFileChooser();
 	private File fModele = new File("conf/modele_responsables.xlsx");
 
 	/**
@@ -83,9 +81,9 @@ abstract public class AnalyseurEnLigne extends Dialogue implements LoggedDialog,
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		GridBagLayout gbl_contentPanel = new GridBagLayout();
 		gbl_contentPanel.columnWidths = new int[] { 121, 0 };
-		gbl_contentPanel.rowHeights = new int[] { 46, 0, 0, 0, 0, 0, 0, 0 };
+		gbl_contentPanel.rowHeights = new int[] { 46, 0, 0, 0, 0, 0 };
 		gbl_contentPanel.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
-		gbl_contentPanel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
+		gbl_contentPanel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		contentPanel.setLayout(gbl_contentPanel);
 		{
 			JPanel panel = new JPanel();
@@ -154,89 +152,13 @@ abstract public class AnalyseurEnLigne extends Dialogue implements LoggedDialog,
 		}
 		{
 			JPanel panel = new JPanel();
-			panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Batch", TitledBorder.LEADING,
-					TitledBorder.TOP, null, new Color(0, 0, 0)));
-			GridBagConstraints gbc_panel = new GridBagConstraints();
-			gbc_panel.insets = new Insets(0, 0, 5, 0);
-			gbc_panel.fill = GridBagConstraints.HORIZONTAL;
-			gbc_panel.anchor = GridBagConstraints.NORTH;
-			gbc_panel.gridx = 0;
-			gbc_panel.gridy = 2;
-			contentPanel.add(panel, gbc_panel);
-			panel.setLayout(new BorderLayout(0, 0));
-			{
-				lblBatch = new JLabel(fBatch.getAbsolutePath());
-				panel.add(lblBatch, BorderLayout.WEST);
-			}
-			{
-				JButton button = new JButton("Fichier...");
-				button.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						fcBatch = new JFileChooser();
-						fcBatch.setDialogTitle("Fichier batch");
-						fcBatch.setApproveButtonText("Go");
-						fcBatch.setSelectedFile(fBatch);
-						fcBatch.setCurrentDirectory(new File("."));
-						fcBatch.setFileSelectionMode(JFileChooser.FILES_ONLY);
-						fcBatch.removeChoosableFileFilter(fcBatch.getFileFilter());
-						fcBatch.removeChoosableFileFilter(fcBatch.getAcceptAllFileFilter());
-						fcBatch.addChoosableFileFilter(new ExportFileFilter("txt"));
-						int result = fcBatch.showDialog(panel, "OK");
-						if (result == JFileChooser.APPROVE_OPTION) {
-							fBatch = fcBatch.getSelectedFile();
-							lblBatch.setText(fBatch.getPath());
-						}
-					}
-				});
-				panel.add(button, BorderLayout.EAST);
-			}
-		}
-		{
-			JPanel panel = new JPanel();
-			panel.setBorder(new TitledBorder(null, "Mod\u00E8le", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-			GridBagConstraints gbc_panel = new GridBagConstraints();
-			gbc_panel.anchor = GridBagConstraints.NORTH;
-			gbc_panel.insets = new Insets(0, 0, 5, 0);
-			gbc_panel.fill = GridBagConstraints.HORIZONTAL;
-			gbc_panel.gridx = 0;
-			gbc_panel.gridy = 3;
-			contentPanel.add(panel, gbc_panel);
-			panel.setLayout(new BorderLayout(0, 0));
-			{
-				lblModele = new JLabel(fModele.getAbsolutePath());
-				panel.add(lblModele, BorderLayout.WEST);
-			}
-			{
-				JButton button = new JButton("Fichier...");
-				button.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent arg0) {
-						fcModele.setDialogTitle("Fichier modèle");
-						fcModele.setApproveButtonText("Go");
-						fcModele.setCurrentDirectory(new File("."));
-						fcModele.setSelectedFile(fModele);
-						fcModele.setFileSelectionMode(JFileChooser.FILES_ONLY);
-						fcModele.removeChoosableFileFilter(fcModele.getFileFilter());
-						fcModele.removeChoosableFileFilter(fcModele.getAcceptAllFileFilter());
-						fcModele.addChoosableFileFilter(new ExportFileFilter("xlsx"));
-						int result = fcModele.showDialog(panel, "OK");
-						if (result == JFileChooser.APPROVE_OPTION) {
-							fModele = fcModele.getSelectedFile();
-							lblModele.setText(fModele.getPath());
-						}
-					}
-				});
-				panel.add(button, BorderLayout.EAST);
-			}
-		}
-		{
-			JPanel panel = new JPanel();
 			panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Options", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 			GridBagConstraints gbc_panel = new GridBagConstraints();
 			gbc_panel.insets = new Insets(0, 0, 5, 0);
 			gbc_panel.anchor = GridBagConstraints.NORTH;
 			gbc_panel.fill = GridBagConstraints.HORIZONTAL;
 			gbc_panel.gridx = 0;
-			gbc_panel.gridy = 4;
+			gbc_panel.gridy = 2;
 			contentPanel.add(panel, gbc_panel);
 			panel.setLayout(new BorderLayout(0, 0));
 			{
@@ -252,7 +174,7 @@ abstract public class AnalyseurEnLigne extends Dialogue implements LoggedDialog,
 			gbc_panel.anchor = GridBagConstraints.NORTH;
 			gbc_panel.fill = GridBagConstraints.HORIZONTAL;
 			gbc_panel.gridx = 0;
-			gbc_panel.gridy = 5;
+			gbc_panel.gridy = 3;
 			contentPanel.add(panel, gbc_panel);
 			panel.setLayout(new BorderLayout(0, 0));
 			{
@@ -287,7 +209,7 @@ abstract public class AnalyseurEnLigne extends Dialogue implements LoggedDialog,
 			GridBagConstraints gbc_panel = new GridBagConstraints();
 			gbc_panel.fill = GridBagConstraints.BOTH;
 			gbc_panel.gridx = 0;
-			gbc_panel.gridy = 6;
+			gbc_panel.gridy = 4;
 			contentPanel.add(panel, gbc_panel);
 			panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
 			{
@@ -339,13 +261,11 @@ abstract public class AnalyseurEnLigne extends Dialogue implements LoggedDialog,
 	}
 
 	private ExtractionIntranet connection_;
-	private JLabel lblBatch;
 	private JLabel lblSortie;
 	private JTextField txfCodeStructure;
 	private JButton btnGo;
 	private JCheckBox chkMemoriser;
 	private JCheckBox chkAge;
-	private JLabel lblModele;
 
 	@Override
 	public boolean check() {
@@ -438,10 +358,6 @@ abstract public class AnalyseurEnLigne extends Dialogue implements LoggedDialog,
 		return txtLog;
 	}
 
-	public JLabel getLblBatch() {
-		return lblBatch;
-	}
-
 	public JLabel getLblSortie() {
 		return lblSortie;
 	}
@@ -458,8 +374,5 @@ abstract public class AnalyseurEnLigne extends Dialogue implements LoggedDialog,
 	}
 	public JCheckBox getChkAge() {
 		return chkAge;
-	}
-	public JLabel getLblModele() {
-		return lblModele;
 	}
 }

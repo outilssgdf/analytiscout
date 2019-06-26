@@ -27,7 +27,7 @@ import javax.swing.border.TitledBorder;
 
 import org.leplan73.outilssgdf.Consts;
 import org.leplan73.outilssgdf.Progress;
-import org.leplan73.outilssgdf.engine.EngineRegistreDePresence;
+import org.leplan73.outilssgdf.engine.EngineAnalyseurRegistreDePresenceEnLigne;
 import org.leplan73.outilssgdf.gui.GuiProgress;
 import org.leplan73.outilssgdf.gui.utils.Appender;
 import org.leplan73.outilssgdf.gui.utils.Dialogue;
@@ -37,7 +37,7 @@ import org.leplan73.outilssgdf.gui.utils.Logging;
 import org.leplan73.outilssgdf.gui.utils.Preferences;
 import org.slf4j.LoggerFactory;
 
-public class ExtractionRegistreDePresence extends Dialogue implements GuiCommand {
+public class AnalyseRegistreDePresenceEnLigne extends Dialogue implements GuiCommand {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txfIdentifiant;
@@ -47,13 +47,14 @@ public class ExtractionRegistreDePresence extends Dialogue implements GuiCommand
 	private JTextField txfCodeStructure;
 	private JLabel lblSortie;
 	private JFileChooser fcSortie;
-	private File fSortie = new File("./données/registrepresence.csv");
+	private File fSortie = new File("./données/analyse_registrepresence.xlsx");
+	private File fModele = new File("conf/modele_registrepresence.xlsx");
 
 	/**
 	 * Create the dialog.
 	 */
-	public ExtractionRegistreDePresence() {
-		logger_ = LoggerFactory.getLogger(ExtractionRegistreDePresence.class);
+	public AnalyseRegistreDePresenceEnLigne() {
+		logger_ = LoggerFactory.getLogger(AnalyseRegistreDePresenceEnLigne.class);
 		
 		setResizable(false);
 		setTitle("Extraction registre de présence");
@@ -64,13 +65,13 @@ public class ExtractionRegistreDePresence extends Dialogue implements GuiCommand
 
 		double x = Preferences.litd(Consts.FENETRE_ANALYSEUR_X, 100);
 		double y = Preferences.litd(Consts.FENETRE_ANALYSEUR_Y, 100);
-		setBounds((int)x, (int)y, 600, 553);
+		setBounds((int)x, (int)y, 660, 600);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		GridBagLayout gbl_contentPanel = new GridBagLayout();
 		gbl_contentPanel.columnWidths = new int[]{60, 0};
-		gbl_contentPanel.rowHeights = new int[]{66, 0, 0, 0, 191};
+		gbl_contentPanel.rowHeights = new int[]{66, 0, 0, 0, 216};
 		gbl_contentPanel.columnWeights = new double[]{1.0, Double.MIN_VALUE};
 		gbl_contentPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0};
 		contentPanel.setLayout(gbl_contentPanel);
@@ -282,7 +283,7 @@ public class ExtractionRegistreDePresence extends Dialogue implements GuiCommand
 
 	@Override
 	public void go() {
-		ProgressMonitor guiprogress = new ProgressMonitor(this, "ExtractionRegistreDePresence", "", 0, 100);
+		ProgressMonitor guiprogress = new ProgressMonitor(this, "AnalyseRegistreDePresenceEnLigne", "", 0, 100);
 		
 		Progress progress = new GuiProgress(guiprogress);
 		progress.setMillisToPopup(0);
@@ -296,8 +297,10 @@ public class ExtractionRegistreDePresence extends Dialogue implements GuiCommand
 			progress.setProgress(20);
 			if (ret) {
 				try {
-					EngineRegistreDePresence en = new EngineRegistreDePresence(progress, logger_);
-					en.go(txfIdentifiant.getText(), new String(txfMotdepasse.getPassword()), fSortie, Integer.parseInt(txfCodeStructure.getText()), Integer.parseInt(txfAnnee.getText()));
+					EngineAnalyseurRegistreDePresenceEnLigne en = new EngineAnalyseurRegistreDePresenceEnLigne(progress, logger_);
+					
+					int structures[] = construitStructures(txfCodeStructure);
+					en.go(txfIdentifiant.getText(), new String(txfMotdepasse.getPassword()), fSortie, fModele, Integer.parseInt(txfAnnee.getText()), structures[0], null);
 				} catch (Exception e) {
 					logger_.error(Logging.dumpStack(null, e));
 				}

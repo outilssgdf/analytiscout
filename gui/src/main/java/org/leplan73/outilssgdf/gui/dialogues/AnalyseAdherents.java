@@ -81,20 +81,14 @@ public class AnalyseAdherents extends Template {
 									gbl_panel_title3.columnWeights = new double[]{0.0, 0.0};
 									gbl_panel_title3.columnWidths = new int[]{0, 0};
 
-									panel_collection.add(panel_9, BorderLayout.SOUTH);
+									panel_collection.add(panel_9, BorderLayout.CENTER);
 									panel_9.setLayout(new BorderLayout(0, 0));
 									panel_9.setBorder(null);
 									panel_9.add(panel_title3, BorderLayout.NORTH);
 									
 									JPanel panel_3 = new JPanel();
-									panel_9.add(panel_3);
+									panel_9.add(panel_3, BorderLayout.CENTER);
 									panel_3.setBorder(null);
-									GridBagLayout gbl_panel_3 = new GridBagLayout();
-									gbl_panel_3.columnWidths = new int[]{231, 0};
-									gbl_panel_3.rowHeights = new int[]{23, 160, 0};
-									gbl_panel_3.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-									gbl_panel_3.rowWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
-									panel_3.setLayout(gbl_panel_3);
 									
 									JButton btnAnalyserDesDonnesAdherents = new JButton("<html><p style=\"text-align:center;\">Extraire et analyser<br>des données en ligne</p>");
 									btnAnalyserDesDonnesAdherents.addActionListener(new ActionListener() {
@@ -102,12 +96,8 @@ public class AnalyseAdherents extends Template {
 											new AnalyseurEnLigneAdherents().setVisible(true);
 										}
 									});
-									GridBagConstraints gbc_btnAnalyserDesDonnesAdherents = new GridBagConstraints();
-									gbc_btnAnalyserDesDonnesAdherents.insets = new Insets(0, 0, 5, 0);
-									gbc_btnAnalyserDesDonnesAdherents.fill = GridBagConstraints.BOTH;
-									gbc_btnAnalyserDesDonnesAdherents.gridx = 0;
-									gbc_btnAnalyserDesDonnesAdherents.gridy = 0;
-									panel_3.add(btnAnalyserDesDonnesAdherents, gbc_btnAnalyserDesDonnesAdherents);
+									panel_3.setLayout(new BorderLayout(0, 0));
+									panel_3.add(btnAnalyserDesDonnesAdherents, BorderLayout.NORTH);
 
 	}
 

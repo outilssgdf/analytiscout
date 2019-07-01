@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.Consts;
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpHeaders;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -20,6 +22,21 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 public class ExtractionCamps extends ExtractionIntranet {
+	
+	protected boolean checkContentType(CloseableHttpResponse response, String type)
+	{
+		Header[] headers = response.getHeaders(HttpHeaders.CONTENT_TYPE);
+		boolean found = false;
+		for (Header header : headers)
+		{
+			if (header.getValue().contains(type) == true)
+			{
+				found = true;
+				break;
+			}
+		}
+		return found;
+	}
 	
 	public String extract(int structure) throws ClientProtocolException, IOException, JDOMException
 	{
@@ -96,6 +113,9 @@ public class ExtractionCamps extends ExtractionIntranet {
 	       entity = new UrlEncodedFormEntity(formparams, Consts.UTF_8);
 	       httppost.setEntity(entity);
 	       response = httpclient.execute(httppost);
+	       boolean ret = checkContentType(response,"application/vnd.ms-excel");
+	       if (!ret)
+	    	   throw new IOException("Données invalide");
            entity = response.getEntity();
            obj = EntityUtils.toString(entity);
 	       response.close();

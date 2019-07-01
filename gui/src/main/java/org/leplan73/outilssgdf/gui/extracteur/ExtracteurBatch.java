@@ -319,16 +319,16 @@ abstract public class ExtracteurBatch extends Dialogue implements LoggedDialog, 
 		progress.setMillisToDecideToPopup(0);
 		
 		new Thread(() -> {
-			progress.setProgress(0);
-			txtLog.setText("");
+			progress.start();
+			initLog();
 
 			boolean ret = check();
-			progress.setProgress(20);
+			progress.setProgress(20,null);
 			if (ret) {
 				try {
 					int structures[] = construitStructures(txfCodeStructure);
 					EngineExtracteurBatch en = new EngineExtracteurBatch(progress, logger_);
-					en.go(txfIdentifiant.getText(), new String(txfMotdepasse.getPassword()), fBatch, fSortie, structures[0], null, true);
+					en.go(txfIdentifiant.getText(), new String(txfMotdepasse.getPassword()), fBatch, fSortie, structures, true);
 				} catch (Exception e) {
 					logger_.error(Logging.dumpStack(null, e));
 				}

@@ -6,7 +6,10 @@ public interface Progress {
 
 	void setMillisToDecideToPopup(int i);
 
+	void start();
+	void stop();
 	void setProgress(int i);
+	void setProgress(int i, String note);
 	
 	void setNote(String note);
 

@@ -1,15 +1,12 @@
 package org.leplan73.outilssgdf.cmd;
 
 import java.io.File;
-import java.io.IOException;
 
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.jdom2.JDOMException;
-import org.leplan73.outilssgdf.ExtractionException;
 import org.leplan73.outilssgdf.cmd.utils.CmdLineException;
 import org.leplan73.outilssgdf.cmd.utils.CommonParamsG;
 import org.leplan73.outilssgdf.cmd.utils.Logging;
 import org.leplan73.outilssgdf.engine.EngineAnalyseur;
+import org.leplan73.outilssgdf.engine.EngineException;
 
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
@@ -40,10 +37,8 @@ public class Analyseur extends CommonParamsG {
 			check();
 			CmdProgress progress = new CmdProgress();
 			EngineAnalyseur en = new EngineAnalyseur(progress, Logging.logger_);
-			en.go(entree, batch, sortie, modele, structure, structures, age, "tout_responsables" ,"responsables_");
-		} catch (IOException|JDOMException | InvalidFormatException | ExtractionException e) {
-			Logging.logError(e);
-		} catch (Exception e) {
+			en.go(entree, batch, sortie, modele, structures, age, "tout_responsables" ,"responsables_");
+		} catch (EngineException e) {
 			Logging.logError(e);
 		}
 	}

@@ -309,16 +309,13 @@ abstract public class AnalyseurEnLigne extends Dialogue implements LoggedDialog,
 		progress.setMillisToDecideToPopup(0);
 		
 		new Thread(() -> {
-			progress.setProgress(0);
-			txtLog.setText("");
-
+			initLog();
 			boolean ret = check();
-			progress.setProgress(20);
 			if (ret) {
 				try {
 					int structures[] = construitStructures(txfCodeStructure);
 					EngineAnalyseurEnLigne en = new EngineAnalyseurEnLigne(progress, logger_);
-					en.go(txfIdentifiant.getText(), new String(txfMotdepasse.getPassword()), fBatch, fSortie, fModele, structures[0], null, chkAge.isSelected(), "tout_responsables", true, null);
+					en.go(txfIdentifiant.getText(), new String(txfMotdepasse.getPassword()), fBatch, fSortie, fModele, structures, chkAge.isSelected(), "tout_responsables", true, null);
 				} catch (Exception e) {
 					logger_.error(Logging.dumpStack(null, e));
 				}

@@ -6,6 +6,7 @@ import org.leplan73.outilssgdf.cmd.utils.CmdLineException;
 import org.leplan73.outilssgdf.cmd.utils.CommonParamsG;
 import org.leplan73.outilssgdf.cmd.utils.Logging;
 import org.leplan73.outilssgdf.engine.EngineAnalyseurCEC;
+import org.leplan73.outilssgdf.engine.EngineException;
 
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
@@ -20,11 +21,28 @@ public class AnalyseurCEC extends CommonParamsG {
 	@Option(names = "-sortie", required=true, description = "Fichier de sortie")
 	private File sortie;
 	
-	@Option(names = "-annee", description = "Fichier Année \"N\"")
+	@Option(names = "-annee", description = "Fichier Année \"N\"", required = true)
 	protected File annee;
 	
-	@Option(names = "-anneep", description = "Fichier Année \"N-1\"")
+	@Option(names = "-anneep", description = "Fichier Année \"N-1\"", required = true)
 	protected File anneep;
+	
+	protected void check() throws EngineException
+	{
+		if (annee.isFile() == false) {
+			throw new EngineException("Le paramètre pour l'option -annee doit être un fichier", false);
+		}
+		if (anneep.isFile() == false) {
+			throw new EngineException("Le paramètre pour l'option -anneep doit être un fichier", false);
+		}
+		if (sortie.isDirectory() == false) {
+			throw new EngineException("Le paramètre pour l'option -sortie doit être un répertoire", false);
+		}
+		if (modele.isFile() == false) {
+			throw new EngineException("Le paramètre pour l'option -modele doit être un fichier", false);
+		}
+		super.check();
+	}
 	
 	@Override
 	public void run(CommandLine commandLine) throws CmdLineException

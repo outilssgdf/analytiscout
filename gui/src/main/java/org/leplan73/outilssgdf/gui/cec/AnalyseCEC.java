@@ -271,12 +271,8 @@ public class AnalyseCEC extends Dialogue implements LoggedDialog, GuiCommand {
 		EngineAnalyseurCEC en = new EngineAnalyseurCEC(progress, logger_);
 
 		new Thread(() -> {
-			progress.setProgress(0);
-			txtLog.setText("");
-			btnGo.setEnabled(false);
-
+			initLog();
 			boolean ret = check();
-			progress.setProgress(20);
 			if (ret) {
 				logger_.info("Lancement");
 				try {
@@ -285,7 +281,6 @@ public class AnalyseCEC extends Dialogue implements LoggedDialog, GuiCommand {
 					logger_.error(Logging.dumpStack(null, e));
 				}
 			}
-			btnGo.setEnabled(true);
 		}).start();
 	}
 

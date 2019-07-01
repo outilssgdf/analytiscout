@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -140,9 +139,9 @@ public class EngineAnalyseurEnLigne extends EngineConnecte {
 		return true;
 	}
 
-	public void go(String identifiant, String motdepasse, File batch, File sortie, File modele, int structure, int[] structures, boolean age, String batch_type, boolean recursif, String fichier_sortie) throws Exception
+	public void go(String identifiant, String motdepasse, File batch, File sortie, File modele, int[] structures, boolean age, String batch_type, boolean recursif, String fichier_sortie) throws EngineException
 	{
-		Instant now = Instant.now();
+		start();
 		try
 		{
 			logger_.info("Chargement du fichier de traitement");
@@ -153,26 +152,17 @@ public class EngineAnalyseurEnLigne extends EngineConnecte {
 			login(app, identifiant, motdepasse);
 			progress_.setProgress(40);
 			
-			if (structures == null)
+			for (int istructure : structures)
 			{
-				gopriv(app, pbatch, identifiant, motdepasse, batch, sortie, modele, structure, age, batch_type, false, fichier_sortie);
-			}
-			else
-			{
-				for (int istructure : structures)
-				{
-					boolean ret = gopriv(app, pbatch, identifiant, motdepasse, batch, sortie, modele, istructure, age, batch_type, true, fichier_sortie);
-					if (ret == false)
-						break;
-				}
+				logger_.info("Traitement de la structure "+istructure);
+				boolean ret = gopriv(app, pbatch, identifiant, motdepasse, batch, sortie, modele, istructure, age, batch_type, (structures.length > 1), fichier_sortie);
+				if (ret == false)
+					break;
 			}
 			logout();
-		} catch (IOException | JDOMException | ExtractionException e) {
-			throw e;
+		} catch (IOException | JDOMException | ExtractionException | TransformeurException e) {
+			throw new EngineException("Exception dans "+this.getClass().getName(),e);
 		}
-		progress_.setProgress(100);
-
-		long d = Instant.now().getEpochSecond() - now.getEpochSecond();
-		logger_.info("Terminé en " + d + " secondes");
+		stop();
 	}
 }

@@ -3,7 +3,6 @@ package org.leplan73.outilssgdf.engine;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,13 +26,14 @@ public class EngineAnalyseurRegistreDePresence extends Engine {
 		super(progress, logger);
 	}
 	
-	private boolean gopriv(File entree, File modele, File sortie) throws ClientProtocolException, IOException, JDOMException, InvalidFormatException, ExtractionException, TransformeurException
+	private boolean gopriv(File entree, File modele, File sortie, int structure, boolean sous_dossier) throws ClientProtocolException, IOException, JDOMException, InvalidFormatException, ExtractionException, TransformeurException
 	{
-		progress_.setProgress(20);
+		progress_.setProgress(20,"Chargement des fichiers");
 		ExtracteurRegistrePresence ex = new ExtracteurRegistrePresence();
 		logger_.info("Chargement du fichier \"" + entree.getName() + "\"");
 		int anneeDebut = ex.charge(new FileInputStream(entree))+1;
-		progress_.setProgress(40);
+		progress_.setProgress(40,"Calculs");
+		logger_.info("Calculs");
 		
 		List<RegistrePresenceActiviteHeure> activitesReel = new ArrayList<RegistrePresenceActiviteHeure>();
 		List<RegistrePresenceActiviteHeure> activitesForfaitaire = new ArrayList<RegistrePresenceActiviteHeure>();
@@ -49,19 +49,34 @@ public class EngineAnalyseurRegistreDePresence extends Engine {
 		beans.put("activites_forfaitaires", activitesForfaitaire);
 		beans.put("activites_reel", activitesReel);
 		beans.put("activites_cec", activites_cec);
+		
+		File fichier_sortie = sous_dossier ? new File(sortie, "registredepresence_"+structure+".xlsx") : sortie;
 
-		Transformeur.go(modele, beans, sortie);
+		logger_.info("Génération du fichier");
+		Transformeur.go(modele, beans, fichier_sortie);
 		
 		return true;
 	}
 
-	public void go(File entree, File modele, File sortie) throws Exception
+	public void go(File entree, File modele, File sortie, int[] structures, boolean sous_dossier) throws Exception
 	{
-		Instant now = Instant.now();
-		gopriv(entree, modele, sortie);
-		progress_.setProgress(100);
-
-		long d = Instant.now().getEpochSecond() - now.getEpochSecond();
-		logger_.info("Terminé en " + d + " secondes");
+		start();
+		try
+		{
+			if (structures == null)
+			{
+				logger_.info("Traitement de la structure");
+				gopriv(entree, modele, sortie, 0, sous_dossier);
+			}
+			else
+				for (int istructure : structures)
+				{
+					logger_.info("Traitement de la structure "+istructure);
+					gopriv(entree, modele, sortie, istructure, sous_dossier);
+				}
+		} catch (IOException | JDOMException | ExtractionException | TransformeurException e) {
+			throw new EngineException("Exception dans "+this.getClass().getName(),e);
+		}
+		stop();
 	}
 }

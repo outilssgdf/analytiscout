@@ -290,17 +290,14 @@ public class AnalyseRegistreDePresenceEnLigne extends Dialogue implements GuiCom
 		progress.setMillisToDecideToPopup(0);
 		
 		new Thread(() -> {
-			progress.setProgress(0);
-			txtLog.setText("");
-
+			initLog();
 			boolean ret = check();
-			progress.setProgress(20);
 			if (ret) {
 				try {
 					EngineAnalyseurRegistreDePresenceEnLigne en = new EngineAnalyseurRegistreDePresenceEnLigne(progress, logger_);
 					
 					int structures[] = construitStructures(txfCodeStructure);
-					en.go(txfIdentifiant.getText(), new String(txfMotdepasse.getPassword()), fSortie, fModele, Integer.parseInt(txfAnnee.getText()), structures[0], null);
+					en.go(txfIdentifiant.getText(), new String(txfMotdepasse.getPassword()), fSortie, fModele, Integer.parseInt(txfAnnee.getText()), structures, false);
 				} catch (Exception e) {
 					logger_.error(Logging.dumpStack(null, e));
 				}

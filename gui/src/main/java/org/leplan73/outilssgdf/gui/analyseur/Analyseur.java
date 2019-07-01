@@ -1,7 +1,6 @@
 package org.leplan73.outilssgdf.gui.analyseur;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -19,7 +18,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ProgressMonitor;
-import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
@@ -257,21 +255,16 @@ abstract public class Analyseur extends Dialogue implements LoggedDialog, GuiCom
 		EngineAnalyseur en = new EngineAnalyseur(progress, logger_);
 
 		new Thread(() -> {
-			progress.setProgress(0);
-			txtLog.setText("");
-			btnGo.setEnabled(false);
-
+			initLog();
 			boolean ret = check();
-			progress.setProgress(20);
 			if (ret) {
 				logger_.info("Lancement");
 				try {
-					en.go(fEntree, fBatch, fSortie, fModele, 0, null, getChcAge().isSelected(), "tout_responsables", null);
+					en.go(fEntree, fBatch, fSortie, fModele, null, getChcAge().isSelected(), "tout_responsables", null);
 				} catch (Exception e) {
 					logger_.error(Logging.dumpStack(null, e));
 				}
 			}
-			btnGo.setEnabled(true);
 		}).start();
 	}
 

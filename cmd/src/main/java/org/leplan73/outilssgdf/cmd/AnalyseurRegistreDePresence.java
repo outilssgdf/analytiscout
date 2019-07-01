@@ -6,6 +6,7 @@ import org.leplan73.outilssgdf.cmd.utils.CmdLineException;
 import org.leplan73.outilssgdf.cmd.utils.CommonParamsG;
 import org.leplan73.outilssgdf.cmd.utils.Logging;
 import org.leplan73.outilssgdf.engine.EngineAnalyseurRegistreDePresence;
+import org.leplan73.outilssgdf.engine.EngineException;
 
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
@@ -20,8 +21,19 @@ public class AnalyseurRegistreDePresence extends CommonParamsG {
 	@Option(names = "-sortie", required=true, description = "Fichier de sortie")
 	private File sortie;
 
-	@Option(names = "-annee", description = "Fichier Année \"N\"")
-	protected File annee;
+	@Option(names = "-annee", description = "Fichier Année \"N\"", required = true)
+	private File annee;
+	
+	protected void check() throws EngineException
+	{
+		if (sortie.isDirectory() == true && structures.length == 1) {
+			throw new EngineException("Le paramètre pour l'option -sortie doit être un fichier", false);
+		}
+		if (modele.isFile() == false) {
+			throw new EngineException("Le paramètre pour l'option -modele doit être un fichier", false);
+		}
+		super.check();
+	}
 	
 	@Override
 	public void run(CommandLine commandLine) throws CmdLineException
@@ -33,7 +45,7 @@ public class AnalyseurRegistreDePresence extends CommonParamsG {
 			check();
 			CmdProgress progress = new CmdProgress();
 			EngineAnalyseurRegistreDePresence en = new EngineAnalyseurRegistreDePresence(progress, Logging.logger_);
-			en.go(annee, modele, sortie);
+			en.go(annee, modele, sortie, structures, true);
 		} catch (Exception e) {
 			Logging.logger_.error(Logging.dumpStack(null, e));
 		}

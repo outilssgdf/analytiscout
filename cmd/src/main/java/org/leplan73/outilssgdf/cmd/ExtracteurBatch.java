@@ -1,18 +1,20 @@
 package org.leplan73.outilssgdf.cmd;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import org.jdom2.JDOMException;
 import org.leplan73.outilssgdf.cmd.utils.CmdLineException;
 import org.leplan73.outilssgdf.cmd.utils.CommonParamsG;
 import org.leplan73.outilssgdf.cmd.utils.CommonParamsIntranet;
 import org.leplan73.outilssgdf.cmd.utils.Logging;
+import org.leplan73.outilssgdf.engine.EngineException;
 import org.leplan73.outilssgdf.engine.EngineExtracteurBatch;
 
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
+import picocli.CommandLine.PicocliException;
 
 @Command(name = "extracteurbatch", mixinStandardHelpOptions = true, versionProvider = CommonParamsG.class)
 public class ExtracteurBatch extends CommonParamsIntranet {
@@ -35,10 +37,14 @@ public class ExtracteurBatch extends CommonParamsIntranet {
 			charge();
 			CmdProgress progress = new CmdProgress();
 			EngineExtracteurBatch en = new EngineExtracteurBatch(progress, Logging.logger_);
-			en.go(identifiant, motdepasse, batch, sortie, structure, structures, true);
-		} catch (IOException|JDOMException e) {
+			en.go(identifiant, motdepasse, batch, sortie, structures, true);
+		} catch (EngineException e) {
 			Logging.logError(e);
-		} catch (Exception e) {
+		} catch (PicocliException e) {
+			Logging.logError(e);
+		} catch (FileNotFoundException e) {
+			Logging.logError(e);
+		} catch (IOException e) {
 			Logging.logError(e);
 		}
 	}

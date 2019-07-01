@@ -21,11 +21,23 @@ public class CmdProgress implements Progress {
 	}
 
 	@Override
+	public void setProgress(int i, String note) {
+	}
+
+	@Override
 	public boolean isCanceled() {
 		return false;
 	}
 
 	@Override
 	public void setNote(String note) {
+	}
+
+	@Override
+	public void start() {
+	}
+
+	@Override
+	public void stop() {
 	}
 }

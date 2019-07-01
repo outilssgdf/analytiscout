@@ -113,7 +113,7 @@ public class RegistrePresenceUnite extends UniteSimple {
 				int index = activites_.size()-record.size()+i+1;
 				activites_.get(index).complete(nom_);
 			}
-			anneeDebut = activites_.get(2).getDebutAnnee();
+			anneeDebut = activites_.get(0).getDebutAnnee();
 		}
 		if (nom.compareTo("Volume horaire forfaitaire") == 0)
 		{
@@ -122,7 +122,7 @@ public class RegistrePresenceUnite extends UniteSimple {
 				int index = activites_.size()-record.size()+i+1;
 				activites_.get(index).complete(nom_);
 			}
-			anneeDebut = activites_.get(2).getDebutAnnee();
+			anneeDebut = activites_.get(0).getDebutAnnee();
 		}
 		if (nom.compareTo("Animateurs") == 0)
 		{

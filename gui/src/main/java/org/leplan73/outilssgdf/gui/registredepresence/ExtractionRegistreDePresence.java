@@ -289,15 +289,13 @@ public class ExtractionRegistreDePresence extends Dialogue implements GuiCommand
 		progress.setMillisToDecideToPopup(0);
 		
 		new Thread(() -> {
-			progress.setProgress(0);
-			txtLog.setText("");
-
+			initLog();
 			boolean ret = check();
-			progress.setProgress(20);
 			if (ret) {
 				try {
 					EngineRegistreDePresence en = new EngineRegistreDePresence(progress, logger_);
-					en.go(txfIdentifiant.getText(), new String(txfMotdepasse.getPassword()), fSortie, Integer.parseInt(txfCodeStructure.getText()), Integer.parseInt(txfAnnee.getText()));
+					int structures[] = construitStructures(txfCodeStructure);
+					en.go(txfIdentifiant.getText(), new String(txfMotdepasse.getPassword()), fSortie, structures, Integer.parseInt(txfAnnee.getText()));
 				} catch (Exception e) {
 					logger_.error(Logging.dumpStack(null, e));
 				}

@@ -1,15 +1,13 @@
 package org.leplan73.outilssgdf.cmd;
 
 import java.io.File;
-import java.io.IOException;
 import java.time.Instant;
 
-import org.jdom2.JDOMException;
-import org.leplan73.outilssgdf.ExtractionException;
 import org.leplan73.outilssgdf.cmd.utils.CmdLineException;
 import org.leplan73.outilssgdf.cmd.utils.CommonParamsG;
 import org.leplan73.outilssgdf.cmd.utils.CommonParamsIntranet;
 import org.leplan73.outilssgdf.cmd.utils.Logging;
+import org.leplan73.outilssgdf.engine.EngineException;
 import org.leplan73.outilssgdf.engine.EngineGenerateur;
 
 import picocli.CommandLine;
@@ -38,9 +36,7 @@ public class Generateur extends CommonParamsIntranet {
 			EngineGenerateur en = new EngineGenerateur(progress, Logging.logger_);
 			en.go(identifiant,motdepasse, sortie, structures[0], structures);
 			
-		} catch (IOException|JDOMException|ExtractionException e) {
-			Logging.logError(e);
-		} catch (Exception e) {
+		} catch (EngineException e) {
 			Logging.logError(e);
 		}
 		

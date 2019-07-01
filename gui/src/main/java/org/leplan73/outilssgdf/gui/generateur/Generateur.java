@@ -268,11 +268,8 @@ public class Generateur extends Dialogue implements LoggedDialog, GuiCommand {
 		progress.setMillisToDecideToPopup(0);
 		
 		new Thread(() -> {
-			progress.setProgress(0);
-			txtLog.setText("");
-
+			initLog();
 			boolean ret = check();
-			progress.setProgress(20);
 			if (ret) {
 				try {
 					int structures[] = construitStructures(txfCodeStructure);

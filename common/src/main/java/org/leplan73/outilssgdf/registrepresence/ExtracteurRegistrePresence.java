@@ -30,7 +30,7 @@ public class ExtracteurRegistrePresence {
 		unites_.forEach((k,v) -> v.construitActivites(activites));
 	}
 	
-	public int charge(final InputStream stream)
+	public int charge(final InputStream stream) throws IOException
 	{
 		RegistrePresenceUnite unite = null;
 		int anneeDebut = -1;
@@ -83,13 +83,13 @@ public class ExtracteurRegistrePresence {
 			unite.complete(groupe);
 			unites_.put(unite.getStructure(), unite);
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw e;
 		} finally {
 		}
 		return anneeDebut;
 	}
 
-	public void exportInfluxDb(File out) {
+	public void exportInfluxDb(File out) throws FileNotFoundException {
 		PrintStream os;
 		try {
 			os = new PrintStream(new FileOutputStream(out));
@@ -117,7 +117,7 @@ public class ExtracteurRegistrePresence {
 			os.flush();
 			os.close();
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			throw e;
 		}
 	}
 

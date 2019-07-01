@@ -9,12 +9,9 @@ public class CommonParamsG extends CmdParams {
 	@Option(names = "-structures", description = "Structures à extraire", arity = "1..*", split = ",")
 	protected int[] structures;
 	
-	@Option(names = "-structure", description = "Structure à extraire")
-	protected int structure;
-	
 	protected void check() throws EngineException
 	{
-		if (structures == null && structure == 0)
+		if (structures == null)
 		{
 			throw new EngineException("-structures ou -structure doit être utilisé", false);
 		}

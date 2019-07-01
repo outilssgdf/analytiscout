@@ -6,7 +6,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.time.Instant;
 import java.util.zip.ZipOutputStream;
 
 import org.apache.http.client.ClientProtocolException;
@@ -45,26 +44,24 @@ public class EngineGenerateur extends EngineConnecte {
 		return true;
 	}
 
-	public void go(String identifiant, String motdepasse, File sortie, int structure, int[] structures) throws Exception
+	public void go(String identifiant, String motdepasse, File sortie, int structure, int[] structures) throws EngineException
 	{
-		Instant now = Instant.now();
+		start();
 		try
 		{
 			ExtractionAdherents app = new ExtractionAdherents();
+			progress_.setProgress(30, "Connexion");
 			login(app, identifiant, motdepasse);
-			progress_.setProgress(40);
+			progress_.setProgress(40, "Génération des fichiers");
 			
 			gopriv(app, identifiant, motdepasse, sortie, structure);
-			progress_.setProgress(80);
+			progress_.setProgress(80,"Déconnexion");
 			
 			logout();
 		} catch (IOException | JDOMException | InvalidFormatException | ExtractionException e) {
-			throw e;
+			throw new EngineException("Exception dans "+this.getClass().getName(),e);
 		}
-		progress_.setProgress(100);
-
-		long d = Instant.now().getEpochSecond() - now.getEpochSecond();
-		logger_.info("Terminé en " + d + " secondes");
+		stop();
 	}
 
 }

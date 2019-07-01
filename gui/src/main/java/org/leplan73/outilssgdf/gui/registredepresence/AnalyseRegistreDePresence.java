@@ -232,21 +232,18 @@ public class AnalyseRegistreDePresence extends Dialogue implements LoggedDialog,
 		EngineAnalyseurRegistreDePresence en = new EngineAnalyseurRegistreDePresence(progress, logger_);
 
 		new Thread(() -> {
-			progress.setProgress(0);
-			txtLog.setText("");
-			btnGo.setEnabled(false);
-
+			progress.start();
+			initLog();
 			boolean ret = check();
-			progress.setProgress(20);
+			progress.setProgress(20, null);
 			if (ret) {
-				logger_.info("Lancement");
+				addLog("Lancement");
 				try {
-					en.go(fEntree, fModele, fSortie);
+					en.go(fEntree, fModele, fSortie, null, false);
 				} catch (Exception e) {
 					logger_.error(Logging.dumpStack(null, e));
 				}
 			}
-			btnGo.setEnabled(true);
 		}).start();
 	}
 

@@ -31,7 +31,6 @@ import org.leplan73.outilssgdf.engine.EngineAnalyseurCECEnLigne;
 import org.leplan73.outilssgdf.gui.GuiProgress;
 import org.leplan73.outilssgdf.gui.utils.Appender;
 import org.leplan73.outilssgdf.gui.utils.Dialogue;
-import org.leplan73.outilssgdf.gui.utils.ExportFileFilter;
 import org.leplan73.outilssgdf.gui.utils.GuiCommand;
 import org.leplan73.outilssgdf.gui.utils.LoggedDialog;
 import org.leplan73.outilssgdf.gui.utils.Logging;
@@ -284,13 +283,8 @@ public class AnalyseCECEnligne extends Dialogue implements LoggedDialog, GuiComm
 		
 		EngineAnalyseurCECEnLigne en = new EngineAnalyseurCECEnLigne(progress, logger_);
 
-		new Thread(() -> {
-			progress.setProgress(0);
-			txtLog.setText("");
-			btnGo.setEnabled(false);
-
+		new Thread(() -> {initLog();
 			boolean ret = check();
-			progress.setProgress(20);
 			if (ret) {
 				logger_.info("Lancement");
 				try {
@@ -300,7 +294,6 @@ public class AnalyseCECEnligne extends Dialogue implements LoggedDialog, GuiComm
 					logger_.error(Logging.dumpStack(null, e));
 				}
 			}
-			btnGo.setEnabled(true);
 		}).start();
 	}
 

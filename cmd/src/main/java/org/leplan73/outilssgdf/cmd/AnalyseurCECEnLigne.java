@@ -7,6 +7,7 @@ import org.leplan73.outilssgdf.cmd.utils.CommonParamsG;
 import org.leplan73.outilssgdf.cmd.utils.CommonParamsIntranet;
 import org.leplan73.outilssgdf.cmd.utils.Logging;
 import org.leplan73.outilssgdf.engine.EngineAnalyseurCECEnLigne;
+import org.leplan73.outilssgdf.engine.EngineException;
 
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
@@ -21,6 +22,20 @@ public class AnalyseurCECEnLigne extends CommonParamsIntranet {
 	@Option(names = "-sortie", required=true, description = "Fichier de sortie")
 	private File sortie;
 	
+	@Option(names = "-annee", description = "Année", required = true)
+	private int annee;
+	
+	protected void check() throws EngineException
+	{
+		if (sortie.isDirectory() == false) {
+			throw new EngineException("Le paramètre pour l'option -sortie doit être un répertoire", false);
+		}
+		if (modele.isFile() == false) {
+			throw new EngineException("Le paramètre pour l'option -modele doit être un fichier", false);
+		}
+		super.check();
+	}
+	
 	@Override
 	public void run(CommandLine commandLine) throws CmdLineException
 	{
@@ -28,10 +43,11 @@ public class AnalyseurCECEnLigne extends CommonParamsIntranet {
 		chargeParametres();
 
 		try {
+			charge();
 			check();
 			CmdProgress progress = new CmdProgress();
 			EngineAnalyseurCECEnLigne en = new EngineAnalyseurCECEnLigne(progress, Logging.logger_);
-			en.go(identifiant,motdepasse, sortie, modele, structure, structures);
+			en.go(identifiant,motdepasse, sortie, modele, annee, structures);
 		} catch (Exception e) {
 			Logging.logger_.error(Logging.dumpStack(null, e));
 		}

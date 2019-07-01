@@ -4,7 +4,6 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,23 +27,25 @@ public class EngineAnalyseurRegistreDePresenceEnLigne extends EngineConnecte {
 		super(progress, logger);
 	}
 	
-	private boolean gopriv(ExtractionRegistrePresence app, int structure, int annee, File sortie, File modele) throws ClientProtocolException, IOException, JDOMException, TransformeurException
+	private boolean gopriv(ExtractionRegistrePresence app, int structure, int annee, File sortie, File modele, boolean sous_dossier) throws ClientProtocolException, IOException, JDOMException, TransformeurException
 	{
-		progress_.setProgress(20);
-		
+		progress_.setProgress(20, "Extraction");
+		logger_.info("Extraction");
 		String donnees = app.extract(structure, annee, 0, false);
 		InputStream in = new ByteArrayInputStream(donnees.getBytes(Consts.ENCODING_UTF8));
 		
 		ExtracteurRegistrePresence ex = new ExtracteurRegistrePresence();
 		int anneeDebut = ex.charge(in)+1;
-		progress_.setProgress(40);
+		progress_.setProgress(40, "Chargement des fichiers");
+		logger_.info("Chargement des fichiers");
 		
 		List<RegistrePresenceActiviteHeure> activitesReel = new ArrayList<RegistrePresenceActiviteHeure>();
 		List<RegistrePresenceActiviteHeure> activitesForfaitaire = new ArrayList<RegistrePresenceActiviteHeure>();
 		List<RegistrePresenceActiviteHeure> activites_cec = new ArrayList<RegistrePresenceActiviteHeure>();
 		ex.getActivites(activitesReel, activitesForfaitaire);
 
-		progress_.setProgress(60);
+		progress_.setProgress(60, "Calculs");
+		logger_.info("Calculs");
 		
 		List<RegistrePresenceActivite> activites_total = new ArrayList<RegistrePresenceActivite>();
 		ex.construitActivites(activites_total);
@@ -55,58 +56,37 @@ public class EngineAnalyseurRegistreDePresenceEnLigne extends EngineConnecte {
 		beans.put("activites_forfaitaires", activitesForfaitaire);
 		beans.put("activites_reel", activitesReel);
 		beans.put("activites_cec", activites_cec);
+		
+		File fichier_sortie = sous_dossier ? new File(sortie, "registredepresence_"+structure+".xlsx") : sortie;
 
-		Transformeur.go(modele, beans, sortie);
-
-		progress_.setProgress(80);
+		logger_.info("Génération du fichier");
+		Transformeur.go(modele, beans, fichier_sortie);
 		
 		return true;
 	}
 
-	public void go(String identifiant, String motdepasse, File fSortie, File fModele, int annee, int structure, int[] structures) throws IOException, EngineException, JDOMException, TransformeurException
+	public void go(String identifiant, String motdepasse, File fSortie, File fModele, int annee, int[] structures, boolean sous_dossier) throws EngineException
 	{
-		Instant now = Instant.now();
-		
+		start();
 		try
 		{
 			ExtractionRegistrePresence app = new ExtractionRegistrePresence();
+			progress_.setProgress(30, "Connexion");
 			login(app, identifiant, motdepasse);
-			progress_.setProgress(40);
-			
-			if (structures == null)
-			{
-				gopriv(app, structure, annee, fSortie, fModele);
-			}
-			else
-			{
-				for (int istructure : structures)
-				{
-					boolean ret = gopriv(app, istructure, annee, fSortie, fModele);
-					if (ret == false)
-						break;
-				}
-			}
+			progress_.setProgress(40, "Extraction");
 			
 			for (int istructure : structures)
 			{
-				boolean ret = gopriv(app, istructure, annee, fSortie, fModele);
+				logger_.info("Traitement de la structure "+istructure);
+				boolean ret = gopriv(app, istructure, annee, fSortie, fModele, sous_dossier);
 				if (ret == false)
 					break;
 			}
 			logout();
-		} catch (IOException e) {
-			throw e;
-		} catch (EngineException e) {
-			throw e;
-		} catch (JDOMException e) {
-			throw e;
-		} catch (TransformeurException e) {
-			throw e;
+		} catch (IOException | JDOMException | TransformeurException e) {
+			throw new EngineException("Exception dans "+this.getClass().getName(),e);
 		}
-		progress_.setProgress(100);
-
-		long d = Instant.now().getEpochSecond() - now.getEpochSecond();
-		logger_.info("Terminé en " + d + " secondes");
+		stop();
 	}
 }
 	

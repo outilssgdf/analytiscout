@@ -29,6 +29,12 @@ public class GuiProgress implements Progress {
 	}
 
 	@Override
+	public void setProgress(int i, String note) {
+		if (progress_ != null) progress_.setProgress(i);
+		if (note != null) progress_.setNote(note);
+	}
+
+	@Override
 	public boolean isCanceled() {
 		if (progress_ != null) return progress_.isCanceled();
 		return false;
@@ -37,5 +43,15 @@ public class GuiProgress implements Progress {
 	@Override
 	public void setNote(String note) {
 		if (progress_ != null) progress_.setNote(note);
+	}
+
+	@Override
+	public void start() {
+		this.setProgress(0, "Lancement");
+	}
+
+	@Override
+	public void stop() {
+		this.setProgress(100, "Fin");
 	}
 }

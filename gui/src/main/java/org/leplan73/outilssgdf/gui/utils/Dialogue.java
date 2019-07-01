@@ -17,6 +17,11 @@ public class Dialogue extends JDialog implements LoggedDialog {
 	}
 
 	@Override
+	public void initLog() {
+		txtLog.setText("");
+	}
+
+	@Override
 	public void addLog(String message) {
 		String texte = txtLog.getText();
 		if (texte.length() > 0)

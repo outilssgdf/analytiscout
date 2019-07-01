@@ -43,6 +43,8 @@ Version 1.0.1/1.0.2 :
 	- Filtrage du unité "non-jeune" dans les quotas de camp
 	- Changements esthétiques : icône, image, LAF
 Version 1.0.3 (en cours) :
-	- Préparation de l'intégration des registres de présence 
+	- Extraction et analyse du registres de présence 
+	- Extraction et génération de la feuille excel d'aide au calcul du CEC
 	- Préparation de l'intégration des camps
 	- Fusion des analyses responsables et compas
+	- Organisation du code

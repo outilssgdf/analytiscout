@@ -1,8 +1,6 @@
 package org.leplan73.outilssgdf.intranet;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -143,6 +141,85 @@ public class ExtractionRegistrePresence extends ExtractionIntranet {
 				structureMap.put(structure, Integer.valueOf(nodeId.toString()));
 			}
 			tbStructure = structure != ExtractionIntranet.STRUCTURE_TOUT ? structureMap.get(structure) : 0;
+		}
+		
+		if (true) {
+			HttpPost httppost = new HttpPost(ExtractionIntranet.getIntranet() + "/Specialisation/Sgdf/ActivitesAnnee/ConsulterRegistrePresence.aspx");
+			httppost.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 6.1; rv:31.0) Gecko/20100101 Firefox/31.0");
+			httppost.addHeader("Accept","*/*");
+			httppost.addHeader("Accept-Language", "fr-FR,fr;q=0.9,en-US;q=0.8,en;q=0.7");
+			httppost.addHeader("Cache-Control", "no-cache");
+			httppost.addHeader("Connection","keep-alive");
+			httppost.addHeader("Pragma", "no-cache");
+			httppost.addHeader("DNT", "1");
+			httppost.addHeader("Origin", "https://intranet.sgdf.fr");
+			httppost.addHeader("Referer", "https://intranet.sgdf.fr/Specialisation/Sgdf/ActivitesAnnee/ConsulterRegistrePresence.aspx");
+			httppost.addHeader("X-MicrosoftAjax","Delta=true");
+			httppost.addHeader("X-Requested-With","XMLHttpRequest");
+
+			List<NameValuePair> formparams = new ArrayList<NameValuePair>();
+			formparams.add(new BasicNameValuePair("__EVENTTARGET", "ctl00$MainContent$_EditeurRegistrePresence$_navigateur$_autocompleteStructures"));
+			
+			if (tbAutoCompleteCode != null)
+			{
+				String tbAutoCompleteCode2 = new String(tbAutoCompleteCode);
+				tbAutoCompleteCode2 = tbAutoCompleteCode2.replaceAll("\\{", "");
+				tbAutoCompleteCode2 = tbAutoCompleteCode2.replaceAll("\\}", "");
+				tbAutoCompleteCode2 = tbAutoCompleteCode2.replaceAll("\\[", "");
+				tbAutoCompleteCode2 = tbAutoCompleteCode2.replaceAll("\\]", "");
+				formparams.add(new BasicNameValuePair("__EVENTARGUMENT", "{\"eventName\":\"Add\","+tbAutoCompleteCode2+"}"));
+			}
+			formparams.add(new BasicNameValuePair("__LASTFOCUS", ""));
+			formparams.add(new BasicNameValuePair("__VIEWSTATE", viewstate));
+			formparams.add(new BasicNameValuePair("__VIEWSTATEGENERATOR", viewstategenerator));
+			formparams.add(new BasicNameValuePair("__EVENTVALIDATION", eventvalidation));
+			formparams.add(new BasicNameValuePair("__ASYNCPOST","true"));
+
+			formparams.add(new BasicNameValuePair("ctl00$ScriptManager1","ctl00$MainContent$_EditeurRegistrePresence$_navigateur$_upSelecteurStructureAutocomplete|ctl00$MainContent$_EditeurRegistrePresence$_navigateur$_autocompleteStructures"));
+			formparams.add(new BasicNameValuePair("ctl00$_ddRechercheType", "0"));
+			
+			formparams.add(new BasicNameValuePair("ctl00$_hfAvisUtilisateurModalId", "ctl00__btnAvisUtilisateur__modal"));
+			formparams.add(new BasicNameValuePair("ctl00$_hfAvisUtilisateurModalFrameId","ctl00__btnAvisUtilisateur__modalFrame"));
+			formparams.add(new BasicNameValuePair("ctl00$_hfAvisUtilisateurUrl", "https://sgdf.limequery.net/725453?lang=fr"));
+			formparams.add(new BasicNameValuePair("ctl00$_hfAvisUtilisateur", ""));
+			formparams.add(new BasicNameValuePair("ctl00$_hfAlertesId", "165,164,163,162,161,159,158,155,152,137,119"));
+			
+			formparams.add(new BasicNameValuePair("ctl00$_navbar$_ddRechercheTypeXS", "0"));
+			formparams.add(new BasicNameValuePair("ctl00$MainContent$_EditeurRegistrePresence$_hfRetirerId", ""));
+			formparams.add(new BasicNameValuePair("ctl00$MainContent$_EditeurRegistrePresence$_ddSaison", "" + saison));
+			formparams.add(new BasicNameValuePair("ctl00$MainContent$_EditeurRegistrePresence$_navigateur$_hidCodeStructure", "" + structure));
+			if (ddStructure != null) {
+				formparams.add(new BasicNameValuePair("ctl00$MainContent$_EditeurRegistrePresence$_navigateur$_ddStructure","" + ddStructure));
+			}
+			formparams.add(new BasicNameValuePair("ctl00$MainContent$_EditeurRegistrePresence$_ddPeriodes", "" + 6));
+			formparams.add(new BasicNameValuePair("ctl00$MainContent$_EditeurRegistrePresence$_cbAdherentsUniquement", "on"));
+			formparams.add(new BasicNameValuePair("ctl00$MainContent$_EditeurRegistrePresence$ModeVolumeHoraire",forfaitaire ? "_rdbModeVolumeHoraireForfaitaire" : "_rdbModeVolumeHoraireReel"));
+			formparams.add(new BasicNameValuePair("ctl00$MainContent$_EditeurRegistrePresence$_tbIdsCheckBox", ""));
+			formparams.add(new BasicNameValuePair("eo_version", "11.0.20.2"));
+			formparams.add(new BasicNameValuePair(" eo_style_keys", "/wFk"));
+			formparams.add(new BasicNameValuePair("ctl00$_hidReferenceStatistiqueUtilisation", "-1"));
+			formparams.add(new BasicNameValuePair("ctl00$_hfSuggestionAvisUtilisateur", "hidden"));
+			formparams.add(new BasicNameValuePair("ctl00$_ddDelegations", "0"));
+
+			entity = new UrlEncodedFormEntity(formparams, Consts.UTF_8);
+			httppost.setEntity(entity);
+			response = httpclient.execute(httppost);
+			entity = response.getEntity();
+			obj = EntityUtils.toString(entity);
+			response.close();
+			if (logger_.isDebugEnabled())
+				logger_.debug(obj);
+			List<AjaxE> l = parseAjax(obj);
+			AjaxE aj = rechercheAjax(l, "__VIEWSTATE");
+			if (aj != null)
+			{
+				viewstate = aj.donnees_;
+			}
+			aj = rechercheAjax(l, "__EVENTVALIDATION");
+			if (aj != null)
+			{
+				eventvalidation = aj.donnees_;
+			}
 		}
 
 		{

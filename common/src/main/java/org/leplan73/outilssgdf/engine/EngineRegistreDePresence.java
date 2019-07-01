@@ -3,7 +3,6 @@ package org.leplan73.outilssgdf.engine;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.time.Instant;
 
 import org.apache.http.client.ClientProtocolException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -19,40 +18,46 @@ public class EngineRegistreDePresence extends EngineConnecte {
 		super(progress, logger);
 	}
 	
-	private boolean gopriv(ExtractionRegistrePresence app, String identifiant, String motdepasse, File sortie, int structure, int annee) throws ClientProtocolException, IOException, JDOMException, InvalidFormatException, ExtractionException
+	private boolean gopriv(ExtractionRegistrePresence app, String identifiant, String motdepasse, File sortie, int structure, int annee, boolean sous_dossier) throws ClientProtocolException, IOException, JDOMException, InvalidFormatException, ExtractionException
 	{
 		logger_.info("Extraction registre de presence (annee="+annee+")");
 		String donnees = app.extract(structure, annee, 0 , true);
 		
+		File fichier_sortie = sous_dossier ? new File(sortie, "registredepresence_"+structure+".csv") : sortie;
+		
 		// Génération du fichier csv
-		logger_.info("Génération du fichier "+sortie.getName());
-		FileOutputStream os = new FileOutputStream(sortie);
+		logger_.info("Génération du fichier "+fichier_sortie.getName());
+		FileOutputStream os = new FileOutputStream(fichier_sortie);
 		os.write(donnees.getBytes());
 		os.flush();
 		os.close();
 		return true;
 	}
 
-	public void go(String identifiant, String motdepasse, File sortie, int structure, int annee) throws Exception
+	public void go(String identifiant, String motdepasse, File sortie, int[] structures, int annee) throws EngineException
 	{
-		Instant now = Instant.now();
+		start();
 		try
 		{
 			ExtractionRegistrePresence app = new ExtractionRegistrePresence();
+			progress_.setProgress(30, "Connexion");
 			login(app, identifiant, motdepasse);
-			progress_.setProgress(40);
+			progress_.setProgress(40, "Extraction");
 			
-			gopriv(app, identifiant, motdepasse, sortie, structure, annee);
-			progress_.setProgress(80);
+			for (int istructure : structures)
+			{
+				logger_.info("Traitement de la structure "+istructure);
+				boolean ret = gopriv(app, identifiant, motdepasse, sortie, istructure, annee, (structures.length > 1));
+				if (ret == false)
+					break;
+			}
+			progress_.setProgress(80,"Déconnexion");
 			
 			logout();
 		} catch (IOException | JDOMException | InvalidFormatException | ExtractionException e) {
-			throw e;
+			throw new EngineException("Exception dans "+this.getClass().getName(),e);
 		}
-		progress_.setProgress(100);
-
-		long d = Instant.now().getEpochSecond() - now.getEpochSecond();
-		logger_.info("Terminé en " + d + " secondes");
+		stop();
 	}
 
 }

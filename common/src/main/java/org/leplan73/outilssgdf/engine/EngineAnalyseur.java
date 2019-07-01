@@ -3,7 +3,6 @@ package org.leplan73.outilssgdf.engine;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -13,7 +12,6 @@ import org.jdom2.JDOMException;
 import org.leplan73.outilssgdf.ExtracteurExtraHtml;
 import org.leplan73.outilssgdf.ExtracteurIndividusHtml;
 import org.leplan73.outilssgdf.ExtractionException;
-import org.leplan73.outilssgdf.Params;
 import org.leplan73.outilssgdf.Progress;
 import org.leplan73.outilssgdf.Transformeur;
 import org.leplan73.outilssgdf.TransformeurException;
@@ -31,12 +29,6 @@ public class EngineAnalyseur extends Engine {
 		super(progress, logger);
 	}
 	
-	public void chargeParametres()
-	{
-		logger_.info("Chargement du fichier de paramètres");
-		Params.init();
-	}
-	
 	private boolean gopriv(Properties pbatch, File entree, File batch, File sortie, File modele, int structure, boolean age, String batch_type, boolean sous_dossier, String nom_fichier_sortie) throws TransformeurException, ExtractionException, IOException, JDOMException
 	{
 		logger_.info("Traitement de la structure "+structure);
@@ -45,7 +37,7 @@ public class EngineAnalyseur extends Engine {
 		File fichierAdherents = null;
 
 		File dossierStructure = sous_dossier ? new File(entree,""+structure) : entree;
-		dossierStructure.exists();
+		dossierStructure.mkdirs();
 		progress_.setProgress(40);
 
 		int index = 1;
@@ -104,11 +96,9 @@ public class EngineAnalyseur extends Engine {
 		return true;
 	}
 
-	public void go(File entree, File batch, File sortie, File modele, int structure, int[] structures, boolean age, String batch_type, String fichier_sortie) throws Exception {
-		Instant now = Instant.now();
-
-		logger_.info("Lancement");
-
+	public void go(File entree, File batch, File sortie, File modele, int[] structures, boolean age, String batch_type, String fichier_sortie) throws EngineException {
+		start();
+		
 		chargeParametres();
 
 		try {
@@ -118,24 +108,21 @@ public class EngineAnalyseur extends Engine {
 			
 			if (structures == null)
 			{
-				gopriv(pbatch, entree, batch, sortie, modele, structure, age, batch_type, false, fichier_sortie);
+				logger_.info("Traitement de la structure");
+				gopriv(pbatch, entree, batch, sortie, modele, 0, age, batch_type, false, fichier_sortie);
 			}
 			else
-			{
 				for (int istructure : structures)
 				{
-					boolean ret = gopriv(pbatch, entree, batch, sortie, modele, istructure, age, batch_type, true, fichier_sortie);
+					logger_.info("Traitement de la structure "+istructure);
+					boolean ret = gopriv(pbatch, entree, batch, sortie, modele, istructure, age, batch_type, (structures.length > 1), fichier_sortie);
 					if (ret == false)
 						break;
 				}
-			}
-		} catch (IOException | JDOMException | ExtractionException e) {
-			throw e;
+		} catch (TransformeurException | IOException | JDOMException | ExtractionException e) {
+			throw new EngineException("Exception dans "+this.getClass().getName(),e);
 		}
-
-		progress_.setProgress(100);
-		long d = Instant.now().getEpochSecond() - now.getEpochSecond();
-		logger_.info("Terminé en " + d + " seconds");
+		stop();
 	}
 
 }

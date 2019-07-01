@@ -37,10 +37,11 @@ public class AnalyseurEnLigne extends CommonParamsIntranet {
 		chargeParametres();
 
 		try {
+			charge();
 			check();
 			CmdProgress progress = new CmdProgress();
 			EngineAnalyseurEnLigne en = new EngineAnalyseurEnLigne(progress, Logging.logger_);
-			en.go(identifiant,motdepasse, batch, sortie, modele, structure, structures, age, "tout_responsables", recursif, "responsables_");
+			en.go(identifiant,motdepasse, batch, sortie, modele, structures, age, "tout_responsables", recursif, "responsables_");
 		} catch (Exception e) {
 			Logging.logger_.error(Logging.dumpStack(null, e));
 		}

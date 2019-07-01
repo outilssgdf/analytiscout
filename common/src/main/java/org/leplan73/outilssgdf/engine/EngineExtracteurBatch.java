@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.nio.charset.Charset;
-import java.time.Instant;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
@@ -145,37 +144,28 @@ public class EngineExtracteurBatch extends EngineConnecte {
 		return true;
 	}
 	
-	public void go(String identifiant, String motdepasse, File batch, File sortie, int structure, int[] structures, boolean recursif) throws Exception {
-		Instant now = Instant.now();
+	public void go(String identifiant, String motdepasse, File batch, File sortie, int[] structures, boolean recursif) throws EngineException {
+		start();
 		try {
 			Properties pbatch = new Properties();
 			pbatch.load(new FileInputStream(batch));
 
-			progress_.setProgress(20);
+			progress_.setProgress(20, "Connexion");
 			ExtractionAdherents app = new ExtractionAdherents();
 			login(app, identifiant, motdepasse);
-			progress_.setProgress(40);
-			
-			if (structures == null)
+			progress_.setProgress(40, "Extraction");
+
+			for (int istructure : structures)
 			{
-				gopriv(app, pbatch, identifiant, motdepasse, batch, sortie, structure, recursif, false);
-			}
-			else
-			{
-				for (int istructure : structures)
-				{
-					boolean ret = gopriv(app, pbatch, identifiant, motdepasse, batch, sortie, istructure, recursif, true);
-					if (ret == false)
-						break;
-				}
+				logger_.info("Traitement de la structure "+istructure);
+				boolean ret = gopriv(app, pbatch, identifiant, motdepasse, batch, sortie, istructure, recursif, (structures.length > 1));
+				if (ret == false)
+					break;
 			}
 			logout();
-			progress_.setProgress(100);
-		} catch (IOException e) {
-			throw e;
+		} catch (IOException | JDOMException e) {
+			throw new EngineException("Exception dans "+this.getClass().getName(),e);
 		}
-
-		long d = Instant.now().getEpochSecond() - now.getEpochSecond();
-		logger_.info("Terminé en "+d+" seconds");
+		stop();
 	}
 }

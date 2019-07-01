@@ -30,11 +30,7 @@ public class Transformeur {
 			outputStream.flush();
 			outputStream.close();
 		}
-		catch(InvalidFormatException e)
-		{
-			throw new TransformeurException(e);
-		}
-		catch(IOException e)
+		catch(IOException | InvalidFormatException e)
 		{
 			throw new TransformeurException(e);
 		}
@@ -61,11 +57,7 @@ public class Transformeur {
 			sortie.flush();
 			sortie.close();
 		}
-		catch(InvalidFormatException e)
-		{
-			throw new TransformeurException(e);
-		}
-		catch(IOException e)
+		catch(IOException | InvalidFormatException e)
 		{
 			throw new TransformeurException(e);
 		}

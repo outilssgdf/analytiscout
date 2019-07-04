@@ -42,7 +42,8 @@ Version 1.0.1/1.0.2 :
 	- Ajout d'une colonne Code de branche pour faciliter le filtrage
 	- Filtrage du unité "non-jeune" dans les quotas de camp
 	- Changements esthétiques : icône, image, LAF
-Version 1.0.3 (en cours) :
+Version 1.0.3 : Correction lors d'une utilisation pendant la période des camps
+Version 1.1.0 (en cours) :
 	- Extraction et analyse du registres de présence 
 	- Extraction et génération de la feuille excel d'aide au calcul du CEC
 	- Préparation de l'intégration des camps

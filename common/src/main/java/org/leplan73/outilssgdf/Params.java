@@ -46,8 +46,11 @@ public class Params extends Properties {
 		}
 		else
 		{
+			// pendant la période des camps
 			try {
 				dateDebutCamp_ = simpleDateFormat.parse("01/07/"+y);
+				dateLimiteJeune_ = simpleDateFormat.parse("31/12/"+(y-1));
+				dateLimiteJeuneSuivant_ = simpleDateFormat.parse("31/12/"+(y-1+1));
 			} catch (ParseException e) {
 				logger_.error(e.getLocalizedMessage());
 			}

@@ -263,10 +263,6 @@ public class AnalyseRegistreDePresence extends Dialogue implements LoggedDialog,
 		return lblEntree;
 	}
 
-	public JTextArea getTxtLog() {
-		return txtLog;
-	}
-
 	public JButton getBtnGo() {
 		return btnGo;
 	}

@@ -320,10 +320,6 @@ public class AnalyseCECEnligne extends Dialogue implements LoggedDialog, GuiComm
 		return lblSortie;
 	}
 
-	public JTextArea getTxtLog() {
-		return txtLog;
-	}
-
 	public JButton getBtnGo() {
 		return btnGo;
 	}

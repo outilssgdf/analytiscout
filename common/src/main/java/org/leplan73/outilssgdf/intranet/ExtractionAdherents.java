@@ -25,6 +25,7 @@ import org.jsoup.select.Elements;
 
 import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.JsonPath;
+import com.jayway.jsonpath.PathNotFoundException;
 
 public class ExtractionAdherents extends ExtractionIntranet {
 
@@ -96,8 +97,15 @@ public class ExtractionAdherents extends ExtractionIntranet {
        		{
        			tbAutoCompleteCode = JsonPath.read(jsonDocument,"$.d");
        			jsonDocument = Configuration.defaultConfiguration().jsonProvider().parse(tbAutoCompleteCode.toString());
-       			Object nodeId = JsonPath.read(jsonDocument,"$.[0].id");
-       			structureMap.put(structure, Integer.valueOf(nodeId.toString()));
+       			try
+       			{
+       				Object nodeId = JsonPath.read(jsonDocument,"$.[0].id");
+       				structureMap.put(structure, Integer.valueOf(nodeId.toString()));
+       			}
+       			catch(PathNotFoundException ex)
+       			{
+       				throw ex;
+       			}
        		}
        		tbStructure = structure != ExtractionIntranet.STRUCTURE_TOUT ? structureMap.get(structure) : 0;
        	}

@@ -288,10 +288,6 @@ abstract public class Analyseur extends Dialogue implements LoggedDialog, GuiCom
 		return lblEntree;
 	}
 
-	public JTextArea getTxtLog() {
-		return txtLog;
-	}
-
 	public JButton getBtnGo() {
 		return btnGo;
 	}

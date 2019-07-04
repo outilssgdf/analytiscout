@@ -722,10 +722,6 @@ public class Extracteur extends Dialogue implements LoggedDialog, GuiCommand {
 		return lblSortie;
 	}
 
-	public JTextArea getTxtLog() {
-		return txtLog;
-	}
-
 	public JTextField getTxfIdentifiant() {
 		return txfIdentifiant;
 	}

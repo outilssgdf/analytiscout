@@ -47,7 +47,6 @@ public class Generateur extends Dialogue implements LoggedDialog, GuiCommand {
 	private JTextField txfIdentifiant;
 	private JPasswordField txfMotdepasse;
 	private JTextField txfCodeStructure;
-	private JTextArea txtLog;
 	private JCheckBox chkMemoriser;
 	private JFileChooser fcSortie;
 	private File fSortie = new File("./données/archive.zip");
@@ -298,10 +297,6 @@ public class Generateur extends Dialogue implements LoggedDialog, GuiCommand {
 			Preferences.sauve(Consts.INTRANET_MOTDEPASSE, "", true);
 		}
 		super.dispose();
-	}
-
-	public JTextArea getTxtLog() {
-		return txtLog;
 	}
 	public JTextField getTxfIdentifiant() {
 		return txfIdentifiant;

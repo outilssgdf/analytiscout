@@ -300,10 +300,6 @@ public class AnalyseCEC extends Dialogue implements LoggedDialog, GuiCommand {
 		return lblEntree;
 	}
 
-	public JTextArea getTxtLog() {
-		return txtLog;
-	}
-
 	public JButton getBtnGo() {
 		return btnGo;
 	}

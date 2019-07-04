@@ -45,7 +45,6 @@ abstract public class AnalyseurEnLigne extends Dialogue implements LoggedDialog,
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txfIdentifiant;
 	private JPasswordField txfMotdepasse;
-	private JTextArea txtLog;
 	private JFileChooser fcSortie;
 	private File fSortie = new File("./données/analyse.xlsx");
 	private File fBatch = new File("./conf/batch_responsables.txt");
@@ -349,10 +348,6 @@ abstract public class AnalyseurEnLigne extends Dialogue implements LoggedDialog,
 
 	public JTextField getTxfIdentifiant() {
 		return txfIdentifiant;
-	}
-
-	public JTextArea getTxtLog() {
-		return txtLog;
 	}
 
 	public JLabel getLblSortie() {

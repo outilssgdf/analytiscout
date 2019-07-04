@@ -2,8 +2,8 @@
 
 Un outils en Java pour faciliter l'analyse des maitrises de l'intranet SGDF ([Scouts et Guides de France](https://www.sgdf.fr))
 
-## Présentation
-A compléter...
+## PrÃ©sentation
+A complÃ©ter...
 
 ## Outils
 - Java 8
@@ -11,6 +11,10 @@ A compléter...
 - Eclipse
 
 ## Build
+- git clone https://github.com/outilssgdf/jett-poi4.git
+- cd jett-poi4
+- git checkout -b slf4j_migration
+- mvn install
 - git clone https://github.com/sbouchex/outilssgdf.git
 - cd outilssgdf
 - mvn install

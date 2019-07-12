@@ -14,14 +14,15 @@ public class RegistrePresenceActiviteHeure {
 	private int mois_;
 	private int annee_;
 	private int moisactivite_;
-	private long duree_ = 1;
+	private long dureeReel_ = 1;
+	private long dureeForfaitaire_ = 1;
 	private String description_;
 
 	final static SimpleDateFormat parser_ = new SimpleDateFormat("EEEEE dd/MM/yyyy HH:mm");
 	
 	static final int moisactivites_[]= {5,6,7,8,9,10,11,12,1,2,3,4};
 
-	public RegistrePresenceActiviteHeure(String unite, String unite_court, String structure, String groupe, String code_groupe, String type, String nom, boolean chef, int mois, int annee, long duree, String description) {
+	public RegistrePresenceActiviteHeure(String unite, String unite_court, String structure, String groupe, String code_groupe, String type, String nom, boolean chef, int mois, int annee, long dureeReel, long dureeForfaitaire, String description) {
 		unite_ = unite;
 		type_ = type;
 		nom_ = nom;
@@ -33,7 +34,8 @@ public class RegistrePresenceActiviteHeure {
 		mois_ = mois;
 		annee_ = annee;
 		moisactivite_ = moisactivites_[mois-1];
-		duree_ = duree;
+		dureeReel_ = dureeReel;
+		dureeForfaitaire_ = dureeForfaitaire;
 		description_ = description;
 	}
 
@@ -93,7 +95,11 @@ public class RegistrePresenceActiviteHeure {
 		return 1;
 	}
 	
-	public long getDuree() {
-		return duree_;
+	public long getDureereel() {
+		return dureeReel_;
+	}
+	
+	public long getDureeforfaitaire() {
+		return dureeForfaitaire_;
 	}
 }

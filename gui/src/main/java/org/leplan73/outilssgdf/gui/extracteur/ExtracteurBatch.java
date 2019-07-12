@@ -297,15 +297,8 @@ abstract public class ExtracteurBatch extends Dialogue implements LoggedDialog, 
 			logger_.error("Le mode de passe est vide");
 			return false;
 		}
-		if (txfCodeStructure.getText().isEmpty()) {
-			logger_.error("Le code de structure est vide");
+		if (checkStructures(txfCodeStructure.getText()) == false) {
 			return false;
-		}
-		if (txfCodeStructure.getText().compareTo(Consts.STRUCTURE_NATIONAL) == 0)
-		{
-			logger_.error("Code de structure interdit");
-			return false;
-			
 		}
 		return true;
 	}

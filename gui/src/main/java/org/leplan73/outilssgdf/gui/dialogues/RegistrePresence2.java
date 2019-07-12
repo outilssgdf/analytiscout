@@ -26,7 +26,7 @@ public class RegistrePresence2 extends Template {
 	public RegistrePresence2() {
 		super();
 
-		if (false)
+		if (true)
 		{
 		JPanel panel_title1 = ElementFactory.createActionTitle("<html><b>Registre de présence</b></html>");
 		GridBagLayout gbl_panel_title1 = (GridBagLayout) panel_title1.getLayout();

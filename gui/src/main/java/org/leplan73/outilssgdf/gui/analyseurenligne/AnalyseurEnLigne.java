@@ -37,7 +37,6 @@ import org.leplan73.outilssgdf.gui.utils.GuiCommand;
 import org.leplan73.outilssgdf.gui.utils.LoggedDialog;
 import org.leplan73.outilssgdf.gui.utils.Logging;
 import org.leplan73.outilssgdf.gui.utils.Preferences;
-import org.leplan73.outilssgdf.intranet.ExtractionIntranet;
 import org.slf4j.Logger;
 
 abstract public class AnalyseurEnLigne extends Dialogue implements LoggedDialog, GuiCommand {
@@ -259,7 +258,6 @@ abstract public class AnalyseurEnLigne extends Dialogue implements LoggedDialog,
 		}
 	}
 
-	private ExtractionIntranet connection_;
 	private JLabel lblSortie;
 	private JTextField txfCodeStructure;
 	private JButton btnGo;
@@ -285,15 +283,8 @@ abstract public class AnalyseurEnLigne extends Dialogue implements LoggedDialog,
 			logger_.error("Le mode de passe est vide");
 			return false;
 		}
-		if (txfCodeStructure.getText().isEmpty()) {
-			logger_.error("Le code de structure est vide");
+		if (checkStructures(txfCodeStructure.getText()) == false) {
 			return false;
-		}
-		if (txfCodeStructure.getText().compareTo(Consts.STRUCTURE_NATIONAL) == 0)
-		{
-			logger_.error("Code de structure interdit");
-			return false;
-			
 		}
 		return true;
 	}

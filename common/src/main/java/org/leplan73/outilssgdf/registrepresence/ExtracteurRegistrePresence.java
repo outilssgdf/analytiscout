@@ -15,6 +15,7 @@ import java.util.TreeMap;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
+import org.leplan73.outilssgdf.Consts;
 
 public class ExtracteurRegistrePresence {
 	
@@ -35,7 +36,7 @@ public class ExtracteurRegistrePresence {
 		RegistrePresenceUnite unite = null;
 		int anneeDebut = -1;
 		try {
-			BufferedReader reader = new BufferedReader(new InputStreamReader(stream,"UTF8"));
+			BufferedReader reader = new BufferedReader(new InputStreamReader(stream,Consts.ENCODING_WINDOWS));
 			Iterable<CSVRecord> records = CSVFormat.DEFAULT.withDelimiter(';').parse(reader);
 			
 			String groupe = null;
@@ -121,8 +122,8 @@ public class ExtracteurRegistrePresence {
 		}
 	}
 
-	public void getActivites(List<RegistrePresenceActiviteHeure> activitesReel, List<RegistrePresenceActiviteHeure> activitesForfaitaire) {
-		unites_.forEach((k,v) -> v.genereReel(activitesReel, activitesForfaitaire));
+	public void getActivites(List<RegistrePresenceActiviteHeure> activites) {
+		unites_.forEach((k,v) -> v.genere(activites));
 	}
 
 	public void getActivitesCecChef(String chef, RegistrePresenceUnite unite, int anneeDebut, List<RegistrePresenceActiviteHeure> activites_cec) {

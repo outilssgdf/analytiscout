@@ -38,7 +38,7 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
-				<version>3.1.0</version>
+				<version>3.1.1</version><!--$NO-MVN-MAN-VER$-->
 				<configuration>
 					<descriptors>
 						<descriptor>src/main/assembly/package.xml</descriptor>

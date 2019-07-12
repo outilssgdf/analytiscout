@@ -1,9 +1,16 @@
 package org.leplan73.outilssgdf.gui.utils;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 
+import org.leplan73.outilssgdf.Consts;
 import org.slf4j.Logger;
 
 public class Dialogue extends JDialog implements LoggedDialog {
@@ -14,11 +21,27 @@ public class Dialogue extends JDialog implements LoggedDialog {
 	public Dialogue()
 	{
 		setIconImage(Images.getIcon());
+		addEscapeListener(this);
 	}
 
 	@Override
 	public void initLog() {
 		txtLog.setText("");
+	}
+	
+	private static void addEscapeListener(final JDialog dialog) {
+	    ActionListener escListener = new ActionListener() {
+
+	        @Override
+	        public void actionPerformed(ActionEvent e) {
+	            dialog.setVisible(false);
+	        }
+	    };
+
+	    dialog.getRootPane().registerKeyboardAction(escListener,
+	            KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
+	            JComponent.WHEN_IN_FOCUSED_WINDOW);
+
 	}
 
 	@Override
@@ -40,5 +63,28 @@ public class Dialogue extends JDialog implements LoggedDialog {
 			structures[index++] = Integer.parseInt(stStructure);
 		}
 		return structures;
+	}
+	
+	protected boolean checkStructures(String structures)
+	{
+		if (structures.isEmpty()) {
+			logger_.error("Le code de structure est vide");
+			return false;
+		}
+		try
+		{
+			Integer.parseInt(structures);
+		}
+		catch(NumberFormatException e)
+		{
+			logger_.error("Code de structure invalid");
+			return false;
+		}
+		if (structures.compareTo(Consts.STRUCTURE_NATIONAL) == 0)
+		{
+			logger_.error("Code de structure interdit");
+			return false;
+		}
+		return true;
 	}
 }

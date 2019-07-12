@@ -219,24 +219,21 @@ public class RegistrePresenceActivite {
 		}
 	}
 
-	public void generer(String unite, String unite_court, String structure, String groupe, String code_groupe, List<RegistrePresenceActiviteHeure> activitesReel, List<RegistrePresenceActiviteHeure> activitesForfaitaire) {
+	public void generer(String unite, String unite_court, String structure, String groupe, String code_groupe, List<RegistrePresenceActiviteHeure> activites) {
 		Calendar cal = Calendar.getInstance();
 		cal.setTimeInMillis(debut_.getTime());
 		presencesChefs_.forEach((nom,v) -> {
 			if (v.intValue() == 1)
 			{
-				activitesForfaitaire.add(new RegistrePresenceActiviteHeure(unite, unite_court, structure, code_groupe, groupe, type_, nom, true, cal.get(Calendar.MONTH)+1,cal.get(Calendar.YEAR), dureeFortaitaire_, description_));
-				
 				long d = (fin_.getTime() - debut_.getTime())/1000/3600;
-				activitesReel.add(new RegistrePresenceActiviteHeure(unite, unite_court, structure, code_groupe, groupe, type_, nom, true, cal.get(Calendar.MONTH)+1,cal.get(Calendar.YEAR), d, description_));
+				activites.add(new RegistrePresenceActiviteHeure(unite, unite_court, structure, code_groupe, groupe, type_, nom, true, cal.get(Calendar.MONTH)+1,cal.get(Calendar.YEAR), d, dureeFortaitaire_, description_));
 			}
 		});
 		presencesJeunes_.forEach((nom,v) -> {
 			if (v.intValue() == 1)
 			{
-				activitesForfaitaire.add(new RegistrePresenceActiviteHeure(unite, unite_court, structure, code_groupe, groupe, type_, nom, false, cal.get(Calendar.MONTH)+1,cal.get(Calendar.YEAR), dureeFortaitaire_, description_));
 				long d = (fin_.getTime() - debut_.getTime())/1000/3600;
-				activitesReel.add(new RegistrePresenceActiviteHeure(unite, unite_court, structure, code_groupe, groupe, type_, nom, false, cal.get(Calendar.MONTH)+1,cal.get(Calendar.YEAR), d, description_));
+				activites.add(new RegistrePresenceActiviteHeure(unite, unite_court, structure, code_groupe, groupe, type_, nom, false, cal.get(Calendar.MONTH)+1,cal.get(Calendar.YEAR), d, dureeFortaitaire_, description_));
 			}
 		});
 	}
@@ -247,9 +244,10 @@ public class RegistrePresenceActivite {
 			presencesChefs_.forEach((nom,v) -> {
 				if (v.intValue() == 1)
 				{
+					long d = (fin_.getTime() - debut_.getTime())/1000/3600;
 					Calendar cal = Calendar.getInstance();
 					cal.setTimeInMillis(debut_.getTime());
-					activites_cec.add(new RegistrePresenceActiviteHeure(unite, unite_court, structure, code_groupe, groupe, type_, nom, true, cal.get(Calendar.MONTH)+1,cal.get(Calendar.YEAR), dureeFortaitaire_, description_));
+					activites_cec.add(new RegistrePresenceActiviteHeure(unite, unite_court, structure, code_groupe, groupe, type_, nom, true, cal.get(Calendar.MONTH)+1,cal.get(Calendar.YEAR), d, dureeFortaitaire_, description_));
 				}
 			});
 	}
@@ -262,9 +260,10 @@ public class RegistrePresenceActivite {
 			presencesChefs_.forEach((nom,v) -> {
 				if (v.intValue() == 1 && nom.compareTo(chef) == 0)
 				{
+					long d = (fin_.getTime() - debut_.getTime())/1000/3600;
 					Calendar cal = Calendar.getInstance();
 					cal.setTimeInMillis(debut_.getTime());
-					activites_cec.add(new RegistrePresenceActiviteHeure(unite, unite_court, structure, code_groupe, groupe, type_, nom, true, cal.get(Calendar.MONTH)+1,cal.get(Calendar.YEAR), 1, description_));
+					activites_cec.add(new RegistrePresenceActiviteHeure(unite, unite_court, structure, code_groupe, groupe, type_, nom, true, cal.get(Calendar.MONTH)+1,cal.get(Calendar.YEAR), d, dureeFortaitaire_, description_));
 				}
 			});
 		}

@@ -35,10 +35,9 @@ public class EngineAnalyseurRegistreDePresence extends Engine {
 		progress_.setProgress(40,"Calculs");
 		logger_.info("Calculs");
 		
-		List<RegistrePresenceActiviteHeure> activitesReel = new ArrayList<RegistrePresenceActiviteHeure>();
-		List<RegistrePresenceActiviteHeure> activitesForfaitaire = new ArrayList<RegistrePresenceActiviteHeure>();
+		List<RegistrePresenceActiviteHeure> activites_personnes = new ArrayList<RegistrePresenceActiviteHeure>();
 		List<RegistrePresenceActiviteHeure> activites_cec = new ArrayList<RegistrePresenceActiviteHeure>();
-		ex.getActivites(activitesReel, activitesForfaitaire);
+		ex.getActivites(activites_personnes);
 		
 		List<RegistrePresenceActivite> activites_total = new ArrayList<RegistrePresenceActivite>();
 		ex.construitActivites(activites_total);
@@ -46,8 +45,7 @@ public class EngineAnalyseurRegistreDePresence extends Engine {
 		Map<String, Object> beans = new HashMap<String, Object>();
 		beans.put("unites", ex.getUnites());
 		beans.put("activites", activites_total);
-		beans.put("activites_forfaitaires", activitesForfaitaire);
-		beans.put("activites_reel", activitesReel);
+		beans.put("activites_personnes", activites_personnes);
 		beans.put("activites_cec", activites_cec);
 		
 		File fichier_sortie = sous_dossier ? new File(sortie, "registredepresence_"+structure+".xlsx") : sortie;

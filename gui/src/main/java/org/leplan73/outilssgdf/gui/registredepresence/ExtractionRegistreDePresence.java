@@ -331,15 +331,8 @@ public class ExtractionRegistreDePresence extends Dialogue implements GuiCommand
 			logger_.error("Erreur lors de la validation de l'année",e);
 			return false;
 		}
-		if (txfCodeStructure.getText().isEmpty()) {
-			logger_.error("Le code de structure est vide");
+		if (checkStructures(txfCodeStructure.getText()) == false) {
 			return false;
-		}
-		if (txfCodeStructure.getText().compareTo(Consts.STRUCTURE_NATIONAL) == 0)
-		{
-			logger_.error("Code de structure interdit");
-			return false;
-			
 		}
 		return true;
 	}

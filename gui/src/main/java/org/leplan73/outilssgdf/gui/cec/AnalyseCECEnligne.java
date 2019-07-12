@@ -270,6 +270,9 @@ public class AnalyseCECEnligne extends Dialogue implements LoggedDialog, GuiComm
 			logger_.error("Sortie non-sélectionnée");
 			return false;
 		}
+		if (checkStructures(txfCodeStructure.getText()) == false) {
+			return false;
+		}
 		return true;
 	}
 

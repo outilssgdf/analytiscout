@@ -3,10 +3,12 @@ package org.leplan73.outilssgdf.engine;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 
 import org.apache.http.client.ClientProtocolException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.jdom2.JDOMException;
+import org.leplan73.outilssgdf.Consts;
 import org.leplan73.outilssgdf.ExtractionException;
 import org.leplan73.outilssgdf.Progress;
 import org.leplan73.outilssgdf.intranet.ExtractionRegistrePresence;
@@ -27,8 +29,8 @@ public class EngineRegistreDePresence extends EngineConnecte {
 		
 		// Génération du fichier csv
 		logger_.info("Génération du fichier "+fichier_sortie.getName());
-		FileOutputStream os = new FileOutputStream(fichier_sortie);
-		os.write(donnees.getBytes());
+		OutputStreamWriter os = new OutputStreamWriter(new FileOutputStream(fichier_sortie),Consts.ENCODING_WINDOWS);
+		os.write(donnees);
 		os.flush();
 		os.close();
 		return true;

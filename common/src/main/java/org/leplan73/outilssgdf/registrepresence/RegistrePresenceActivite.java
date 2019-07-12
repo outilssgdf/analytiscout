@@ -283,8 +283,17 @@ public class RegistrePresenceActivite {
 		return dureeFortaitaire_;
 	}
 	
+	public long getDureeforfaitairetotal() {
+		return dureeFortaitaire_*(getPresencechefs()+getPresencejeunes());
+	}
+	
 	public long getDureereel() {
 		long v = (fin_.getTime() - debut_.getTime())/1000/3600;
 		return v;
+	}
+	
+	public long getDureereeltotal() {
+		long v = (fin_.getTime() - debut_.getTime())/1000/3600;
+		return v*(getPresencechefs()+getPresencejeunes());
 	}
 }

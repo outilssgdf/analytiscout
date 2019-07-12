@@ -122,7 +122,9 @@ public class EngineAnalyseur extends Engine {
 		} catch (TransformeurException | IOException | JDOMException | ExtractionException e) {
 			throw new EngineException("Exception dans "+this.getClass().getName(),e);
 		}
-		stop();
+		finally  {
+			stop();
+		}
 	}
 
 }

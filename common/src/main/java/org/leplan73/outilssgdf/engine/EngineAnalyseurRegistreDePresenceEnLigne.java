@@ -85,7 +85,9 @@ public class EngineAnalyseurRegistreDePresenceEnLigne extends EngineConnecte {
 		} catch (IOException | JDOMException | TransformeurException e) {
 			throw new EngineException("Exception dans "+this.getClass().getName(),e);
 		}
-		stop();
+		finally  {
+			stop();
+		}
 	}
 }
 	

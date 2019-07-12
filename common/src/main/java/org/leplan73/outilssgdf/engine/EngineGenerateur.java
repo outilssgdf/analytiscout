@@ -61,7 +61,9 @@ public class EngineGenerateur extends EngineConnecte {
 		} catch (IOException | JDOMException | InvalidFormatException | ExtractionException e) {
 			throw new EngineException("Exception dans "+this.getClass().getName(),e);
 		}
-		stop();
+		finally  {
+			stop();
+		}
 	}
 
 }

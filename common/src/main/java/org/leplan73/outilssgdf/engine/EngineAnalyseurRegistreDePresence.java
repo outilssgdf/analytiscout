@@ -75,6 +75,8 @@ public class EngineAnalyseurRegistreDePresence extends Engine {
 		} catch (IOException | JDOMException | ExtractionException | TransformeurException e) {
 			throw new EngineException("Exception dans "+this.getClass().getName(),e);
 		}
-		stop();
+		finally  {
+			stop();
+		}
 	}
 }

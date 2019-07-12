@@ -166,6 +166,8 @@ public class EngineExtracteurBatch extends EngineConnecte {
 		} catch (IOException | JDOMException e) {
 			throw new EngineException("Exception dans "+this.getClass().getName(),e);
 		}
-		stop();
+		finally  {
+			stop();
+		}
 	}
 }

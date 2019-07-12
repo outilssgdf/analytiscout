@@ -89,6 +89,8 @@ public class EngineAnalyseurCECEnLigne extends EngineConnecte {
 		} catch (IOException | TransformeurException e) {
 			throw new EngineException("Exception dans "+this.getClass().getName(),e);
 		}
-		stop();
+		finally  {
+			stop();
+		}
 	}
 }

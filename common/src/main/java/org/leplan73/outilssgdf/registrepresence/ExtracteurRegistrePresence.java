@@ -15,6 +15,7 @@ import java.util.TreeMap;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
+import org.influxdb.InfluxDB;
 import org.leplan73.outilssgdf.Consts;
 
 public class ExtracteurRegistrePresence {
@@ -88,6 +89,23 @@ public class ExtracteurRegistrePresence {
 		} finally {
 		}
 		return anneeDebut;
+	}
+
+	public void exportInfluxDb(InfluxDB influxDB) {
+		unites_.forEach((k,v) -> {
+			String groupe;
+			boolean est_groupe = v.estGroupe();
+			if (est_groupe == false)
+			{
+				RegistrePresenceUnite u = unites_.get(v.code_groupe());
+				groupe = u.getNom();
+			}
+			else
+			{
+				groupe = v.getNom();
+			}
+			v.exportInfluxDb(groupe,influxDB);	
+		});
 	}
 
 	public void exportInfluxDb(File out) throws FileNotFoundException {

@@ -15,6 +15,7 @@ import javax.swing.SwingConstants;
 import org.leplan73.outilssgdf.gui.Template;
 import org.leplan73.outilssgdf.gui.cec.AnalyseCEC;
 import org.leplan73.outilssgdf.gui.registredepresence.AnalyseRegistreDePresence;
+import org.leplan73.outilssgdf.gui.registredepresence.ExportRegistreDePresence;
 import org.leplan73.outilssgdf.gui.registredepresence.ExtractionRegistreDePresence;
 import org.leplan73.outilssgdf.gui.utils.ElementFactory;
 
@@ -49,9 +50,9 @@ public class RegistrePresence2 extends Template {
 		panel_7.setBorder(null);
 		panel_6.add(panel_7);
 		GridBagLayout gbl_panel_7 = new GridBagLayout();
-		gbl_panel_7.columnWidths = new int[] { 144, 0, 0 };
+		gbl_panel_7.columnWidths = new int[] { 115, 0, 0, 0 };
 		gbl_panel_7.rowHeights = new int[] { 0, 0 };
-		gbl_panel_7.columnWeights = new double[] { 1.0, 1.0, Double.MIN_VALUE };
+		gbl_panel_7.columnWeights = new double[] { 1.0, 1.0, 1.0, Double.MIN_VALUE };
 		gbl_panel_7.rowWeights = new double[] { 0.0, Double.MIN_VALUE };
 		panel_7.setLayout(gbl_panel_7);
 
@@ -75,10 +76,24 @@ public class RegistrePresence2 extends Template {
 			}
 		});
 		GridBagConstraints gbc_btnAnalyse = new GridBagConstraints();
+		gbc_btnAnalyse.insets = new Insets(0, 0, 0, 5);
 		gbc_btnAnalyse.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnAnalyse.gridx = 1;
 		gbc_btnAnalyse.gridy = 0;
 		panel_7.add(btnAnalyse, gbc_btnAnalyse);
+		
+		JButton btnExport = new JButton("Export");
+		btnExport.setEnabled(false);
+		btnExport.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new ExportRegistreDePresence().setVisible(true);
+			}
+		});
+		GridBagConstraints gbc_btnExport = new GridBagConstraints();
+		gbc_btnExport.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnExport.gridx = 2;
+		gbc_btnExport.gridy = 0;
+		panel_7.add(btnExport, gbc_btnExport);
 
 		JPanel panel_title2 = ElementFactory.createActionTitle("<html><b>CEC</b></html>");
 		GridBagLayout gbl_panel_title2 = (GridBagLayout) panel_title2.getLayout();

@@ -10,6 +10,11 @@
 	<name>common</name>
 	<packaging>jar</packaging>
 	<dependencies>
+	<dependency>
+    <groupId>org.influxdb</groupId>
+    <artifactId>influxdb-java</artifactId>
+    <version>${influxdb.version}</version>
+	</dependency>
 		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-compress -->
 		<dependency>
 			<groupId>org.apache.commons</groupId>

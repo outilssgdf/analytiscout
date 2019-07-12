@@ -7,6 +7,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.apache.commons.csv.CSVRecord;
+import org.influxdb.InfluxDB;
 import org.leplan73.outilssgdf.calcul.UniteSimple;
 
 public class RegistrePresenceUnite extends UniteSimple {
@@ -28,6 +29,12 @@ public class RegistrePresenceUnite extends UniteSimple {
 		String prefix = "activite,unitecomplet="+nomcomplet_+",unite="+nom_+",structure="+structure_+",code_groupe="+code_groupe_+",groupe="+groupe;
 		activites_.forEach(v -> v.exportInfluxDbReel(prefix,os));
 		activites_.forEach(v -> v.exportInfluxDbForfaitaire(prefix,os));
+	}
+
+	public void exportInfluxDb(String groupe, InfluxDB influxDB) {
+
+		activites_.forEach(v -> v.exportInfluxDbReel(influxDB, "activite", nomcomplet_, nom_, structure_, code_groupe_, groupe));
+		activites_.forEach(v -> v.exportInfluxDbForfaitaire(influxDB, "activite", nomcomplet_, nom_, structure_, code_groupe_, groupe));
 	}
 	
 	@Override

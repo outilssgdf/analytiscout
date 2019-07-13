@@ -83,7 +83,6 @@ public class RegistrePresence2 extends Template {
 		panel_7.add(btnAnalyse, gbc_btnAnalyse);
 		
 		JButton btnExport = new JButton("Export");
-		btnExport.setEnabled(false);
 		btnExport.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new ExportRegistreDePresence().setVisible(true);

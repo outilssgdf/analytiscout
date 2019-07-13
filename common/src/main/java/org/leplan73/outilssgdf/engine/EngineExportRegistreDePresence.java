@@ -3,16 +3,12 @@ package org.leplan73.outilssgdf.engine;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.influxdb.InfluxDB;
 import org.influxdb.InfluxDBFactory;
 import org.leplan73.outilssgdf.Progress;
 import org.leplan73.outilssgdf.registrepresence.ExtracteurRegistrePresence;
-import org.leplan73.outilssgdf.registrepresence.RegistrePresenceActivite;
-import org.leplan73.outilssgdf.registrepresence.RegistrePresenceActiviteHeure;
 import org.slf4j.Logger;
 
 public class EngineExportRegistreDePresence extends Engine {
@@ -29,24 +25,16 @@ public class EngineExportRegistreDePresence extends Engine {
 			ExtracteurRegistrePresence ex = new ExtracteurRegistrePresence();
 			logger_.info("Chargement du fichier \"" + entree.getName() + "\"");
 			ex.charge(new FileInputStream(entree));
-			progress_.setProgress(40,"Calculs");
-			logger_.info("Calculs");
-			
-			List<RegistrePresenceActiviteHeure> activites_personnes = new ArrayList<RegistrePresenceActiviteHeure>();
-			ex.getActivites(activites_personnes);
-			
-			List<RegistrePresenceActivite> activites_total = new ArrayList<RegistrePresenceActivite>();
-			ex.construitActivites(activites_total);
+			progress_.setProgress(40,"Export");
+			logger_.info("Export");
 			
 			InfluxDB influxDB = InfluxDBFactory.connect(connexion, utilisateur, motdePasse);
 			influxDB.enableBatch(100, 200, TimeUnit.MILLISECONDS);
-			influxDB.setRetentionPolicy("defaultPolicy");
 			influxDB.setDatabase(database);
 			ex.exportInfluxDb(influxDB);
-			influxDB.disableBatch();
 			influxDB.flush();
+			influxDB.disableBatch();
 			influxDB.close();
-			
 			
 		} catch (IOException e) {
 			throw new EngineException("Exception dans "+this.getClass().getName(),e);

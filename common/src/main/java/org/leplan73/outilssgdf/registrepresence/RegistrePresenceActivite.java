@@ -223,7 +223,7 @@ public class RegistrePresenceActivite {
 		}
 	}
 
-	public void exportInfluxDbReel(InfluxDB influxDB, String serie, String nomcomplet, String nom, String structure, String code_groupe, String groupe) {
+	public void exportInfluxDbReel(InfluxDB influxDB, String serie, String nomcomplet, String unite, String structure, String code_groupe, String groupe) {
 		long debut = debut_.getTime()/1000;
 		long fin = fin_.getTime()/1000;
 		
@@ -233,8 +233,8 @@ public class RegistrePresenceActivite {
 			Calendar cal = Calendar.getInstance();
 			cal.setTimeInMillis(t.longValue()*1000);
 			presencesChefs_.forEach((k,v) -> {
-				Point point = Point.measurement(serie).time(t.longValue(), TimeUnit.MILLISECONDS).tag("nomcomplet", nomcomplet).tag("unite", nom).tag("structure", structure).tag("code_groupe", code_groupe).tag("groupe", groupe)
-						.tag("nom", "type_")
+				Point point = Point.measurement(serie).time(t.longValue()*1000, TimeUnit.MILLISECONDS).tag("nomcomplet", nomcomplet).tag("unite", unite).tag("structure", structure).tag("code_groupe", code_groupe).tag("groupe", groupe)
+						.tag("type", type_)
 						.tag("personne", k)
 						.tag("mois", ""+cal.get(Calendar.MONTH)+1)
 						.tag("chef", "1")
@@ -243,8 +243,8 @@ public class RegistrePresenceActivite {
 				influxDB.write(point);
 			});
 			presencesJeunes_.forEach((k,v) -> {
-				Point point = Point.measurement(serie).time(t.longValue(), TimeUnit.MILLISECONDS).tag("nomcomplet", nomcomplet).tag("unite", nom).tag("structure", structure).tag("code_groupe", code_groupe).tag("groupe", groupe)
-						.tag("nom", "type_")
+				Point point = Point.measurement(serie).time(t.longValue()*1000, TimeUnit.MILLISECONDS).tag("nomcomplet", nomcomplet).tag("unite", unite).tag("structure", structure).tag("code_groupe", code_groupe).tag("groupe", groupe)
+						.tag("type", type_)
 						.tag("personne", k)
 						.tag("mois", ""+cal.get(Calendar.MONTH)+1)
 						.tag("chef", "0")
@@ -256,14 +256,14 @@ public class RegistrePresenceActivite {
 		}
 	}
 
-	public void exportInfluxDbForfaitaire(InfluxDB influxDB, String serie, String nomcomplet, String nom, String structure, String code_groupe, String groupe) {
+	public void exportInfluxDbForfaitaire(InfluxDB influxDB, String serie, String nomcomplet, String unite, String structure, String code_groupe, String groupe) {
 		long debut = debut_.getTime()/1000;
 		Calendar cal = Calendar.getInstance();
 		cal.setTimeInMillis(debut*1000);
 		presencesChefs_.forEach((k,v) -> {
 			if (v== 1)
 			{
-				Point point = Point.measurement(serie).time(debut, TimeUnit.MILLISECONDS).tag("nomcomplet", nomcomplet).tag("unite", nom).tag("structure", structure).tag("code_groupe", code_groupe).tag("groupe", groupe)
+				Point point = Point.measurement(serie).time(debut*1000, TimeUnit.MILLISECONDS).tag("nomcomplet", nomcomplet).tag("unite", unite).tag("structure", structure).tag("code_groupe", code_groupe).tag("groupe", groupe)
 						.tag("nom", "type_")
 						.tag("personne", k)
 						.tag("mois", ""+cal.get(Calendar.MONTH)+1)
@@ -276,7 +276,7 @@ public class RegistrePresenceActivite {
 		presencesJeunes_.forEach((k,v) -> {
 			if (v== 1)
 			{
-				Point point = Point.measurement(serie).time(debut, TimeUnit.MILLISECONDS).tag("nomcomplet", nomcomplet).tag("unite", nom).tag("structure", structure).tag("code_groupe", code_groupe).tag("groupe", groupe)
+				Point point = Point.measurement(serie).time(debut*1000, TimeUnit.MILLISECONDS).tag("nomcomplet", nomcomplet).tag("unite", unite).tag("structure", structure).tag("code_groupe", code_groupe).tag("groupe", groupe)
 						.tag("nom", "type_")
 						.tag("personne", k)
 						.tag("mois", ""+cal.get(Calendar.MONTH)+1)

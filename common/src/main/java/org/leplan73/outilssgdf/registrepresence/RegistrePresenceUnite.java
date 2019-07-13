@@ -33,8 +33,8 @@ public class RegistrePresenceUnite extends UniteSimple {
 
 	public void exportInfluxDb(String groupe, InfluxDB influxDB) {
 
-		activites_.forEach(v -> v.exportInfluxDbReel(influxDB, "activite", nomcomplet_, nom_, structure_, code_groupe_, groupe));
-		activites_.forEach(v -> v.exportInfluxDbForfaitaire(influxDB, "activite", nomcomplet_, nom_, structure_, code_groupe_, groupe));
+		activites_.forEach(v -> v.exportInfluxDbReel(influxDB, "activites_reel", nomcomplet_, nom_, structure_, code_groupe_, groupe));
+		activites_.forEach(v -> v.exportInfluxDbForfaitaire(influxDB, "activites_forfaitaire", nomcomplet_, nom_, structure_, code_groupe_, groupe));
 	}
 	
 	@Override

@@ -14,9 +14,9 @@ import org.leplan73.outilssgdf.Progress;
 import org.leplan73.outilssgdf.intranet.ExtractionRegistrePresence;
 import org.slf4j.Logger;
 
-public class EngineRegistreDePresence extends EngineConnecte {
+public class EngineExtractionRegistreDePresence extends EngineConnecte {
 
-	public EngineRegistreDePresence(Progress progress, Logger logger) {
+	public EngineExtractionRegistreDePresence(Progress progress, Logger logger) {
 		super(progress, logger);
 	}
 	

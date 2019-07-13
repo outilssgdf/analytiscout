@@ -7,7 +7,7 @@ import org.leplan73.outilssgdf.cmd.utils.CommonParamsG;
 import org.leplan73.outilssgdf.cmd.utils.CommonParamsIntranet;
 import org.leplan73.outilssgdf.cmd.utils.Logging;
 import org.leplan73.outilssgdf.engine.EngineException;
-import org.leplan73.outilssgdf.engine.EngineRegistreDePresence;
+import org.leplan73.outilssgdf.engine.EngineExtractionRegistreDePresence;
 
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
@@ -40,7 +40,7 @@ public class ExtracteurRegistreDePresence extends CommonParamsIntranet {
 			charge();
 			check();
 			CmdProgress progress = new CmdProgress();
-			EngineRegistreDePresence en = new EngineRegistreDePresence(progress, Logging.logger_);
+			EngineExtractionRegistreDePresence en = new EngineExtractionRegistreDePresence(progress, Logging.logger_);
 			en.go(identifiant,motdepasse, sortie, structures, annee);
 		} catch (Exception e) {
 			Logging.logger_.error(Logging.dumpStack(null, e));

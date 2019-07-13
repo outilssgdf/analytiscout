@@ -71,7 +71,7 @@ public class ExportRegistreDePresence extends Dialogue implements LoggedDialog, 
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		GridBagLayout gbl_contentPanel = new GridBagLayout();
 		gbl_contentPanel.columnWidths = new int[] { 399, 0 };
-		gbl_contentPanel.rowHeights = new int[] { 0, 114, 0, 0 };
+		gbl_contentPanel.rowHeights = new int[] { 0, 113, 0, 0 };
 		gbl_contentPanel.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
 		gbl_contentPanel.rowWeights = new double[] { 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		contentPanel.setLayout(gbl_contentPanel);
@@ -184,7 +184,6 @@ public class ExportRegistreDePresence extends Dialogue implements LoggedDialog, 
 				panel_1.setLayout(new BorderLayout(0, 0));
 				{
 					txfDb = new JTextField();
-					txfDb.setHorizontalAlignment(SwingConstants.CENTER);
 					panel_1.add(txfDb);
 					txfDb.setColumns(30);
 				}
@@ -260,14 +259,6 @@ public class ExportRegistreDePresence extends Dialogue implements LoggedDialog, 
 		}
 		if (txfConnexion.getText().isEmpty()) {
 			logger_.error("La connexion est vide");
-			return false;
-		}
-		if (txfUtilisateur.getText().isEmpty()) {
-			logger_.error("L'utilisateur est vide");
-			return false;
-		}
-		if (pwdMotdePasse.getPassword().length == 0) {
-			logger_.error("Le mode de passe est vide");
 			return false;
 		}
 		if (txfDb.getText().isEmpty()) {

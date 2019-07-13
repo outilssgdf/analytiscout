@@ -27,7 +27,7 @@ import javax.swing.border.TitledBorder;
 
 import org.leplan73.outilssgdf.Consts;
 import org.leplan73.outilssgdf.Progress;
-import org.leplan73.outilssgdf.engine.EngineRegistreDePresence;
+import org.leplan73.outilssgdf.engine.EngineExtractionRegistreDePresence;
 import org.leplan73.outilssgdf.gui.GuiProgress;
 import org.leplan73.outilssgdf.gui.utils.Appender;
 import org.leplan73.outilssgdf.gui.utils.Dialogue;
@@ -293,7 +293,7 @@ public class ExtractionRegistreDePresence extends Dialogue implements GuiCommand
 			boolean ret = check();
 			if (ret) {
 				try {
-					EngineRegistreDePresence en = new EngineRegistreDePresence(progress, logger_);
+					EngineExtractionRegistreDePresence en = new EngineExtractionRegistreDePresence(progress, logger_);
 					int structures[] = construitStructures(txfCodeStructure);
 					en.go(txfIdentifiant.getText(), new String(txfMotdepasse.getPassword()), fSortie, structures, Integer.parseInt(txfAnnee.getText()));
 				} catch (Exception e) {

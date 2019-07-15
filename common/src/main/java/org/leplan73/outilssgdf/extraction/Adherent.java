@@ -310,6 +310,16 @@ public class Adherent {
 		return "R";
 	}
 	
+	public String getDroitimageok()
+	{
+		String droitimage = this.get(colonnes_.getDroitImage());
+		if (!droitimage.isEmpty())
+		{
+			return droitimage;
+		}
+		return "Oui";
+	}
+	
 	public String getAgeok()
 	{
 		switch (this.getFonction())

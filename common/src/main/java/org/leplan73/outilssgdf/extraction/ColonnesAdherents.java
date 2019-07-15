@@ -29,6 +29,7 @@ public class ColonnesAdherents {
 	private int fonctionCodeId = -1;
 	private int bureauIndividu = -1;
 	private int datedenaissanceId = -1;
+	private int droitImage = -1;
 
 	private int stuctureNom = -1;
 	private int structureCode = -1;
@@ -43,6 +44,10 @@ public class ColonnesAdherents {
 	{
 		ids_.forEach((key, value) ->
 		{
+			if (ids_.get(key).compareTo("Individu.DroitImage") == 0)
+			{
+				droitImage = key;
+			}
 			if (ids_.get(key).compareTo("Inscription.Delegations") == 0)
 			{
 				delegations = key;
@@ -232,5 +237,9 @@ public class ColonnesAdherents {
 
 	public int getDelegations() {
 		return delegations;
+	}
+
+	public int getDroitImage() {
+		return droitImage;
 	}
 }

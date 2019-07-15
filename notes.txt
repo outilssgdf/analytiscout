@@ -49,3 +49,4 @@ Version 1.1.0 (en cours) :
 	- Préparation de l'intégration des camps
 	- Fusion des analyses responsables et compas
 	- Organisation du code
+	- Gestion du droit à l'image pour les adhérents

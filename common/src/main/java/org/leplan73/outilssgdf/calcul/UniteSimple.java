@@ -9,11 +9,13 @@ public class UniteSimple implements Comparable<UniteSimple> {
 	
 	public UniteSimple(String nomcomplet)
 	{
-		nomcomplet_ = nomcomplet;
-		nom_ = nomcomplet.substring(nomcomplet.indexOf(" - ")+3);
-		structure_ = nomcomplet.substring(0,nomcomplet.indexOf(" - "));
-		code_groupe_ = structure_.substring(0, structure_.length()-2);
-		code_groupe_+="00";
+		if (nomcomplet.isEmpty() == false) {
+			nomcomplet_ = nomcomplet;
+			nom_ = nomcomplet.substring(nomcomplet.indexOf(" - ")+3);
+			structure_ = nomcomplet.substring(0,nomcomplet.indexOf(" - "));
+			code_groupe_ = structure_.substring(0, structure_.length()-2);
+			code_groupe_+="00";
+		}
 	}
 	
 	public UniteSimple(String nom, String codeStructure, int fonction)

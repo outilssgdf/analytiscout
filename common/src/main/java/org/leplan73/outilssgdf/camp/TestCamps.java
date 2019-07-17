@@ -36,7 +36,7 @@ public class TestCamps {
 	public static void main(String[] args) throws ExtractionException, IOException, JDOMException, InvalidFormatException {
 
 		System.setProperty("line.separator","\n");
-		Document doc = Jsoup.parse(new File("C:\\dev\\outilssgdf_data\\camps_sjbs.xml"),"UTF-8");
+		Document doc = Jsoup.parse(new File("C:\\dev\\outilssgdf_data\\camps_sjbs.xls"),"UTF-8");
 		Elements tables = doc.select("table");
 		
 		ExtracteurCampsHtml c = new ExtracteurCampsHtml();

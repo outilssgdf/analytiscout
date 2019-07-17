@@ -2,31 +2,74 @@ package org.leplan73.outilssgdf.camp;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Camp {
-	private String structure_;
+	private int numero_;
+	private int indexDirecteur_ = -1;
 	
-	protected List<Chef> maitrise_ = new ArrayList<Chef>();
+	private List<Chef> maitrise_ = new ArrayList<Chef>();
+	
+	private int getI(String champ)
+	{
+		return Integer.parseInt(maitrise_.get(0).get(champ));
+	}
 
-	public Camp(String structure) {
-		structure_ = structure;
+	public Camp(String numero) {
+		numero_ = Integer.parseInt(numero);
+	}
+
+	public int getNumero() {
+		return numero_;
+	}
+
+	public String getStructure() {
+		if (indexDirecteur_ >= 0)
+			return maitrise_.get(indexDirecteur_).getUnite().getNom();
+		else
+			return maitrise_.get(0).getUnite().getNom();
+	}
+
+	public String getDirecteur() {
+		if (indexDirecteur_ >= 0)
+			return maitrise_.get(indexDirecteur_).get("Nom du directeur");
+		return "";
+	}
+	
+	public int getJeunes() {
+		return getI("Jeunes");
+	}
+	
+	public String get(String champ)
+	{
+		return maitrise_.get(0).get(champ);
 	}
 
 	public String getStructuresOrganistratices() {
-		return structure_;
+		return maitrise_.get(0).get("Structures organisatrices");
 	}
 
 	public void init() {
-		if (structure_.endsWith(","))
+	}
+	
+	public void complete()
+	{
+		AtomicInteger index = new AtomicInteger();
+		maitrise_.forEach(chef ->
 		{
-			structure_ = structure_.substring(0, structure_.length()-1);
-		}
+			String v = chef.get("Fonction");
+			if (v.compareTo("Directeur") == 0)
+			{
+				indexDirecteur_ = index.get();
+			}
+			index.incrementAndGet();
+		});
 	}
 	
 	@Override
 	public String toString()
 	{
-		return structure_ + "/" + maitrise_.size();
+		return numero_ + "/" + maitrise_.size();
 	}
 
 	public void add(Chef maitrise) {

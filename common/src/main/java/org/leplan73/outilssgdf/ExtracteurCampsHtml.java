@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -95,15 +96,13 @@ public class ExtracteurCampsHtml {
         
         int nbColumns = construitColonnes(docx);
 
-        // Chargement des lignes d'adherents
-        camps_ = new Camps();
-        
         XPathExpression<?> xpa = xpfac.compile("tbody/tr[position() > 1]/td");
         
         List<?> results = xpa.evaluate(docx);
         
+        List<Chef> chefs = new ArrayList<Chef>();
+        
         int index = 0;
-        Camp camp = null;
         Chef maitrise = null;
 		Iterator<?> iter = results.iterator();
 		while (iter.hasNext())
@@ -111,23 +110,39 @@ public class ExtracteurCampsHtml {
 			Object result = iter.next();
 			Element resultElement = (Element) result;
 			
-			// Création du camp 
+			// Création du chef 
 			if (index % nbColumns == 0)
 			{
-				camp = camps_.get(resultElement.getText());
-				if (camp == null) {
-					camp = new Camp(resultElement.getText());
-		        	camp.init();
-					camps_.put(camp.getStructuresOrganistratices(), camp);
-				}
 				maitrise = new Chef();
-				camp.add(maitrise);
+				chefs.add(maitrise);
 			}
 			
 			// Maitrise
 			maitrise.add(colonnes_.get(index % nbColumns), resultElement.getText());
             index++;
 		}
+		chefs.forEach(chef -> chef.complete());
+		
+		camps_ = new Camps();
+		chefs.forEach(chef ->
+		{
+			chef.complete();
+			
+			String numeroCamp = chef.get("Numéro de camp");
+			Camp camp = camps_.get(numeroCamp);
+			if (camp == null)
+			{
+				camp = new Camp(numeroCamp);
+				camp.init();
+				camps_.put(numeroCamp,camp);
+			}
+			camp.add(chef);
+		});
+		
+		camps_.forEach((key,camp) ->
+		{
+			camp.complete();
+		});
 	}
 
 	public Collection<Camp> camps() {

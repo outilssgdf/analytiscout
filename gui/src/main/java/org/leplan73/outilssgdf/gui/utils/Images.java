@@ -2,11 +2,13 @@ package org.leplan73.outilssgdf.gui.utils;
 
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.util.Random;
 
 import javax.swing.ImageIcon;
 
 public class Images {
 	public final static String ROOT_FOLDER = "org/leplan73/outilssgdf/gui";
+	private final static Random random_ = new Random(5);
 
 	public static Image getIcon() {
 		return Toolkit.getDefaultToolkit()
@@ -14,6 +16,7 @@ public class Images {
 	}
 	
 	public static ImageIcon getImage() {
-		return new ImageIcon(Images.class.getClassLoader().getResource(ROOT_FOLDER + "/panneau_gauche.png"));
+		int random = random_.nextInt(5)+1;
+		return new ImageIcon(Images.class.getClassLoader().getResource(ROOT_FOLDER + "/panneau_gauche-"+random+".png"));
 	}
 }

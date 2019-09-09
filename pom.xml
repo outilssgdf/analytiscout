@@ -25,19 +25,19 @@
 		<commons-compress.version>1.18</commons-compress.version>
 		<httpclient.version>4.5.9</httpclient.version>
 		<httpmime.version>4.5.9</httpmime.version>
-		<jett.version>0.11.1</jett.version>
+		<jett.version>0.11.2</jett.version>
 		<poi.version>4.0.1</poi.version>
-		<slf4j.version>1.7.26</slf4j.version>
+		<slf4j.version>1.7.28</slf4j.version>
 		<picocli.version>3.9.6</picocli.version>
-		<jersey.version>2.27</jersey.version>
-		<tomcat.version>8.5.42</tomcat.version>
+		<jersey.version>2.29</jersey.version>
+		<tomcat.version>8.5.45</tomcat.version>
 		<jdom.version>2.0.6</jdom.version>
 		<jsoup.version>1.12.1</jsoup.version>
 		<jaxen.version>1.2.0</jaxen.version>
-		<json.path>2.4.0</json.path>
+		<json-path.version>2.4.0</json-path.version>
 		<swagger.version>1.5.21</swagger.version>
-		<jersey-guava.version>2.6</jersey-guava.version>
-		<servlet-api.version>3.1.0</servlet-api.version>
+		<jersey-guava.version>2.25.1</jersey-guava.version>
+		<servlet-api.version>4.0.1</servlet-api.version>
 		<el-ri.version>1.0</el-ri.version>
 		<jcabi.version>1.1</jcabi.version>
 		<logback.version>1.2.3</logback.version>

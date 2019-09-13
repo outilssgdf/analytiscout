@@ -44,9 +44,9 @@ Version 1.0.1/1.0.2 :
 	- Changements esthétiques : icône, image, LAF
 Version 1.0.3 : Correction lors d'une utilisation pendant la période des camps
 Version 1.1.0 (en cours) :
-	- Extraction et analyse du registres de présence 
-	- Extraction et génération de la feuille excel d'aide au calcul du CEC
-	- Préparation de l'intégration des camps
+	- Extraction et analyse du registre de présence 
+	- Extraction et génération de la feuille Excel d'aide au calcul du CEC
 	- Fusion des analyses responsables et compas
-	- Organisation du code
 	- Gestion du droit à l'image pour les adhérents
+	- Organisation du code
+	- Préparation de l'intégration des camps (en cours)

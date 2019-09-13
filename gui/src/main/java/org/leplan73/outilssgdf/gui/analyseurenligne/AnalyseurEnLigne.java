@@ -294,7 +294,7 @@ abstract public class AnalyseurEnLigne extends Dialogue implements LoggedDialog,
 		
 		ProgressMonitor guiprogress = new ProgressMonitor(this, "AnalyseurEnLigne", "", 0, 100);
 		
-		Progress progress = new GuiProgress(guiprogress);
+		Progress progress = new GuiProgress(guiprogress, this.getTitle());
 		progress.setMillisToPopup(0);
 		progress.setMillisToDecideToPopup(0);
 		

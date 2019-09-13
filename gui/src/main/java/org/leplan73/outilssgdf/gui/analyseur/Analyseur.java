@@ -248,7 +248,7 @@ abstract public class Analyseur extends Dialogue implements LoggedDialog, GuiCom
 	public void go() {
 		ProgressMonitor guiprogress = new ProgressMonitor(this, "Analyseur", "", 0, 100);
 		
-		Progress progress = new GuiProgress(guiprogress);
+		Progress progress = new GuiProgress(guiprogress, this.getTitle());
 		progress.setMillisToPopup(0);
 		progress.setMillisToDecideToPopup(0);
 		

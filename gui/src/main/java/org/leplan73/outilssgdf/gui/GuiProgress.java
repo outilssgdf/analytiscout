@@ -1,6 +1,7 @@
 package org.leplan73.outilssgdf.gui;
 
 import javax.swing.ProgressMonitor;
+import javax.swing.UIManager;
 
 import org.leplan73.outilssgdf.Progress;
 
@@ -8,8 +9,9 @@ public class GuiProgress implements Progress {
 	
 	private ProgressMonitor progress_;
 	
-	public GuiProgress(ProgressMonitor progress)
+	public GuiProgress(ProgressMonitor progress, String titre)
 	{
+		UIManager.put("ProgressMonitor.progressText", titre);
 		progress_ = progress;
 	}
 

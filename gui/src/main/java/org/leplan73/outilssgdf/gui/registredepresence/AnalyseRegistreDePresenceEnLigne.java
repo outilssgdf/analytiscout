@@ -285,7 +285,7 @@ public class AnalyseRegistreDePresenceEnLigne extends Dialogue implements GuiCom
 	public void go() {
 		ProgressMonitor guiprogress = new ProgressMonitor(this, "AnalyseRegistreDePresenceEnLigne", "", 0, 100);
 		
-		Progress progress = new GuiProgress(guiprogress);
+		Progress progress = new GuiProgress(guiprogress, this.getTitle());
 		progress.setMillisToPopup(0);
 		progress.setMillisToDecideToPopup(0);
 		

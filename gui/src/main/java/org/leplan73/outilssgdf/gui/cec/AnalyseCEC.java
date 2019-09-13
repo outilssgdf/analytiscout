@@ -264,7 +264,7 @@ public class AnalyseCEC extends Dialogue implements LoggedDialog, GuiCommand {
 	public void go() {
 		ProgressMonitor guiprogress = new ProgressMonitor(this, "AnalyseurCEC", "", 0, 100);
 		
-		Progress progress = new GuiProgress(guiprogress);
+		Progress progress = new GuiProgress(guiprogress, this.getTitle());
 		progress.setMillisToPopup(0);
 		progress.setMillisToDecideToPopup(0);
 		

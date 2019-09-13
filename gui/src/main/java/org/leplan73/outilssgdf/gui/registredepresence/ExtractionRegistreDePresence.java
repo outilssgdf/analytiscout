@@ -284,7 +284,7 @@ public class ExtractionRegistreDePresence extends Dialogue implements GuiCommand
 	public void go() {
 		ProgressMonitor guiprogress = new ProgressMonitor(this, "ExtractionRegistreDePresence", "", 0, 100);
 		
-		Progress progress = new GuiProgress(guiprogress);
+		Progress progress = new GuiProgress(guiprogress, this.getTitle());
 		progress.setMillisToPopup(0);
 		progress.setMillisToDecideToPopup(0);
 		

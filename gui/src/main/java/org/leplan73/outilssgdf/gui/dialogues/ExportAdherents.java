@@ -9,10 +9,12 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.border.TitledBorder;
 
 import org.leplan73.outilssgdf.gui.Template;
 import org.leplan73.outilssgdf.gui.extracteur.Extracteur;
 import org.leplan73.outilssgdf.gui.generateur.Generateur;
+import org.leplan73.outilssgdf.gui.generateur.GenerateurVCard;
 import org.leplan73.outilssgdf.gui.utils.ElementFactory;
 
 public class ExportAdherents extends Template {
@@ -77,8 +79,15 @@ public class ExportAdherents extends Template {
 			}
 		});
 		panel_3.setLayout(new BorderLayout(0, 0));
-		panel_3.add(btnNewButton_1, BorderLayout.NORTH);
-
+		panel_3.add(btnNewButton_1, BorderLayout.WEST);
+		
+		JButton btnGnrerUneArchive = new JButton("Générer une archive vcard");
+		btnGnrerUneArchive.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new GenerateurVCard().setVisible(true);
+			}
+		});
+		panel_3.add(btnGnrerUneArchive, BorderLayout.EAST);
 	}
 
 }

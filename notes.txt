@@ -50,3 +50,4 @@ Version 1.1.0 (en cours) :
 	- Gestion du droit à l'image pour les adhérents
 	- Organisation du code
 	- Préparation de l'intégration des camps (en cours)
+	- Générateur de fichier vcard pour import dans un outil de messagerie

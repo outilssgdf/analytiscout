@@ -6,6 +6,8 @@ public class Consts {
 	public static final String ENCODING_WINDOWS = "Windows-1252";
 	public static final String ENCODING_UTF8 = "UTF-8";
 	
+	public static final String FICHIER_CONF_EXPORT = "generateur.properties";
+	
 	static final public int PARENT_PERE = 1;
 	static final public int PARENT_MERE = 2;
 	static final public int PARENT_PEREMERE = PARENT_PERE|PARENT_MERE;

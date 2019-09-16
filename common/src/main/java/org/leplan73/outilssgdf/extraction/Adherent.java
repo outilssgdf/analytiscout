@@ -100,6 +100,11 @@ public class Adherent {
 		return this.get(colonnes_.getPrenomIndividuId());
 	}
 	
+	public String getEmail()
+	{
+		return this.get(colonnes_.getEmailIndividuId());
+	}
+	
 	public boolean getMarin()
 	{
 		String code = this.get(colonnes_.getFonctionCodeId());

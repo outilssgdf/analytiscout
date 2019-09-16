@@ -16,7 +16,7 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.PicocliException;
 
 @Command(name = "outilsgdf", mixinStandardHelpOptions = true, versionProvider = CommonParamsG.class,
-	subcommands = {Analyseur.class, AnalyseurAdherents.class, Extracteur.class, ExtracteurBatch.class, Generateur.class, AnalyseurEnLigne.class, AnalyseurRegistreDePresenceEnLigne.class, ExtracteurRegistreDePresence.class, AnalyseurRegistreDePresence.class, AnalyseurCEC.class, AnalyseurCECEnLigne.class})
+	subcommands = {Analyseur.class, AnalyseurAdherents.class, Extracteur.class, ExtracteurBatch.class, Generateur.class, GenerateurVCard.class, AnalyseurEnLigne.class, AnalyseurRegistreDePresenceEnLigne.class, ExtracteurRegistreDePresence.class, AnalyseurRegistreDePresence.class, AnalyseurCEC.class, AnalyseurCECEnLigne.class})
 public class CmdLine extends CmdParams {
 	
 	@Override

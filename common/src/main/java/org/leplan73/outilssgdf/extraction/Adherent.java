@@ -421,7 +421,7 @@ public class Adherent {
 		String unitAdherent = (String)this.get(colonnes.getUniteId());
 		if (unite != null && unitAdherent.compareTo(unite.getNom()) != 0) return false;
 		
-		int code = Integer.parseInt((String)this.get(colonnes.getFonctionCodeId()));
+		int code = this.getFonction();
 		if (code >= Consts.CODE_RESPONSABLES)
 		{
 			String nomIndividu = (String)this.get(colonnes.getNomIndividuId());
@@ -491,7 +491,7 @@ public class Adherent {
 		String unitAdherent = (String)this.get(colonnes.getUniteId());
 		if (unite != null && unitAdherent.compareTo(unite.getNom()) != 0) return;
 		
-		int code = Integer.parseInt((String)this.get(colonnes.getFonctionCodeId()));
+		int code = this.getFonction();
 		if (code >= Consts.CODE_RESPONSABLES)
 		{
 			String emailIndividu = (String)this.get(colonnes.getEmailIndividuId());

@@ -41,6 +41,6 @@ public class Generateur extends CommonParamsIntranet {
 		}
 		
 		long d = Instant.now().getEpochSecond() - now.getEpochSecond();
-		Logging.logger_.info("Terminé en "+d+" seconds");
+		Logging.logger_.info("Terminé en "+d+" secondes");
 	}
 }

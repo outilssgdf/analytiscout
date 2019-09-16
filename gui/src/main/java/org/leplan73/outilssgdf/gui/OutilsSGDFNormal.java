@@ -15,6 +15,7 @@ import javax.swing.border.EmptyBorder;
 import org.leplan73.outilssgdf.Consts;
 import org.leplan73.outilssgdf.gui.dialogues.AnalyseAdherents;
 import org.leplan73.outilssgdf.gui.dialogues.Camps;
+import org.leplan73.outilssgdf.gui.dialogues.ExportAdherents;
 import org.leplan73.outilssgdf.gui.dialogues.RegistrePresence;
 import org.leplan73.outilssgdf.gui.utils.Images;
 import org.leplan73.outilssgdf.gui.utils.JHyperlink;
@@ -73,6 +74,9 @@ public class OutilsSGDFNormal extends OutilsSGDF {
 		Camps d = new Camps();
 		tabbedPane.addTab("Camps",d);
 		
+		ExportAdherents b = new ExportAdherents();
+		tabbedPane.addTab("Exporter",b);
+		
 		JPanel panel = new JPanel();
 		panel.setBorder(new EmptyBorder(0, 5, 0, 0));
 		contentPane.add(panel, BorderLayout.SOUTH);
@@ -87,11 +91,11 @@ public class OutilsSGDFNormal extends OutilsSGDF {
 			JPanel panel_1 = new JPanel();
 			panel.add(panel_1, BorderLayout.EAST);
 			panel_1.setLayout(new BorderLayout(0, 0));
-			btnNewButton_2 = new JHyperlink("New button", "https://www.facebook.com/groups/outilssgdf");
+			btnNewButton_2 = new JHyperlink("Lien", "https://www.facebook.com/groups/outilssgdf");
 			panel_1.add(btnNewButton_2, BorderLayout.CENTER);
 			btnNewButton_2.setText("Consultez le groupe Facebook : outilssgdf");
 			
-			JLabel lblBesoinDaide = new JLabel("Besoin d'aide ? -");
+			JLabel lblBesoinDaide = new JLabel("Besoin d'aide ?");
 			panel_1.add(lblBesoinDaide, BorderLayout.WEST);
 		} catch (URISyntaxException e) {
 		}

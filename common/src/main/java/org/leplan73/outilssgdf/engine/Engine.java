@@ -33,7 +33,7 @@ public class Engine {
 	protected void stop()
 	{
 		long d = Instant.now().getEpochSecond() - start_.getEpochSecond();
-		logger_.info("Terminé en "+d+" seconds");
+		logger_.info("Terminé en "+d+" secondes");
 		progress_.setProgress(100, "Fini");
 	}
 }

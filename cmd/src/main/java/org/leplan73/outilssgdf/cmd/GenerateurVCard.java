@@ -46,8 +46,5 @@ public class GenerateurVCard extends CommonParamsIntranet {
 		} catch (IOException|EngineException e) {
 			Logging.logError(e);
 		}
-		
-		long d = Instant.now().getEpochSecond() - now.getEpochSecond();
-		Logging.logger_.info("Terminé en "+d+" seconds");
 	}
 }

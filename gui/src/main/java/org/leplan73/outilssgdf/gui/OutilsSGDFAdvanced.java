@@ -91,9 +91,9 @@ public class OutilsSGDFAdvanced extends OutilsSGDF {
 			panel.add(panel_1, BorderLayout.EAST);
 			panel_1.setLayout(new BorderLayout(0, 0));
 			
-			JLabel lblNewLabel = new JLabel("Besoin d'aide ? -");
+			JLabel lblNewLabel = new JLabel("Besoin d'aide ?");
 			panel_1.add(lblNewLabel, BorderLayout.WEST);
-			btnNewButton_2 = new JHyperlink("New button", "https://www.facebook.com/groups/outilssgdf");
+			btnNewButton_2 = new JHyperlink("Lien", "https://www.facebook.com/groups/outilssgdf");
 			panel_1.add(btnNewButton_2);
 			btnNewButton_2.setText("Consultez le groupe Facebook : outilssgdf");
 		} catch (URISyntaxException e) {

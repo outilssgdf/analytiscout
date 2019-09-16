@@ -65,5 +65,4 @@ public class EngineGenerateur extends EngineConnecte {
 			stop();
 		}
 	}
-
 }

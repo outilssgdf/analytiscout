@@ -44,7 +44,10 @@ public class EngineGenerateurVCard extends EngineConnecte {
 		VCardFormatteur f = new VCardFormatteur();
 		
 		Properties modeled = new Properties();
-		modeled.load(new BufferedInputStream(new FileInputStream(categories)));
+		if (categories.exists())
+		{
+			modeled.load(new BufferedInputStream(new FileInputStream(categories)));
+		}
 	    f.genereEmail(x.getUnites(), x.getAdherents(), x.getColonnes(), modeled, fout);
 	    fout.flush();
 	    fout.close();

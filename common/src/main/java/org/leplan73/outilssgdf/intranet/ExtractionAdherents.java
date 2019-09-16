@@ -29,6 +29,10 @@ import com.jayway.jsonpath.PathNotFoundException;
 
 public class ExtractionAdherents extends ExtractionIntranet {
 
+	private Integer ddStructure_ = null;
+	private Integer tbStructure_ = null;
+	private String tbAutoCompleteCode_ = null;
+	
 	public String extract(int structure, boolean recursif, int type, boolean adherents, String codeFonction, int specialite, int categorie, int diplome, int qualification, int formation, int format, boolean brut) throws ClientProtocolException, IOException, JDOMException
 	{
 		HttpGet httpget = new HttpGet(ExtractionIntranet.getIntranet()+"/Specialisation/Sgdf/adherents/ExtraireAdherents.aspx");
@@ -48,14 +52,12 @@ public class ExtractionAdherents extends ExtractionIntranet {
        	
     	Map<Integer, Integer> structureMap = new TreeMap<Integer, Integer>();
     	
-    	Integer ddStructure = null;
-    	Integer tbStructure = null;
-    	String tbAutoCompleteCode = null;
-    	
        	// Extraction des codes structure "dd" internes (visible avec un profile "Groupe")
        	Element ddCodes = doc.selectFirst("select[id=ctl00_MainContent__selecteur__ddStructure]");
-       	if (ddCodes != null)
+       	if (ddCodes != null && ddStructure_ == null)
        	{
+       		Integer ddStructure = null;
+       		
 	       	Elements ddCodes2 = ddCodes.select("option");
 	       	for (int i=0;i<ddCodes2.size();i++)
 	       	{
@@ -72,10 +74,14 @@ public class ExtractionAdherents extends ExtractionIntranet {
 	       		}
 	       	}
 	       	ddStructure = (structure != ExtractionIntranet.STRUCTURE_TOUT) ? structureMap.get(structure) : null;
+	       	ddStructure_ = ddStructure;
        	}
        	
-       	if (ddCodes == null)
+       	if (ddCodes == null && tbStructure_ == null)
        	{
+       		Integer tbStructure = null;
+       		String tbAutoCompleteCode = null;
+       		
        		HttpPost httppostStructures = new HttpPost(ExtractionIntranet.getIntranet()+"/Specialisation/Sgdf/WebServices/AutoComplete.asmx/GetStructures");
        		httppostStructures.addHeader("User-Agent","Mozilla/5.0 (Windows NT 6.1; rv:31.0) Gecko/20100101 Firefox/31.0");
        		httppostStructures.addHeader("Content-Type","application/json; charset=UTF-8");
@@ -96,7 +102,8 @@ public class ExtractionAdherents extends ExtractionIntranet {
        		if (jsonDocument != null)
        		{
        			tbAutoCompleteCode = JsonPath.read(jsonDocument,"$.d");
-       			jsonDocument = Configuration.defaultConfiguration().jsonProvider().parse(tbAutoCompleteCode.toString());
+       			jsonDocument = Configuration.defaultConfiguration().jsonProvider().parse(tbAutoCompleteCode);
+       			tbAutoCompleteCode_ = tbAutoCompleteCode;
        			try
        			{
        				Object nodeId = JsonPath.read(jsonDocument,"$.[0].id");
@@ -108,6 +115,7 @@ public class ExtractionAdherents extends ExtractionIntranet {
        			}
        		}
        		tbStructure = structure != ExtractionIntranet.STRUCTURE_TOUT ? structureMap.get(structure) : 0;
+       		tbStructure_ = tbStructure;
        	}
 	       
        	HttpPost httppost = new HttpPost(ExtractionIntranet.getIntranet()+"/Specialisation/Sgdf/adherents/ExtraireAdherents.aspx");
@@ -130,15 +138,15 @@ public class ExtractionAdherents extends ExtractionIntranet {
 		formparams.add(new BasicNameValuePair("ctl00$MainContent$_ddlRequetesExistantes","-1"));
 		formparams.add(new BasicNameValuePair("ctl00$MainContent$_tbNomNouvelleRequete",""));
 		formparams.add(new BasicNameValuePair("ctl00$MainContent$_selecteur$_hidCodeStructure",""+structure));
-		if (ddStructure != null)
+		if (ddStructure_ != null)
 		{
-			formparams.add(new BasicNameValuePair("ctl00$MainContent$_selecteur$_ddStructure",""+ ddStructure));
+			formparams.add(new BasicNameValuePair("ctl00$MainContent$_selecteur$_ddStructure",""+ ddStructure_));
 		}
-		if (tbStructure != null)
+		if (tbStructure_ != null)
 		{
-			formparams.add(new BasicNameValuePair("ctl00$MainContent$_selecteur$_tbCode",""+ tbStructure));
-			formparams.add(new BasicNameValuePair("ctl00$MainContent$_selecteur$_autocompleteStructures$_txtAutoComplete",""+ tbStructure));
-			formparams.add(new BasicNameValuePair("ctl00$MainContent$_selecteur$_autocompleteStructures$_hiddenAutoComplete",tbAutoCompleteCode));
+			formparams.add(new BasicNameValuePair("ctl00$MainContent$_selecteur$_tbCode",""+ tbStructure_));
+			formparams.add(new BasicNameValuePair("ctl00$MainContent$_selecteur$_autocompleteStructures$_txtAutoComplete",""+ tbStructure_));
+			formparams.add(new BasicNameValuePair("ctl00$MainContent$_selecteur$_autocompleteStructures$_hiddenAutoComplete",tbAutoCompleteCode_));
 		}
 		if (structure != 0 && recursif)
 			formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbRecursif","on"));

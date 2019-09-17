@@ -62,31 +62,34 @@ public class ExtractionAdherents extends ExtractionIntranet {
 		structure_ = structure;
     	
        	// Extraction des codes structure "dd" internes (visible avec un profile "Groupe")
-       	Element ddCodes = doc.selectFirst("select[id=ctl00_MainContent__selecteur__ddStructure]");
-       	if (ddCodes != null && ddStructure_ == null)
+       	if (ddStructure_ == null)
        	{
-       		Integer ddStructure = null;
-       		
-	       	Elements ddCodes2 = ddCodes.select("option");
-	       	for (int i=0;i<ddCodes2.size();i++)
-	       	{
-	       		Element code = ddCodes2.get(i);
-	       		if (code != null)
-	       		{
-		       		String va = code.text();
-		       		if (va.compareTo("Toutes") != 0)
+       		Element ddCodes = doc.selectFirst("select[id=ctl00_MainContent__selecteur__ddStructure]");
+       		if (ddCodes != null)
+       		{
+	       		Integer ddStructure = null;
+	       		
+		       	Elements ddCodes2 = ddCodes.select("option");
+		       	for (int i=0;i<ddCodes2.size();i++)
+		       	{
+		       		Element code = ddCodes2.get(i);
+		       		if (code != null)
 		       		{
-			       		va = va.substring(0, va.indexOf(" - "));
-			       		String value = code.attributes().get("value");
-			       		structureMap.put(Integer.valueOf(va), Integer.valueOf(value));
+			       		String va = code.text();
+			       		if (va.compareTo("Toutes") != 0)
+			       		{
+				       		va = va.substring(0, va.indexOf(" - "));
+				       		String value = code.attributes().get("value");
+				       		structureMap.put(Integer.valueOf(va), Integer.valueOf(value));
+			       		}
 		       		}
-	       		}
-	       	}
-	       	ddStructure = (structure != ExtractionIntranet.STRUCTURE_TOUT) ? structureMap.get(structure) : null;
-	       	ddStructure_ = ddStructure;
+		       	}
+		       	ddStructure = (structure != ExtractionIntranet.STRUCTURE_TOUT) ? structureMap.get(structure) : null;
+		       	ddStructure_ = ddStructure;
+       		}
        	}
        	
-       	if (ddCodes == null && tbStructure_ == null)
+       	if (tbStructure_ == null)
        	{
        		Integer tbStructure = null;
        		String tbAutoCompleteCode = null;

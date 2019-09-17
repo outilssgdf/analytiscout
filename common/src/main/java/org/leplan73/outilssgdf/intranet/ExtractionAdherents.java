@@ -32,6 +32,7 @@ public class ExtractionAdherents extends ExtractionIntranet {
 	private Integer ddStructure_ = null;
 	private Integer tbStructure_ = null;
 	private String tbAutoCompleteCode_ = null;
+	private int structure_ = -1;
 	
 	public String extract(int structure, boolean recursif, int type, boolean adherents, String codeFonction, int specialite, int categorie, int diplome, int qualification, int formation, int format, boolean brut) throws ClientProtocolException, IOException, JDOMException
 	{
@@ -51,6 +52,14 @@ public class ExtractionAdherents extends ExtractionIntranet {
        	response.close();
        	
     	Map<Integer, Integer> structureMap = new TreeMap<Integer, Integer>();
+    	
+    	if (structure_ != -1 && structure != structure_)
+    	{
+    		ddStructure_ = null;
+    		tbStructure_ = null;
+    		tbAutoCompleteCode_ = null;
+    	}
+		structure_ = structure;
     	
        	// Extraction des codes structure "dd" internes (visible avec un profile "Groupe")
        	Element ddCodes = doc.selectFirst("select[id=ctl00_MainContent__selecteur__ddStructure]");

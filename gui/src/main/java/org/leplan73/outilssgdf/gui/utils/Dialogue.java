@@ -73,11 +73,15 @@ public class Dialogue extends JDialog implements LoggedDialog {
 		}
 		try
 		{
-			Integer.parseInt(structures);
+			String stStructures[] = structures.split(",");
+			for (String stStructure : stStructures)
+			{
+				Integer.parseInt(stStructure);
+			}
 		}
 		catch(NumberFormatException e)
 		{
-			logger_.error("Code de structure invalid");
+			logger_.error("Code de structure invalide");
 			return false;
 		}
 		if (structures.compareTo(Consts.STRUCTURE_NATIONAL) == 0)

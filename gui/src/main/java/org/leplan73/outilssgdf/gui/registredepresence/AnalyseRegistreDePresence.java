@@ -237,7 +237,7 @@ public class AnalyseRegistreDePresence extends Dialogue implements LoggedDialog,
 			boolean ret = check();
 			progress.setProgress(20, null);
 			if (ret) {
-				addLog("Lancement");
+				logger_.info("Lancement");
 				try {
 					en.go(fEntree, fModele, fSortie, null, false);
 				} catch (Exception e) {

@@ -10,7 +10,6 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.csv.CSVPrinter;
 import org.leplan73.outilssgdf.Check;
 import org.leplan73.outilssgdf.Consts;
 import org.leplan73.outilssgdf.Params;
@@ -422,7 +421,7 @@ public class Adherent {
 		if (indivMere2) checks.add(new Check(unite.getNom(), nomIndividu + " : " + prenomIndividu, "emailIndividu2 == emailMere"));
 	}
 	
-	public boolean listeChefCvs(ColonnesAdherents colonnes, Unite unite, CSVPrinter os) throws IOException {
+	public boolean listeChef(ColonnesAdherents colonnes, Unite unite, PrintStream os) throws IOException {
 		String unitAdherent = (String)this.get(colonnes.getUniteId());
 		if (unite != null && unitAdherent.compareTo(unite.getNom()) != 0) return false;
 		
@@ -438,53 +437,39 @@ public class Adherent {
 			{
 				if (nomIndividu != null && prenomIndividu != null)
 				{
-					os.print(prenomIndividu + " " + nomIndividu);
-					os.print(prenomIndividu);
-					os.print(nomIndividu);
+					os.println("BEGIN:VCARD");
+					os.println("VERSION:3.0");
+					os.println("N:"+nomIndividu+";"+prenomIndividu+";;;");
+					os.println("FN:"+prenomIndividu + " " + nomIndividu);
 					if (code == Consts.CODE_RESPONSABLE_FARFADETS)
 					{
-						os.print("Direction ::: Parents Farfadets");
+						os.println("CATEGORIES:Direction,Parents Farfadets");
 					}
 					else
 					{
 						if (code == Consts.CODE_PARENTS_FARFADETS)
-							os.print("Parents Farfadets");
+							os.println("CATEGORIES:Parents Farfadets");
 						else
-							os.print("Direction");
+							os.println("CATEGORIES:Direction");
 					}
-					os.print(emailIndividu != null ? (emailIndividu.toLowerCase()) : "");
-					if (mobileIndividu1 != null)
-					{
-						os.print("Mobile");
-						os.print(mobileIndividu1);
-					}
-					else
-					{
-						os.print("");
-						os.print("");
-					}
+					if (emailIndividu != null && !emailIndividu.isEmpty()) os.println("EMAIL;TYPE=INTERNET;TYPE=HOME:"+emailIndividu.toLowerCase());
+					if (mobileIndividu1 != null && !mobileIndividu1.isEmpty()) os.println("TEL;CELL:"+mobileIndividu1);
 				}
+				os.println("END:VCARD");
 				return true;
 			}
 			else
 			{
 				if (nomIndividu != null && prenomIndividu != null)
 				{
-					os.print(prenomIndividu + " " + nomIndividu);
-					os.print(prenomIndividu);
-					os.print(nomIndividu);
-					os.print("Maitrises ::: Chefs " + unitAdherent);
-					os.print(emailIndividu != null ? (emailIndividu.toLowerCase()) : "");
-					if (mobileIndividu1 != null)
-					{
-						os.print("Mobile");
-						os.print(mobileIndividu1);
-					}
-					else
-					{
-						os.print("");
-						os.print("");
-					}
+					os.println("BEGIN:VCARD");
+					os.println("VERSION:3.0");
+					os.println("N:"+nomIndividu+";"+prenomIndividu+";;;");
+					os.println("FN:"+prenomIndividu + " " + nomIndividu);
+					os.println("CATEGORIES:Maitrises,Chefs " + unitAdherent);
+					if (emailIndividu != null && !emailIndividu.isEmpty()) os.println("EMAIL;TYPE=INTERNET;TYPE=HOME:"+emailIndividu.toLowerCase());
+					if (mobileIndividu1 != null && !mobileIndividu1.isEmpty()) os.println("TEL;CELL:"+mobileIndividu1);
+					os.println("END:VCARD");
 					return true;
 				}
 			}
@@ -501,7 +486,9 @@ public class Adherent {
 		{
 			String emailIndividu = (String)this.get(colonnes.getEmailIndividuId());
 			if (emailIndividu != null && !emailIndividu.isEmpty())
+			{
 				os.println(emailIndividu.toLowerCase());
+			}
 		}
 	}
 
@@ -512,8 +499,9 @@ public class Adherent {
 		String emailPere = (String)this.get(colonnes.getEmailPereId());
 		String emailMere = (String)this.get(colonnes.getEmailMereId());
 		
-		if (emailPere != null && !emailPere.isEmpty()) os.println(emailPere.toLowerCase());
-		if (emailMere != null && !emailMere.isEmpty()) os.println(emailMere.toLowerCase());
+		if (emailPere != null && !emailPere.isEmpty())
+			os.println(emailPere.toLowerCase());
+		if (emailMere != null && !emailMere.isEmpty())
+			os.println(emailMere.toLowerCase());
 	}
-
 }

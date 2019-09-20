@@ -14,7 +14,7 @@ import org.jdom2.JDOMException;
 import org.leplan73.outilssgdf.ExtracteurIndividusHtml;
 import org.leplan73.outilssgdf.ExtractionException;
 import org.leplan73.outilssgdf.Progress;
-import org.leplan73.outilssgdf.formatage.GmailCsvFormatteur;
+import org.leplan73.outilssgdf.formatage.ArchiveFormatteur;
 import org.leplan73.outilssgdf.intranet.ExtractionAdherents;
 import org.leplan73.outilssgdf.intranet.ExtractionIntranet;
 import org.slf4j.Logger;
@@ -37,7 +37,7 @@ public class EngineGenerateur extends EngineConnecte {
 		// Génération de l'archive zip
 		logger_.info("Génération de l'archive "+sortie.getName());
 		ZipOutputStream zipOut = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(sortie)));
-		GmailCsvFormatteur f = new GmailCsvFormatteur();
+		ArchiveFormatteur f = new ArchiveFormatteur();
 	    f.genereEmail(x.getUnites(), x.getParents(), x.getAdherents(), x.getColonnes(), null, zipOut);
 	    zipOut.flush();
 	    zipOut.close();

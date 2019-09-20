@@ -1,12 +1,12 @@
 package org.leplan73.outilssgdf.extraction;
 
 import java.io.IOException;
+import java.io.PrintStream;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
-import org.apache.commons.csv.CSVPrinter;
 import org.leplan73.outilssgdf.Consts;
 
 public class Parent extends TreeMap<Integer,Adherent>
@@ -64,7 +64,7 @@ public class Parent extends TreeMap<Integer,Adherent>
 		return type_;
 	}
 	
-	public boolean afficheParentsCvs(ColonnesAdherents colonnes, Adherent adherent, Set<String> unitesEnfants, int type, CSVPrinter os) throws IOException {
+	public boolean afficheParentsVCard(ColonnesAdherents colonnes, Adherent adherent, Set<String> unitesEnfants, int type, PrintStream os) throws IOException {
 		String nomPere = (String)adherent.get(colonnes.getNomPereId());
 		String prenomPere = (String)adherent.get(colonnes.getPrenomPereId());
 		String emailPere = (String)adherent.get(colonnes.getEmailPereId());
@@ -74,7 +74,7 @@ public class Parent extends TreeMap<Integer,Adherent>
 		String emailMere = (String)adherent.get(colonnes.getEmailMereId());
 		String mobileMere = (String)adherent.get(colonnes.getMobileMereId());
 		
-		String unites = unitesEnfants.stream().collect(Collectors.joining(" ::: "));
+		String unites = unitesEnfants.stream().collect(Collectors.joining(","));
 		
 		boolean ret = false;
 		
@@ -82,22 +82,14 @@ public class Parent extends TreeMap<Integer,Adherent>
 		{
 			if (nomPere != null && prenomPere != null)
 			{
-				os.print(prenomPere + " " + nomPere);
-				os.print(prenomPere);
-				os.print(nomPere);
-				os.print("Parents ::: " + unites);
-				os.print(emailPere != null ? (emailPere.toLowerCase()) : "");
-				if (mobilePere != null)
-				{
-					os.print("Mobile");
-					os.print(mobilePere);
-				}
-				else
-				{
-					os.print("");
-					os.print("");
-				}
-				
+				os.println("BEGIN:VCARD");
+				os.println("VERSION:3.0");
+				os.println("N:"+prenomPere + " " + nomPere+";;;");
+				os.println("FN:"+prenomPere + " " + nomPere);
+				if (emailPere != null && !emailPere.isEmpty()) os.println("EMAIL;TYPE=INTERNET;TYPE=HOME:"+emailPere.toLowerCase());
+				if (mobilePere != null && !mobilePere.isEmpty()) os.println("TEL;CELL:"+mobilePere);
+				os.println("CATEGORIES:Parents,"+unites);
+				os.println("END:VCARD");
 				ret=true;
 			}
 		}
@@ -106,30 +98,21 @@ public class Parent extends TreeMap<Integer,Adherent>
 		{
 			if (nomMere != null && prenomMere != null)
 			{
-				os.print(prenomMere + " " + nomMere);
-				os.print(prenomMere);
-				os.print(nomMere);
-				os.print("Parents ::: " + unites);
-				os.print(emailMere != null ? (emailMere.toLowerCase()) : "");
-				if (mobileMere != null)
-				{
-					os.print("Mobile");
-					os.print(mobileMere);
-				}
-				else
-				{
-					os.print("");
-					os.print("");
-				}
-				
+				os.println("BEGIN:VCARD");
+				os.println("VERSION:3.0");
+				os.println("N:"+prenomMere + " " + nomMere+";;;");
+				os.println("FN:"+prenomMere + " " + nomMere);
+				if (emailMere != null && !emailMere.isEmpty()) os.println("EMAIL;TYPE=INTERNET;TYPE=HOME:"+emailMere.toLowerCase());
+				if (mobilePere != null && !mobilePere.isEmpty()) os.println("TEL;CELL:"+mobileMere);
+				os.println("CATEGORIES:Parents,"+unites);
+				os.println("END:VCARD");
 				ret=true;
 			}
 		}
-		
 		return ret;
 	}
 	
-	public boolean afficheParentsEnfantCvs(ColonnesAdherents colonnes, Adherent adherent, String unite, int type, CSVPrinter os) throws IOException {
+	public boolean afficheParentsEnfantVCard(ColonnesAdherents colonnes, Adherent adherent, String unite, int type, PrintStream os) throws IOException {
 		String nom = (String)adherent.get(colonnes.getNomIndividuId());
 		String prenom = (String)adherent.get(colonnes.getPrenomIndividuId());
 		String nomPere = (String)adherent.get(colonnes.getNomPereId());
@@ -147,22 +130,14 @@ public class Parent extends TreeMap<Integer,Adherent>
 		{
 			if (nomPere != null && prenomPere != null)
 			{
-				os.print("Papa de "+ prenom + " " + nom);
-				os.print(prenom);
-				os.print(nom);
-				os.print("Parents ::: " + unite);
-				os.print(emailPere != null ? (emailPere.toLowerCase()) : "");
-				if (mobilePere != null)
-				{
-					os.print("Mobile");
-					os.print(mobilePere);
-				}
-				else
-				{
-					os.print("");
-					os.print("");
-				}
-				
+				os.println("BEGIN:VCARD");
+				os.println("VERSION:3.0");
+				os.println("N:Papa de "+ prenom + " " + nom+";;;");
+				os.println("FN:Papa de "+ prenom + " " + nom);
+				if (emailPere != null && !emailPere.isEmpty()) os.println("EMAIL;TYPE=INTERNET;TYPE=HOME:"+emailPere.toLowerCase());
+				if (mobilePere != null && !mobilePere.isEmpty()) os.println("TEL;CELL:"+mobilePere);
+				os.println("CATEGORIES:Parents "+unite);
+				os.println("END:VCARD");
 				ret=true;
 			}
 		}
@@ -171,26 +146,17 @@ public class Parent extends TreeMap<Integer,Adherent>
 		{
 			if (nomMere != null && prenomMere != null)
 			{
-				os.print("Maman de "+ prenom + " " + nom);
-				os.print(prenom);
-				os.print(nom);
-				os.print("Parents ::: " + unite);
-				os.print(emailMere != null ? (emailMere.toLowerCase()) : "");
-				if (mobileMere != null)
-				{
-					os.print("Mobile");
-					os.print(mobileMere);
-				}
-				else
-				{
-					os.print("");
-					os.print("");
-				}
-				
+				os.println("BEGIN:VCARD");
+				os.println("VERSION:3.0");
+				os.println("N:Maman de "+ prenom + " " + nom+";;;");
+				os.println("FN:Maman de "+ prenom + " " + nom);
+				if (emailMere != null && !emailMere.isEmpty()) os.println("EMAIL;TYPE=INTERNET;TYPE=HOME:"+emailMere.toLowerCase());
+				if (mobilePere != null && !mobilePere.isEmpty()) os.println("TEL;CELL:"+mobileMere);
+				os.println("CATEGORIES:Parents "+unite);
+				os.println("END:VCARD");
 				ret=true;
 			}
 		}
-		
 		return ret;
 	}
 }

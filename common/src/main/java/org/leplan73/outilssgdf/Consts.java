@@ -60,4 +60,5 @@ public class Consts {
 	public static final String VCARD_CATEGORIE_MEMBRES = "categorie.membres.";
 	
 	public static final String VCARD_AJOUTER_GROUPE = "categorie.ajouter.groupe";
+	public static final String VCARD_RECURSIF = "extraction.recusif";
 }

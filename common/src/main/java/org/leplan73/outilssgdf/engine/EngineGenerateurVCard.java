@@ -31,8 +31,17 @@ public class EngineGenerateurVCard extends EngineConnecte {
 	
 	private boolean gopriv(ExtractionAdherents app, String identifiant, String motdepasse, File categories, File sortie, int structure) throws ClientProtocolException, IOException, JDOMException, InvalidFormatException, ExtractionException
 	{
+		logger_.info("Chargement du fichier de paramètrage");
+		Properties properties = new Properties();
+		if (categories.exists())
+		{
+			properties.load(new BufferedInputStream(new FileInputStream(categories)));
+		}
+		
+		String extractionRecusif = properties.getProperty(Consts.VCARD_RECURSIF,"1");
+		
 		logger_.info("Extraction VCard (structure="+structure+")");
-		String donnees = app.extract(structure, true, ExtractionIntranet.TYPE_INSCRIT, true, null, ExtractionIntranet.SPECIALITE_SANS_IMPORTANCE, ExtractionIntranet.CATEGORIE_TOUT, ExtractionIntranet.DIPLOME_TOUT,ExtractionIntranet.QUALIFICATION_TOUT,ExtractionIntranet.FORMATION_TOUT, ExtractionIntranet.FORMAT_INDIVIDU,false);
+		String donnees = app.extract(structure, (extractionRecusif.compareTo("1") == 0), ExtractionIntranet.TYPE_INSCRIT, true, null, ExtractionIntranet.SPECIALITE_SANS_IMPORTANCE, ExtractionIntranet.CATEGORIE_TOUT, ExtractionIntranet.DIPLOME_TOUT,ExtractionIntranet.QUALIFICATION_TOUT,ExtractionIntranet.FORMATION_TOUT, ExtractionIntranet.FORMAT_INDIVIDU,false);
 		
 		logger_.info("Conversion");
 		ExtracteurIndividusHtml x = new ExtracteurIndividusHtml();
@@ -43,12 +52,8 @@ public class EngineGenerateurVCard extends EngineConnecte {
 		PrintStream fout = new PrintStream(new BufferedOutputStream(new FileOutputStream(sortie)),false, Consts.ENCODING_UTF8);
 		VCardFormatteur f = new VCardFormatteur();
 		
-		Properties modeled = new Properties();
-		if (categories.exists())
-		{
-			modeled.load(new BufferedInputStream(new FileInputStream(categories)));
-		}
-	    f.genereEmail(x.getUnites(), x.getAdherents(), x.getColonnes(), modeled, fout);
+		
+	    f.genereEmail(x.getUnites(), x.getAdherents(), x.getColonnes(), properties, fout);
 	    fout.flush();
 	    fout.close();
 		return true;

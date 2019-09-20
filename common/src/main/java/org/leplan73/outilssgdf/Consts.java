@@ -54,4 +54,10 @@ public class Consts {
 	public static final String INTRANET_MOTDEPASSE = "intranet.motdepasse";
 	public static final String INTRANET_MEMORISER = "intranet.memoriser";
 	public static final String INTRANET_STRUCTURE = "intranet.structure";
+	
+	public static final String VCARD_CATEGORIE_NOM = "categorie.nom.";
+	public static final String VCARD_CATEGORIE_CODE = "categorie.code.";
+	public static final String VCARD_CATEGORIE_MEMBRES = "categorie.membres.";
+	
+	public static final String VCARD_AJOUTER_GROUPE = "categorie.ajouter.groupe";
 }

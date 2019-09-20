@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
+import org.leplan73.outilssgdf.Consts;
 import org.leplan73.outilssgdf.calcul.Unites;
 import org.leplan73.outilssgdf.extraction.Adherent;
 import org.leplan73.outilssgdf.extraction.Adherents;
@@ -29,11 +30,11 @@ public class VCardFormatteur {
 		
 		int index = 1;
 		for (;;) {
-			String nom = modele.getProperty("categorie.nom." + index);
+			String nom = modele.getProperty(Consts.VCARD_CATEGORIE_NOM+"." + index);
 			if (nom == null) {
 				break;
 			}
-			String membresp = modele.getProperty("categorie.membres." + index);
+			String membresp = modele.getProperty(Consts.VCARD_CATEGORIE_MEMBRES+"." + index);
 			Categorie categorie = new Categorie();
 			categorie.nom = nom;
 			if (membresp != null)
@@ -46,7 +47,7 @@ public class VCardFormatteur {
 					categorie.membres.add(code);
 				}
 			}
-			String codesp = modele.getProperty("categorie.code." + index);
+			String codesp = modele.getProperty(Consts.VCARD_CATEGORIE_CODE+"." + index);
 			if (codesp != null)
 			{
 				categorie.codes = new HashSet<String>();
@@ -63,7 +64,7 @@ public class VCardFormatteur {
 	}
 	
 	
-	private void listeVCard(ColonnesAdherents colonnes, Adherent adherent, List<Categorie> cats, PrintStream out) throws IOException {
+	private void listeVCard(ColonnesAdherents colonnes, Adherent adherent, List<Categorie> cats, PrintStream out, boolean ajouterGroupe) throws IOException {
 		out.println("BEGIN:VCARD");
 		out.println("VERSION:3.0");
 		out.println("N:"+adherent.getNom()+";"+adherent.getPrenom()+";;;");
@@ -92,10 +93,13 @@ public class VCardFormatteur {
 			}
 		}
 
-		// Ajout du groupe
-		if (index > 0)
-			sb.append(",");
-		sb.append(adherent.getStructure());
+		if (ajouterGroupe)
+		{
+			// Ajout du groupe
+			if (index > 0)
+				sb.append(",");
+			sb.append(adherent.getStructure());
+		}
 		
 		String categories = sb.toString();
 		if (categories.isEmpty() == false)
@@ -107,11 +111,13 @@ public class VCardFormatteur {
 	
 	public void genereEmail(Unites unites, Adherents adherents, ColonnesAdherents colonnes, Properties modele, PrintStream out) throws IOException {
 		
-		List<Categorie> cats = chargeCategories(modele);;
+		List<Categorie> cats = chargeCategories(modele);
+		
+		String ajouterGroupe = modele.getProperty(Consts.VCARD_AJOUTER_GROUPE,"1");
 		
 		adherents.forEach((key,adherent) -> {
 			try {
-				listeVCard(colonnes, adherent, cats, out);
+				listeVCard(colonnes, adherent, cats, out, (ajouterGroupe.compareTo("1") == 0));
 			} catch (IOException e) {
 			}
 		});

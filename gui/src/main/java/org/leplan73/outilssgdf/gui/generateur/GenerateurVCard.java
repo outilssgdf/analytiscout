@@ -202,7 +202,7 @@ public class GenerateurVCard extends Dialogue implements LoggedDialog, GuiComman
 						fcSortie.setFileSelectionMode(JFileChooser.FILES_ONLY);
 						fcSortie.removeChoosableFileFilter(fcSortie.getFileFilter());
 						fcSortie.removeChoosableFileFilter(fcSortie.getAcceptAllFileFilter());
-						fcSortie.addChoosableFileFilter(new ExportFileFilter("zip"));
+						fcSortie.addChoosableFileFilter(new ExportFileFilter("vcard"));
 						int result = fcSortie.showDialog(panel, "OK");
 						if (result == JFileChooser.APPROVE_OPTION) {
 							fSortie = fcSortie.getSelectedFile();

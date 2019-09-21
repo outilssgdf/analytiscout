@@ -11,7 +11,7 @@ L’outil est disponible pour les équipes territoriales sur la plateforme colla
 - Ces outils sont non officiels et ne bénéficient pas du support du National SGDF
 - Les données extraites peuvent être sensibles, traitez-les en accord avec les règles émises par le National et la règlementation RGPD.
 - Après extraction, l'outil peut créer une feuille Excel synthétique
-- Des exemples d’utilisation sont les préparations des déclarations DDCS  (présentation par groupe des qualifications et formations, et statut de stagiaire BAFA potentiel), le suivi des quotas de qualifications, ou la vérification des contraintes d'âge, 
+- Des exemples d’utilisation sont les préparations des déclarations DDCS  (présentation par groupe des qualifications et formations, et statut de stagiaire BAFA potentiel), le suivi des quotas de qualifications, ou la vérification des contraintes d'âge
 
 
 ## Outils

@@ -1,5 +1,6 @@
 package org.leplan73.outilssgdf.formatage;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -21,28 +22,28 @@ public class ArchiveFormatteur {
 	
 	private void listeEmailFichier(ColonnesAdherents colonnes, Adherents adherents, Unite unite, File dir, String fichier, ZipOutputStream zout) throws IOException
 	{
-		SmartStream sstream = new SmartStream(dir, fichier, zout);
-		PrintStream os = sstream.getStream();
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		PrintStream os = new PrintStream(bos);
 		adherents.forEach((id,adherent) ->
 		{
 			adherent.listeEmail(colonnes, unite, os);
 		});
-		sstream.close();
+		ecritStream(bos, dir, fichier, zout);
 	}
 	
 	private void listeEmailChefsFichier(ColonnesAdherents colonnes, Adherents adherents, Unite unite, File dir, String fichier, ZipOutputStream zout) throws IOException {
-		SmartStream sstream = new SmartStream(dir, fichier, zout);
-		PrintStream os = sstream.getStream();
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		PrintStream os = new PrintStream(bos);
 		adherents.forEach((id,adherent) ->
 		{
 			adherent.listeEmailChef(colonnes, unite, os);
 		});
-		sstream.close();
+		ecritStream(bos, dir, fichier, zout);
 	}
 
 	private void listeChefsCsv(ColonnesAdherents colonnes, Adherents adherents, File dir, ZipOutputStream zout) throws IOException {
-		SmartStream sstream = new SmartStream(dir, "maitrises.vcf", zout);
-		PrintStream os = sstream.getStream();
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		PrintStream os = new PrintStream(bos);
 		adherents.forEach((id,adherent) ->
 		{
 			try {
@@ -50,8 +51,7 @@ public class ArchiveFormatteur {
 			} catch (IOException e) {
 			}
 		});
-		os.flush();
-		sstream.close();
+		ecritStream(bos, dir, "maitrises.vcf", zout);
 	}
 
 	private boolean listeParent(ColonnesAdherents colonnes, final Parent parent, final Unite unite, Adherents adherents, int type, PrintStream out) throws IOException {
@@ -89,8 +89,8 @@ public class ArchiveFormatteur {
 	}
 	
 	private void listeEnfantsCVard(ColonnesAdherents colonnes, Adherents adherents, Parents parents, Unite unite, File dir, ZipOutputStream zout) throws IOException {
-		SmartStream sstream = new SmartStream(dir, unite.getNom()+"_enfants.vcf", zout);
-		PrintStream os = sstream.getStream();
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		PrintStream os = new PrintStream(bos);
 		adherents.forEach((id,adherent) ->
 		{
 			if (unite == null || unite.compareTo(adherent.getUnite()) == 0)
@@ -102,19 +102,19 @@ public class ArchiveFormatteur {
 				} catch (IOException e) {
 				}
 		});
-		sstream.close();
+		ecritStream(bos, dir, unite.getNom()+"_enfants.vcf", zout);
 	}
 
 	private void listeCsv(ColonnesAdherents colonnes, Adherents adherents, Parents parents, Unite unite, File dir, ZipOutputStream zout) throws IOException {
-		SmartStream sstream = new SmartStream(dir, unite == null ? "tout.vcf" : unite.getNom()+"_parents.vcf", zout);
-		PrintStream os = sstream.getStream();
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		PrintStream os = new PrintStream(bos);
 		parents.forEach((code,parent) -> {
 			try {
 				listeParent(colonnes, parent, unite, adherents, Consts.PARENT_PEREMERE, os);
 			} catch (IOException e) {
 			}
 		});
-		sstream.close();
+		ecritStream(bos, dir, unite == null ? "tout.vcf" : unite.getNom()+"_parents.vcf", zout);
 	}
 	
 	public void genereEmail(Unites unites, Parents parents, Adherents adherents, ColonnesAdherents colonnes, String chemin, ZipOutputStream zout) throws IOException {
@@ -146,5 +146,15 @@ public class ArchiveFormatteur {
 			} catch (IOException e) {
 			}
 		});
+	}
+	
+	private void ecritStream(ByteArrayOutputStream bos, File dir, String nom, ZipOutputStream zout) throws IOException
+	{
+		if (bos.size() > 0)
+		{
+			SmartStream sstream = new SmartStream(dir, nom, zout);
+			sstream.write(bos);
+			sstream.close();
+		}
 	}
 }

@@ -1,5 +1,6 @@
 package org.leplan73.outilssgdf.outils;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -40,5 +41,11 @@ public class SmartStream {
 	public PrintStream getStream()
 	{
 		return os_;
+	}
+
+	public void write(ByteArrayOutputStream bos) {
+		PrintStream fos = this.getStream();
+		fos.print(bos.toString());
+		fos.flush();
 	}
 }

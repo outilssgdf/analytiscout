@@ -30,11 +30,11 @@ public class VCardFormatteur {
 		
 		int index = 1;
 		for (;;) {
-			String nom = modele.getProperty(Consts.VCARD_CATEGORIE_NOM+"." + index);
+			String nom = modele.getProperty(Consts.VCARD_CATEGORIE_NOM+index);
 			if (nom == null) {
 				break;
 			}
-			String membresp = modele.getProperty(Consts.VCARD_CATEGORIE_MEMBRES+"." + index);
+			String membresp = modele.getProperty(Consts.VCARD_CATEGORIE_MEMBRES+index);
 			Categorie categorie = new Categorie();
 			categorie.nom = nom;
 			if (membresp != null)
@@ -47,7 +47,7 @@ public class VCardFormatteur {
 					categorie.membres.add(code);
 				}
 			}
-			String codesp = modele.getProperty(Consts.VCARD_CATEGORIE_CODE+"." + index);
+			String codesp = modele.getProperty(Consts.VCARD_CATEGORIE_CODE+index);
 			if (codesp != null)
 			{
 				categorie.codes = new HashSet<String>();
@@ -114,7 +114,6 @@ public class VCardFormatteur {
 		List<Categorie> cats = chargeCategories(modele);
 		
 		String ajouterGroupe = modele.getProperty(Consts.VCARD_AJOUTER_GROUPE,"1");
-		
 		adherents.forEach((key,adherent) -> {
 			try {
 				listeVCard(colonnes, adherent, cats, out, (ajouterGroupe.compareTo("1") == 0));

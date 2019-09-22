@@ -47,11 +47,10 @@ public class EngineGenerateurVCard extends EngineConnecte {
 		ExtracteurIndividusHtml x = new ExtracteurIndividusHtml();
 		x.charge(new ByteArrayInputStream(donnees.getBytes(Charset.forName("UTF-8"))),true);
 		
-		// Génération de l'archive zip
+		// Génération de l'archive
 		logger_.info("Génération de l'archive "+sortie.getName());
 		PrintStream fout = new PrintStream(new BufferedOutputStream(new FileOutputStream(sortie)),false, Consts.ENCODING_UTF8);
 		VCardFormatteur f = new VCardFormatteur();
-		
 		
 	    f.genereEmail(x.getUnites(), x.getAdherents(), x.getColonnes(), properties, fout);
 	    fout.flush();

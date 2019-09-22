@@ -24,6 +24,9 @@ public class AnalyseurRegistreDePresenceEnLigne extends CommonParamsIntranet {
 	
 	@Option(names = "-annee", description = "Année", required = true)
 	private int annee;
+
+	@Option(names = "-recursif", description = "Extraction récursive (Valeur par défaut: ${DEFAULT-VALUE})")
+	private boolean recursif = true;
 	
 	protected void check() throws EngineException
 	{
@@ -47,7 +50,7 @@ public class AnalyseurRegistreDePresenceEnLigne extends CommonParamsIntranet {
 			check();
 			CmdProgress progress = new CmdProgress();
 			EngineAnalyseurRegistreDePresenceEnLigne en = new EngineAnalyseurRegistreDePresenceEnLigne(progress, Logging.logger_);
-			en.go(identifiant,motdepasse, sortie, modele, annee, structures, true);
+			en.go(identifiant,motdepasse, sortie, modele, annee, structures, recursif, true);
 		} catch (Exception e) {
 			Logging.logger_.error(Logging.dumpStack(null, e));
 		}

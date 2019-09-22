@@ -69,7 +69,7 @@ public class ExtracteurRegistrePresence {
 					else
 					{
 						RegistrePresenceUnite u = unites_.get(unite.code_groupe());
-						groupe = u.getNom();
+						if (u != null) groupe = u.getNom();
 					}
 				}
 				else

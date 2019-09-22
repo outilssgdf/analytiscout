@@ -21,6 +21,9 @@ public class ExtracteurRegistreDePresence extends CommonParamsIntranet {
 	
 	@Option(names = "-annee", description = "Année", required = true)
 	private int annee = 2019;
+
+	@Option(names = "-recursif", description = "Extraction récursive (Valeur par défaut: ${DEFAULT-VALUE})")
+	private boolean recursif = true;
 	
 	protected void check() throws EngineException
 	{
@@ -41,7 +44,7 @@ public class ExtracteurRegistreDePresence extends CommonParamsIntranet {
 			check();
 			CmdProgress progress = new CmdProgress();
 			EngineExtractionRegistreDePresence en = new EngineExtractionRegistreDePresence(progress, Logging.logger_);
-			en.go(identifiant,motdepasse, sortie, structures, annee);
+			en.go(identifiant,motdepasse, sortie, structures, recursif, annee);
 		} catch (Exception e) {
 			Logging.logger_.error(Logging.dumpStack(null, e));
 		}

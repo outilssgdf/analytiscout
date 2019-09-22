@@ -36,6 +36,7 @@ import org.leplan73.outilssgdf.gui.utils.GuiCommand;
 import org.leplan73.outilssgdf.gui.utils.Logging;
 import org.leplan73.outilssgdf.gui.utils.Preferences;
 import org.slf4j.LoggerFactory;
+import javax.swing.border.EtchedBorder;
 
 public class ExtractionRegistreDePresence extends Dialogue implements GuiCommand {
 
@@ -48,6 +49,7 @@ public class ExtractionRegistreDePresence extends Dialogue implements GuiCommand
 	private JLabel lblSortie;
 	private JFileChooser fcSortie;
 	private File fSortie = new File("./données/registrepresence.csv");
+	private JCheckBox chkRecursif;
 
 	/**
 	 * Create the dialog.
@@ -64,7 +66,7 @@ public class ExtractionRegistreDePresence extends Dialogue implements GuiCommand
 
 		double x = Preferences.litd(Consts.FENETRE_ANALYSEUR_X, 100);
 		double y = Preferences.litd(Consts.FENETRE_ANALYSEUR_Y, 100);
-		setBounds((int)x, (int)y, 600, 553);
+		setBounds((int)x, (int)y, 800, 553);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -157,7 +159,7 @@ public class ExtractionRegistreDePresence extends Dialogue implements GuiCommand
 			panel.add(chkMemoriser, BorderLayout.EAST);
 			{
 				JPanel panelannee = new JPanel();
-				panelannee.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Ann\u00E9e", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+				panelannee.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Ann\u00E9e (au 1er septembre)", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 				GridBagConstraints gbc_panelannee = new GridBagConstraints();
 				gbc_panelannee.insets = new Insets(0, 0, 5, 0);
 				gbc_panelannee.anchor = GridBagConstraints.NORTH;
@@ -198,7 +200,12 @@ public class ExtractionRegistreDePresence extends Dialogue implements GuiCommand
 				txfCodeStructure = new JTextField();
 				txfCodeStructure.setColumns(30);
 				txfCodeStructure.setText(Preferences.lit(Consts.INTRANET_STRUCTURE, "", true));
-				panel.add(txfCodeStructure, BorderLayout.NORTH);
+				panel.add(txfCodeStructure, BorderLayout.CENTER);
+			}
+			{
+				chkRecursif = new JCheckBox("Ajouter les structures enfants");
+				chkRecursif.setSelected(true);
+				panel.add(chkRecursif, BorderLayout.EAST);
 			}
 		}
 		{
@@ -295,7 +302,7 @@ public class ExtractionRegistreDePresence extends Dialogue implements GuiCommand
 				try {
 					EngineExtractionRegistreDePresence en = new EngineExtractionRegistreDePresence(progress, logger_);
 					int structures[] = construitStructures(txfCodeStructure);
-					en.go(txfIdentifiant.getText(), new String(txfMotdepasse.getPassword()), fSortie, structures, Integer.parseInt(txfAnnee.getText()));
+					en.go(txfIdentifiant.getText(), new String(txfMotdepasse.getPassword()), fSortie, structures, chkRecursif.isSelected(), Integer.parseInt(txfAnnee.getText()));
 				} catch (Exception e) {
 					logger_.error(Logging.dumpStack(null, e));
 				}
@@ -335,5 +342,8 @@ public class ExtractionRegistreDePresence extends Dialogue implements GuiCommand
 			return false;
 		}
 		return true;
+	}
+	protected JCheckBox getChkRecursif() {
+		return chkRecursif;
 	}
 }

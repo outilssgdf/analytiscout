@@ -33,8 +33,8 @@ public class EngineAnalyseurCECEnLigne extends EngineConnecte {
 		String donneesAnnee = null;
 		String donneesAnneeP = null;
 		try {
-			donneesAnnee = app.extract(structure, annee, 0 , true);
-			donneesAnneeP = app.extract(structure, annee-1, 0 , true);
+			donneesAnnee = app.extract(structure, true, annee, 0 , true);
+			donneesAnneeP = app.extract(structure, true, annee-1, 0 , true);
 		} catch (IOException | JDOMException e) {
 			throw e;
 		}

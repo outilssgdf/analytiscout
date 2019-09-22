@@ -20,10 +20,10 @@ public class EngineExtractionRegistreDePresence extends EngineConnecte {
 		super(progress, logger);
 	}
 	
-	private boolean gopriv(ExtractionRegistrePresence app, String identifiant, String motdepasse, File sortie, int structure, int annee, boolean sous_dossier) throws ClientProtocolException, IOException, JDOMException, InvalidFormatException, ExtractionException
+	private boolean gopriv(ExtractionRegistrePresence app, String identifiant, String motdepasse, File sortie, int structure, boolean recursif, int annee, boolean sous_dossier) throws ClientProtocolException, IOException, JDOMException, InvalidFormatException, ExtractionException
 	{
 		logger_.info("Extraction registre de presence (annee="+annee+")");
-		String donnees = app.extract(structure, annee, 0 , true);
+		String donnees = app.extract(structure, recursif, annee, 0 , true);
 		
 		File fichier_sortie = sous_dossier ? new File(sortie, "registredepresence_"+structure+".csv") : sortie;
 		
@@ -36,7 +36,7 @@ public class EngineExtractionRegistreDePresence extends EngineConnecte {
 		return true;
 	}
 
-	public void go(String identifiant, String motdepasse, File sortie, int[] structures, int annee) throws EngineException
+	public void go(String identifiant, String motdepasse, File sortie, int[] structures, boolean recursif, int annee) throws EngineException
 	{
 		start();
 		try
@@ -49,7 +49,7 @@ public class EngineExtractionRegistreDePresence extends EngineConnecte {
 			for (int istructure : structures)
 			{
 				logger_.info("Traitement de la structure "+istructure);
-				boolean ret = gopriv(app, identifiant, motdepasse, sortie, istructure, annee, (structures.length > 1));
+				boolean ret = gopriv(app, identifiant, motdepasse, sortie, istructure, recursif, annee, (structures.length > 1));
 				if (ret == false)
 					break;
 			}

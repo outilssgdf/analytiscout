@@ -71,7 +71,7 @@ public class ExtractionRegistrePresence extends ExtractionIntranet {
 		return items;
 	}
 	
-	public String extract(int structure, int saison, int period, boolean forfaitaire)
+	public String extract(int structure, boolean recursif, int saison, int period, boolean forfaitaire)
 			throws ClientProtocolException, IOException, JDOMException {
 		HttpGet httpget = new HttpGet(ExtractionIntranet.getIntranet()
 				+ "/Specialisation/Sgdf/ActivitesAnnee/ConsulterRegistrePresence.aspx");
@@ -151,7 +151,7 @@ public class ExtractionRegistrePresence extends ExtractionIntranet {
 			tbStructure = structure != ExtractionIntranet.STRUCTURE_TOUT ? structureMap.get(structure) : 0;
 		}
 		
-		if (true) {
+		if (false) {
 			HttpPost httppost = new HttpPost(ExtractionIntranet.getIntranet() + "/Specialisation/Sgdf/ActivitesAnnee/ConsulterRegistrePresence.aspx");
 			httppost.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 6.1; rv:31.0) Gecko/20100101 Firefox/31.0");
 			httppost.addHeader("Accept","*/*");
@@ -194,12 +194,12 @@ public class ExtractionRegistrePresence extends ExtractionIntranet {
 			
 			formparams.add(new BasicNameValuePair("ctl00$_navbar$_ddRechercheTypeXS", "0"));
 			formparams.add(new BasicNameValuePair("ctl00$MainContent$_EditeurRegistrePresence$_hfRetirerId", ""));
-			formparams.add(new BasicNameValuePair("ctl00$MainContent$_EditeurRegistrePresence$_ddSaison", "" + saison));
+			formparams.add(new BasicNameValuePair("ctl00$MainContent$_EditeurRegistrePresence$_ddSaison", "" + (saison)));
 			formparams.add(new BasicNameValuePair("ctl00$MainContent$_EditeurRegistrePresence$_navigateur$_hidCodeStructure", "" + structure));
 			if (ddStructure != null) {
 				formparams.add(new BasicNameValuePair("ctl00$MainContent$_EditeurRegistrePresence$_navigateur$_ddStructure","" + ddStructure));
 			}
-			formparams.add(new BasicNameValuePair("ctl00$MainContent$_EditeurRegistrePresence$_ddPeriodes", "" + 6));
+			formparams.add(new BasicNameValuePair("ctl00$MainContent$_EditeurRegistrePresence$_ddPeriodes", "" + 9));
 			formparams.add(new BasicNameValuePair("ctl00$MainContent$_EditeurRegistrePresence$_cbAdherentsUniquement", "on"));
 			formparams.add(new BasicNameValuePair("ctl00$MainContent$_EditeurRegistrePresence$ModeVolumeHoraire",forfaitaire ? "_rdbModeVolumeHoraireForfaitaire" : "_rdbModeVolumeHoraireReel"));
 			formparams.add(new BasicNameValuePair("ctl00$MainContent$_EditeurRegistrePresence$_tbIdsCheckBox", ""));
@@ -264,12 +264,12 @@ public class ExtractionRegistrePresence extends ExtractionIntranet {
 			
 			formparams.add(new BasicNameValuePair("ctl00$_navbar$_ddRechercheTypeXS", "0"));
 			formparams.add(new BasicNameValuePair("ctl00$MainContent$_EditeurRegistrePresence$_hfRetirerId", ""));
-			formparams.add(new BasicNameValuePair("ctl00$MainContent$_EditeurRegistrePresence$_ddSaison", "" + saison));
+			formparams.add(new BasicNameValuePair("ctl00$MainContent$_EditeurRegistrePresence$_ddSaison", "" + (saison+1)));
 			formparams.add(new BasicNameValuePair("ctl00$MainContent$_EditeurRegistrePresence$_navigateur$_hidCodeStructure", "" + structure));
 			if (ddStructure != null) {
 				formparams.add(new BasicNameValuePair("ctl00$MainContent$_EditeurRegistrePresence$_navigateur$_ddStructure","" + ddStructure));
 			}
-			formparams.add(new BasicNameValuePair("ctl00$MainContent$_EditeurRegistrePresence$_ddPeriodes", "" + 6));
+			formparams.add(new BasicNameValuePair("ctl00$MainContent$_EditeurRegistrePresence$_ddPeriodes", "" + 9));
 			formparams.add(new BasicNameValuePair("ctl00$MainContent$_EditeurRegistrePresence$_cbAdherentsUniquement", "on"));
 			formparams.add(new BasicNameValuePair("ctl00$MainContent$_EditeurRegistrePresence$ModeVolumeHoraire",forfaitaire ? "_rdbModeVolumeHoraireForfaitaire" : "_rdbModeVolumeHoraireReel"));
 			formparams.add(new BasicNameValuePair("ctl00$MainContent$_EditeurRegistrePresence$_tbIdsCheckBox", ""));
@@ -334,12 +334,12 @@ public class ExtractionRegistrePresence extends ExtractionIntranet {
 			
 			formparams.add(new BasicNameValuePair("ctl00$_navbar$_ddRechercheTypeXS", "0"));
 			formparams.add(new BasicNameValuePair("ctl00$MainContent$_EditeurRegistrePresence$_hfRetirerId", ""));
-			formparams.add(new BasicNameValuePair("ctl00$MainContent$_EditeurRegistrePresence$_ddSaison", "" + saison));
+			formparams.add(new BasicNameValuePair("ctl00$MainContent$_EditeurRegistrePresence$_ddSaison", "" + (saison+1)));
 			formparams.add(new BasicNameValuePair("ctl00$MainContent$_EditeurRegistrePresence$_navigateur$_hidCodeStructure", "" + structure));
 			if (ddStructure != null) {
 				formparams.add(new BasicNameValuePair("ctl00$MainContent$_EditeurRegistrePresence$_navigateur$_ddStructure","" + ddStructure));
 			}
-			formparams.add(new BasicNameValuePair("ctl00$MainContent$_EditeurRegistrePresence$_ddPeriodes", "" + 0));
+			formparams.add(new BasicNameValuePair("ctl00$MainContent$_EditeurRegistrePresence$_ddPeriodes", "" + period));
 			formparams.add(new BasicNameValuePair("ctl00$MainContent$_EditeurRegistrePresence$_cbAdherentsUniquement", "on"));
 			formparams.add(new BasicNameValuePair("ctl00$MainContent$_EditeurRegistrePresence$ModeVolumeHoraire",forfaitaire ? "_rdbModeVolumeHoraireForfaitaire" : "_rdbModeVolumeHoraireReel"));
 			formparams.add(new BasicNameValuePair("ctl00$MainContent$_EditeurRegistrePresence$_tbIdsCheckBox", ""));
@@ -379,7 +379,7 @@ public class ExtractionRegistrePresence extends ExtractionIntranet {
 		httppost.addHeader("Cache-Control", "max-age=0");
 		httppost.addHeader("DNT", "1");
 		httppost.addHeader("Origin", "https://intranet.sgdf.fr");
-		httppost.addHeader("Referer", "https://intranet.sgdf.fr/Specialisation/Sgdf/camps/TableauDeBordCamp.aspx");
+		httppost.addHeader("Referer", ExtractionIntranet.getIntranet()+ "/Specialisation/Sgdf/ActivitesAnnee/ConsulterRegistrePresence.aspx");
 		httppost.addHeader("Upgrade-Insecure-Requests", "1");
 
 		List<NameValuePair> formparams = new ArrayList<NameValuePair>();
@@ -398,14 +398,15 @@ public class ExtractionRegistrePresence extends ExtractionIntranet {
 		formparams.add(new BasicNameValuePair("ctl00$_hfAlertesId", "159,158,155,152,150,137,135,133,119"));
 		formparams.add(new BasicNameValuePair("ctl00$_navbar$_ddRechercheTypeXS", "0"));
 		formparams.add(new BasicNameValuePair("ctl00$MainContent$_EditeurRegistrePresence$_hfRetirerId", ""));
-		formparams.add(new BasicNameValuePair("ctl00$MainContent$_EditeurRegistrePresence$_ddSaison", "" + saison));
+		formparams.add(new BasicNameValuePair("ctl00$MainContent$_EditeurRegistrePresence$_ddSaison", "" + (saison+1)));
 		formparams.add(new BasicNameValuePair("ctl00$MainContent$_EditeurRegistrePresence$_navigateur$_hidCodeStructure", "" + structure));
 		if (ddStructure != null) {
 			formparams.add(new BasicNameValuePair("ctl00$MainContent$_EditeurRegistrePresence$_navigateur$_ddStructure","" + ddStructure));
 		}
 		formparams.add(new BasicNameValuePair("ctl00$MainContent$_EditeurRegistrePresence$_ddPeriodes", "" + period));
 		formparams.add(new BasicNameValuePair("ctl00$MainContent$_EditeurRegistrePresence$_cbAdherentsUniquement", "on"));
-		formparams.add(new BasicNameValuePair("ctl00$MainContent$_EditeurRegistrePresence$_cbExporterSousStructure", "on"));
+		if (recursif)
+			formparams.add(new BasicNameValuePair("ctl00$MainContent$_EditeurRegistrePresence$_cbExporterSousStructure", "on"));
 		formparams.add(new BasicNameValuePair("ctl00$MainContent$_EditeurRegistrePresence$ModeVolumeHoraire",forfaitaire ? "_rdbModeVolumeHoraireForfaitaire" : "_rdbModeVolumeHoraireReel"));
 		formparams.add(new BasicNameValuePair("ctl00$MainContent$_EditeurRegistrePresence$_btnExporterExcel","Exporter au format Excel (CSV)"));
 		formparams.add(new BasicNameValuePair("ctl00$MainContent$_EditeurRegistrePresence$_tbIdsCheckBox", ""));

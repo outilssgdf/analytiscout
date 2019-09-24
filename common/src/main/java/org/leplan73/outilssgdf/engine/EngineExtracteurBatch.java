@@ -34,8 +34,6 @@ public class EngineExtracteurBatch extends EngineConnecte {
 
 	private boolean gopriv(ExtractionAdherents app, Properties pbatch, String identifiant, String motdepasse, File batch, File sortie, int structure, boolean recursif, boolean sous_dossier) throws ClientProtocolException, IOException, JDOMException
 	{
-		logger_.info("Traitement de la structure "+structure);
-		
 		int index=1;
 		for(;;)
 		{

@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.Consts;
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpHeaders;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -193,5 +195,17 @@ public class ExtractionIntranet {
        }
        response.close();
        return true;
+	}
+
+	protected boolean checkContentType(CloseableHttpResponse response, String type) {
+		Header[] headers = response.getHeaders(HttpHeaders.CONTENT_TYPE);
+		boolean found = false;
+		for (Header header : headers) {
+			if (header.getValue().contains(type) == true) {
+				found = true;
+				break;
+			}
+		}
+		return found;
 	}
 }

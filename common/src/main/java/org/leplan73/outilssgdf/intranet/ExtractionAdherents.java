@@ -33,12 +33,12 @@ public class ExtractionAdherents extends ExtractionIntranet {
 	private Integer tbStructure_ = null;
 	private String tbAutoCompleteCode_ = null;
 	private int structure_ = -1;
+	private Document docViewstate = null;
 	
 	public String extract(int structure, boolean recursif, int type, boolean adherents, String codeFonction, int specialite, int categorie, int diplome, int qualification, int formation, int format, boolean brut) throws ClientProtocolException, IOException, JDOMException
 	{
 		for (;;)
 		{
-			Document doc = null;
 			if (viewstate == null)
 			{
 				HttpGet httpget = new HttpGet(ExtractionIntranet.getIntranet()+"/Specialisation/Sgdf/adherents/ExtraireAdherents.aspx");
@@ -52,8 +52,13 @@ public class ExtractionAdherents extends ExtractionIntranet {
 		       	String obj = EntityUtils.toString(entity);
 			    if (logger_.isDebugEnabled())
 			    	logger_.debug(obj);
-			    doc = Jsoup.parse(obj);
-			    viewstate = doc.select("#__VIEWSTATE").first().val();
+			    docViewstate = Jsoup.parse(obj);
+				if (docViewstate == null)
+				{
+					viewstate = null;
+					continue;
+				}
+			    viewstate = docViewstate.select("#__VIEWSTATE").first().val();
 		       	response.close();
 			}
 	       	
@@ -70,7 +75,7 @@ public class ExtractionAdherents extends ExtractionIntranet {
 	       	// Extraction des codes structure "dd" internes (visible avec un profile "Groupe")
 	       	if (tbStructure_ == null && ddStructure_ == null)
 	       	{
-	       		Element ddCodes = doc.selectFirst("select[id=ctl00_MainContent__selecteur__ddStructure]");
+	       		Element ddCodes = docViewstate.selectFirst("select[id=ctl00_MainContent__selecteur__ddStructure]");
 	       		if (ddCodes != null)
 	       		{
 		       		Integer ddStructure = null;
@@ -222,14 +227,14 @@ public class ExtractionAdherents extends ExtractionIntranet {
 		    }
 		    else
 		    {
-		    	doc = Jsoup.parse(obj);
+		    	Document doc = Jsoup.parse(obj);
 			    Elements tables = doc.select("table");
 			    String v = tables.html();
 			    if (v.indexOf("<td align=\"left\">") != -1)
 			    {
 			    	continue;
 			    }
-			    return tables.html();
+			    return v;
 		    }
 		}
 	}

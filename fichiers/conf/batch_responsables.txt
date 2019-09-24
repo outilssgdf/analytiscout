@@ -158,7 +158,7 @@ diplome.18=
 qualif.18=
 formation.18=219
 nom.18=apf
-adherents.18=
+adherents.18=true
 batchtype.18=formation
 
 generateur.19=xml

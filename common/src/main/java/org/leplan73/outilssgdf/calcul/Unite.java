@@ -37,7 +37,7 @@ public class Unite extends UniteSimple
 	
 	public int getBesoindir()
 	{
-		return code_ > Consts.CODE_CHEFS_PIOK ? 0 : 1;
+		return codeFonction_ > Consts.CODE_CHEFS_PIOK ? 0 : 1;
 	}
 	
 	public double getRatio()

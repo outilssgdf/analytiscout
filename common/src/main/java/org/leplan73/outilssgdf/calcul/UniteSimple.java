@@ -3,47 +3,50 @@ package org.leplan73.outilssgdf.calcul;
 public class UniteSimple implements Comparable<UniteSimple> {
 	protected String nomcomplet_;
 	protected String nom_;
-	protected int code_=999;
-	protected String structure_;
-	protected String code_groupe_;
+	protected int codeFonction_=999;
+	protected String codeStructure_;
+	protected Groupe groupe_;
 	
 	public UniteSimple(String nomcomplet)
 	{
 		if (nomcomplet.isEmpty() == false) {
 			nomcomplet_ = nomcomplet;
 			nom_ = nomcomplet.substring(nomcomplet.indexOf(" - ")+3);
-			structure_ = nomcomplet.substring(0,nomcomplet.indexOf(" - "));
-			code_groupe_ = structure_.substring(0, structure_.length()-2);
-			code_groupe_+="00";
+			codeStructure_ = nomcomplet.substring(0,nomcomplet.indexOf(" - "));
+			groupe_ = new Groupe(nomcomplet);
 		}
 	}
 	
 	public UniteSimple(String nom, String codeStructure, int fonction)
 	{
 		nom_ = nom;
-		code_ = fonction;
-		structure_ = codeStructure;
-		code_groupe_ = structure_.substring(0, structure_.length()-2);
-		code_groupe_+="00";
+		codeFonction_ = fonction;
+		codeStructure_ = codeStructure;
+		groupe_ = new Groupe(codeStructure);
 	}
 	
 	public boolean estGroupe()
 	{
-		return (structure_.compareTo(code_groupe_) == 0);
+		return (codeStructure_.compareTo(groupe_.getCode()) == 0);
 	}
 
 	public void setCode(int code) {
-		code_ = Math.min(code_,(code/10)*10);
+		codeFonction_ = Math.min(codeFonction_,(code/10)*10);
 	}
 	
 	public boolean getNonPrincipal()
 	{
-		return (getStructure().compareTo(getCodegroupe()) != 0);
+		return (codeStructure_.compareTo(getCodegroupe()) != 0);
 	}
 	
 	public String getNom()
 	{
 		return nom_;
+	}
+	
+	public Groupe getGroupe()
+	{
+		return groupe_;
 	}
 
 	public String nomcomplet() {
@@ -52,33 +55,22 @@ public class UniteSimple implements Comparable<UniteSimple> {
 	
 	public int getCode()
 	{
-		return code_;
-	}
-	
-	public String getStructure()
-	{
-		return structure_;
+		return codeFonction_;
 	}
 
 	public String getCodestructure()
 	{
-		return structure_;
-	}
-
-	public String code_groupe() {
-		return code_groupe_;
+		return codeStructure_;
 	}
 	
 	public String getCodegroupe()
 	{
-		String codeGroupe = structure_.substring(0, structure_.length()-2);
-		codeGroupe+="00";
-		return codeGroupe;
+		return groupe_.getCode();
 	}
 	
 	public String getCodebranche()
 	{
-		String codeBranche = structure_.substring(structure_.length()-2, structure_.length()-1);
+		String codeBranche = codeStructure_.substring(codeStructure_.length()-2, codeStructure_.length()-1);
 		return codeBranche;
 	}
 

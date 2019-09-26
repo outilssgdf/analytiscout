@@ -48,14 +48,14 @@ public class ExtracteurRegistrePresence {
 					{
 						// Fin d'unité
 						unite.complete(groupe);
-						unites_.put(unite.getStructure(), unite);
+						unites_.put(unite.getCodestructure(), unite);
 						unite = null;
 					}
 					
 					RegistrePresenceUnite nunite = new RegistrePresenceUnite(record.get(0));
-					if (unites_.containsKey(nunite.getStructure()))
+					if (unites_.containsKey(nunite.getCodestructure()))
 					{
-						unite = unites_.get(nunite.getStructure());
+						unite = unites_.get(nunite.getCodestructure());
 					}
 					else
 					{
@@ -64,12 +64,12 @@ public class ExtracteurRegistrePresence {
 					boolean est_groupe = unite.estGroupe();
 					if (est_groupe)
 					{
-						groupe = unite.getNom();
+						groupe = unite.nomcomplet();
 					}
 					else
 					{
-						RegistrePresenceUnite u = unites_.get(unite.code_groupe());
-						if (u != null) groupe = u.getNom();
+						RegistrePresenceUnite u = unites_.get(unite.getGroupe().getCode());
+						if (u != null) groupe = u.nomcomplet();
 					}
 				}
 				else
@@ -83,7 +83,7 @@ public class ExtracteurRegistrePresence {
 				}
 			}
 			unite.complete(groupe);
-			unites_.put(unite.getStructure(), unite);
+			unites_.put(unite.getCodestructure(), unite);
 		} catch (IOException e) {
 			throw e;
 		} finally {
@@ -97,7 +97,7 @@ public class ExtracteurRegistrePresence {
 			boolean est_groupe = v.estGroupe();
 			if (est_groupe == false)
 			{
-				RegistrePresenceUnite u = unites_.get(v.code_groupe());
+				RegistrePresenceUnite u = unites_.get(v.getCodegroupe());
 				groupe = u.getNom();
 			}
 			else
@@ -124,7 +124,7 @@ public class ExtracteurRegistrePresence {
 				boolean est_groupe = v.estGroupe();
 				if (est_groupe == false)
 				{
-					RegistrePresenceUnite u = unites_.get(v.code_groupe());
+					RegistrePresenceUnite u = unites_.get(v.getCodegroupe());
 					groupe = u.getNom();
 				}
 				else

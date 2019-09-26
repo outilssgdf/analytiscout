@@ -28,49 +28,37 @@ import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.PathNotFoundException;
 
 public class ExtractionAdherents extends ExtractionIntranet {
-
-	private Integer ddStructure_ = null;
-	private Integer tbStructure_ = null;
-	private String tbAutoCompleteCode_ = null;
-	private int structure_ = -1;
-	private Document docViewstate = null;
 	
 	public String extract(int structure, boolean recursif, int type, boolean adherents, String codeFonction, int specialite, int categorie, int diplome, int qualification, int formation, int format, boolean brut) throws ClientProtocolException, IOException, JDOMException
 	{
 		for (;;)
 		{
-			if (viewstate == null)
+			Document docViewstate = null;
+			HttpGet httpget = new HttpGet(ExtractionIntranet.getIntranet()+"/Specialisation/Sgdf/adherents/ExtraireAdherents.aspx");
+			httpget.addHeader("User-Agent","Mozilla/5.0 (Windows NT 6.1; rv:31.0) Gecko/20100101 Firefox/31.0");
+			httpget.addHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+			httpget.addHeader("Accept-Language","fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3");
+		       
+			CloseableHttpResponse responseViewState = httpclient.execute(httpget);
+	
+	       	HttpEntity entityViewstate = responseViewState.getEntity();
+	       	String objViewstate = EntityUtils.toString(entityViewstate);
+		    if (logger_.isDebugEnabled())
+		    	logger_.debug(objViewstate);
+		    docViewstate = Jsoup.parse(objViewstate);
+			if (docViewstate == null)
 			{
-				HttpGet httpget = new HttpGet(ExtractionIntranet.getIntranet()+"/Specialisation/Sgdf/adherents/ExtraireAdherents.aspx");
-				httpget.addHeader("User-Agent","Mozilla/5.0 (Windows NT 6.1; rv:31.0) Gecko/20100101 Firefox/31.0");
-				httpget.addHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
-				httpget.addHeader("Accept-Language","fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3");
-			       
-				CloseableHttpResponse response = httpclient.execute(httpget);
-		
-		       	HttpEntity entity = response.getEntity();
-		       	String obj = EntityUtils.toString(entity);
-			    if (logger_.isDebugEnabled())
-			    	logger_.debug(obj);
-			    docViewstate = Jsoup.parse(obj);
-				if (docViewstate == null)
-				{
-					viewstate = null;
-					continue;
-				}
-			    viewstate = docViewstate.select("#__VIEWSTATE").first().val();
-		       	response.close();
+				viewstate = null;
+				continue;
 			}
+		    viewstate = docViewstate.select("#__VIEWSTATE").first().val();
+		    responseViewState.close();
 	       	
 	    	Map<Integer, Integer> structureMap = new TreeMap<Integer, Integer>();
-	    	
-	    	if (structure_ != -1 && structure != structure_)
-	    	{
-	    		ddStructure_ = null;
-	    		tbStructure_ = null;
-	    		tbAutoCompleteCode_ = null;
-	    	}
-			structure_ = structure;
+
+	    	Integer ddStructure_ = null;
+	    	Integer tbStructure_ = null;
+	    	String tbAutoCompleteCode_ = null;
 	    	
 	       	// Extraction des codes structure "dd" internes (visible avec un profile "Groupe")
 	       	if (tbStructure_ == null && ddStructure_ == null)

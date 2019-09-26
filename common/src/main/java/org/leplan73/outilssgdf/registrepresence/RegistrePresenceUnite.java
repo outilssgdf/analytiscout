@@ -12,7 +12,6 @@ import org.leplan73.outilssgdf.calcul.UniteSimple;
 
 public class RegistrePresenceUnite extends UniteSimple {
 
-	private String groupe_;
 	private List<RegistrePresenceActivite> activites_ = new ArrayList<RegistrePresenceActivite>();
 	private boolean animateurs_;
 	private boolean jeunes_;
@@ -22,19 +21,19 @@ public class RegistrePresenceUnite extends UniteSimple {
 	}
 
 	public void complete(String groupe) {
-		groupe_ = groupe;
+		groupe_.setNom(groupe);
 	}
 	
 	public void exportInfluxDb(String groupe, PrintStream os) {
-		String prefix = "activite,unitecomplet="+nomcomplet_+",unite="+nom_+",structure="+structure_+",code_groupe="+code_groupe_+",groupe="+groupe;
+		String prefix = "activite,unitecomplet="+nomcomplet_+",unite="+nom_+",structure="+codeStructure_+",code_groupe="+this.getCodegroupe()+",groupe="+groupe;
 		activites_.forEach(v -> v.exportInfluxDbReel(prefix,os));
 		activites_.forEach(v -> v.exportInfluxDbForfaitaire(prefix,os));
 	}
 
 	public void exportInfluxDb(String groupe, InfluxDB influxDB) {
 
-		activites_.forEach(v -> v.exportInfluxDbReel(influxDB, "activites_reel", nomcomplet_, nom_, structure_, code_groupe_, groupe));
-		activites_.forEach(v -> v.exportInfluxDbForfaitaire(influxDB, "activites_forfaitaire", nomcomplet_, nom_, structure_, code_groupe_, groupe));
+		activites_.forEach(v -> v.exportInfluxDbReel(influxDB, "activites_reel", nomcomplet_, nom_, codeStructure_, this.getCodegroupe(), groupe));
+		activites_.forEach(v -> v.exportInfluxDbForfaitaire(influxDB, "activites_forfaitaire", nomcomplet_, nom_, codeStructure_, this.getCodegroupe(), groupe));
 	}
 	
 	@Override
@@ -118,7 +117,7 @@ public class RegistrePresenceUnite extends UniteSimple {
 			for (int i=2;i<record.size()-1;i++)
 			{
 				int index = activites_.size()-record.size()+i+1;
-				activites_.get(index).complete(nom_);
+				activites_.get(index).complete(this);
 			}
 			anneeDebut = activites_.get(0).getDebutAnnee();
 		}
@@ -127,7 +126,7 @@ public class RegistrePresenceUnite extends UniteSimple {
 			for (int i=2;i<record.size()-1;i++)
 			{
 				int index = activites_.size()-record.size()+i+1;
-				activites_.get(index).complete(nom_);
+				activites_.get(index).complete(this);
 			}
 			if (!activites_.isEmpty()) {
 				anneeDebut = activites_.get(0).getDebutAnnee();
@@ -174,7 +173,7 @@ public class RegistrePresenceUnite extends UniteSimple {
 	}
 
 	public void genere(List<RegistrePresenceActiviteHeure> activites) {
-		activites_.forEach(v -> v.generer(nomcomplet_, nom_, structure_, code_groupe_, groupe_, activites));
+		activites_.forEach(v -> v.generer(this, codeStructure_, groupe_, activites));
 	}
 
 	public void construitActivites(List<RegistrePresenceActivite> activites) {
@@ -182,7 +181,7 @@ public class RegistrePresenceUnite extends UniteSimple {
 	}
 
 	public void genereCecChef(String chef, int anneeDebut, List<RegistrePresenceActiviteHeure> activites_cec) {
-		activites_.forEach(v -> v.genereCecChef(chef, nomcomplet_, nom_, structure_, code_groupe_, groupe_, anneeDebut, activites_cec));
+		activites_.forEach(v -> v.genereCecChef(chef, this, codeStructure_, groupe_, anneeDebut, activites_cec));
 	}
 
 	public Set<String> getChefs() {

@@ -76,31 +76,31 @@ public class EngineExtracteurBatch extends EngineConnecte {
 			
 			if (generateur.compareTo(ExtractionIntranet.GENERATEUR_XLS) == 0)
 			{
-				logger_.info("Extraction du fichier "+index+" dans "+fichier);
+				logger_.info("Extraction du fichier \""+nom+"\" dans "+fichier);
 				
 				Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fichier), Consts.ENCODING_WINDOWS));
 				String donnees = app.extract(structure,recursif,type,adherents,fonction,specialite,categorie,diplome,qualif,formation,format, true);
 				out.write(donnees);
 				out.flush();
 				out.close();
-				logger_.info("Extraction du fichier "+index+" fait");
+				logger_.info("Extraction du fichier \""+nom+"\" fait");
 			}
 			else
 			if (generateur.compareTo(ExtractionIntranet.GENERATEUR_XML) == 0)
 			{
-				logger_.info("Extraction du fichier "+index+" dans "+fichier);
+				logger_.info("Extraction du fichier \""+nom+"\" dans "+fichier);
 				
 				Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fichier), Consts.ENCODING_UTF8));
 				String donnees = app.extract(structure,recursif,type,adherents,fonction,specialite,categorie,diplome,qualif,formation,format, false);
 				out.write(donnees);
 				out.flush();
 				out.close();
-				logger_.info("Extraction du fichier "+index+" fait");
+				logger_.info("Extraction du fichier \""+nom+"\" fait");
 			}
 			else
 			if (generateur.compareTo(ExtractionIntranet.GENERATEUR_CSV) == 0)
 			{
-				logger_.info("Extraction du fichier "+index+" dans "+fichier);
+				logger_.info("Extraction du fichier \""+nom+"\" dans "+fichier);
 				
 				final CSVPrinter out = CSVFormat.DEFAULT.withFirstRecordAsHeader().print(fichier, Charset.forName(Consts.ENCODING_WINDOWS));
 				
@@ -135,7 +135,7 @@ public class EngineExtracteurBatch extends EngineConnecte {
 				out.flush();
 				out.close();
 				
-				logger_.info("Extraction du fichier "+index+" fait");
+				logger_.info("Extraction du fichier \""+nom+"\" fait");
 			}
 			index++;
 		}

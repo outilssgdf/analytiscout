@@ -35,6 +35,7 @@ public class RegistrePresence2 extends Template {
 		gbl_panel_title1.rowHeights = new int[] { 0 };
 		gbl_panel_title1.columnWeights = new double[] { 0.0, 0.0 };
 		gbl_panel_title1.columnWidths = new int[] { 0, 0 };
+		panel_collection.setLayout(new BorderLayout(0, 0));
 
 		JPanel panel_1 = new JPanel();
 		panel_1.setLayout(new BorderLayout(0, 0));

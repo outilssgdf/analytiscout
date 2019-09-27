@@ -6,9 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 
 import org.leplan73.outilssgdf.gui.Template;
 import org.leplan73.outilssgdf.gui.cec.AnalyseCECEnligne;
@@ -23,14 +21,13 @@ public class RegistrePresence extends Template {
 	public RegistrePresence() {
 		super();
 
-		if (true)
-		{
 		JPanel panel_title1 = ElementFactory.createActionTitle("<html><b>Registre de présence</b></html>");
 		GridBagLayout gbl_panel_title1 = (GridBagLayout) panel_title1.getLayout();
 		gbl_panel_title1.rowWeights = new double[] { 0.0 };
 		gbl_panel_title1.rowHeights = new int[] { 0 };
 		gbl_panel_title1.columnWeights = new double[] { 0.0, 0.0 };
 		gbl_panel_title1.columnWidths = new int[] { 0, 0 };
+		panel_collection.setLayout(new BorderLayout(0, 0));
 
 		JPanel panel_1 = new JPanel();
 		panel_1.setLayout(new BorderLayout(0, 0));
@@ -44,12 +41,12 @@ public class RegistrePresence extends Template {
 
 		JButton btnextraireEtAnalyserdes = new JButton(
 				"<html><p style=\"text-align:center;\">Extraire et analyser<br>des données en ligne</p>");
+		panel.add(btnextraireEtAnalyserdes, BorderLayout.NORTH);
 		btnextraireEtAnalyserdes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new AnalyseRegistreDePresenceEnLigne().setVisible(true);
 			}
 		});
-		panel.add(btnextraireEtAnalyserdes, BorderLayout.NORTH);
 
 		JPanel panel_title2 = ElementFactory.createActionTitle("<html><b>CEC</b></html>");
 		GridBagLayout gbl_panel_title2 = (GridBagLayout) panel_title2.getLayout();
@@ -76,13 +73,5 @@ public class RegistrePresence extends Template {
 			}
 		});
 		panel_3.add(button, BorderLayout.NORTH);
-		}
-		else
-		{
-			JLabel lblaArrive = new JLabel("ça arrive !!!");
-			lblaArrive.setHorizontalAlignment(SwingConstants.CENTER);
-			panel_collection.add(lblaArrive, BorderLayout.CENTER);
-		}
 	}
-
 }

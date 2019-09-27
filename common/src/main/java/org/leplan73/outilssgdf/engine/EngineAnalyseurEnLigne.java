@@ -37,8 +37,6 @@ public class EngineAnalyseurEnLigne extends EngineConnecte {
 
 	private boolean gopriv(ExtractionAdherents app, Properties pbatch, String identifiant, String motdepasse, File batch, File sortie, File modele, int structure, boolean age, String batch_type, boolean sous_dossier, String nom_fichier_sortie) throws ExtractionException, TransformeurException, ClientProtocolException, IOException, JDOMException
 	{
-		logger_.info("Traitement de la structure " + structure);
-		
 		Map<ExtraKey, ExtracteurExtraHtml> extraMap = new TreeMap<ExtraKey, ExtracteurExtraHtml>();
 		
 		String donneesAdherents=null;
@@ -91,9 +89,9 @@ public class EngineAnalyseurEnLigne extends EngineConnecte {
 
 			ExtraKey extra = new ExtraKey(pbatch.getProperty("fichier." + index, nom), nom, pbatch.getProperty("batchtype." + index, "tout_responsables"));
 			
-			logger_.info("Extraction de "+nom);
+			logger_.info("Extraction de \""+nom+"\"");
 			String donnees = app.extract(structure,true,type,adherentsseuls,fonction,specialite,categorie, diplome,qualif,formation,format, false);
-			logger_.info("Extraction de "+nom+" fait");
+			logger_.info("Extraction de \""+nom+"\" fait");
 			
 			if (extra.ifTout()) {
 				donneesAdherents = donnees;

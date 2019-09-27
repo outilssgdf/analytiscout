@@ -72,6 +72,10 @@ public class Extracteur extends CommonParamsIntranet {
 	@Override
 	public void run(CommandLine commandLine) throws CmdLineException
 	{
+		if (this.qualifications == true)
+		{
+			ExtractionIntranet.setQualifications(true);
+		}
 		Instant now = Instant.now();
 		checkParams();
 		

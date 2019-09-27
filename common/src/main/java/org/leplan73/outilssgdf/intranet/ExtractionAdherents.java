@@ -56,44 +56,35 @@ public class ExtractionAdherents extends ExtractionIntranet {
 	       	
 	    	Map<Integer, Integer> structureMap = new TreeMap<Integer, Integer>();
 
-	    	Integer ddStructure_ = null;
-	    	Integer tbStructure_ = null;
-	    	String tbAutoCompleteCode_ = null;
+	    	Integer ddStructure = null;
+	    	Integer tbStructure = null;
+	    	String tbAutoCompleteCode = null;
 	    	
 	       	// Extraction des codes structure "dd" internes (visible avec un profile "Groupe")
-	       	if (tbStructure_ == null && ddStructure_ == null)
-	       	{
-	       		Element ddCodes = docViewstate.selectFirst("select[id=ctl00_MainContent__selecteur__ddStructure]");
-	       		if (ddCodes != null)
-	       		{
-		       		Integer ddStructure = null;
-		       		
-			       	Elements ddCodes2 = ddCodes.select("option");
-			       	for (int i=0;i<ddCodes2.size();i++)
-			       	{
-			       		Element code = ddCodes2.get(i);
-			       		if (code != null)
+       		Element ddCodes = docViewstate.selectFirst("select[id=ctl00_MainContent__selecteur__ddStructure]");
+       		if (ddCodes != null)
+       		{
+		       	Elements ddCodes2 = ddCodes.select("option");
+		       	for (int i=0;i<ddCodes2.size();i++)
+		       	{
+		       		Element code = ddCodes2.get(i);
+		       		if (code != null)
+		       		{
+			       		String va = code.text();
+			       		if (va.compareTo("Toutes") != 0)
 			       		{
-				       		String va = code.text();
-				       		if (va.compareTo("Toutes") != 0)
-				       		{
-					       		va = va.substring(0, va.indexOf(" - "));
-					       		String value = code.attributes().get("value");
-					       		structureMap.put(Integer.valueOf(va), Integer.valueOf(value));
-				       		}
+				       		va = va.substring(0, va.indexOf(" - "));
+				       		String value = code.attributes().get("value");
+				       		structureMap.put(Integer.valueOf(va), Integer.valueOf(value));
 			       		}
-			       	}
-			       	ddStructure = (structure != ExtractionIntranet.STRUCTURE_TOUT) ? structureMap.get(structure) : null;
-			       	ddStructure_ = ddStructure;
-	       		}
+		       		}
+		       	}
+		       	ddStructure = (structure != ExtractionIntranet.STRUCTURE_TOUT) ? structureMap.get(structure) : null;
 	       	}
 	
 	       	// Extraction des codes structure "tb" internes (visible avec un profile "Territoire")
-	       	if (tbStructure_ == null)
+	       	if (tbStructure == null)
 	       	{
-	       		Integer tbStructure = null;
-	       		String tbAutoCompleteCode = null;
-	       		
 	       		HttpPost httppostStructures = new HttpPost(ExtractionIntranet.getIntranet()+"/Specialisation/Sgdf/WebServices/AutoComplete.asmx/GetStructures");
 	       		httppostStructures.addHeader("User-Agent","Mozilla/5.0 (Windows NT 6.1; rv:31.0) Gecko/20100101 Firefox/31.0");
 	       		httppostStructures.addHeader("Content-Type","application/json; charset=UTF-8");
@@ -115,7 +106,6 @@ public class ExtractionAdherents extends ExtractionIntranet {
 	       		{
 	       			tbAutoCompleteCode = JsonPath.read(jsonDocument,"$.d");
 	       			jsonDocument = Configuration.defaultConfiguration().jsonProvider().parse(tbAutoCompleteCode);
-	       			tbAutoCompleteCode_ = tbAutoCompleteCode;
 	       			try
 	       			{
 	       				Object nodeId = JsonPath.read(jsonDocument,"$.[0].id");
@@ -127,7 +117,6 @@ public class ExtractionAdherents extends ExtractionIntranet {
 	       			}
 	       		}
 	       		tbStructure = structure != ExtractionIntranet.STRUCTURE_TOUT ? structureMap.get(structure) : 0;
-	       		tbStructure_ = tbStructure;
 	       	}
 		       
 	       	HttpPost httppost = new HttpPost(ExtractionIntranet.getIntranet()+"/Specialisation/Sgdf/adherents/ExtraireAdherents.aspx");
@@ -150,15 +139,15 @@ public class ExtractionAdherents extends ExtractionIntranet {
 			formparams.add(new BasicNameValuePair("ctl00$MainContent$_ddlRequetesExistantes","-1"));
 			formparams.add(new BasicNameValuePair("ctl00$MainContent$_tbNomNouvelleRequete",""));
 			formparams.add(new BasicNameValuePair("ctl00$MainContent$_selecteur$_hidCodeStructure",""+structure));
-			if (ddStructure_ != null)
+			if (ddStructure != null)
 			{
-				formparams.add(new BasicNameValuePair("ctl00$MainContent$_selecteur$_ddStructure",""+ ddStructure_));
+				formparams.add(new BasicNameValuePair("ctl00$MainContent$_selecteur$_ddStructure",""+ ddStructure));
 			}
-			if (tbStructure_ != null)
+			if (tbStructure != null)
 			{
-				formparams.add(new BasicNameValuePair("ctl00$MainContent$_selecteur$_tbCode",""+ tbStructure_));
-				formparams.add(new BasicNameValuePair("ctl00$MainContent$_selecteur$_autocompleteStructures$_txtAutoComplete",""+ tbStructure_));
-				formparams.add(new BasicNameValuePair("ctl00$MainContent$_selecteur$_autocompleteStructures$_hiddenAutoComplete",tbAutoCompleteCode_));
+				formparams.add(new BasicNameValuePair("ctl00$MainContent$_selecteur$_tbCode",""+ tbStructure));
+				formparams.add(new BasicNameValuePair("ctl00$MainContent$_selecteur$_autocompleteStructures$_txtAutoComplete",""+ tbStructure));
+				formparams.add(new BasicNameValuePair("ctl00$MainContent$_selecteur$_autocompleteStructures$_hiddenAutoComplete",tbAutoCompleteCode));
 			}
 			if (structure != 0 && recursif)
 				formparams.add(new BasicNameValuePair("ctl00$MainContent$_cbRecursif","on"));

@@ -28,7 +28,7 @@ import org.slf4j.LoggerFactory;
 public class ExtractionIntranet {
 
 	private static final String HTTPS_INTRANET_SGDF_FR = "https://intranet.sgdf.fr/";
-	private static final String HTTPS_TESTINTRANET_SGDF_FR = "http://http://intranet-qualification.sgdf.fr/";
+	private static final String HTTPS_TESTINTRANET_SGDF_FR = "http://intranet-qualification.sgdf.fr/";
 	
 	public final static String GENERATEUR_CSV = "csv";
 	public final static String GENERATEUR_XML = "xml";

@@ -22,6 +22,9 @@ public class CommonParamsIntranet extends CommonParamsG {
 	@Option(names = "-motdepasse", description = "mot de passe intranet")
 	protected String motdepasse;
 	
+	@Option(names = "-qualifications", description = "", hidden = true)
+	protected boolean qualifications = false;
+	
 	protected ExtractionIntranet connection_;
 	
 	protected void charge() throws PicocliException, FileNotFoundException, IOException

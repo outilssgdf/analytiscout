@@ -8,6 +8,7 @@ import org.leplan73.outilssgdf.cmd.utils.CommonParamsIntranet;
 import org.leplan73.outilssgdf.cmd.utils.Logging;
 import org.leplan73.outilssgdf.engine.EngineAnalyseurRegistreDePresenceEnLigne;
 import org.leplan73.outilssgdf.engine.EngineException;
+import org.leplan73.outilssgdf.intranet.ExtractionIntranet;
 
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
@@ -42,6 +43,10 @@ public class AnalyseurRegistreDePresenceEnLigne extends CommonParamsIntranet {
 	@Override
 	public void run(CommandLine commandLine) throws CmdLineException
 	{
+		if (this.qualifications == true)
+		{
+			ExtractionIntranet.setQualifications(true);
+		}
 		Logging.logger_.info("Lancement");
 		chargeParametres();
 

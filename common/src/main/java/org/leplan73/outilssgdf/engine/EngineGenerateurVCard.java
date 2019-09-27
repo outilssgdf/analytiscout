@@ -1,12 +1,12 @@
 package org.leplan73.outilssgdf.engine;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.nio.charset.Charset;
 import java.util.Properties;
@@ -35,7 +35,7 @@ public class EngineGenerateurVCard extends EngineConnecte {
 		Properties properties = new Properties();
 		if (categories.exists())
 		{
-			properties.load(new BufferedInputStream(new FileInputStream(categories)));
+			properties.load(new InputStreamReader(new FileInputStream(categories), Charset.forName("UTF-8")));
 		}
 		
 		String extractionRecusif = properties.getProperty(Consts.VCARD_RECURSIF,"1");

@@ -37,9 +37,10 @@ public class Transformeur {
 		finally
 		{
 			try {
-				outputStream.close();
-				inModele.close();
+				if (outputStream != null) outputStream.close();
+				if (inModele != null) inModele.close();
 			} catch (IOException e) {
+				throw new TransformeurException(e);
 			}
 		}
 	}

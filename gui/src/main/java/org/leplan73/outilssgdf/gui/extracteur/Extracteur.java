@@ -178,6 +178,7 @@ public class Extracteur extends Dialogue implements LoggedDialog, GuiCommand {
 						txfCodeStructure = new JTextField();
 						panel_1.add(txfCodeStructure);
 						txfCodeStructure.setColumns(30);
+						txfCodeStructure.setText(Preferences.lit(Consts.INTRANET_STRUCTURE, "", true));
 					}
 				}
 				{
@@ -708,6 +709,7 @@ public class Extracteur extends Dialogue implements LoggedDialog, GuiCommand {
 			Preferences.sauve(Consts.INTRANET_IDENTIFIANT, "", true);
 			Preferences.sauve(Consts.INTRANET_MOTDEPASSE, "", true);
 		}
+		Preferences.sauve(Consts.INTRANET_STRUCTURE, txfCodeStructure.getText(), true);
 		super.dispose();
 	}
 

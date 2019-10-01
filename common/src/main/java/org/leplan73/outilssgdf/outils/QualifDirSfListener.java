@@ -1,5 +1,6 @@
 package org.leplan73.outilssgdf.outils;
 
+import java.time.Instant;
 import java.util.Date;
 
 import org.apache.poi.ss.usermodel.Cell;
@@ -34,14 +35,28 @@ public class QualifDirSfListener implements TagListener {
 		{
 			if (cell.getCellType() == CellType.NUMERIC)
 			{
+				Date date_aujourdhui = Date.from(Instant.now());
 				Date fin_validite = cell.getDateCellValue();
 				Date debutCamp = Params.getDateDebutCamp();
-				if (fin_validite.before(debutCamp))
+				
+				if (fin_validite.before(date_aujourdhui))
 				{
+					// Qualif déjà expiré
 					CellStyle backgroundStyle = workbook.createCellStyle();
 					backgroundStyle.cloneStyleFrom(cell.getCellStyle());
 					backgroundStyle.setFillBackgroundColor(IndexedColors.RED.getIndex());
 					backgroundStyle.setFillForegroundColor(IndexedColors.RED.getIndex());
+					backgroundStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+					cell.setCellStyle(backgroundStyle);
+					return;
+				}
+				if (fin_validite.before(debutCamp))
+				{
+					// Qualif qui expirera bientôt
+					CellStyle backgroundStyle = workbook.createCellStyle();
+					backgroundStyle.cloneStyleFrom(cell.getCellStyle());
+					backgroundStyle.setFillBackgroundColor(IndexedColors.ORANGE.getIndex());
+					backgroundStyle.setFillForegroundColor(IndexedColors.ORANGE.getIndex());
 					backgroundStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 					cell.setCellStyle(backgroundStyle);
 				}

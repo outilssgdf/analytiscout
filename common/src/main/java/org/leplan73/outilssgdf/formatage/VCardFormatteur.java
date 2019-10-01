@@ -23,12 +23,13 @@ public class VCardFormatteur {
 		private String nom;
 		private Set<Integer> membres;
 		private Set<String> codes;
-		private Set<String> emails;
 	}
 	
 	class Email
 	{
 		private String adresse;
+		private String nom;
+		private int force;
 		private Set<String> categories;
 	}
 	
@@ -43,8 +44,14 @@ public class VCardFormatteur {
 				break;
 			}
 			String categories = props.getProperty(Consts.VCARD_EMAILS_CATEGORIES+index);
+			String force = props.getProperty(Consts.VCARD_EMAILS_FORCE+index,"0");
 			Email email = new Email();
 			email.adresse = adresse;
+			email.force = Integer.parseInt(force);
+			String nom = props.getProperty(Consts.VCARD_EMAILS_NOM+index);
+			if (nom != null) {
+				email.nom = nom;
+			}
 			if (categories != null)
 			{
 				email.categories = new HashSet<String>();
@@ -104,18 +111,27 @@ public class VCardFormatteur {
 		int index=1;
 		for (Email email : emails)
 		{
-			if (cvardEmails.contains(email.adresse))
+			if (cvardEmails.contains(email.adresse) && email.force == 0)
 			{
 				// Déjà ajouté, on ignore
 				continue;
 			}
 			out.println("BEGIN:VCARD");
 			out.println("VERSION:3.0");
-			out.println("N:"+email.adresse+" "+index+";;;");
-			out.println("FN:"+email.adresse+" "+index+";;;");
+			if (email.nom != null)
+			{
+				out.println("N:"+email.nom+";;;");
+				out.println("FN:"+email.nom+";;;");
+				out.println("TITLE:"+email.nom);
+			}
+			else
+			{
+				out.println("N:"+email.adresse+" "+index+";;;");
+				out.println("FN:"+email.adresse+" "+index+";;;");
+				out.println("TITLE:"+index);
+			}
 			out.println("EMAIL;TYPE=INTERNET;TYPE=HOME:"+email.adresse);
 			out.println("CATEGORIES:"+email.categories.stream().collect(Collectors.joining(",")));
-			out.println("TITLE:"+index);
 			out.println("END:VCARD");
 			index++;
 		}

@@ -29,19 +29,22 @@ public class EngineGenerateurVCard extends EngineConnecte {
 		super(progress, logger);
 	}
 	
-	private boolean gopriv(ExtractionAdherents app, String identifiant, String motdepasse, File categories, File sortie, int structure) throws ClientProtocolException, IOException, JDOMException, InvalidFormatException, ExtractionException
+	private boolean gopriv(ExtractionAdherents app, String identifiant, String motdepasse, File props, File sortie, int structure) throws ClientProtocolException, IOException, JDOMException, InvalidFormatException, ExtractionException
 	{
 		logger_.info("Chargement du fichier de paramètrage");
 		Properties properties = new Properties();
-		if (categories.exists())
+		if (props.exists())
 		{
-			properties.load(new InputStreamReader(new FileInputStream(categories), Charset.forName("UTF-8")));
+			properties.load(new InputStreamReader(new FileInputStream(props), Charset.forName("UTF-8")));
 		}
 		
-		String extractionRecusif = properties.getProperty(Consts.VCARD_RECURSIF,"1");
+		String extractionCategorie = properties.getProperty(Consts.VCARD_EXTRACTION_CATEGORIE,"-1");
+		int extractionCategoriev = Integer.parseInt(extractionCategorie);
+		
+		String extractionRecusif = properties.getProperty(Consts.VCARD_EXTRACTION_RECURSIF,"1");
 		
 		logger_.info("Extraction VCard (structure="+structure+")");
-		String donnees = app.extract(structure, (extractionRecusif.compareTo("1") == 0), ExtractionIntranet.TYPE_INSCRIT, true, null, ExtractionIntranet.SPECIALITE_SANS_IMPORTANCE, ExtractionIntranet.CATEGORIE_RESPONSABLE, ExtractionIntranet.DIPLOME_TOUT,ExtractionIntranet.QUALIFICATION_TOUT,ExtractionIntranet.FORMATION_TOUT, ExtractionIntranet.FORMAT_INDIVIDU,false);
+		String donnees = app.extract(structure, (extractionRecusif.compareTo("1") == 0), ExtractionIntranet.TYPE_INSCRIT, true, null, ExtractionIntranet.SPECIALITE_SANS_IMPORTANCE, extractionCategoriev, ExtractionIntranet.DIPLOME_TOUT,ExtractionIntranet.QUALIFICATION_TOUT,ExtractionIntranet.FORMATION_TOUT, ExtractionIntranet.FORMAT_INDIVIDU,false);
 		
 		logger_.info("Conversion");
 		ExtracteurIndividusHtml x = new ExtracteurIndividusHtml();

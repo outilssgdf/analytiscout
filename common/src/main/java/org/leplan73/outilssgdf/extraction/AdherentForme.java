@@ -40,6 +40,10 @@ public class AdherentForme extends Adherent {
 	{
 		if (ageCamp_ > 0)
 		{
+			if (this.getFonction() == Consts.CODE_RESPONSABLE_FARFADETS || this.getFonction() == Consts.CODE_PARENTS_FARFADETS)
+			{
+				return "Oui";
+			}
 			if (this.getFonction() < Consts.CODE_CHEFS_PIOK)
 			{
 				if (ageCamp_ < 19)

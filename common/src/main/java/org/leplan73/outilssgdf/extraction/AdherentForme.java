@@ -3,6 +3,7 @@ package org.leplan73.outilssgdf.extraction;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,7 @@ import java.util.TreeMap;
 
 import org.leplan73.outilssgdf.Consts;
 import org.leplan73.outilssgdf.Params;
+import org.leplan73.outilssgdf.alerte.Alerte;
 import org.leplan73.outilssgdf.alerte.Alertes;
 
 public class AdherentForme extends Adherent {
@@ -37,8 +39,106 @@ public class AdherentForme extends Adherent {
 	}
 
 	@Override
-	public void construitsAlertes(Alertes alertes) {
-		super.construitsAlertes(alertes);
+	public void construitsAlertes(Alertes alertes, boolean jeunes) {
+		if (jeunes == true)
+		{
+			return;
+		}
+		
+		Qualification qdirfs = getQualifNull("dirsf");
+		if (qdirfs != null)
+		{
+			Object fin = qdirfs.getFinvalidite();
+			if (fin != null && fin instanceof String)
+			{
+				if (((String)fin).compareTo(PAS_DE_DATE) == 0)
+				{
+					alertes.ajouter(this, Alerte.Severite.MOYEN, Alerte.ALERTE_TYPE_QUALIFICATION, "DirSF permanente");
+				}
+			}
+			if (qdirfs.getDejaexpire())
+			{
+				alertes.ajouter(this, Alerte.Severite.HAUT, Alerte.ALERTE_TYPE_QUALIFICATION, "DirSF expirée");
+				
+			}
+			else if (qdirfs.getExpireavantcamp())
+			{
+				alertes.ajouter(this, Alerte.Severite.MOYEN, Alerte.ALERTE_TYPE_QUALIFICATION, "DirSF expiré avant le camp");
+			}
+		}
+		
+		Formation formationRG = getFormationNull("accueil_scoutisme_rg");
+		if (formationRG != null && qdirfs == null)
+		{
+			alertes.ajouter(this, Alerte.Severite.MOYEN, Alerte.ALERTE_TYPE_QUALIFICATION, "RG avec formation mais non qualifié dirSF");
+		}
+		
+		if (this.getAge18ok() == false && this.getCompa() == false)
+		{
+			alertes.ajouter(this, Alerte.Severite.HAUT, Alerte.ALERTE_TYPE_AGE, "Pas 18 ans au 1er juillet prochain");
+		}
+		
+		if (this.getAgeokcampb() == false && this.getCompa() == false && qdirfs != null && qdirfs.getOk())
+		{
+			if (this.getFonction() < Consts.CODE_CHEFS_PIOK)
+			{
+				alertes.ajouter(this, Alerte.Severite.HAUT, Alerte.ALERTE_TYPE_AGE, "Pas 19 ans au 1er juillet prochain pour être directeur");
+			}
+			else
+			{
+				alertes.ajouter(this, Alerte.Severite.HAUT, Alerte.ALERTE_TYPE_AGE, "Pas 21 ans au 1er juillet prochain pour être directeur");
+			}
+		}
+		
+		Formation formationTech = getFormationNull("tech");
+		Qualification qanimsf = getQualifNull("animsf");
+		if (formationTech != null && qanimsf == null)
+		{
+			alertes.ajouter(this, Alerte.Severite.MOYEN, Alerte.ALERTE_TYPE_QUALIFICATION, "Tech non qualifié animSF");
+		}
+	}
+
+	public boolean getAge18ok()
+	{
+		if (ageCamp_ > 0)
+		{
+			if (this.getFonction() == Consts.CODE_RESPONSABLE_FARFADETS || this.getFonction() == Consts.CODE_PARENTS_FARFADETS)
+			{
+				return true;
+			}
+			if (ageCamp_ < 18)
+				return false;
+			else
+				return true;
+		}
+		return true;
+	}
+
+	@Override
+	public boolean getAgeokcampb()
+	{
+		if (ageCamp_ > 0)
+		{
+			if (this.getFonction() == Consts.CODE_RESPONSABLE_FARFADETS || this.getFonction() == Consts.CODE_PARENTS_FARFADETS)
+			{
+				return true;
+			}
+			if (this.getFonction() < Consts.CODE_CHEFS_PIOK)
+			{
+				if (ageCamp_ < 19)
+					return false;
+				else
+					return true;
+			}
+			else
+			{
+				if (ageCamp_ < 21)
+					return false;
+				else
+					return true;
+			}
+		}
+		return true;
 	}
 	
 	@Override
@@ -181,6 +281,8 @@ public class AdherentForme extends Adherent {
 		private boolean defini_;
 		private String fin_validite_;
 		private String nom_;
+		private boolean dejaExpire_;
+		private boolean expireAvantCamp_;
 		
 		public Qualification(ChefExtra extra) {
 			fin_validite_ = extra.get(QUALIF_FIN_VALIDITE) != null ? extra.get(QUALIF_FIN_VALIDITE).isEmpty() ? PAS_DE_DATE : extra.get(QUALIF_FIN_VALIDITE) : PAS_DE_DATE;
@@ -218,6 +320,16 @@ public class AdherentForme extends Adherent {
 		public boolean getAetaetetitulaire()
 		{
 			return estetaetetitulaire_;
+		}
+
+		public boolean getDejaexpire()
+		{
+			return dejaExpire_;
+		}
+
+		public boolean getExpireavantcamp()
+		{
+			return expireAvantCamp_;
 		}
 		
 		public Object getFinvalidite()
@@ -258,10 +370,19 @@ public class AdherentForme extends Adherent {
 				if (fin_validite_.compareTo(PAS_DE_DATE) != 0)
 				{
 					Date date = df.parse(fin_validite_);
+					
+					Date date_aujourdhui = Date.from(Instant.now());
+					if (date.before(date_aujourdhui))
+					{
+						defini_ = false;
+						titulaire_ = false;
+						dejaExpire_ = true;
+					}
 					if (date.before(Params.getDateDebutCamp()))
 					{
 						defini_ = false;
 						titulaire_ = false;
+						expireAvantCamp_ = true;
 					}
 				}
 			} catch (ParseException e) {
@@ -446,6 +567,16 @@ public class AdherentForme extends Adherent {
 			return f;
 		}
 		return new Qualification();
+	}
+
+	public Qualification getQualifNull(String nom)
+	{
+		Qualification f = qualifs_.get(nom);
+		if (f != null)
+		{
+			return f;
+		}
+		return null;
 	}
 	
 	private Formation getFormationNull(String nom)

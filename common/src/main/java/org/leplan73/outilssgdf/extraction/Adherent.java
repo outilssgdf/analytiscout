@@ -13,6 +13,7 @@ import java.util.Map;
 import org.leplan73.outilssgdf.Check;
 import org.leplan73.outilssgdf.Consts;
 import org.leplan73.outilssgdf.Params;
+import org.leplan73.outilssgdf.alerte.Alerte;
 import org.leplan73.outilssgdf.alerte.Alertes;
 import org.leplan73.outilssgdf.calcul.Unite;
 
@@ -325,6 +326,26 @@ public class Adherent {
 		return "Oui";
 	}
 	
+	public boolean getAgeokb()
+	{
+		switch (this.getFonction())
+		{
+			case Consts.CODE_FARFADETS:
+				if (ageFinDec_ < 6) return false;
+			break;
+			case Consts.CODE_LJ:
+				if (ageFinDec_ < 8) return false;
+			break;
+			case Consts.CODE_SG:
+				if (ageFinDec_ < 11) return false;
+			break;
+			case Consts.CODE_PIOK:
+				if (ageFinDec_ < 14) return false;
+			break;
+		}
+		return true;
+	}
+	
 	public String getAgeok()
 	{
 		switch (this.getFonction())
@@ -343,6 +364,31 @@ public class Adherent {
 			break;
 		}
 		return "Oui";
+	}
+	
+	public boolean getAgeokcampb()
+	{
+		if (ageCamp_ > 0)
+		{
+			switch (this.getFonction())
+			{
+				case Consts.CODE_FARFADETS:
+					if (ageCamp_ < 6) return false;
+				break;
+				case Consts.CODE_LJ:
+					if (ageCamp_ < 8) return false;
+				break;
+				case Consts.CODE_SG:
+					if (ageCamp_ < 11) return false;
+				break;
+				case Consts.CODE_PIOK:
+					if (ageCamp_ < 14) return false;
+				break;
+			}
+			return true;
+		}
+		else
+			return true;
 	}
 	
 	public String getAgeokcamp()
@@ -506,6 +552,33 @@ public class Adherent {
 			os.println(emailMere.toLowerCase());
 	}
 
-	public void construitsAlertes(Alertes alertes) {
+	public void construitsAlertes(Alertes alertes, boolean jeunes) {
+		if (jeunes == false)
+		{
+			return;
+		}
+		switch (this.getFonction())
+		{
+			case Consts.CODE_FARFADETS:
+				if (this.getAge() < 6)
+					alertes.ajouter(this, Alerte.Severite.HAUT, Alerte.ALERTE_TYPE_AGE, "Farfadet n'ayant pas encore 6 ans à ce jour");
+			break;
+			case Consts.CODE_LJ:
+				if (this.getAgeokb() == false)
+					alertes.ajouter(this, Alerte.Severite.MOYEN, Alerte.ALERTE_TYPE_AGE, "Pas 8 ans au 31 décembre prochain");
+			break;
+			case Consts.CODE_SG:
+				if (this.getAgeokcampb() == false)
+					alertes.ajouter(this, Alerte.Severite.HAUT, Alerte.ALERTE_TYPE_AGE, "Pas 11 ans au 1er juillet prochain");
+				else if (this.getAgeokb() == false)
+					alertes.ajouter(this, Alerte.Severite.MOYEN, Alerte.ALERTE_TYPE_AGE, "Pas 11 ans au 31 décembre prochain");
+			break;
+			case Consts.CODE_PIOK:
+				if (this.getAgeokcampb() == false)
+					alertes.ajouter(this, Alerte.Severite.HAUT, Alerte.ALERTE_TYPE_AGE, "Pas 14 ans au 1er juillet prochain");
+				else if (this.getAgeokb() == false)
+					alertes.ajouter(this, Alerte.Severite.MOYEN, Alerte.ALERTE_TYPE_AGE, "Pas 14 ans au 31 décembre prochain");
+			break;
+		}
 	}
 }

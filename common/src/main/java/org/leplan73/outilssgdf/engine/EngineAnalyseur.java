@@ -83,8 +83,10 @@ public class EngineAnalyseur extends Engine {
 		adherents.calculGlobal(global);
 		progress_.setProgress(80);
 		
-		Alertes alertes = new Alertes();
-		adherents.construitsAlertes(alertes);
+		Alertes alertesJeunes = new Alertes();
+		adherents.construitsAlertes(alertesJeunes, true);
+		Alertes alertesResponsables = new Alertes();
+		adherents.construitsAlertes(alertesResponsables, false);
 
 		logger_.info("Génération du fichier \"" + fichier_sortie.getName() + "\" à partir du modèle \"" + modele.getName() + "\"");
 		Map<String, Object> beans = new HashMap<String, Object>();
@@ -92,7 +94,8 @@ public class EngineAnalyseur extends Engine {
 		beans.put("chefs", adherents.getChefsList());
 		beans.put("compas", adherents.getCompasList());
 		beans.put("unites", adherents.getUnitesList());
-		beans.put("alertes", alertes);
+		beans.put("alertes_jeunes", alertesJeunes);
+		beans.put("alertes_responsables", alertesResponsables);
 		beans.put("general", general);
 		beans.put("global", global);
 

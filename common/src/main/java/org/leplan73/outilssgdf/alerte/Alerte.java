@@ -4,6 +4,9 @@ import org.leplan73.outilssgdf.extraction.Adherent;
 
 public class Alerte {
 
+	public static final String ALERTE_TYPE_AGE = "Age";
+	public static final String ALERTE_TYPE_QUALIFICATION = "Qualification";
+	
 	public enum Severite
 	{
 		INCONNU,
@@ -33,6 +36,11 @@ public class Alerte {
 	public Severite getSeverite()
 	{
 		return severite_;
+	}
+	
+	public int getSeveritenum()
+	{
+		return severite_.ordinal();
 	}
 	
 	public String getType()

@@ -123,8 +123,10 @@ public class EngineAnalyseurEnLigne extends EngineConnecte {
 		adherents.calculGlobal(global);
 		progress_.setProgress(80);
 		
-		Alertes alertes = new Alertes();
-		adherents.construitsAlertes(alertes);
+		Alertes alertesJeunes = new Alertes();
+		adherents.construitsAlertes(alertesJeunes, true);
+		Alertes alertesResponsables = new Alertes();
+		adherents.construitsAlertes(alertesResponsables, false);
 
 		File fichier_sortie = sous_dossier ? new File(sortie, nom_fichier_sortie+structure+".xlsx") : sortie;
 		
@@ -134,7 +136,8 @@ public class EngineAnalyseurEnLigne extends EngineConnecte {
 		beans.put("chefs", adherents.getChefsList());
 		beans.put("compas", adherents.getCompasList());
 		beans.put("unites", adherents.getUnitesList());
-		beans.put("alertes", alertes);
+		beans.put("alertes_jeunes", alertesJeunes);
+		beans.put("alertes_responsables", alertesResponsables);
 		beans.put("general", general);
 		beans.put("global", global);
 

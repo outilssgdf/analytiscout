@@ -436,10 +436,10 @@ public class ExtracteurIndividusHtml {
 		});
 	}
 
-	public void construitsAlertes(Alertes alertes) {
+	public void construitsAlertes(Alertes alertes, boolean jeunes) {
 		adherents_.forEach((code,ad) ->
 		{
-			ad.construitsAlertes(alertes);
+			ad.construitsAlertes(alertes, jeunes);
 		});
 	}
 }

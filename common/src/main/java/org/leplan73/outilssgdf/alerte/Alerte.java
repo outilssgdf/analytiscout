@@ -4,7 +4,7 @@ import org.leplan73.outilssgdf.extraction.Adherent;
 
 public class Alerte {
 
-	public enum Type
+	public enum Severite
 	{
 		INCONNU,
 		BAS,
@@ -14,11 +14,13 @@ public class Alerte {
 	
 	private Adherent adherent_;
 	private String message_;
-	private Type type_ = Type.INCONNU;
+	private String type_;
+	private Severite severite_ = Severite.INCONNU;
 	
-	public Alerte(Adherent adherent, Type type, String message)
+	public Alerte(Adherent adherent, Severite severite, String type, String message)
 	{
 		adherent_ = adherent;
+		severite_ = severite;
 		type_ = type;
 		message_ = message;
 	}
@@ -28,7 +30,12 @@ public class Alerte {
 		return adherent_;
 	}
 	
-	public Type getType()
+	public Severite getSeverite()
+	{
+		return severite_;
+	}
+	
+	public String getType()
 	{
 		return type_;
 	}

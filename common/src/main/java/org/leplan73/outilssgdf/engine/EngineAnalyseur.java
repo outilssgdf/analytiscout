@@ -15,6 +15,7 @@ import org.leplan73.outilssgdf.ExtractionException;
 import org.leplan73.outilssgdf.Progress;
 import org.leplan73.outilssgdf.Transformeur;
 import org.leplan73.outilssgdf.TransformeurException;
+import org.leplan73.outilssgdf.alerte.Alertes;
 import org.leplan73.outilssgdf.calcul.General;
 import org.leplan73.outilssgdf.calcul.Global;
 import org.leplan73.outilssgdf.extraction.AdherentForme.ExtraKey;
@@ -81,6 +82,9 @@ public class EngineAnalyseur extends Engine {
 		Global global = new Global(adherents.getGroupe(), adherents.getMarins());
 		adherents.calculGlobal(global);
 		progress_.setProgress(80);
+		
+		Alertes alertes = new Alertes();
+		adherents.construitsAlertes(alertes);
 
 		logger_.info("Génération du fichier \"" + fichier_sortie.getName() + "\" à partir du modèle \"" + modele.getName() + "\"");
 		Map<String, Object> beans = new HashMap<String, Object>();
@@ -88,6 +92,7 @@ public class EngineAnalyseur extends Engine {
 		beans.put("chefs", adherents.getChefsList());
 		beans.put("compas", adherents.getCompasList());
 		beans.put("unites", adherents.getUnitesList());
+		beans.put("alertes", alertes);
 		beans.put("general", general);
 		beans.put("global", global);
 

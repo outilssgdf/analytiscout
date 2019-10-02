@@ -16,6 +16,7 @@ import org.jdom2.Text;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.xpath.XPathExpression;
 import org.jdom2.xpath.XPathFactory;
+import org.leplan73.outilssgdf.alerte.Alertes;
 import org.leplan73.outilssgdf.calcul.Global;
 import org.leplan73.outilssgdf.calcul.Unite;
 import org.leplan73.outilssgdf.calcul.Unites;
@@ -432,6 +433,13 @@ public class ExtracteurIndividusHtml {
 					global.addAnimsfQualifie();
 				}
 			}
+		});
+	}
+
+	public void construitsAlertes(Alertes alertes) {
+		adherents_.forEach((code,ad) ->
+		{
+			ad.construitsAlertes(alertes);
 		});
 	}
 }

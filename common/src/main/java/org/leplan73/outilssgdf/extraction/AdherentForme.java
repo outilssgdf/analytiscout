@@ -10,6 +10,7 @@ import java.util.TreeMap;
 
 import org.leplan73.outilssgdf.Consts;
 import org.leplan73.outilssgdf.Params;
+import org.leplan73.outilssgdf.alerte.Alertes;
 
 public class AdherentForme extends Adherent {
 
@@ -33,6 +34,11 @@ public class AdherentForme extends Adherent {
 		colonnes_ = adherent.colonnes_;
 		age_ = adherent.age_;
 		ageCamp_ = adherent.age_;
+	}
+
+	@Override
+	public void construitsAlertes(Alertes alertes) {
+		super.construitsAlertes(alertes);
 	}
 	
 	@Override

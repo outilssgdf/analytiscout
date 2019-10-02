@@ -13,6 +13,7 @@ import java.util.Map;
 import org.leplan73.outilssgdf.Check;
 import org.leplan73.outilssgdf.Consts;
 import org.leplan73.outilssgdf.Params;
+import org.leplan73.outilssgdf.alerte.Alertes;
 import org.leplan73.outilssgdf.calcul.Unite;
 
 public class Adherent {
@@ -503,5 +504,8 @@ public class Adherent {
 			os.println(emailPere.toLowerCase());
 		if (emailMere != null && !emailMere.isEmpty())
 			os.println(emailMere.toLowerCase());
+	}
+
+	public void construitsAlertes(Alertes alertes) {
 	}
 }

@@ -19,6 +19,7 @@ import org.leplan73.outilssgdf.ExtractionException;
 import org.leplan73.outilssgdf.Progress;
 import org.leplan73.outilssgdf.Transformeur;
 import org.leplan73.outilssgdf.TransformeurException;
+import org.leplan73.outilssgdf.alerte.Alertes;
 import org.leplan73.outilssgdf.calcul.General;
 import org.leplan73.outilssgdf.calcul.Global;
 import org.leplan73.outilssgdf.extraction.AdherentForme.ExtraKey;
@@ -121,6 +122,9 @@ public class EngineAnalyseurEnLigne extends EngineConnecte {
 		Global global = new Global(adherents.getGroupe(), adherents.getMarins());
 		adherents.calculGlobal(global);
 		progress_.setProgress(80);
+		
+		Alertes alertes = new Alertes();
+		adherents.construitsAlertes(alertes);
 
 		File fichier_sortie = sous_dossier ? new File(sortie, nom_fichier_sortie+structure+".xlsx") : sortie;
 		
@@ -130,6 +134,7 @@ public class EngineAnalyseurEnLigne extends EngineConnecte {
 		beans.put("chefs", adherents.getChefsList());
 		beans.put("compas", adherents.getCompasList());
 		beans.put("unites", adherents.getUnitesList());
+		beans.put("alertes", alertes);
 		beans.put("general", general);
 		beans.put("global", global);
 

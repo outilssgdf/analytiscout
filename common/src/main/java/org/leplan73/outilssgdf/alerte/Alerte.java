@@ -9,16 +9,16 @@ public class Alerte {
 	
 	public enum Severite
 	{
-		INCONNU,
-		BAS,
-		MOYEN,
-		HAUT;
+		INCONNUE,
+		BASSE,
+		MOYENNE,
+		HAUTE;
 	}
 	
 	private Adherent adherent_;
 	private String message_;
 	private String type_;
-	private Severite severite_ = Severite.INCONNU;
+	private Severite severite_ = Severite.INCONNUE;
 	
 	public Alerte(Adherent adherent, Severite severite, String type, String message)
 	{

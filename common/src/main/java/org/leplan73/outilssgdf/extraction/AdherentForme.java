@@ -53,40 +53,40 @@ public class AdherentForme extends Adherent {
 			{
 				if (((String)fin).compareTo(PAS_DE_DATE) == 0)
 				{
-					alertes.ajouter(this, Alerte.Severite.MOYEN, Alerte.ALERTE_TYPE_QUALIFICATION, "DirSF permanente");
+					alertes.ajouter(this, Alerte.Severite.MOYENNE, Alerte.ALERTE_TYPE_QUALIFICATION, "DirSF permanente");
 				}
 			}
 			if (qdirfs.getDejaexpire())
 			{
-				alertes.ajouter(this, Alerte.Severite.HAUT, Alerte.ALERTE_TYPE_QUALIFICATION, "DirSF expirée");
+				alertes.ajouter(this, Alerte.Severite.HAUTE, Alerte.ALERTE_TYPE_QUALIFICATION, "DirSF expirée");
 				
 			}
 			else if (qdirfs.getExpireavantcamp())
 			{
-				alertes.ajouter(this, Alerte.Severite.MOYEN, Alerte.ALERTE_TYPE_QUALIFICATION, "DirSF expiré avant le camp");
+				alertes.ajouter(this, Alerte.Severite.MOYENNE, Alerte.ALERTE_TYPE_QUALIFICATION, "DirSF expiré avant le camp");
 			}
 		}
 		
 		Formation formationRG = getFormationNull("accueil_scoutisme_rg");
 		if (formationRG != null && qdirfs == null)
 		{
-			alertes.ajouter(this, Alerte.Severite.MOYEN, Alerte.ALERTE_TYPE_QUALIFICATION, "RG avec formation mais non qualifié dirSF");
+			alertes.ajouter(this, Alerte.Severite.MOYENNE, Alerte.ALERTE_TYPE_QUALIFICATION, "RG avec formation mais non qualifié dirSF");
 		}
 		
 		if (this.getAge18ok() == false && this.getCompa() == false)
 		{
-			alertes.ajouter(this, Alerte.Severite.HAUT, Alerte.ALERTE_TYPE_AGE, "Pas 18 ans au 1er juillet prochain");
+			alertes.ajouter(this, Alerte.Severite.HAUTE, Alerte.ALERTE_TYPE_AGE, "Pas 18 ans au 1er juillet prochain");
 		}
 		
 		if (this.getAgeokcampb() == false && this.getCompa() == false && qdirfs != null && qdirfs.getOk())
 		{
 			if (this.getFonction() < Consts.CODE_CHEFS_PIOK)
 			{
-				alertes.ajouter(this, Alerte.Severite.HAUT, Alerte.ALERTE_TYPE_AGE, "Pas 19 ans au 1er juillet prochain pour être directeur");
+				alertes.ajouter(this, Alerte.Severite.HAUTE, Alerte.ALERTE_TYPE_AGE, "Pas 19 ans au 1er juillet prochain pour être directeur");
 			}
 			else
 			{
-				alertes.ajouter(this, Alerte.Severite.HAUT, Alerte.ALERTE_TYPE_AGE, "Pas 21 ans au 1er juillet prochain pour être directeur");
+				alertes.ajouter(this, Alerte.Severite.HAUTE, Alerte.ALERTE_TYPE_AGE, "Pas 21 ans au 1er juillet prochain pour être directeur");
 			}
 		}
 		
@@ -94,7 +94,7 @@ public class AdherentForme extends Adherent {
 		Qualification qanimsf = getQualifNull("animsf");
 		if (formationTech != null && qanimsf == null)
 		{
-			alertes.ajouter(this, Alerte.Severite.MOYEN, Alerte.ALERTE_TYPE_QUALIFICATION, "Tech non qualifié animSF");
+			alertes.ajouter(this, Alerte.Severite.MOYENNE, Alerte.ALERTE_TYPE_QUALIFICATION, "Tech non qualifié animSF");
 		}
 	}
 

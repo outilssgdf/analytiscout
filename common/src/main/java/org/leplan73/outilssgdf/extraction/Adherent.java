@@ -29,6 +29,7 @@ public class Adherent {
 	protected double age_ = -1;
 	protected double ageFinDec_ = -1;
 	protected double ageCamp_ = -1;
+	protected Date dn_;
 	
 	public Adherent(ColonnesAdherents colonnes)
 	{
@@ -247,19 +248,19 @@ public class Adherent {
 				String date = get(colonnes_.getDatedeNaissanceId());
 				if (date != null)
 				{
-					Date dn = simpleDateFormat.parse(date);
+					dn_ = simpleDateFormat.parse(date);
 					long aj = Instant.now().toEpochMilli();
-					float diff = ((aj - dn.getTime())/1000);
+					float diff = ((aj - dn_.getTime())/1000);
 					diff = diff/(3600*365*24);
 					age_ = diff;
 					
 					Date debutFindDec = Params.getDateLimiteJeune();
-					double diffFindDec = ((debutFindDec.getTime() - dn.getTime())/1000);
+					double diffFindDec = ((debutFindDec.getTime() - dn_.getTime())/1000);
 					diffFindDec = diffFindDec/(3600*365.25*24);
 					ageFinDec_ = diffFindDec;
 					
 					Date debutCamp = Params.getDateDebutCamp();
-					double diffCamp = ((debutCamp.getTime() - dn.getTime())/1000);
+					double diffCamp = ((debutCamp.getTime() - dn_.getTime())/1000);
 					diffCamp = diffCamp/(3600*365.25*24);
 					ageCamp_ = diffCamp;
 				}
@@ -551,33 +552,42 @@ public class Adherent {
 		if (emailMere != null && !emailMere.isEmpty())
 			os.println(emailMere.toLowerCase());
 	}
+	
+	private Date dateAge(int age)
+	{
+		double d = dn_.getTime()+age*3600*365.25*24*1000;
+		Date dd = new Date((long)Math.floor(d));
+		return dd;
+	}
 
 	public void construitsAlertes(Alertes alertes, boolean jeunes) {
 		if (jeunes == false)
 		{
 			return;
 		}
+		
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		switch (this.getFonction())
 		{
 			case Consts.CODE_FARFADETS:
 				if (this.getAge() < 6)
-					alertes.ajouter(this, Alerte.Severite.HAUT, Alerte.ALERTE_TYPE_AGE, "Farfadet n'ayant pas encore 6 ans à ce jour");
+					alertes.ajouter(this, Alerte.Severite.HAUTE, Alerte.ALERTE_TYPE_AGE, "Farfadet n'ayant pas encore 6 ans à ce jour, pas d'activité avant le "+simpleDateFormat.format(dateAge(6)));
 			break;
 			case Consts.CODE_LJ:
 				if (this.getAgeokb() == false)
-					alertes.ajouter(this, Alerte.Severite.MOYEN, Alerte.ALERTE_TYPE_AGE, "Pas 8 ans au 31 décembre prochain");
+					alertes.ajouter(this, Alerte.Severite.MOYENNE, Alerte.ALERTE_TYPE_AGE, "Pas 8 ans au 31 décembre prochain, il/elle les aura le "+simpleDateFormat.format(dateAge(8)));
 			break;
 			case Consts.CODE_SG:
 				if (this.getAgeokcampb() == false)
-					alertes.ajouter(this, Alerte.Severite.HAUT, Alerte.ALERTE_TYPE_AGE, "Pas 11 ans au 1er juillet prochain");
+					alertes.ajouter(this, Alerte.Severite.HAUTE, Alerte.ALERTE_TYPE_AGE, "Pas 11 ans au 1er juillet prochain, il/elle les aura le "+simpleDateFormat.format(dateAge(11)));
 				else if (this.getAgeokb() == false)
-					alertes.ajouter(this, Alerte.Severite.MOYEN, Alerte.ALERTE_TYPE_AGE, "Pas 11 ans au 31 décembre prochain");
+					alertes.ajouter(this, Alerte.Severite.MOYENNE, Alerte.ALERTE_TYPE_AGE, "Pas 11 ans au 31 décembre prochain, il/elle les aura le "+simpleDateFormat.format(dateAge(11)));
 			break;
 			case Consts.CODE_PIOK:
 				if (this.getAgeokcampb() == false)
-					alertes.ajouter(this, Alerte.Severite.HAUT, Alerte.ALERTE_TYPE_AGE, "Pas 14 ans au 1er juillet prochain");
+					alertes.ajouter(this, Alerte.Severite.HAUTE, Alerte.ALERTE_TYPE_AGE, "Pas 14 ans au 1er juillet prochain, il/elle les aura le "+simpleDateFormat.format(dateAge(14)));
 				else if (this.getAgeokb() == false)
-					alertes.ajouter(this, Alerte.Severite.MOYEN, Alerte.ALERTE_TYPE_AGE, "Pas 14 ans au 31 décembre prochain");
+					alertes.ajouter(this, Alerte.Severite.MOYENNE, Alerte.ALERTE_TYPE_AGE, "Pas 14 ans au 31 décembre prochain, il/elle les aura le "+simpleDateFormat.format(dateAge(14)));
 			break;
 		}
 	}

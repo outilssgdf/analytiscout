@@ -71,7 +71,7 @@ adherents.8=true
 batchtype.8=formation
 
 generateur.9=xml
-format.9=5
+format.9=21
 type.9=0
 diplome.9=
 qualif.9=

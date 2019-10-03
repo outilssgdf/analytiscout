@@ -44,7 +44,8 @@ public class AdherentForme extends Adherent {
 		{
 			return;
 		}
-		
+
+		Qualification qanimsf = getQualifNull("animsf");
 		Qualification qdirfs = getQualifNull("dirsf");
 		if (qdirfs != null)
 		{
@@ -64,6 +65,17 @@ public class AdherentForme extends Adherent {
 			else if (qdirfs.getExpireavantcamp())
 			{
 				alertes.ajouter(this, Alerte.Severite.MOYENNE, Alerte.ALERTE_TYPE_QUALIFICATION, "DirSF expiré avant le camp");
+			}
+		}
+		if (qanimsf != null && qanimsf.getPasok())
+		{
+			Object fin = qanimsf.getFinvalidite();
+			if (fin != null && fin instanceof String)
+			{
+				if (((String)fin).compareTo(PAS_DE_DATE) == 0)
+				{
+					alertes.ajouter(this, Alerte.Severite.HAUTE, Alerte.ALERTE_TYPE_QUALIFICATION, "AnimSF stagiaire permanent");
+				}
 			}
 		}
 		
@@ -91,7 +103,6 @@ public class AdherentForme extends Adherent {
 		}
 		
 		Formation formationTech = getFormationNull("tech");
-		Qualification qanimsf = getQualifNull("animsf");
 		if (formationTech != null && qanimsf == null)
 		{
 			alertes.ajouter(this, Alerte.Severite.MOYENNE, Alerte.ALERTE_TYPE_QUALIFICATION, "Tech non qualifié animSF");

@@ -40,7 +40,7 @@ public class AnalyseurJeunes extends CommonParamsG {
 			check();
 			CmdProgress progress = new CmdProgress();
 			EngineAnalyseur en = new EngineAnalyseur(progress, Logging.logger_);
-			en.go(entree, batch, sortie, modele, structures, age, "tout_jeunes" ,"adherents_");
+			en.go(entree, batch, sortie, modele, structures, age, "tout_jeunes" ,"jeunes_");
 		} catch (EngineException e) {
 			Logging.logError(e);
 		}

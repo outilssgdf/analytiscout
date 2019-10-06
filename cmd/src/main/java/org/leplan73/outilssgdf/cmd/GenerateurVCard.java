@@ -2,7 +2,6 @@ package org.leplan73.outilssgdf.cmd;
 
 import java.io.File;
 import java.io.IOException;
-import java.time.Instant;
 
 import org.leplan73.outilssgdf.Consts;
 import org.leplan73.outilssgdf.cmd.utils.CmdLineException;
@@ -33,7 +32,6 @@ public class GenerateurVCard extends CommonParamsIntranet {
 		{
 			ExtractionIntranet.setQualifications(true);
 		}
-		Instant now = Instant.now();
 		
 		checkParams();
 		

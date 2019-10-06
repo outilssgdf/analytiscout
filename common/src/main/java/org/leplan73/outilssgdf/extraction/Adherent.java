@@ -269,25 +269,73 @@ public class Adherent {
 		}
 	}
 	
+	private String calculBranche()
+	{
+		String unite = this.getUnite();
+		if (unite.contains("FARFADET"))
+		{
+			return "F";
+		}
+		if (unite.contains("LOUVETEAU") || unite.contains("JEANNETTE") || unite.contains("MOUSSAILLON"))
+		{
+			return "LJ";
+		}
+		if (unite.contains("SCOUT") || unite.contains("GUIDE") || unite.contains("MOUSSE"))
+		{
+			return "SG";
+		}
+		if (unite.contains("PIONNIER") || unite.contains("CARAVELLE") || unite.contains("MARIN"))
+		{
+			return "PC";
+		}
+		if (unite.contains("COMPAGNON"))
+		{
+			return "C";
+		}
+		return "R";
+	}
+	
 	public String getBranche()
 	{
+		String brancheCalcule = calculBranche();
+		
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		try {
-		String date = get(colonnes_.getDatedeNaissanceId());
-		Date dn = simpleDateFormat.parse(date);
-		Date debutFindDec = Params.getDateLimiteJeune();
-		double diffFindDec = ((debutFindDec.getTime() - dn.getTime())/1000);
-		diffFindDec = diffFindDec/(3600*365.25*24);
-		if (diffFindDec < 8)
-			return "F";
-		if (diffFindDec < 11)
-			return "LJ";
-		if (diffFindDec < 14)
-			return "SG";
-		if (diffFindDec < 17)
-			return "PC";
-		if (diffFindDec < 22)
-			return "C";
+			String date = get(colonnes_.getDatedeNaissanceId());
+			Date dn = simpleDateFormat.parse(date);
+			Date debutFindDec = Params.getDateLimiteJeune();
+			double diffFindDec = ((debutFindDec.getTime() - dn.getTime())/1000);
+			diffFindDec = diffFindDec/(3600*365.25*24);
+			if (diffFindDec < 8)
+			{
+				if (brancheCalcule.compareTo("F") != 0)
+					return brancheCalcule;
+				return "F";
+			}
+			if (diffFindDec < 11)
+			{
+				if (brancheCalcule.compareTo("LJ") != 0)
+					return brancheCalcule;
+				return "LJ";
+			}
+			if (diffFindDec < 14)
+			{
+				if (brancheCalcule.compareTo("SG") != 0)
+					return brancheCalcule;
+				return "SG";
+			}
+			if (diffFindDec < 17)
+			{
+				if (brancheCalcule.compareTo("PC") != 0)
+					return brancheCalcule;
+				return "PC";
+			}
+			if (diffFindDec < 22)
+			{
+				if (brancheCalcule.compareTo("C") != 0)
+					return brancheCalcule;
+				return "C";
+			}
 		} catch (ParseException e) {
 		}
 		return "R";
@@ -297,21 +345,35 @@ public class Adherent {
 	{
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		try {
-		String date = get(colonnes_.getDatedeNaissanceId());
-		Date dn = simpleDateFormat.parse(date);
-		Date debutFindDec = Params.getDateLimiteJeuneSuivant();
-		double diffFindDec = ((debutFindDec.getTime() - dn.getTime())/1000);
-		diffFindDec = diffFindDec/(3600*365.25*24);
-		if (diffFindDec < 8)
-			return "F";
-		if (diffFindDec < 11)
-			return "LJ";
-		if (diffFindDec < 14)
-			return "SG";
-		if (diffFindDec < 17)
-			return "PC";
-		if (diffFindDec < 22)
-			return "C";
+			String date = get(colonnes_.getDatedeNaissanceId());
+			Date dn = simpleDateFormat.parse(date);
+			Date debutFindDec = Params.getDateLimiteJeune();
+			double diffFindDec = ((debutFindDec.getTime() - dn.getTime())/1000);
+			diffFindDec = diffFindDec/(3600*365.25*24);
+			Date debutFindDecN1 = Params.getDateLimiteJeuneSuivant();
+			double diffFindDecN1 = ((debutFindDecN1.getTime() - dn.getTime())/1000);
+			diffFindDecN1 = diffFindDecN1/(3600*365.25*24);
+					
+			if (diffFindDecN1 < 8)
+			{
+				return "F";
+			}
+			if (diffFindDecN1 < 11)
+			{
+				return "LJ";
+			}
+			if (diffFindDecN1 < 14)
+			{
+				return "SG";
+			}
+			if (diffFindDecN1 < 17)
+			{
+				return "PC";
+			}
+			if (diffFindDecN1 < 22)
+			{
+				return "C";
+			}
 		} catch (ParseException e) {
 		}
 		return "R";

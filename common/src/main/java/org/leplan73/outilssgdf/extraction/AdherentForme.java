@@ -107,6 +107,27 @@ public class AdherentForme extends Adherent {
 		{
 			alertes.ajouter(this, Alerte.Severite.MOYENNE, Alerte.ALERTE_TYPE_QUALIFICATION, "Tech non qualifié animSF");
 		}
+		
+		if (this.getBafapotentiel() && testJs("Scout Anim","CAFA SF","Anim titulaire-Stagiaire BAFA") == false)
+		{
+			alertes.ajouter(this, Alerte.Severite.MOYENNE, Alerte.ALERTE_TYPE_JS, "BAFA potential mais non déclaré \"Anim titulaire-Stagiaire BAFA\"");
+		}
+		if (qdirfs == null && qanimsf != null && qanimsf.getOk() && (testJs("Scout Anim","CAFA SF","Titulaire") == false && testJs("Scout Anim","CAFA SF","Anim titulaire-Stagiaire BAFA") == false))
+		{
+			alertes.ajouter(this, Alerte.Severite.MOYENNE, Alerte.ALERTE_TYPE_JS, "AnimSF titulaire mais non déclaré \"Anim titulaire-Stagiaire BAFA\" ou \"Scout Anim - CAFA SF\"");
+		}
+		if (qdirfs == null && qanimsf != null && qanimsf.getPasok() && (this.testJs("Non diplomé","","Non qualifié")))
+		{
+			alertes.ajouter(this, Alerte.Severite.MOYENNE, Alerte.ALERTE_TYPE_JS, "AnimSF stagiaire mais déclaré \"Non diplômé\"");
+		}
+		if (qdirfs != null && qdirfs.getOk() && (this.testJs("Scout Dir","CA Dir SF","Titulaire") == false && this.testJs("Scout Dir","CA Dir SF","Dir titulaire-Stagiaire BAFD") == false))
+		{
+			alertes.ajouter(this, Alerte.Severite.MOYENNE, Alerte.ALERTE_TYPE_JS, "DirSF titulaire mais non déclaré \"Scout Dir - CA Dir SF - Titulaire\"");
+		}
+		if (qdirfs == null && qanimsf != null && qanimsf.getOk() && this.testJs("Scout Anim","CAFA SF","Stagiaire"))
+		{
+			alertes.ajouter(this, Alerte.Severite.MOYENNE, Alerte.ALERTE_TYPE_JS, "AnimSF titulaire mais déclaré \"Animateur SF stagiaire\"");
+		}
 	}
 
 	public boolean getAge18ok()
@@ -618,6 +639,26 @@ public class AdherentForme extends Adherent {
 			return f;
 		}
 		return new Diplome();
+	}
+	
+	public String getDiplomejs()
+	{
+		return this.get(colonnes_.getDiplomejsId());
+	}
+	
+	public String getDiplomedetailsjs()
+	{
+		return this.get(colonnes_.getDiplomedetailsjs());
+	}
+	
+	public String getQualitejs()
+	{
+		return this.get(colonnes_.getQualitejs());
+	}
+	
+	private boolean testJs(String diplome, String diplomeDetails, String qualite)
+	{
+		return ((getDiplomejs().compareTo(diplome) == 0) && (getDiplomedetailsjs().compareTo(diplomeDetails) == 0) && (getQualitejs().compareTo(qualite) == 0));
 	}
 	
 	public int getFormation_apf()

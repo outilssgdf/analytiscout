@@ -30,7 +30,9 @@ public class ColonnesAdherents {
 	private int bureauIndividu = -1;
 	private int datedenaissanceId = -1;
 	private int droitImage = -1;
-
+	private int diplomeJs = -1;
+	private int diplomeDetailsJs = -1;
+	private int qualiteJs = -1;
 	private int stuctureNom = -1;
 	private int structureCode = -1;
 	private int delegations = -1;
@@ -44,6 +46,18 @@ public class ColonnesAdherents {
 	{
 		ids_.forEach((key, value) ->
 		{
+			if (ids_.get(key).compareTo("IntervenantJS.DiplomeJS") == 0)
+			{
+				diplomeJs = key;
+			}
+			if (ids_.get(key).compareTo("IntervenantJS.DiplomeDetailJS") == 0)
+			{
+				diplomeDetailsJs = key;
+			}
+			if (ids_.get(key).compareTo("IntervenantJS.QualiteJS") == 0)
+			{
+				qualiteJs = key;
+			}
 			if (ids_.get(key).compareTo("Individu.DroitImage") == 0)
 			{
 				droitImage = key;
@@ -241,5 +255,17 @@ public class ColonnesAdherents {
 
 	public int getDroitImage() {
 		return droitImage;
+	}
+
+	public int getDiplomejsId() {
+		return diplomeJs;
+	}
+
+	public int getDiplomedetailsjs() {
+		return diplomeDetailsJs;
+	}
+
+	public int getQualitejs() {
+		return qualiteJs;
 	}
 }

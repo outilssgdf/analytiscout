@@ -1,27 +1,24 @@
 package org.leplan73.outilssgdf.gui.dialogues;
 
 import java.awt.BorderLayout;
-import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import org.leplan73.outilssgdf.gui.Template;
-import org.leplan73.outilssgdf.gui.analyseurenligne.AnalyseurEnLigneAdherents;
+import org.leplan73.outilssgdf.gui.analyseurenligne.AnalyseurEnLigneJeunes;
 import org.leplan73.outilssgdf.gui.analyseurenligne.AnalyseurEnLigneResponsables;
 import org.leplan73.outilssgdf.gui.utils.ElementFactory;
 
-public class AnalyseAdherents extends Template {
+public class AnalyseJeunes extends Template {
 
 	/**
 	 * Create the panel.
 	 */
-	public AnalyseAdherents() {
+	public AnalyseJeunes() {
 		super();
 
 		JPanel panel_title1 = ElementFactory.createActionTitle("<html><b>Analyse des maitrises et compas</b></html>");
@@ -50,7 +47,7 @@ public class AnalyseAdherents extends Template {
 			}
 		});
 
-		JPanel panel_title3 = ElementFactory.createActionTitle("<html><b>Analyse des adhérents</b></html>");
+		JPanel panel_title3 = ElementFactory.createActionTitle("<html><b>Analyse des jeunes</b></html>");
 		GridBagLayout gbl_panel_title3 = (GridBagLayout) panel_title3.getLayout();
 		gbl_panel_title3.rowWeights = new double[] { 0.0 };
 		gbl_panel_title3.rowHeights = new int[] { 0 };
@@ -71,7 +68,7 @@ public class AnalyseAdherents extends Template {
 				"<html><p style=\"text-align:center;\">Extraire et analyser<br>des données en ligne</p>");
 		btnAnalyserDesDonnesAdherents.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new AnalyseurEnLigneAdherents().setVisible(true);
+				new AnalyseurEnLigneJeunes().setVisible(true);
 			}
 		});
 		panel_3.add(btnAnalyserDesDonnesAdherents, BorderLayout.NORTH);

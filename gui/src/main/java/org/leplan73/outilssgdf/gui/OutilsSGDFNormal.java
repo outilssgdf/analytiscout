@@ -13,7 +13,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.border.EmptyBorder;
 
 import org.leplan73.outilssgdf.Consts;
-import org.leplan73.outilssgdf.gui.dialogues.AnalyseAdherents;
+import org.leplan73.outilssgdf.gui.dialogues.AnalyseJeunes;
 import org.leplan73.outilssgdf.gui.dialogues.Camps;
 import org.leplan73.outilssgdf.gui.dialogues.ExportAdherents;
 import org.leplan73.outilssgdf.gui.dialogues.RegistrePresence;
@@ -65,7 +65,7 @@ public class OutilsSGDFNormal extends OutilsSGDF {
 		tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 		contentPane.add(tabbedPane, BorderLayout.CENTER);
 		
-		AnalyseAdherents a = new AnalyseAdherents();
+		AnalyseJeunes a = new AnalyseJeunes();
 		tabbedPane.addTab("Formations, qualifications et diplômes",a);
 		
 		RegistrePresence c = new RegistrePresence();

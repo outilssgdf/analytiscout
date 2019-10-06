@@ -15,14 +15,14 @@ import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
-@Command(name = "analyseuradherents", mixinStandardHelpOptions = true, versionProvider = CommonParamsG.class)
-public class AnalyseurAdherents extends CommonParamsG {
+@Command(name = "analyseurjeunes", mixinStandardHelpOptions = true, versionProvider = CommonParamsG.class)
+public class AnalyseurJeunes extends CommonParamsG {
 
 	@Option(names = "-batch", description = "Fichier de batch contenant les extractions à effectuer (Valeur par défaut: ${DEFAULT-VALUE})")
-	private File batch = new File("conf/batch_adherents.txt");
+	private File batch = new File("conf/batch_jeunes.txt");
 
 	@Option(names = "-modele", description = "Fichier de modèle facilitant la présentation de l'analyse (Valeur par défaut: ${DEFAULT-VALUE})")
-	private File modele = new File("conf/modele_adherents.xlsx");
+	private File modele = new File("conf/modele_jeunes.xlsx");
 
 	@Option(names = "-entree", required=true, description = "entree")
 	private File entree;
@@ -40,7 +40,7 @@ public class AnalyseurAdherents extends CommonParamsG {
 			check();
 			CmdProgress progress = new CmdProgress();
 			EngineAnalyseur en = new EngineAnalyseur(progress, Logging.logger_);
-			en.go(entree, batch, sortie, modele, structures, age, "tout_adherents" ,"adherents_");
+			en.go(entree, batch, sortie, modele, structures, age, "tout_jeunes" ,"adherents_");
 		} catch (EngineException e) {
 			Logging.logError(e);
 		}

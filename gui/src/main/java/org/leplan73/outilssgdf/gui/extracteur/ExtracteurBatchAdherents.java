@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 
 public class ExtracteurBatchAdherents extends ExtracteurBatch {
 
-	private static File fBatch = new File("./conf/batch_adherents.txt");
+	private static File fBatch = new File("./conf/batch_jeunes.txt");
 	private static Logger logger_ = LoggerFactory.getLogger(ExtracteurBatchAdherents.class);
 
 	public ExtracteurBatchAdherents() {

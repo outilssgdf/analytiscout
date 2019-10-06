@@ -5,6 +5,6 @@ diplome.1=
 qualif.1=
 formation.1=
 nom.1=tout
-fichier.1=tout_adherents
+fichier.1=tout_jeunes
 adherents.1=true
 batchtype.1=tout

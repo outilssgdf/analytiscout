@@ -11,4 +11,4 @@ outilssgdf.exe extracteurbatch -params C:\dev\outilssgdf\extraction-convertisseu
 outilssgdf.exe analyseur -modele conf\modele_responsables.xlsx -entree C:\dev\outilssgdf_data -batch conf\batch_responsables.txt -structures 117544000 -sortie C:\dev\outilssgdf_data\117544000.xlsx
 outilssgdf.exe analyseur -modele conf\modele_responsables.xlsx -entree C:\dev\outilssgdf_data -batch conf\batch_responsables.txt -structures 117540000 -sortie C:\dev\outilssgdf_data\117540000.xlsx
 
-outilssgdf.exe analyseuradherents -modele conf\modele_adherents.xlsx -entree C:\dev\outilssgdf_data -batch conf\batch_responsables.txt -structures 117540000 -sortie C:\dev\outilssgdf_data\117540000_adherents.xlsx
+outilssgdf.exe analyseuradherents -modele conf\modele_jeunes.xlsx -entree C:\dev\outilssgdf_data -batch conf\batch_responsables.txt -structures 117540000 -sortie C:\dev\outilssgdf_data\117540000_jeunes.xlsx

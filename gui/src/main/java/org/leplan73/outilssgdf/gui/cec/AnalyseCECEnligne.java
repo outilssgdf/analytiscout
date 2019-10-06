@@ -40,9 +40,9 @@ import org.slf4j.LoggerFactory;
 public class AnalyseCECEnligne extends Dialogue implements LoggedDialog, GuiCommand {
 
 	private final JPanel contentPanel = new JPanel();
-	protected File fModele = new File("./conf/modele_cec.xlsx");
+	protected File fModele = new File("conf/modele_cec.xlsx");
 	private JFileChooser fcSortie = new JFileChooser();
-	protected File fSortie = new File("./données");
+	protected File fSortie = new File("données");
 	private JLabel lblSortie;
 	private JButton btnGo;
 	private JTextField txfAnnee;

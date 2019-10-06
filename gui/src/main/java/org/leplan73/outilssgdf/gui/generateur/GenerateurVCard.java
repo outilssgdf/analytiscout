@@ -49,9 +49,9 @@ public class GenerateurVCard extends Dialogue implements LoggedDialog, GuiComman
 	private JTextField txfCodeStructure;
 	private JCheckBox chkMemoriser;
 	private JFileChooser fcModele;
-	private File fModele = new File("./conf/"+Consts.FICHIER_CONF_EXPORT);
+	private File fModele = new File("conf/"+Consts.FICHIER_CONF_EXPORT);
 	private JFileChooser fcSortie;
-	private File fSortie = new File("./données/export.vcf");
+	private File fSortie = new File("données/export.vcf");
 	private JLabel lblSortie;
 	private JLabel lblModele;
 

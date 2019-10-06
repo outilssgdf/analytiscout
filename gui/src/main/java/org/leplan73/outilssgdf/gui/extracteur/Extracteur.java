@@ -47,6 +47,7 @@ import org.jdom2.xpath.XPathExpression;
 import org.jdom2.xpath.XPathFactory;
 import org.leplan73.outilssgdf.Consts;
 import org.leplan73.outilssgdf.gui.utils.Appender;
+import org.leplan73.outilssgdf.gui.utils.BoutonOuvrir;
 import org.leplan73.outilssgdf.gui.utils.Dialogue;
 import org.leplan73.outilssgdf.gui.utils.ExportFileFilter;
 import org.leplan73.outilssgdf.gui.utils.GuiCommand;
@@ -66,7 +67,7 @@ public class Extracteur extends Dialogue implements LoggedDialog, GuiCommand {
 	private JTextField txfCodefonction;
 
 	private JFileChooser fcSortie;
-	private File fSortie = new File("./données/export.xls");
+	private File fSortie = new File("données/export.xls");
 	private JLabel lblSortie;
 	private JCheckBox chkFormatIndividu;
 	private JCheckBox chkFormatParents;
@@ -417,28 +418,47 @@ public class Extracteur extends Dialogue implements LoggedDialog, GuiCommand {
 							lblSortie = new JLabel(fSortie.getAbsolutePath());
 							panel.add(lblSortie, BorderLayout.CENTER);
 						}
-						JButton button = new JButton("Fichier...");
-						panel.add(button, BorderLayout.EAST);
-						button.addActionListener(new ActionListener() {
-							public void actionPerformed(ActionEvent arg0) {
-								fcSortie = new JFileChooser();
-								fcSortie.setDialogTitle("Export Configuration");
-								fcSortie.setApproveButtonText("Export");
-								fcSortie.setCurrentDirectory(new File("./données"));
-								fcSortie.setSelectedFile(fSortie);
-								fcSortie.setFileSelectionMode(JFileChooser.FILES_ONLY);
-								fcSortie.removeChoosableFileFilter(fcSortie.getFileFilter());
-								fcSortie.removeChoosableFileFilter(fcSortie.getAcceptAllFileFilter());
-								fcSortie.addChoosableFileFilter(new ExportFileFilter("xls"));
-								fcSortie.addChoosableFileFilter(new ExportFileFilter("csv"));
-								fcSortie.addChoosableFileFilter(new ExportFileFilter("xml"));
-								int result = fcSortie.showDialog(panel, "OK");
-								if (result == JFileChooser.APPROVE_OPTION) {
-									fSortie = fcSortie.getSelectedFile();
-									lblSortie.setText(fSortie.getPath());
-								}
+						{
+							panel_4 = new JPanel();
+							panel.add(panel_4, BorderLayout.EAST);
+							JButton btnFichier = new JButton("Fichier...");
+							panel_4.add(btnFichier);
+							{
+								btnOuvrir = new BoutonOuvrir("Ouvrir...", lblSortie);
+								btnOuvrir.addActionListener(new ActionListener() {
+									public void actionPerformed(ActionEvent e) {
+										
+										try {
+											btnOuvrir.ouvrir();
+										} catch (Exception ex) {
+											logger_.error(Logging.dumpStack(null, ex));
+										}
+									}
+								});
+								panel_4.add(btnOuvrir);
 							}
-						});
+							btnFichier.addActionListener(new ActionListener() {
+								public void actionPerformed(ActionEvent arg0) {
+									fcSortie = new JFileChooser();
+									fcSortie.setDialogTitle("Export Configuration");
+									fcSortie.setApproveButtonText("Export");
+									fcSortie.setCurrentDirectory(new File("./données"));
+									fcSortie.setSelectedFile(fSortie);
+									fcSortie.setFileSelectionMode(JFileChooser.FILES_ONLY);
+									fcSortie.removeChoosableFileFilter(fcSortie.getFileFilter());
+									fcSortie.removeChoosableFileFilter(fcSortie.getAcceptAllFileFilter());
+									fcSortie.addChoosableFileFilter(new ExportFileFilter("xls"));
+									fcSortie.addChoosableFileFilter(new ExportFileFilter("csv"));
+									fcSortie.addChoosableFileFilter(new ExportFileFilter("xml"));
+									int result = fcSortie.showDialog(panel, "OK");
+									if (result == JFileChooser.APPROVE_OPTION) {
+										fSortie = fcSortie.getSelectedFile();
+										lblSortie.setText(fSortie.getPath());
+										btnOuvrir.maj();
+									}
+								}
+							});
+						}
 					}
 				}
 			}
@@ -541,6 +561,9 @@ public class Extracteur extends Dialogue implements LoggedDialog, GuiCommand {
 	private JPanel panel_5;
 	private JPanel panel_6;
 	private JButton btnAide;
+	private JPanel panel_4;
+	private JButton btnNewButton;
+	private BoutonOuvrir btnOuvrir;
 
 	private void login(ExtractionIntranet connection) throws ClientProtocolException, IOException {
 		connection_ = connection;
@@ -791,5 +814,8 @@ public class Extracteur extends Dialogue implements LoggedDialog, GuiCommand {
 
 	public JButton getBtnGo() {
 		return btnGo;
+	}
+	public BoutonOuvrir getBtnOuvrir() {
+		return btnOuvrir;
 	}
 }

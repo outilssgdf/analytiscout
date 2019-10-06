@@ -49,7 +49,7 @@ public class Generateur extends Dialogue implements LoggedDialog, GuiCommand {
 	private JTextField txfCodeStructure;
 	private JCheckBox chkMemoriser;
 	private JFileChooser fcSortie;
-	private File fSortie = new File("./données/archive.zip");
+	private File fSortie = new File("données/archive.zip");
 	private JLabel lblSortie;
 
 	/**

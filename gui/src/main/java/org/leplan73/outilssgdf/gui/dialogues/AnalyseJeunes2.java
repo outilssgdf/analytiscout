@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 import org.leplan73.outilssgdf.gui.Template;
 import org.leplan73.outilssgdf.gui.analyseur.AnalyseurJeunes;
 import org.leplan73.outilssgdf.gui.analyseur.AnalyseurResponsables;
-import org.leplan73.outilssgdf.gui.extracteur.ExtracteurBatchAdherents;
+import org.leplan73.outilssgdf.gui.extracteur.ExtracteurBatchJeunes;
 import org.leplan73.outilssgdf.gui.extracteur.ExtracteurBatchResponsables;
 import org.leplan73.outilssgdf.gui.utils.ElementFactory;
 
@@ -120,7 +120,7 @@ public class AnalyseJeunes2 extends Template {
 		JButton btnNewButton = new JButton("Exporter des données en batch");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new ExtracteurBatchAdherents().setVisible(true);
+				new ExtracteurBatchJeunes().setVisible(true);
 			}
 		});
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();

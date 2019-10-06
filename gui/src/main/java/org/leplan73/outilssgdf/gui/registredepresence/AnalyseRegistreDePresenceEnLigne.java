@@ -30,6 +30,7 @@ import org.leplan73.outilssgdf.Progress;
 import org.leplan73.outilssgdf.engine.EngineAnalyseurRegistreDePresenceEnLigne;
 import org.leplan73.outilssgdf.gui.GuiProgress;
 import org.leplan73.outilssgdf.gui.utils.Appender;
+import org.leplan73.outilssgdf.gui.utils.BoutonOuvrir;
 import org.leplan73.outilssgdf.gui.utils.Dialogue;
 import org.leplan73.outilssgdf.gui.utils.ExportFileFilter;
 import org.leplan73.outilssgdf.gui.utils.GuiCommand;
@@ -48,9 +49,10 @@ public class AnalyseRegistreDePresenceEnLigne extends Dialogue implements GuiCom
 	private JTextField txfCodeStructure;
 	private JLabel lblSortie;
 	private JFileChooser fcSortie;
-	private File fSortie = new File("./données/analyse_registrepresence.xlsx");
+	private File fSortie = new File("données/analyse_registrepresence.xlsx");
 	private File fModele = new File("conf/modele_registrepresence.xlsx");
 	private JCheckBox chkRecursif;
+	private BoutonOuvrir btnOuvrir;
 
 	/**
 	 * Create the dialog.
@@ -225,26 +227,45 @@ public class AnalyseRegistreDePresenceEnLigne extends Dialogue implements GuiCom
 				panel.add(lblSortie, BorderLayout.WEST);
 			}
 			{
-				JButton button = new JButton("Fichier...");
-				button.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						fcSortie = new JFileChooser();
-						fcSortie.setDialogTitle("Export Configuration");
-						fcSortie.setApproveButtonText("Export");
-						fcSortie.setCurrentDirectory(new File("./données"));
-						fcSortie.setSelectedFile(fSortie);
-						fcSortie.setFileSelectionMode(JFileChooser.FILES_ONLY);
-						fcSortie.removeChoosableFileFilter(fcSortie.getFileFilter());
-						fcSortie.removeChoosableFileFilter(fcSortie.getAcceptAllFileFilter());
-						fcSortie.addChoosableFileFilter(new ExportFileFilter("csv"));
-						int result = fcSortie.showDialog(panel, "OK");
-						if (result == JFileChooser.APPROVE_OPTION) {
-							fSortie = fcSortie.getSelectedFile();
-							lblSortie.setText(fSortie.getPath());
-						}
+				JPanel panel_1 = new JPanel();
+				panel.add(panel_1, BorderLayout.EAST);
+				{
+					JButton btnFichier = new JButton("Fichier...");
+					panel_1.add(btnFichier);
+					{
+						btnOuvrir = new BoutonOuvrir("Ouvrir...", lblSortie);
+						btnOuvrir.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								
+								try {
+									btnOuvrir.ouvrir();
+								} catch (Exception ex) {
+									logger_.error(Logging.dumpStack(null, ex));
+								}
+							}
+						});
+						panel_1.add(btnOuvrir);
 					}
-				});
-				panel.add(button, BorderLayout.EAST);
+					btnFichier.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							fcSortie = new JFileChooser();
+							fcSortie.setDialogTitle("Export Configuration");
+							fcSortie.setApproveButtonText("Export");
+							fcSortie.setCurrentDirectory(new File("./données"));
+							fcSortie.setSelectedFile(fSortie);
+							fcSortie.setFileSelectionMode(JFileChooser.FILES_ONLY);
+							fcSortie.removeChoosableFileFilter(fcSortie.getFileFilter());
+							fcSortie.removeChoosableFileFilter(fcSortie.getAcceptAllFileFilter());
+							fcSortie.addChoosableFileFilter(new ExportFileFilter("csv"));
+							int result = fcSortie.showDialog(panel, "OK");
+							if (result == JFileChooser.APPROVE_OPTION) {
+								fSortie = fcSortie.getSelectedFile();
+								lblSortie.setText(fSortie.getPath());
+								btnOuvrir.maj();
+							}
+						}
+					});
+				}
 			}
 		}
 		{
@@ -347,5 +368,8 @@ public class AnalyseRegistreDePresenceEnLigne extends Dialogue implements GuiCom
 	}
 	protected JCheckBox getCheckBox() {
 		return chkRecursif;
+	}
+	public BoutonOuvrir getBtnOuvrir() {
+		return btnOuvrir;
 	}
 }

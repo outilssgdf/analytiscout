@@ -46,9 +46,9 @@ abstract public class ExtracteurBatch extends Dialogue implements LoggedDialog, 
 	private JTextField txfIdentifiant;
 	private JPasswordField txfMotdepasse;
 	private JFileChooser fcSortie;
-	private File fSortie = new File("./données");
+	private File fSortie = new File("données");
 	private JFileChooser fcBatch;
-	protected File fBatch = new File("./conf/batch.txt");
+	protected File fBatch = new File("conf/batch.txt");
 
 	public ExtracteurBatch(String titre, Logger logger, File pfBatch) {
 		super();

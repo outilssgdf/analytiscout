@@ -26,6 +26,7 @@ import org.leplan73.outilssgdf.Progress;
 import org.leplan73.outilssgdf.engine.EngineAnalyseur;
 import org.leplan73.outilssgdf.gui.GuiProgress;
 import org.leplan73.outilssgdf.gui.utils.Appender;
+import org.leplan73.outilssgdf.gui.utils.BoutonOuvrir;
 import org.leplan73.outilssgdf.gui.utils.Dialogue;
 import org.leplan73.outilssgdf.gui.utils.ExportFileFilter;
 import org.leplan73.outilssgdf.gui.utils.GuiCommand;
@@ -33,20 +34,24 @@ import org.leplan73.outilssgdf.gui.utils.LoggedDialog;
 import org.leplan73.outilssgdf.gui.utils.Logging;
 import org.leplan73.outilssgdf.gui.utils.Preferences;
 import org.slf4j.Logger;
+import javax.swing.border.BevelBorder;
+import java.awt.FlowLayout;
 
 abstract public class Analyseur extends Dialogue implements LoggedDialog, GuiCommand {
 
 	private final JPanel contentPanel = new JPanel();
-	protected File fBatch = new File("./conf/batch_responsables.txt");
+	protected File fBatch = new File("conf/batch_responsables.txt");
 	private JFileChooser fcEntree = new JFileChooser();
-	private File fEntree = new File("./données");
+	private File fEntree = new File("données");
 	protected File fModele = new File("conf/modele_responsables.xlsx");
 	private JFileChooser fcSortie = new JFileChooser();
-	protected File fSortie = new File("./données/analyse.xlsx");
+	protected File fSortie = new File("données/analyse.xlsx");
 	private JCheckBox chcAge;
 	private JLabel lblSortie;
 	private JLabel lblEntree;
 	private JButton btnGo;
+	private JButton btnFichier;
+	private BoutonOuvrir btnOuvrir;
 
 	/**
 	 * Create the dialog.
@@ -141,24 +146,44 @@ abstract public class Analyseur extends Dialogue implements LoggedDialog, GuiCom
 				panel.add(lblSortie, BorderLayout.WEST);
 			}
 			{
-				JButton button = new JButton("Fichier...");
-				button.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						fcSortie.setDialogTitle("Export Configuration");
-						fcSortie.setApproveButtonText("Export");
-						fcSortie.setCurrentDirectory(new File("."));
-						fcSortie.setFileSelectionMode(JFileChooser.FILES_ONLY);
-						fcSortie.removeChoosableFileFilter(fcSortie.getFileFilter());
-						fcSortie.removeChoosableFileFilter(fcSortie.getAcceptAllFileFilter());
-						fcSortie.addChoosableFileFilter(new ExportFileFilter("xlsx"));
-						int result = fcSortie.showDialog(panel, "OK");
-						if (result == JFileChooser.APPROVE_OPTION) {
-							fSortie = fcSortie.getSelectedFile();
-							lblSortie.setText(fSortie.getPath());
-						}
+				JPanel panel_1 = new JPanel();
+				panel.add(panel_1, BorderLayout.EAST);
+				panel_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+				{
+					btnFichier = new JButton("Fichier...");
+					panel_1.add(btnFichier);
+					{
+						btnOuvrir = new BoutonOuvrir("Ouvrir...", lblSortie);
+						btnOuvrir.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								
+								try {
+									btnOuvrir.ouvrir();
+								} catch (Exception ex) {
+									logger_.error(Logging.dumpStack(null, ex));
+								}
+							}
+						});
+						panel_1.add(btnOuvrir);
 					}
-				});
-				panel.add(button, BorderLayout.EAST);
+					btnFichier.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							fcSortie.setDialogTitle("Export Configuration");
+							fcSortie.setApproveButtonText("Export");
+							fcSortie.setCurrentDirectory(new File("."));
+							fcSortie.setFileSelectionMode(JFileChooser.FILES_ONLY);
+							fcSortie.removeChoosableFileFilter(fcSortie.getFileFilter());
+							fcSortie.removeChoosableFileFilter(fcSortie.getAcceptAllFileFilter());
+							fcSortie.addChoosableFileFilter(new ExportFileFilter("xlsx"));
+							int result = fcSortie.showDialog(panel, "OK");
+							if (result == JFileChooser.APPROVE_OPTION) {
+								fSortie = fcSortie.getSelectedFile();
+								lblSortie.setText(fSortie.getPath());
+								btnOuvrir.maj();
+							}
+						}
+					});
+				}
 			}
 		}
 		{
@@ -290,5 +315,11 @@ abstract public class Analyseur extends Dialogue implements LoggedDialog, GuiCom
 
 	public JButton getBtnGo() {
 		return btnGo;
+	}
+	protected JButton getBtnFichier() {
+		return btnFichier;
+	}
+	public BoutonOuvrir getBtnOuvrir() {
+		return btnOuvrir;
 	}
 }

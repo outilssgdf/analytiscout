@@ -25,6 +25,7 @@ import org.leplan73.outilssgdf.Progress;
 import org.leplan73.outilssgdf.engine.EngineAnalyseurRegistreDePresence;
 import org.leplan73.outilssgdf.gui.GuiProgress;
 import org.leplan73.outilssgdf.gui.utils.Appender;
+import org.leplan73.outilssgdf.gui.utils.BoutonOuvrir;
 import org.leplan73.outilssgdf.gui.utils.Dialogue;
 import org.leplan73.outilssgdf.gui.utils.ExportFileFilter;
 import org.leplan73.outilssgdf.gui.utils.GuiCommand;
@@ -37,13 +38,14 @@ public class AnalyseRegistreDePresence extends Dialogue implements LoggedDialog,
 
 	private final JPanel contentPanel = new JPanel();
 	private JFileChooser fcEntree = new JFileChooser();
-	private File fEntree = new File("./données/registrepresence.csv");
+	private File fEntree = new File("données/registrepresence.csv");
 	protected File fModele = new File("conf/modele_registrepresence.xlsx");
 	private JFileChooser fcSortie = new JFileChooser();
-	protected File fSortie = new File("./données/analyse_registrepresence.xlsx");
+	protected File fSortie = new File("données/analyse_registrepresence.xlsx");
 	private JLabel lblSortie;
 	private JLabel lblEntree;
 	private JButton btnGo;
+	private BoutonOuvrir btnOuvrir;
 
 	/**
 	 * Create the dialog.
@@ -121,25 +123,44 @@ public class AnalyseRegistreDePresence extends Dialogue implements LoggedDialog,
 				panel.add(lblSortie, BorderLayout.WEST);
 			}
 			{
-				JButton button = new JButton("Fichier...");
-				button.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						fcSortie.setDialogTitle("Export Configuration");
-						fcSortie.setApproveButtonText("Export");
-						fcSortie.setCurrentDirectory(new File("./données"));
-						fcSortie.setFileSelectionMode(JFileChooser.FILES_ONLY);
-						fcSortie.setSelectedFile(fSortie);
-						fcSortie.removeChoosableFileFilter(fcSortie.getFileFilter());
-						fcSortie.removeChoosableFileFilter(fcSortie.getAcceptAllFileFilter());
-						fcSortie.addChoosableFileFilter(new ExportFileFilter("xlsx"));
-						int result = fcSortie.showDialog(panel, "OK");
-						if (result == JFileChooser.APPROVE_OPTION) {
-							fSortie = fcSortie.getSelectedFile();
-							lblSortie.setText(fSortie.getPath());
-						}
+				JPanel panel_1 = new JPanel();
+				panel.add(panel_1, BorderLayout.EAST);
+				{
+					JButton btnFichier = new JButton("Fichier...");
+					panel_1.add(btnFichier);
+					{
+						btnOuvrir = new BoutonOuvrir("Ouvrir...", lblSortie);
+						btnOuvrir.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								
+								try {
+									btnOuvrir.ouvrir();
+								} catch (Exception ex) {
+									logger_.error(Logging.dumpStack(null, ex));
+								}
+							}
+						});
+						panel_1.add(btnOuvrir);
 					}
-				});
-				panel.add(button, BorderLayout.EAST);
+					btnFichier.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							fcSortie.setDialogTitle("Export Configuration");
+							fcSortie.setApproveButtonText("Export");
+							fcSortie.setCurrentDirectory(new File("./données"));
+							fcSortie.setFileSelectionMode(JFileChooser.FILES_ONLY);
+							fcSortie.setSelectedFile(fSortie);
+							fcSortie.removeChoosableFileFilter(fcSortie.getFileFilter());
+							fcSortie.removeChoosableFileFilter(fcSortie.getAcceptAllFileFilter());
+							fcSortie.addChoosableFileFilter(new ExportFileFilter("xlsx"));
+							int result = fcSortie.showDialog(panel, "OK");
+							if (result == JFileChooser.APPROVE_OPTION) {
+								fSortie = fcSortie.getSelectedFile();
+								lblSortie.setText(fSortie.getPath());
+								btnOuvrir.maj();
+							}
+						}
+					});
+				}
 			}
 		}
 		{
@@ -265,5 +286,8 @@ public class AnalyseRegistreDePresence extends Dialogue implements LoggedDialog,
 
 	public JButton getBtnGo() {
 		return btnGo;
+	}
+	public BoutonOuvrir getBtnOuvrir() {
+		return btnOuvrir;
 	}
 }

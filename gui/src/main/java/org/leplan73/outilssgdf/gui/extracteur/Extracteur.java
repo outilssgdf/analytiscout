@@ -705,6 +705,7 @@ public class Extracteur extends Dialogue implements LoggedDialog, GuiCommand {
 						out.flush();
 						out.close();
 					}
+					btnOuvrir.maj();
 				} catch (IOException | JDOMException e) {
 					logger_.error(Logging.dumpStack(null, e));
 				}

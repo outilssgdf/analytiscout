@@ -43,7 +43,7 @@ Version 1.0.1/1.0.2 :
 	- Filtrage du unité "non-jeune" dans les quotas de camp
 	- Changements esthétiques : icône, image, LAF
 Version 1.0.3 : Correction lors d'une utilisation pendant la période des camps
-Version 1.1.0 (en cours) :
+Version 1.1.0 :
 	- Organisation du code
 	- Préparation de l'intégration des camps (en cours)
 	- Extraction et analyse du registre de présence
@@ -53,3 +53,4 @@ Version 1.1.0 (en cours) :
 	- Générateur de fichier vcard pour import dans un outil de messagerie
 	- Ajout de l'aide sur chaque feuille
 	- Ajout d'alertes relatives à des problèmes de qualifications, d'âge ou de déclaration J&S
+Version 1.2.0 :

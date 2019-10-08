@@ -326,6 +326,7 @@ public class AnalyseRegistreDePresenceEnLigne extends Dialogue implements GuiCom
 					
 					int structures[] = construitStructures(txfCodeStructure);
 					en.go(txfIdentifiant.getText(), new String(txfMotdepasse.getPassword()), fSortie, fModele, Integer.parseInt(txfAnnee.getText()), structures, chkRecursif.isSelected(), false);
+					btnOuvrir.maj();
 				} catch (Exception e) {
 					logger_.error(Logging.dumpStack(null, e));
 				}

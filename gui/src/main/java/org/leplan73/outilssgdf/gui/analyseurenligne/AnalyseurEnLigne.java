@@ -330,6 +330,7 @@ abstract public class AnalyseurEnLigne extends Dialogue implements LoggedDialog,
 					int structures[] = construitStructures(txfCodeStructure);
 					EngineAnalyseurEnLigne en = new EngineAnalyseurEnLigne(progress, logger_);
 					en.go(txfIdentifiant.getText(), new String(txfMotdepasse.getPassword()), fBatch, fSortie, fModele, structures, chkAge.isSelected(), "tout_responsables", true, null);
+					btnOuvrir.maj();
 				} catch (Exception e) {
 					logger_.error(Logging.dumpStack(null, e));
 				}

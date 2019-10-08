@@ -261,6 +261,7 @@ public class AnalyseRegistreDePresence extends Dialogue implements LoggedDialog,
 				logger_.info("Lancement");
 				try {
 					en.go(fEntree, fModele, fSortie, null, false);
+					btnOuvrir.maj();
 				} catch (Exception e) {
 					logger_.error(Logging.dumpStack(null, e));
 				}

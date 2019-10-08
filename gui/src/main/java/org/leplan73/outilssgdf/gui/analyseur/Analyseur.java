@@ -286,6 +286,7 @@ abstract public class Analyseur extends Dialogue implements LoggedDialog, GuiCom
 				logger_.info("Lancement");
 				try {
 					en.go(fEntree, fBatch, fSortie, fModele, null, getChcAge().isSelected(), "tout_responsables", null);
+					btnOuvrir.maj();
 				} catch (Exception e) {
 					logger_.error(Logging.dumpStack(null, e));
 				}

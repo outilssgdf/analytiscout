@@ -324,6 +324,7 @@ public class ExtractionRegistreDePresence extends Dialogue implements GuiCommand
 					EngineExtractionRegistreDePresence en = new EngineExtractionRegistreDePresence(progress, logger_);
 					int structures[] = construitStructures(txfCodeStructure);
 					en.go(txfIdentifiant.getText(), new String(txfMotdepasse.getPassword()), fSortie, structures, chkRecursif.isSelected(), Integer.parseInt(txfAnnee.getText()));
+					btnOuvrir.maj();
 				} catch (Exception e) {
 					logger_.error(Logging.dumpStack(null, e));
 				}

@@ -84,9 +84,9 @@ public class EngineAnalyseur extends Engine {
 		progress_.setProgress(80);
 		
 		Alertes alertesJeunes = new Alertes();
-		adherents.construitsAlertes(alertesJeunes, true);
+		adherents.construitsAlertes(alertesJeunes, true, age);
 		Alertes alertesResponsables = new Alertes();
-		adherents.construitsAlertes(alertesResponsables, false);
+		adherents.construitsAlertes(alertesResponsables, false, age);
 
 		logger_.info("Génération du fichier \"" + fichier_sortie.getName() + "\" à partir du modèle \"" + modele.getName() + "\"");
 		Map<String, Object> beans = new HashMap<String, Object>();

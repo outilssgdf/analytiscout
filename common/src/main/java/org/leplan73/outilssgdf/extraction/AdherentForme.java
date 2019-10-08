@@ -39,7 +39,7 @@ public class AdherentForme extends Adherent {
 	}
 
 	@Override
-	public void construitsAlertes(Alertes alertes, boolean jeunes) {
+	public void construitsAlertes(Alertes alertes, boolean jeunes, boolean age) {
 		if (jeunes == true)
 		{
 			return;
@@ -85,12 +85,12 @@ public class AdherentForme extends Adherent {
 			alertes.ajouter(this, Alerte.Severite.MOYENNE, Alerte.ALERTE_TYPE_QUALIFICATION, "RG avec formation mais non qualifié dirSF");
 		}
 		
-		if (this.getAge18ok() == false && this.getCompa() == false)
+		if (age && this.getAge18ok() == false && this.getCompa() == false)
 		{
 			alertes.ajouter(this, Alerte.Severite.HAUTE, Alerte.ALERTE_TYPE_AGE, "Pas 18 ans au 1er juillet prochain");
 		}
 		
-		if (this.getAgeokcampb() == false && this.getCompa() == false && qdirfs != null && qdirfs.getOk())
+		if (age && this.getAgeokcampb() == false && this.getCompa() == false && qdirfs != null && qdirfs.getOk())
 		{
 			if (this.getFonction() < Consts.CODE_CHEFS_PIOK)
 			{

@@ -391,42 +391,50 @@ public class Adherent {
 	
 	public boolean getAgeokb()
 	{
-		switch (this.getFonction())
+		if (ageCamp_ > 0)
 		{
-			case Consts.CODE_FARFADETS:
-				if (ageFinDec_ < 6) return false;
-			break;
-			case Consts.CODE_LJ:
-				if (ageFinDec_ < 8) return false;
-			break;
-			case Consts.CODE_SG:
-				if (ageFinDec_ < 11) return false;
-			break;
-			case Consts.CODE_PIOK:
-				if (ageFinDec_ < 14) return false;
-			break;
+			switch (this.getFonction())
+			{
+				case Consts.CODE_FARFADETS:
+					if (ageFinDec_ < 6) return false;
+				break;
+				case Consts.CODE_LJ:
+					if (ageFinDec_ < 8) return false;
+				break;
+				case Consts.CODE_SG:
+					if (ageFinDec_ < 11) return false;
+				break;
+				case Consts.CODE_PIOK:
+					if (ageFinDec_ < 14) return false;
+				break;
+			}
 		}
 		return true;
 	}
 	
 	public String getAgeok()
 	{
-		switch (this.getFonction())
+		if (ageCamp_ > 0)
 		{
-			case Consts.CODE_FARFADETS:
-				if (ageFinDec_ < 6) return "Non";
-			break;
-			case Consts.CODE_LJ:
-				if (ageFinDec_ < 8) return "Non";
-			break;
-			case Consts.CODE_SG:
-				if (ageFinDec_ < 11) return "Non";
-			break;
-			case Consts.CODE_PIOK:
-				if (ageFinDec_ < 14) return "Non";
-			break;
+			switch (this.getFonction())
+			{
+				case Consts.CODE_FARFADETS:
+					if (ageFinDec_ < 6) return "Non";
+				break;
+				case Consts.CODE_LJ:
+					if (ageFinDec_ < 8) return "Non";
+				break;
+				case Consts.CODE_SG:
+					if (ageFinDec_ < 11) return "Non";
+				break;
+				case Consts.CODE_PIOK:
+					if (ageFinDec_ < 14) return "Non";
+				break;
+			}
+			return "Oui";
 		}
-		return "Oui";
+		else
+			return "";
 	}
 	
 	public boolean getAgeokcampb()
@@ -448,10 +456,8 @@ public class Adherent {
 					if (ageCamp_ < 14) return false;
 				break;
 			}
-			return true;
 		}
-		else
-			return true;
+		return true;
 	}
 	
 	public String getAgeokcamp()
@@ -622,7 +628,7 @@ public class Adherent {
 		return dd;
 	}
 
-	public void construitsAlertes(Alertes alertes, boolean jeunes) {
+	public void construitsAlertes(Alertes alertes, boolean jeunes, boolean age) {
 		if (jeunes == false)
 		{
 			return;
@@ -632,23 +638,23 @@ public class Adherent {
 		switch (this.getFonction())
 		{
 			case Consts.CODE_FARFADETS:
-				if (this.getAge() < 6)
+				if (age && this.getAge() < 6)
 					alertes.ajouter(this, Alerte.Severite.HAUTE, Alerte.ALERTE_TYPE_AGE, "Farfadet n'ayant pas encore 6 ans à ce jour, pas d'activité avant le "+simpleDateFormat.format(dateAge(6)));
 			break;
 			case Consts.CODE_LJ:
-				if (this.getAgeokb() == false)
+				if (age && this.getAgeokb() == false)
 					alertes.ajouter(this, Alerte.Severite.MOYENNE, Alerte.ALERTE_TYPE_AGE, "Pas 8 ans au 31 décembre prochain, il/elle les aura le "+simpleDateFormat.format(dateAge(8)));
 			break;
 			case Consts.CODE_SG:
-				if (this.getAgeokcampb() == false)
+				if (age && this.getAgeokcampb() == false)
 					alertes.ajouter(this, Alerte.Severite.HAUTE, Alerte.ALERTE_TYPE_AGE, "Pas 11 ans au 1er juillet prochain, il/elle les aura le "+simpleDateFormat.format(dateAge(11)));
-				else if (this.getAgeokb() == false)
+				else if (age && this.getAgeokb() == false)
 					alertes.ajouter(this, Alerte.Severite.MOYENNE, Alerte.ALERTE_TYPE_AGE, "Pas 11 ans au 31 décembre prochain, il/elle les aura le "+simpleDateFormat.format(dateAge(11)));
 			break;
 			case Consts.CODE_PIOK:
-				if (this.getAgeokcampb() == false)
+				if (age && this.getAgeokcampb() == false)
 					alertes.ajouter(this, Alerte.Severite.HAUTE, Alerte.ALERTE_TYPE_AGE, "Pas 14 ans au 1er juillet prochain, il/elle les aura le "+simpleDateFormat.format(dateAge(14)));
-				else if (this.getAgeokb() == false)
+				else if (age && this.getAgeokb() == false)
 					alertes.ajouter(this, Alerte.Severite.MOYENNE, Alerte.ALERTE_TYPE_AGE, "Pas 14 ans au 31 décembre prochain, il/elle les aura le "+simpleDateFormat.format(dateAge(14)));
 			break;
 		}

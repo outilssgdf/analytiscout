@@ -124,9 +124,9 @@ public class EngineAnalyseurEnLigne extends EngineConnecte {
 		progress_.setProgress(80);
 		
 		Alertes alertesJeunes = new Alertes();
-		adherents.construitsAlertes(alertesJeunes, true);
+		adherents.construitsAlertes(alertesJeunes, true, age);
 		Alertes alertesResponsables = new Alertes();
-		adherents.construitsAlertes(alertesResponsables, false);
+		adherents.construitsAlertes(alertesResponsables, false, age);
 
 		File fichier_sortie = sous_dossier ? new File(sortie, nom_fichier_sortie+structure+".xlsx") : sortie;
 		

@@ -71,8 +71,8 @@ public class OutilsSGDFNormal extends OutilsSGDF {
 		RegistrePresence c = new RegistrePresence();
 		tabbedPane.addTab("Registre de présence / CEC",c);
 		
-		Camps d = new Camps();
-		tabbedPane.addTab("Camps",d);
+//		Camps d = new Camps();
+//		tabbedPane.addTab("Camps",d);
 		
 		ExportAdherents b = new ExportAdherents();
 		tabbedPane.addTab("Exporter",b);

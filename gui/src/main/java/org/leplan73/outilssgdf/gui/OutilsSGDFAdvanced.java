@@ -70,8 +70,8 @@ public class OutilsSGDFAdvanced extends OutilsSGDF {
 		RegistrePresence2 c = new RegistrePresence2();
 		tabbedPane.addTab("Registre de présence / CEC",c);
 		
-		Camps d = new Camps();
-		tabbedPane.addTab("Camps",d);
+//		Camps d = new Camps();
+//		tabbedPane.addTab("Camps",d);
 		
 		ExportAdherents b = new ExportAdherents();
 		tabbedPane.addTab("Exporter",b);

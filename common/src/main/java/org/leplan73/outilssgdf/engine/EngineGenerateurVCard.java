@@ -48,7 +48,7 @@ public class EngineGenerateurVCard extends EngineConnecte {
 		
 		logger_.info("Conversion");
 		ExtracteurIndividusHtml x = new ExtracteurIndividusHtml();
-		x.charge(new ByteArrayInputStream(donnees.getBytes(Charset.forName("UTF-8"))),true);
+		x.charge(new ByteArrayInputStream(donnees.getBytes(Charset.forName("UTF-8"))),true,false);
 		
 		// Génération de l'archive
 		logger_.info("Génération de l'archive "+sortie.getName());

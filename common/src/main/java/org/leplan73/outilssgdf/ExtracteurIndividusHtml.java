@@ -6,9 +6,11 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
@@ -42,14 +44,14 @@ public class ExtracteurIndividusHtml {
 	public ExtracteurIndividusHtml() throws ExtractionException, IOException, JDOMException {
 	}
 	
-	public ExtracteurIndividusHtml(InputStream input, Map<ExtraKey, ExtracteurExtraHtml> extras, boolean age) throws ExtractionException, IOException, JDOMException {
+	public ExtracteurIndividusHtml(InputStream input, Map<ExtraKey, ExtracteurExtraHtml> extras, boolean age, boolean anonymiser) throws ExtractionException, IOException, JDOMException {
 		extras_ = extras;
-		charge(input, age);
+		charge(input, age, anonymiser);
 	}
 	
-	public ExtracteurIndividusHtml(File fichier, Map<ExtraKey, ExtracteurExtraHtml> extras, boolean age) throws ExtractionException, IOException, JDOMException {
+	public ExtracteurIndividusHtml(File fichier, Map<ExtraKey, ExtracteurExtraHtml> extras, boolean age, boolean anonymiser) throws ExtractionException, IOException, JDOMException {
 		extras_ = extras;
-		charge(fichier, age);
+		charge(fichier, age, anonymiser);
 	}
 
 	public Adherents getAdherents()
@@ -116,17 +118,17 @@ public class ExtracteurIndividusHtml {
 		return marins_;
 	}
 	
-	public void charge(final String donnnes, boolean age) throws ExtractionException, IOException, JDOMException
+	public void charge(final String donnnes, boolean age, boolean anonymiser) throws ExtractionException, IOException, JDOMException
 	{
    		ByteArrayInputStream excelFile = new ByteArrayInputStream(donnnes.getBytes());
-   		charge(excelFile, age);
+   		charge(excelFile, age, anonymiser);
 		excelFile.close();
 	}
 	
-	public void charge(final File fichier, boolean age) throws ExtractionException, IOException, JDOMException
+	public void charge(final File fichier, boolean age, boolean anonymiser) throws ExtractionException, IOException, JDOMException
 	{
    		FileInputStream excelFile = new FileInputStream(fichier);
-   		charge(excelFile, age);
+   		charge(excelFile, age, anonymiser);
 		excelFile.close();
 	}
 	
@@ -310,9 +312,28 @@ public class ExtracteurIndividusHtml {
 		complete();
 	}
 	
-	public void charge(final InputStream stream, boolean age) throws ExtractionException, IOException, JDOMException
+	public void charge(final InputStream stream, boolean age, boolean anonymiser) throws ExtractionException, IOException, JDOMException
 	{
 		chargeStream(stream, age);
+		if (anonymiser)
+		{
+			Anonymizer anon = new Anonymizer();
+			anon.init();
+
+			AtomicInteger ai = new AtomicInteger(1);
+			List<Adherent> adds = new ArrayList<Adherent>();
+			adherents_.forEach((id, adherent) ->
+			{
+				adds.add(adherent);
+				
+				int code = ai.incrementAndGet();
+				adherent.setCode(code);
+				adherent.setNom(anon.prochainNom());
+				adherent.setPrenom(anon.prochainPrenom());
+			});
+			adherents_.clear();
+			adds.forEach(adherent-> adherents_.put(adherent.getCode(), adherent));
+		}
 		complete();
 	}
 	

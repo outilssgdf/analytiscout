@@ -36,7 +36,7 @@ public class EngineAnalyseurEnLigne extends EngineConnecte {
 		super(progress, logger);
 	}
 
-	private boolean gopriv(ExtractionAdherents app, Properties pbatch, String identifiant, String motdepasse, File batch, File sortie, File modele, int structure, boolean age, String batch_type, boolean sous_dossier, String nom_fichier_sortie) throws ExtractionException, TransformeurException, ClientProtocolException, IOException, JDOMException
+	private boolean gopriv(ExtractionAdherents app, Properties pbatch, String identifiant, String motdepasse, File batch, File sortie, File modele, int structure, boolean age, String batch_type, boolean sous_dossier, String nom_fichier_sortie, boolean anonymiser) throws ExtractionException, TransformeurException, ClientProtocolException, IOException, JDOMException
 	{
 		Map<ExtraKey, ExtracteurExtraHtml> extraMap = new TreeMap<ExtraKey, ExtracteurExtraHtml>();
 		
@@ -105,7 +105,7 @@ public class EngineAnalyseurEnLigne extends EngineConnecte {
 		progress_.setProgress(50);
 		
 		InputStream in = new ByteArrayInputStream(donneesAdherents.getBytes(Consts.ENCODING_UTF8));
-		ExtracteurIndividusHtml adherents = new ExtracteurIndividusHtml(in, extraMap,age);
+		ExtracteurIndividusHtml adherents = new ExtracteurIndividusHtml(in, extraMap,age, anonymiser);
  
 		AdherentFormes adherentsFormes = new AdherentFormes();
 		adherentsFormes.charge(adherents,extraMap);
@@ -145,7 +145,7 @@ public class EngineAnalyseurEnLigne extends EngineConnecte {
 		return true;
 	}
 
-	public void go(String identifiant, String motdepasse, File batch, File sortie, File modele, int[] structures, boolean age, String batch_type, boolean recursif, String fichier_sortie) throws EngineException
+	public void go(String identifiant, String motdepasse, File batch, File sortie, File modele, int[] structures, boolean age, String batch_type, boolean recursif, String fichier_sortie, boolean anonymiser) throws EngineException
 	{
 		start();
 		try
@@ -161,7 +161,7 @@ public class EngineAnalyseurEnLigne extends EngineConnecte {
 			for (int istructure : structures)
 			{
 				logger_.info("Traitement de la structure "+istructure);
-				boolean ret = gopriv(app, pbatch, identifiant, motdepasse, batch, sortie, modele, istructure, age, batch_type, (structures.length > 1), fichier_sortie);
+				boolean ret = gopriv(app, pbatch, identifiant, motdepasse, batch, sortie, modele, istructure, age, batch_type, (structures.length > 1), fichier_sortie, anonymiser);
 				if (ret == false)
 					break;
 			}

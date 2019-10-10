@@ -120,7 +120,7 @@ public class Server {
 			}
 			
 			InputStream in = new ByteArrayInputStream(donneesAdherents.getBytes(Consts.ENCODING_UTF8));
-			ExtracteurIndividusHtml adherents = new ExtracteurIndividusHtml(in, extraMap,true);
+			ExtracteurIndividusHtml adherents = new ExtracteurIndividusHtml(in, extraMap,true,false);
 	 
 			AdherentFormes compas = new AdherentFormes();
 			compas.charge(adherents,extraMap);

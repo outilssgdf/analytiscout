@@ -65,7 +65,7 @@ public class Transformeur {
 		finally
 		{
 			try {
-				inModele.close();
+				if (inModele != null) inModele.close();
 			} catch (IOException e) {
 			}
 		}

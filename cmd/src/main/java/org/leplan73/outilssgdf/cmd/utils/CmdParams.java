@@ -23,6 +23,9 @@ public class CmdParams implements IVersionProvider {
 	@Option(names = "-log", description = "log (Valeur par défaut: ${DEFAULT-VALUE})")
 	protected boolean log = false;
 	
+	@Option(names = "-anonymiser", description = "anonymiser les nom, prénoms et code (Valeur par défaut: ${DEFAULT-VALUE})", hidden = true)
+	protected boolean anonymiser = false;
+	
 	public void chargeParametres()
 	{
 		Logging.logger_.info("Chargement du fichier de paramètres");

@@ -30,7 +30,7 @@ public class EngineAnalyseur extends Engine {
 		super(progress, logger);
 	}
 	
-	private boolean gopriv(Properties pbatch, File entree, File batch, File sortie, File modele, int structure, boolean age, String batch_type, boolean sous_dossier, String nom_fichier_sortie) throws TransformeurException, ExtractionException, IOException, JDOMException
+	private boolean gopriv(Properties pbatch, File entree, File batch, File sortie, File modele, int structure, boolean age, String batch_type, boolean sous_dossier, String nom_fichier_sortie, boolean anonymiser) throws TransformeurException, ExtractionException, IOException, JDOMException
 	{
 		logger_.info("Traitement de la structure "+structure);
 		
@@ -67,7 +67,7 @@ public class EngineAnalyseur extends Engine {
 
 		progress_.setProgress(50);
 		logger_.info("Chargement du fichier \"" + fichierAdherents.getName() + "\"");
-		ExtracteurIndividusHtml adherents = new ExtracteurIndividusHtml(fichierAdherents, extraMap, age);
+		ExtracteurIndividusHtml adherents = new ExtracteurIndividusHtml(fichierAdherents, extraMap, age, anonymiser);
 
 		AdherentFormes compas = new AdherentFormes();
 		compas.charge(adherents, extraMap);
@@ -104,7 +104,7 @@ public class EngineAnalyseur extends Engine {
 		return true;
 	}
 
-	public void go(File entree, File batch, File sortie, File modele, int[] structures, boolean age, String batch_type, String fichier_sortie) throws EngineException {
+	public void go(File entree, File batch, File sortie, File modele, int[] structures, boolean age, String batch_type, String fichier_sortie, boolean anonymiser) throws EngineException {
 		start();
 		
 		chargeParametres();
@@ -117,13 +117,13 @@ public class EngineAnalyseur extends Engine {
 			if (structures == null)
 			{
 				logger_.info("Traitement de la structure");
-				gopriv(pbatch, entree, batch, sortie, modele, 0, age, batch_type, false, fichier_sortie);
+				gopriv(pbatch, entree, batch, sortie, modele, 0, age, batch_type, false, fichier_sortie, anonymiser);
 			}
 			else
 				for (int istructure : structures)
 				{
 					logger_.info("Traitement de la structure "+istructure);
-					boolean ret = gopriv(pbatch, entree, batch, sortie, modele, istructure, age, batch_type, (structures.length > 1), fichier_sortie);
+					boolean ret = gopriv(pbatch, entree, batch, sortie, modele, istructure, age, batch_type, (structures.length > 1), fichier_sortie, anonymiser);
 					if (ret == false)
 						break;
 				}

@@ -45,6 +45,10 @@ public class Adherent {
 		return key != -1 ? data_.get(key) : null;
 	}
 	
+	public void put(Integer key, String v) {
+		data_.put(key,v);
+	}
+	
 	@Override
 	public int hashCode()
 	{
@@ -60,6 +64,11 @@ public class Adherent {
 	public Integer getCode()
 	{
 		return code_;
+	}
+	
+	public void setCode(int code)
+	{
+		code_ = code;
 	}
 	
 	public String getCodetext()
@@ -90,6 +99,15 @@ public class Adherent {
 	public String getDatedenaissance()
 	{
 		return this.get(colonnes_.getDatedeNaissanceId());
+	}
+
+	public void setNom(String nom) {
+		this.put(colonnes_.getNomIndividuId(),nom);
+		
+	}
+
+	public void setPrenom(String prenom) {
+		this.put(colonnes_.getPrenomIndividuId(),prenom);
 	}
 	
 	public String getNom()

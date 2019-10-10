@@ -58,6 +58,13 @@
     <outputDirectory>./conf</outputDirectory>
   </fileSet>
   <fileSet>
+    <directory>../fichiers/log</directory>
+    <outputDirectory>./log</outputDirectory>
+    <excludes>
+        <exclude>*.*</exclude>
+      </excludes>
+  </fileSet>
+  <fileSet>
     <directory>../fichiers/données</directory>
     <outputDirectory>./données</outputDirectory>
     <excludes>

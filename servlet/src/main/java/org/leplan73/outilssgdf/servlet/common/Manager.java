@@ -1,11 +1,14 @@
 package org.leplan73.outilssgdf.servlet.common;
 
+import java.io.File;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Properties;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
+import org.leplan73.outilssgdf.Params;
 import org.leplan73.outilssgdf.servlet.war.Logger;
 import org.leplan73.outilssgdf.servlet.war.Server;
 
@@ -13,6 +16,13 @@ import io.swagger.jaxrs.config.BeanConfig;
 
 public class Manager implements ServletContextListener {
 
+	static private File fConf_;
+	
+	static public File getConf()
+	{
+		return fConf_;
+	}
+	
     public static void init(final String host, int port)
     {
     }
@@ -40,6 +50,15 @@ public class Manager implements ServletContextListener {
 		
 		Logger.init();
 		Logger.get().info("Manager initialized");
+		
+		Properties props = System.getProperties();
+		fConf_ = new File(props.getProperty("OUTILSSGDF_ROOT",""));
+		if (fConf_.exists() == false)
+		{
+			Logger.get().error("OUTILSSGDF_ROOT non disponible");
+		}
+		
+		Params.init();
 	}
 
 	@Override

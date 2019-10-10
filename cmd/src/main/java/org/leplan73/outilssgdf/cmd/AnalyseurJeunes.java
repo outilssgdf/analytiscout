@@ -7,6 +7,8 @@ import java.io.IOException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.jdom2.JDOMException;
 import org.leplan73.outilssgdf.ExtractionException;
+import org.leplan73.outilssgdf.ParamEntree;
+import org.leplan73.outilssgdf.ParamSortie;
 import org.leplan73.outilssgdf.cmd.utils.CommonParamsG;
 import org.leplan73.outilssgdf.cmd.utils.Logging;
 import org.leplan73.outilssgdf.engine.EngineAnalyseur;
@@ -41,7 +43,10 @@ public class AnalyseurJeunes extends CommonParamsG {
 			check();
 			CmdProgress progress = new CmdProgress();
 			EngineAnalyseur en = new EngineAnalyseur(progress, Logging.logger_);
-			en.go(entree, new FileInputStream(batch), new FileInputStream(modele), sortie, structures, age, "tout_jeunes" ,"jeunes_", anonymiser);
+			
+			ParamEntree pentree = new ParamEntree(entree, structures);
+			ParamSortie psortie = new ParamSortie(sortie, structures, "jeunes_");
+			en.go(pentree, new FileInputStream(batch), new FileInputStream(modele), structures, age, "tout_jeunes" , psortie, anonymiser);
 		} catch (EngineException e) {
 			Logging.logError(e);
 		}

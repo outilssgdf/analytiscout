@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
+import org.leplan73.outilssgdf.ParamEntree;
+import org.leplan73.outilssgdf.ParamSortie;
 import org.leplan73.outilssgdf.cmd.utils.CmdLineException;
 import org.leplan73.outilssgdf.cmd.utils.CommonParamsG;
 import org.leplan73.outilssgdf.cmd.utils.Logging;
@@ -39,7 +41,10 @@ public class Analyseur extends CommonParamsG {
 			check();
 			CmdProgress progress = new CmdProgress();
 			EngineAnalyseur en = new EngineAnalyseur(progress, Logging.logger_);
-			en.go(entree, new FileInputStream(batch), new FileInputStream(modele), sortie, structures, age, "tout_responsables" ,"responsables_", anonymiser);
+			
+			ParamEntree pentree = new ParamEntree(entree, structures);
+			ParamSortie psortie = new ParamSortie(sortie, structures, "responsables_");
+			en.go(pentree, new FileInputStream(batch), new FileInputStream(modele), structures, age, "tout_responsables" , psortie, anonymiser);
 		} catch (EngineException | FileNotFoundException e) {
 			Logging.logError(e);
 		}

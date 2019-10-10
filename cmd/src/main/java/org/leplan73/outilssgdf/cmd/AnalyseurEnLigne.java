@@ -3,6 +3,7 @@ package org.leplan73.outilssgdf.cmd;
 import java.io.File;
 import java.io.FileInputStream;
 
+import org.leplan73.outilssgdf.ParamSortie;
 import org.leplan73.outilssgdf.cmd.utils.CmdLineException;
 import org.leplan73.outilssgdf.cmd.utils.CommonParamsG;
 import org.leplan73.outilssgdf.cmd.utils.CommonParamsIntranet;
@@ -47,7 +48,8 @@ public class AnalyseurEnLigne extends CommonParamsIntranet {
 			check();
 			CmdProgress progress = new CmdProgress();
 			EngineAnalyseurEnLigne en = new EngineAnalyseurEnLigne(progress, Logging.logger_);
-			en.go(identifiant,motdepasse, new FileInputStream(batch), new FileInputStream(modele), sortie, structures, age, "tout_responsables", recursif, "responsables_", anonymiser);
+			ParamSortie psortie = new ParamSortie(sortie, structures, "responsables_");
+			en.go(identifiant,motdepasse, new FileInputStream(batch), new FileInputStream(modele), structures, age, "tout_responsables", recursif, psortie, anonymiser);
 		} catch (Exception e) {
 			Logging.logger_.error(Logging.dumpStack(null, e));
 		}

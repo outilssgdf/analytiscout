@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -17,6 +16,7 @@ import org.leplan73.outilssgdf.Consts;
 import org.leplan73.outilssgdf.ExtracteurExtraHtml;
 import org.leplan73.outilssgdf.ExtracteurIndividusHtml;
 import org.leplan73.outilssgdf.ExtractionException;
+import org.leplan73.outilssgdf.ParamSortie;
 import org.leplan73.outilssgdf.Progress;
 import org.leplan73.outilssgdf.Transformeur;
 import org.leplan73.outilssgdf.TransformeurException;
@@ -37,7 +37,7 @@ public class EngineAnalyseurEnLigne extends EngineConnecte {
 		super(progress, logger);
 	}
 
-	private boolean gopriv(ExtractionAdherents app, Properties pbatch, String identifiant, String motdepasse, File sortie, InputStream modele, int structure, boolean age, String batch_type, boolean sous_dossier, String nom_fichier_sortie, OutputStream os, boolean anonymiser) throws ExtractionException, TransformeurException, ClientProtocolException, IOException, JDOMException
+	private boolean gopriv(ExtractionAdherents app, Properties pbatch, String identifiant, String motdepasse, InputStream modele, int structure, boolean age, String batch_type, ParamSortie sortie, boolean anonymiser) throws ExtractionException, TransformeurException, ClientProtocolException, IOException, JDOMException
 	{
 		Map<ExtraKey, ExtracteurExtraHtml> extraMap = new TreeMap<ExtraKey, ExtracteurExtraHtml>();
 		
@@ -129,9 +129,16 @@ public class EngineAnalyseurEnLigne extends EngineConnecte {
 		Alertes alertesResponsables = new Alertes();
 		adherents.construitsAlertes(alertesResponsables, false, age);
 
-		File fichier_sortie = sous_dossier ? new File(sortie, nom_fichier_sortie+structure+".xlsx") : sortie;
+		File fichier_sortie = sortie.construit(structure, ".xlsx");
 		
-	    logger_.info("Génération du fichier \""+fichier_sortie.getName()+"\" à partir du modèle");
+	    if (sortie.getIsStream())
+	    {
+	    	logger_.info("Génération du stream de sortie à partir du modèle");
+	    }
+	    else
+	    {
+	    	logger_.info("Génération du fichier \""+fichier_sortie.getName()+"\" à partir du modèle");
+	    }
 		Map<String, Object> beans = new HashMap<String, Object>();
 		beans.put("adherents", adherents.getAdherentsList());
 		beans.put("chefs", adherents.getChefsList());
@@ -142,10 +149,10 @@ public class EngineAnalyseurEnLigne extends EngineConnecte {
 		beans.put("general", general);
 		beans.put("global", global);
 
-		if (os != null)
+		if (sortie.getIsStream())
 		{
-			Transformeur.go(modele, beans, os);
-			os.close();
+			Transformeur.go(modele, beans, sortie.getStream());
+			sortie.close();
 		}
 		else
 		{
@@ -156,7 +163,7 @@ public class EngineAnalyseurEnLigne extends EngineConnecte {
 		return true;
 	}
 
-	public void go(String identifiant, String motdepasse, InputStream batch, InputStream modele, File sortie, int structure, boolean age, String batch_type, boolean recursif, String fichier_sortie, OutputStream os, boolean anonymiser) throws EngineException
+	public void go(String identifiant, String motdepasse, InputStream batch, InputStream modele, int structure, boolean age, String batch_type, boolean recursif, ParamSortie sortie, boolean anonymiser) throws EngineException
 	{
 		start();
 		try
@@ -170,7 +177,7 @@ public class EngineAnalyseurEnLigne extends EngineConnecte {
 			progress_.setProgress(40);
 			
 			logger_.info("Traitement de la structure "+structure);
-			gopriv(app, pbatch, identifiant, motdepasse, sortie, modele, structure, age, batch_type, false, fichier_sortie, null, anonymiser);
+			gopriv(app, pbatch, identifiant, motdepasse, modele, structure, age, batch_type, sortie, anonymiser);
 			logout();
 		} catch (IOException | JDOMException | ExtractionException | TransformeurException e) {
 			throw new EngineException("Exception dans "+this.getClass().getName(),e);
@@ -180,7 +187,7 @@ public class EngineAnalyseurEnLigne extends EngineConnecte {
 		}
 	}
 
-	public void go(String identifiant, String motdepasse, InputStream batch, InputStream modele, File sortie, int[] structures, boolean age, String batch_type, boolean recursif, String fichier_sortie, boolean anonymiser) throws EngineException
+	public void go(String identifiant, String motdepasse, InputStream batch, InputStream modele, int[] structures, boolean age, String batch_type, boolean recursif, ParamSortie sortie, boolean anonymiser) throws EngineException
 	{
 		start();
 		try
@@ -196,7 +203,7 @@ public class EngineAnalyseurEnLigne extends EngineConnecte {
 			for (int istructure : structures)
 			{
 				logger_.info("Traitement de la structure "+istructure);
-				boolean ret = gopriv(app, pbatch, identifiant, motdepasse, sortie, modele, istructure, age, batch_type, (structures.length > 1), fichier_sortie, null, anonymiser);
+				boolean ret = gopriv(app, pbatch, identifiant, motdepasse, modele, istructure, age, batch_type, sortie, anonymiser);
 				if (ret == false)
 					break;
 			}

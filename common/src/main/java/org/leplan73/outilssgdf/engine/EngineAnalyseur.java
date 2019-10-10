@@ -13,6 +13,8 @@ import org.jdom2.JDOMException;
 import org.leplan73.outilssgdf.ExtracteurExtraHtml;
 import org.leplan73.outilssgdf.ExtracteurIndividusHtml;
 import org.leplan73.outilssgdf.ExtractionException;
+import org.leplan73.outilssgdf.ParamEntree;
+import org.leplan73.outilssgdf.ParamSortie;
 import org.leplan73.outilssgdf.Progress;
 import org.leplan73.outilssgdf.Transformeur;
 import org.leplan73.outilssgdf.TransformeurException;
@@ -31,14 +33,14 @@ public class EngineAnalyseur extends Engine {
 		super(progress, logger);
 	}
 	
-	private boolean gopriv(Properties pbatch, File entree, InputStream batch, File sortie, InputStream modele, int structure, boolean age, String batch_type, boolean sous_dossier, String nom_fichier_sortie, boolean anonymiser) throws TransformeurException, ExtractionException, IOException, JDOMException
+	private boolean gopriv(Properties pbatch, ParamEntree entree, InputStream batch, InputStream modele, int structure, boolean age, String batch_type, ParamSortie sortie, boolean anonymiser) throws TransformeurException, ExtractionException, IOException, JDOMException
 	{
 		logger_.info("Traitement de la structure "+structure);
 		
 		Map<ExtraKey, ExtracteurExtraHtml> extraMap = new TreeMap<ExtraKey, ExtracteurExtraHtml>();
 		File fichierAdherents = null;
 
-		File dossierStructure = sous_dossier ? new File(entree,""+structure) : entree;
+		File dossierStructure = entree.construit(structure);
 		dossierStructure.mkdirs();
 		progress_.setProgress(40);
 
@@ -64,7 +66,7 @@ public class EngineAnalyseur extends Engine {
 			index++;
 		}
 		
-		File fichier_sortie = sous_dossier ? new File(sortie, nom_fichier_sortie+structure+".xlsx") : sortie;
+		File fichier_sortie = sortie.construit(structure, ".xlsx");
 
 		progress_.setProgress(50);
 		logger_.info("Chargement du fichier \"" + fichierAdherents.getName() + "\"");
@@ -107,7 +109,7 @@ public class EngineAnalyseur extends Engine {
 		return true;
 	}
 
-	public void go(File entree, InputStream batch, InputStream modele, File sortie, int[] structures, boolean age, String batch_type, String fichier_sortie, boolean anonymiser) throws EngineException {
+	public void go(ParamEntree entree, InputStream batch, InputStream modele, int[] structures, boolean age, String batch_type, ParamSortie sortie, boolean anonymiser) throws EngineException {
 		start();
 		
 		chargeParametres();
@@ -120,13 +122,13 @@ public class EngineAnalyseur extends Engine {
 			if (structures == null)
 			{
 				logger_.info("Traitement de la structure");
-				gopriv(pbatch, entree, batch, sortie, modele, 0, age, batch_type, false, fichier_sortie, anonymiser);
+				gopriv(pbatch, entree, batch, modele, 0, age, batch_type, sortie, anonymiser);
 			}
 			else
 				for (int istructure : structures)
 				{
 					logger_.info("Traitement de la structure "+istructure);
-					boolean ret = gopriv(pbatch, entree, batch, sortie, modele, istructure, age, batch_type, (structures.length > 1), fichier_sortie, anonymiser);
+					boolean ret = gopriv(pbatch, entree, batch, modele, istructure, age, batch_type, sortie, anonymiser);
 					if (ret == false)
 						break;
 				}

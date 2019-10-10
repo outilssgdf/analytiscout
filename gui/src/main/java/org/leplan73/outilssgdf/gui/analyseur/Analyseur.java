@@ -24,6 +24,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
 import org.leplan73.outilssgdf.Consts;
+import org.leplan73.outilssgdf.ParamEntree;
+import org.leplan73.outilssgdf.ParamSortie;
 import org.leplan73.outilssgdf.Progress;
 import org.leplan73.outilssgdf.engine.EngineAnalyseur;
 import org.leplan73.outilssgdf.gui.GuiProgress;
@@ -285,7 +287,9 @@ abstract public class Analyseur extends Dialogue implements LoggedDialog, GuiCom
 			if (ret) {
 				logger_.info("Lancement");
 				try {
-					en.go(fEntree, new FileInputStream(fBatch), new FileInputStream(fModele), fSortie, null, getChcAge().isSelected(), "tout_responsables", null, false);
+					ParamEntree pentree = new ParamEntree(fEntree);
+					ParamSortie psortie = new ParamSortie(fSortie);
+					en.go(pentree, new FileInputStream(fBatch), new FileInputStream(fModele), null, getChcAge().isSelected(), "tout_responsables", psortie, false);
 					btnOuvrir.maj();
 				} catch (Exception e) {
 					logger_.error(Logging.dumpStack(null, e));

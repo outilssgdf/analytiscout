@@ -2,6 +2,7 @@ package org.leplan73.outilssgdf.gui.analyseurenligne;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -28,6 +29,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
 import org.leplan73.outilssgdf.Consts;
+import org.leplan73.outilssgdf.ParamSortie;
 import org.leplan73.outilssgdf.Progress;
 import org.leplan73.outilssgdf.engine.EngineAnalyseurEnLigne;
 import org.leplan73.outilssgdf.gui.GuiProgress;
@@ -40,7 +42,6 @@ import org.leplan73.outilssgdf.gui.utils.LoggedDialog;
 import org.leplan73.outilssgdf.gui.utils.Logging;
 import org.leplan73.outilssgdf.gui.utils.Preferences;
 import org.slf4j.Logger;
-import java.awt.FlowLayout;
 
 abstract public class AnalyseurEnLigne extends Dialogue implements LoggedDialog, GuiCommand {
 
@@ -330,7 +331,8 @@ abstract public class AnalyseurEnLigne extends Dialogue implements LoggedDialog,
 				try {
 					int structures[] = construitStructures(txfCodeStructure);
 					EngineAnalyseurEnLigne en = new EngineAnalyseurEnLigne(progress, logger_);
-					en.go(txfIdentifiant.getText(), new String(txfMotdepasse.getPassword()), new FileInputStream(fBatch), new FileInputStream(fModele), fSortie, structures, chkAge.isSelected(), "tout_responsables", true, null,false);
+					ParamSortie psortie = new ParamSortie(fSortie);
+					en.go(txfIdentifiant.getText(), new String(txfMotdepasse.getPassword()), new FileInputStream(fBatch), new FileInputStream(fModele), structures, chkAge.isSelected(), "tout_responsables", true, psortie ,false);
 					btnOuvrir.maj();
 				} catch (Exception e) {
 					logger_.error(Logging.dumpStack(null, e));

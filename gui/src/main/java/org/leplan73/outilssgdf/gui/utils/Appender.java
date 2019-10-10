@@ -14,10 +14,10 @@ public class Appender extends AppenderBase<ILoggingEvent> {
 	
 	@Override
 	protected void append(ILoggingEvent eventObject) {
+		if (dialog_ != null)
 		synchronized(dialog_)
 		{
-			if (dialog_ != null)
-				dialog_.addLog(eventObject.toString());
+			dialog_.addLog(eventObject.toString());
 		}
 	}
 }

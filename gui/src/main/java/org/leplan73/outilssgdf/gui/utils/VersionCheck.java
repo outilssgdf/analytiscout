@@ -55,7 +55,7 @@ public class VersionCheck {
 		} catch (IOException e) {
 		} finally {
 		    try {
-				reader.close();
+				if (reader != null) reader.close();
 			} catch (IOException e) {
 			}
 		}

@@ -2,6 +2,7 @@ package org.leplan73.outilssgdf.engine;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -47,7 +48,11 @@ public class EngineAnalyseurCEC extends Engine {
 					Map<String, Object> beans = new HashMap<String, Object>();
 					beans.put("annee", anneeDebut);
 					beans.put("activites_cec", activites_cec_chef);
-					Transformeur.go(fModele, beans, new File(fSortie, "CEC-"+anneeDebut+"-"+chef+".xlsx"));
+					FileInputStream fismodele = new FileInputStream(fModele);
+					FileOutputStream fosSortie = new FileOutputStream(new File(fSortie, "CEC-"+anneeDebut+"-"+chef+".xlsx"));
+					Transformeur.go(fismodele, beans, fosSortie);
+					fismodele.close();
+					fosSortie.close();
 				};
 			};
 		} catch (IOException | TransformeurException e) {

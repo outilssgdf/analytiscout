@@ -1,12 +1,14 @@
 package org.leplan73.outilssgdf.gui.analyseur;
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileInputStream;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -34,8 +36,6 @@ import org.leplan73.outilssgdf.gui.utils.LoggedDialog;
 import org.leplan73.outilssgdf.gui.utils.Logging;
 import org.leplan73.outilssgdf.gui.utils.Preferences;
 import org.slf4j.Logger;
-import javax.swing.border.BevelBorder;
-import java.awt.FlowLayout;
 
 abstract public class Analyseur extends Dialogue implements LoggedDialog, GuiCommand {
 
@@ -285,7 +285,7 @@ abstract public class Analyseur extends Dialogue implements LoggedDialog, GuiCom
 			if (ret) {
 				logger_.info("Lancement");
 				try {
-					en.go(fEntree, fBatch, fSortie, fModele, null, getChcAge().isSelected(), "tout_responsables", null, false);
+					en.go(fEntree, new FileInputStream(fBatch), new FileInputStream(fModele), fSortie, null, getChcAge().isSelected(), "tout_responsables", null, false);
 					btnOuvrir.maj();
 				} catch (Exception e) {
 					logger_.error(Logging.dumpStack(null, e));

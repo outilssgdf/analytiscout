@@ -2,6 +2,7 @@ package org.leplan73.outilssgdf.engine;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,7 +52,12 @@ public class EngineAnalyseurRegistreDePresence extends Engine {
 		File fichier_sortie = sous_dossier ? new File(sortie, "registredepresence_"+structure+".xlsx") : sortie;
 
 		logger_.info("Génération du fichier");
-		Transformeur.go(modele, beans, fichier_sortie);
+		
+		FileInputStream fismodele = new FileInputStream(modele);
+		FileOutputStream fosSortie = new FileOutputStream(fichier_sortie);
+		Transformeur.go(fismodele, beans, fosSortie);
+		fismodele.close();
+		fosSortie.close();
 		
 		return true;
 	}

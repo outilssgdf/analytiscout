@@ -1,8 +1,9 @@
 package org.leplan73.outilssgdf.engine;
 
 import java.io.File;
-import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -30,7 +31,7 @@ public class EngineAnalyseur extends Engine {
 		super(progress, logger);
 	}
 	
-	private boolean gopriv(Properties pbatch, File entree, File batch, File sortie, File modele, int structure, boolean age, String batch_type, boolean sous_dossier, String nom_fichier_sortie, boolean anonymiser) throws TransformeurException, ExtractionException, IOException, JDOMException
+	private boolean gopriv(Properties pbatch, File entree, InputStream batch, File sortie, InputStream modele, int structure, boolean age, String batch_type, boolean sous_dossier, String nom_fichier_sortie, boolean anonymiser) throws TransformeurException, ExtractionException, IOException, JDOMException
 	{
 		logger_.info("Traitement de la structure "+structure);
 		
@@ -88,7 +89,7 @@ public class EngineAnalyseur extends Engine {
 		Alertes alertesResponsables = new Alertes();
 		adherents.construitsAlertes(alertesResponsables, false, age);
 
-		logger_.info("Génération du fichier \"" + fichier_sortie.getName() + "\" à partir du modèle \"" + modele.getName() + "\"");
+		logger_.info("Génération du fichier \"" + fichier_sortie.getName() + "\" à partir du modèle");
 		Map<String, Object> beans = new HashMap<String, Object>();
 		beans.put("adherents", adherents.getAdherentsList());
 		beans.put("chefs", adherents.getChefsList());
@@ -99,12 +100,14 @@ public class EngineAnalyseur extends Engine {
 		beans.put("general", general);
 		beans.put("global", global);
 
-		Transformeur.go(modele, beans, fichier_sortie);
+		FileOutputStream fosSortie = new FileOutputStream(fichier_sortie);
+		Transformeur.go(modele, beans, fosSortie);
+		fosSortie.close();
 		
 		return true;
 	}
 
-	public void go(File entree, File batch, File sortie, File modele, int[] structures, boolean age, String batch_type, String fichier_sortie, boolean anonymiser) throws EngineException {
+	public void go(File entree, InputStream batch, InputStream modele, File sortie, int[] structures, boolean age, String batch_type, String fichier_sortie, boolean anonymiser) throws EngineException {
 		start();
 		
 		chargeParametres();
@@ -112,7 +115,7 @@ public class EngineAnalyseur extends Engine {
 		try {
 			logger_.info("Chargement du fichier de traitement");
 			Properties pbatch = new Properties();
-			pbatch.load(new FileInputStream(batch));
+			pbatch.load(batch);
 			
 			if (structures == null)
 			{

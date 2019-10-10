@@ -1,6 +1,7 @@
 package org.leplan73.outilssgdf.cmd;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -40,7 +41,7 @@ public class AnalyseurJeunes extends CommonParamsG {
 			check();
 			CmdProgress progress = new CmdProgress();
 			EngineAnalyseur en = new EngineAnalyseur(progress, Logging.logger_);
-			en.go(entree, batch, sortie, modele, structures, age, "tout_jeunes" ,"jeunes_", anonymiser);
+			en.go(entree, new FileInputStream(batch), new FileInputStream(modele), sortie, structures, age, "tout_jeunes" ,"jeunes_", anonymiser);
 		} catch (EngineException e) {
 			Logging.logError(e);
 		}

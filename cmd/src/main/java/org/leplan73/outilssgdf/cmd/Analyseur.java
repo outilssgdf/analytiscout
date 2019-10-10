@@ -1,6 +1,8 @@
 package org.leplan73.outilssgdf.cmd;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 import org.leplan73.outilssgdf.cmd.utils.CmdLineException;
 import org.leplan73.outilssgdf.cmd.utils.CommonParamsG;
@@ -37,8 +39,8 @@ public class Analyseur extends CommonParamsG {
 			check();
 			CmdProgress progress = new CmdProgress();
 			EngineAnalyseur en = new EngineAnalyseur(progress, Logging.logger_);
-			en.go(entree, batch, sortie, modele, structures, age, "tout_responsables" ,"responsables_", anonymiser);
-		} catch (EngineException e) {
+			en.go(entree, new FileInputStream(batch), new FileInputStream(modele), sortie, structures, age, "tout_responsables" ,"responsables_", anonymiser);
+		} catch (EngineException | FileNotFoundException e) {
 			Logging.logError(e);
 		}
 	}

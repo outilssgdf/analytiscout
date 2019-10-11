@@ -28,6 +28,9 @@ public class AnalyseurRegistreDePresenceEnLigne extends CommonParamsIntranet {
 
 	@Option(names = "-recursif", description = "Extraction récursive (Valeur par défaut: ${DEFAULT-VALUE})")
 	private boolean recursif = true;
+
+	@Option(names = "-garder", description = "Garder fichiers téléchargés (Valeur par défaut: ${DEFAULT-VALUE})", hidden = true)
+	private boolean garder = false;
 	
 	protected void check() throws EngineException
 	{
@@ -55,7 +58,7 @@ public class AnalyseurRegistreDePresenceEnLigne extends CommonParamsIntranet {
 			check();
 			CmdProgress progress = new CmdProgress();
 			EngineAnalyseurRegistreDePresenceEnLigne en = new EngineAnalyseurRegistreDePresenceEnLigne(progress, Logging.logger_);
-			en.go(identifiant,motdepasse, sortie, modele, annee, structures, recursif, true);
+			en.go(identifiant,motdepasse, sortie, modele, annee, structures, recursif, true, garder);
 		} catch (Exception e) {
 			Logging.logger_.error(Logging.dumpStack(null, e));
 		}

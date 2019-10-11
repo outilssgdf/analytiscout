@@ -54,3 +54,5 @@ Version 1.1.0 :
 	- Ajout de l'aide sur chaque feuille
 	- Ajout d'alertes relatives à des problèmes de qualifications, d'âge ou de déclaration J&S
 Version 1.2.0 :
+	- Correction liée à l'encodage dans les fichiers de registre de présence (merci Olivier et Michel pour les tests rapides)
+	- Ajout d'une option pour garder les fichiers téléchargés

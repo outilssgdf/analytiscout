@@ -29,12 +29,20 @@ public class EngineAnalyseurRegistreDePresenceEnLigne extends EngineConnecte {
 		super(progress, logger);
 	}
 	
-	private boolean gopriv(ExtractionRegistrePresence app, int structure, boolean recursif, int annee, File sortie, File modele, boolean sous_dossier) throws ClientProtocolException, IOException, JDOMException, TransformeurException
+	private boolean gopriv(ExtractionRegistrePresence app, int structure, boolean recursif, int annee, File sortie, File modele, boolean sous_dossier, boolean garderFichiers) throws ClientProtocolException, IOException, JDOMException, TransformeurException
 	{
 		progress_.setProgress(20, "Extraction");
 		logger_.info("Extraction");
 		String donnees = app.extract(structure, recursif, annee, 0, false);
 		InputStream in = new ByteArrayInputStream(donnees.getBytes(Consts.ENCODING_WINDOWS));
+		
+		if (garderFichiers)
+		{
+			FileOutputStream fos = new FileOutputStream(new File("log","registredepresence_"+structure+".csv"));
+			fos.write(donnees.getBytes());
+			fos.flush();
+			fos.close();
+		}
 		
 		ExtracteurRegistrePresence ex = new ExtracteurRegistrePresence();
 		int anneeDebut = ex.charge(in)+1;
@@ -70,7 +78,7 @@ public class EngineAnalyseurRegistreDePresenceEnLigne extends EngineConnecte {
 		return true;
 	}
 
-	public void go(String identifiant, String motdepasse, File fSortie, File fModele, int annee, int[] structures, boolean recursif, boolean sous_dossier) throws EngineException
+	public void go(String identifiant, String motdepasse, File fSortie, File fModele, int annee, int[] structures, boolean recursif, boolean sous_dossier, boolean garderFichiers) throws EngineException
 	{
 		start();
 		try
@@ -83,7 +91,7 @@ public class EngineAnalyseurRegistreDePresenceEnLigne extends EngineConnecte {
 			for (int istructure : structures)
 			{
 				logger_.info("Traitement de la structure "+istructure);
-				boolean ret = gopriv(app, istructure, recursif, annee, fSortie, fModele, sous_dossier);
+				boolean ret = gopriv(app, istructure, recursif, annee, fSortie, fModele, sous_dossier, garderFichiers);
 				if (ret == false)
 					break;
 			}

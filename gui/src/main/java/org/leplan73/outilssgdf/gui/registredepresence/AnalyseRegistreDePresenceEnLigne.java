@@ -53,6 +53,7 @@ public class AnalyseRegistreDePresenceEnLigne extends Dialogue implements GuiCom
 	private File fModele = new File("conf/modele_registrepresence.xlsx");
 	private JCheckBox chkRecursif;
 	private BoutonOuvrir btnOuvrir;
+	private JCheckBox chkGarderFichiers;
 
 	/**
 	 * Create the dialog.
@@ -276,13 +277,17 @@ public class AnalyseRegistreDePresenceEnLigne extends Dialogue implements GuiCom
 			gbc_panel.gridx = 0;
 			gbc_panel.gridy = 4;
 			contentPanel.add(panel, gbc_panel);
-			panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+			panel.setLayout(new BorderLayout(0, 0));
 			{
 				JScrollPane scrollPane = new JScrollPane();
-				panel.add(scrollPane);
+				panel.add(scrollPane, BorderLayout.CENTER);
 				{
 					txtLog = new JTextArea();
 					scrollPane.setViewportView(txtLog);
+					{
+						chkGarderFichiers = new JCheckBox("Garder fichiers téléchargés");
+						panel.add(chkGarderFichiers, BorderLayout.SOUTH);
+					}
 					txtLog.setEditable(false);
 				}
 			}
@@ -325,7 +330,7 @@ public class AnalyseRegistreDePresenceEnLigne extends Dialogue implements GuiCom
 					EngineAnalyseurRegistreDePresenceEnLigne en = new EngineAnalyseurRegistreDePresenceEnLigne(progress, logger_);
 					
 					int structures[] = construitStructures(txfCodeStructure);
-					en.go(txfIdentifiant.getText(), new String(txfMotdepasse.getPassword()), fSortie, fModele, Integer.parseInt(txfAnnee.getText()), structures, chkRecursif.isSelected(), false);
+					en.go(txfIdentifiant.getText(), new String(txfMotdepasse.getPassword()), fSortie, fModele, Integer.parseInt(txfAnnee.getText()), structures, chkRecursif.isSelected(), false, chkGarderFichiers.isSelected());
 					btnOuvrir.maj();
 				} catch (Exception e) {
 					logger_.error(Logging.dumpStack(null, e));
@@ -372,5 +377,8 @@ public class AnalyseRegistreDePresenceEnLigne extends Dialogue implements GuiCom
 	}
 	public BoutonOuvrir getBtnOuvrir() {
 		return btnOuvrir;
+	}
+	public JCheckBox getChkGarderFichiers() {
+		return chkGarderFichiers;
 	}
 }

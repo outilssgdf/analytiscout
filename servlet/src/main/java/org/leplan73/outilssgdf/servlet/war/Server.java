@@ -59,7 +59,7 @@ public class Server {
 			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
 			ParamSortie psortie = new ParamSortie(outputStream);
-			en.go(identifiant, motdepasse, fBatch, fModele, structures[0], age, "tout_jeunes", recursif, psortie, anonymiser);
+			en.go(identifiant, motdepasse, fBatch, fModele, structures[0], age, "tout_jeunes", recursif, psortie, anonymiser, false);
 			return Response.ok(outputStream.toByteArray()).type(MediaType.TEXT_PLAIN_TYPE).header("Content-Disposition","attachment; filename=\"analyse_jeunes.xlsx\"").build();
 		} catch (EngineException e1) {
 			return Response.serverError().build();
@@ -83,7 +83,7 @@ public class Server {
 			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
 			ParamSortie psortie = new ParamSortie(outputStream);
-			en.go(identifiant, motdepasse, fBatch, fModele, structures[0], age, "tout_responsables", recursif, psortie, anonymiser);
+			en.go(identifiant, motdepasse, fBatch, fModele, structures[0], age, "tout_responsables", recursif, psortie, anonymiser, false);
 			return Response.ok(outputStream.toByteArray()).type(MediaType.TEXT_PLAIN_TYPE).header("Content-Disposition","attachment; filename=\"analyse_responsables.xlsx\"").build();
 		} catch (EngineException e1) {
 			return Response.serverError().build();

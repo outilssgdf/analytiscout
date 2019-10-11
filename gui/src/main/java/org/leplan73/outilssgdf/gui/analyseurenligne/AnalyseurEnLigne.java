@@ -234,13 +234,17 @@ abstract public class AnalyseurEnLigne extends Dialogue implements LoggedDialog,
 			gbc_panel.gridx = 0;
 			gbc_panel.gridy = 4;
 			contentPanel.add(panel, gbc_panel);
-			panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+			panel.setLayout(new BorderLayout(0, 0));
 			{
 				JScrollPane scrollPane = new JScrollPane();
 				panel.add(scrollPane);
 				{
 					txtLog = new JTextArea();
 					scrollPane.setViewportView(txtLog);
+					{
+						chkGarderFichiers = new JCheckBox("Garder fichiers téléchargés");
+						panel.add(chkGarderFichiers, BorderLayout.SOUTH);
+					}
 					txtLog.setEditable(false);
 				}
 			}
@@ -289,6 +293,7 @@ abstract public class AnalyseurEnLigne extends Dialogue implements LoggedDialog,
 	private JCheckBox chkMemoriser;
 	private JCheckBox chkAge;
 	private BoutonOuvrir btnOuvrir;
+	private JCheckBox chkGarderFichiers;
 
 	@Override
 	public boolean check() {
@@ -332,7 +337,7 @@ abstract public class AnalyseurEnLigne extends Dialogue implements LoggedDialog,
 					int structures[] = construitStructures(txfCodeStructure);
 					EngineAnalyseurEnLigne en = new EngineAnalyseurEnLigne(progress, logger_);
 					ParamSortie psortie = new ParamSortie(fSortie);
-					en.go(txfIdentifiant.getText(), new String(txfMotdepasse.getPassword()), new FileInputStream(fBatch), new FileInputStream(fModele), structures, chkAge.isSelected(), "tout_responsables", true, psortie ,false);
+					en.go(txfIdentifiant.getText(), new String(txfMotdepasse.getPassword()), new FileInputStream(fBatch), new FileInputStream(fModele), structures, chkAge.isSelected(), "tout_responsables", true, psortie ,false, chkGarderFichiers.isSelected());
 					btnOuvrir.maj();
 				} catch (Exception e) {
 					logger_.error(Logging.dumpStack(null, e));
@@ -388,5 +393,8 @@ abstract public class AnalyseurEnLigne extends Dialogue implements LoggedDialog,
 	}
 	public BoutonOuvrir getBtnOuvrir() {
 		return btnOuvrir;
+	}
+	public JCheckBox getChkGarderFichiers() {
+		return chkGarderFichiers;
 	}
 }

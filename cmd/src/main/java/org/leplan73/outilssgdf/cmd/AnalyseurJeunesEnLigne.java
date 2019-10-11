@@ -32,6 +32,9 @@ public class AnalyseurJeunesEnLigne extends CommonParamsIntranet {
 
 	@Option(names = "-recursif", description = "Extraction récursive (Valeur par défaut: ${DEFAULT-VALUE})")
 	private boolean recursif = true;
+
+	@Option(names = "-garder", description = "Garder fichiers téléchargés (Valeur par défaut: ${DEFAULT-VALUE})", hidden = true)
+	private boolean garder = false;
 	
 	@Override
 	public void run(CommandLine commandLine) throws CmdLineException
@@ -49,7 +52,7 @@ public class AnalyseurJeunesEnLigne extends CommonParamsIntranet {
 			CmdProgress progress = new CmdProgress();
 			EngineAnalyseurEnLigne en = new EngineAnalyseurEnLigne(progress, Logging.logger_);
 			ParamSortie psortie = new ParamSortie(sortie, structures, "jeunes_");
-			en.go(identifiant,motdepasse, new FileInputStream(batch), new FileInputStream(modele), structures, age, "tout_jeunes", recursif, psortie, anonymiser);
+			en.go(identifiant,motdepasse, new FileInputStream(batch), new FileInputStream(modele), structures, age, "tout_jeunes", recursif, psortie, anonymiser, garder);
 		} catch (Exception e) {
 			Logging.logger_.error(Logging.dumpStack(null, e));
 		}

@@ -34,7 +34,7 @@ public class EngineAnalyseurRegistreDePresenceEnLigne extends EngineConnecte {
 		progress_.setProgress(20, "Extraction");
 		logger_.info("Extraction");
 		String donnees = app.extract(structure, recursif, annee, 0, false);
-		InputStream in = new ByteArrayInputStream(donnees.getBytes(Consts.ENCODING_UTF8));
+		InputStream in = new ByteArrayInputStream(donnees.getBytes(Consts.ENCODING_WINDOWS));
 		
 		ExtracteurRegistrePresence ex = new ExtracteurRegistrePresence();
 		int anneeDebut = ex.charge(in)+1;

@@ -23,7 +23,7 @@ public class EngineExtractionRegistreDePresence extends EngineConnecte {
 	private boolean gopriv(ExtractionRegistrePresence app, String identifiant, String motdepasse, File sortie, int structure, boolean recursif, int annee, boolean sous_dossier) throws ClientProtocolException, IOException, JDOMException, InvalidFormatException, ExtractionException
 	{
 		logger_.info("Extraction registre de presence (annee="+annee+")");
-		String donnees = app.extract(structure, recursif, annee, 0 , true);
+		String donnees = app.extract(structure, recursif, annee, 0 , false);
 		
 		File fichier_sortie = sous_dossier ? new File(sortie, "registredepresence_"+structure+".csv") : sortie;
 		

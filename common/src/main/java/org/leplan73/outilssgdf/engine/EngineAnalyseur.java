@@ -102,6 +102,7 @@ public class EngineAnalyseur extends Engine {
 		beans.put("general", general);
 		beans.put("global", global);
 
+		modele.reset();
 		FileOutputStream fosSortie = new FileOutputStream(fichier_sortie);
 		Transformeur.go(modele, beans, fosSortie);
 		fosSortie.close();

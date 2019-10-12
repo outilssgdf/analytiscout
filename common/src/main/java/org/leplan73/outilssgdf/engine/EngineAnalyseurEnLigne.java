@@ -157,6 +157,7 @@ public class EngineAnalyseurEnLigne extends EngineConnecte {
 		beans.put("general", general);
 		beans.put("global", global);
 
+		modele.reset();
 		if (sortie.getIsStream())
 		{
 			Transformeur.go(modele, beans, sortie.getStream());

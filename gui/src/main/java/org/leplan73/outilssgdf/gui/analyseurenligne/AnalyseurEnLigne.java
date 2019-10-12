@@ -41,6 +41,7 @@ import org.leplan73.outilssgdf.gui.utils.GuiCommand;
 import org.leplan73.outilssgdf.gui.utils.LoggedDialog;
 import org.leplan73.outilssgdf.gui.utils.Logging;
 import org.leplan73.outilssgdf.gui.utils.Preferences;
+import org.leplan73.outilssgdf.outils.MarkableFileInputStream;
 import org.slf4j.Logger;
 
 abstract public class AnalyseurEnLigne extends Dialogue implements LoggedDialog, GuiCommand {
@@ -337,7 +338,7 @@ abstract public class AnalyseurEnLigne extends Dialogue implements LoggedDialog,
 					int structures[] = construitStructures(txfCodeStructure);
 					EngineAnalyseurEnLigne en = new EngineAnalyseurEnLigne(progress, logger_);
 					ParamSortie psortie = new ParamSortie(fSortie);
-					en.go(txfIdentifiant.getText(), new String(txfMotdepasse.getPassword()), new FileInputStream(fBatch), new FileInputStream(fModele), structures, chkAge.isSelected(), "tout_responsables", true, psortie ,false, chkGarderFichiers.isSelected());
+					en.go(txfIdentifiant.getText(), new String(txfMotdepasse.getPassword()), new MarkableFileInputStream(new FileInputStream(fBatch),0), new MarkableFileInputStream(new FileInputStream(fModele),0), structures, chkAge.isSelected(), "tout_responsables", true, psortie ,false, chkGarderFichiers.isSelected());
 					btnOuvrir.maj();
 				} catch (Exception e) {
 					logger_.error(Logging.dumpStack(null, e));

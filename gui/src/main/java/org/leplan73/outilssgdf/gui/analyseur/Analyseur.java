@@ -37,6 +37,7 @@ import org.leplan73.outilssgdf.gui.utils.GuiCommand;
 import org.leplan73.outilssgdf.gui.utils.LoggedDialog;
 import org.leplan73.outilssgdf.gui.utils.Logging;
 import org.leplan73.outilssgdf.gui.utils.Preferences;
+import org.leplan73.outilssgdf.outils.MarkableFileInputStream;
 import org.slf4j.Logger;
 
 abstract public class Analyseur extends Dialogue implements LoggedDialog, GuiCommand {
@@ -289,7 +290,7 @@ abstract public class Analyseur extends Dialogue implements LoggedDialog, GuiCom
 				try {
 					ParamEntree pentree = new ParamEntree(fEntree);
 					ParamSortie psortie = new ParamSortie(fSortie);
-					en.go(pentree, new FileInputStream(fBatch), new FileInputStream(fModele), null, getChcAge().isSelected(), "tout_responsables", psortie, false);
+					en.go(pentree, new MarkableFileInputStream(new FileInputStream(fBatch),0), new MarkableFileInputStream(new FileInputStream(fModele),0), null, getChcAge().isSelected(), "tout_responsables", psortie, false);
 					btnOuvrir.maj();
 				} catch (Exception e) {
 					logger_.error(Logging.dumpStack(null, e));

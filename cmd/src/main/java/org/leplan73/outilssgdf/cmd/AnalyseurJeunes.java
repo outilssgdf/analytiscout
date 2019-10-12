@@ -13,6 +13,7 @@ import org.leplan73.outilssgdf.cmd.utils.CommonParamsG;
 import org.leplan73.outilssgdf.cmd.utils.Logging;
 import org.leplan73.outilssgdf.engine.EngineAnalyseur;
 import org.leplan73.outilssgdf.engine.EngineException;
+import org.leplan73.outilssgdf.outils.MarkableFileInputStream;
 
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
@@ -46,7 +47,7 @@ public class AnalyseurJeunes extends CommonParamsG {
 			
 			ParamEntree pentree = new ParamEntree(entree, structures);
 			ParamSortie psortie = new ParamSortie(sortie, structures, "jeunes_");
-			en.go(pentree, new FileInputStream(batch), new FileInputStream(modele), structures, age, "tout_jeunes" , psortie, anonymiser);
+			en.go(pentree, new MarkableFileInputStream(new FileInputStream(batch),0), new MarkableFileInputStream(new FileInputStream(modele),0), structures, age, "tout_jeunes" , psortie, anonymiser);
 		} catch (EngineException e) {
 			Logging.logError(e);
 		}

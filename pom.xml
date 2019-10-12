@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.leplan73</groupId>
 	<artifactId>outilssgdf</artifactId>
-	<version>1.2.0-SNAPSHOT</version>
+	<version>1.2.0</version>
 	<url>https://github.com/sbouchex/outilssgdf</url>
     <licenses>
         <license>
@@ -14,7 +14,7 @@
     </licenses>
     <scm>
     <developerConnection>scm:git:https://github.com/sbouchex/outilssgdf.git</developerConnection>
-    <tag>HEAD</tag>
+    <tag>1.2.0</tag>
   </scm>
 	<packaging>pom</packaging>
 	<properties>

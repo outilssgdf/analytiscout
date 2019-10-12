@@ -56,3 +56,4 @@ Version 1.1.0 :
 Version 1.2.0 :
 	- Correction liée à l'encodage dans les fichiers de registre de présence (merci Olivier et Michel pour les tests rapides)
 	- Ajout d'une option pour garder les fichiers téléchargés
+Version 1.3.0 : en cours

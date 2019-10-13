@@ -10,7 +10,7 @@ import org.leplan73.outilssgdf.cmd.utils.CommonParamsIntranet;
 import org.leplan73.outilssgdf.cmd.utils.Logging;
 import org.leplan73.outilssgdf.engine.EngineAnalyseurEnLigne;
 import org.leplan73.outilssgdf.intranet.ExtractionIntranet;
-import org.leplan73.outilssgdf.outils.MarkableFileInputStream;
+import org.leplan73.outilssgdf.outils.ResetableFileInputStream;
 
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
@@ -53,7 +53,7 @@ public class AnalyseurJeunesEnLigne extends CommonParamsIntranet {
 			CmdProgress progress = new CmdProgress();
 			EngineAnalyseurEnLigne en = new EngineAnalyseurEnLigne(progress, Logging.logger_);
 			ParamSortie psortie = new ParamSortie(sortie, structures, "jeunes_");
-			en.go(identifiant,motdepasse, new MarkableFileInputStream(new FileInputStream(batch),0), new MarkableFileInputStream(new FileInputStream(modele),0), structures, age, "tout_jeunes", recursif, psortie, anonymiser, garder);
+			en.go(identifiant,motdepasse, new ResetableFileInputStream(new FileInputStream(batch)), new ResetableFileInputStream(new FileInputStream(modele)), structures, age, "tout_jeunes", recursif, psortie, anonymiser, garder);
 		} catch (Exception e) {
 			Logging.logger_.error(Logging.dumpStack(null, e));
 		}

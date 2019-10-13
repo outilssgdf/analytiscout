@@ -5,19 +5,14 @@ import java.io.FilterInputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
 
-public class MarkableFileInputStream extends FilterInputStream {
+public class ResetableFileInputStream extends FilterInputStream {
 	private FileChannel myFileChannel;
-    private long mark = -1;
+    private long mark = 0;
 
-    public MarkableFileInputStream(FileInputStream fis) {
+    public ResetableFileInputStream(FileInputStream fis) {
         super(fis);
         myFileChannel = fis.getChannel();
-    }
-    
-    public MarkableFileInputStream(FileInputStream fis, int amark) {
-        super(fis);
-        myFileChannel = fis.getChannel();
-        mark(amark);
+        mark(0);
     }
 
     @Override

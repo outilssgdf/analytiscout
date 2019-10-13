@@ -26,11 +26,11 @@
 	<logger name="com.jcabi.manifests" level="OFF"></logger>
 	<logger name="org.apache.commons.jexl2.JexlEngine" level="OFF"></logger>
 
-	<logger name="org.leplan73.outilssgdf.cmd" level="info" additivity="true">
-		<appender-ref ref="FILE" />
+	<logger name="org.leplan73.outilssgdf.cmd" level="info" additivity="false">
+		<appender-ref ref="appender" />
 	</logger>
 	
 	<root level="info">
-    <appender-ref ref="appender" />
+    <appender-ref ref="FILE" />
   </root>
 </configuration>

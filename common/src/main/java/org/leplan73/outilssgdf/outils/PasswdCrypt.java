@@ -1,4 +1,4 @@
-package org.leplan73.outilssgdf.gui.utils;
+package org.leplan73.outilssgdf.outils;
 
 public class PasswdCrypt {
 	

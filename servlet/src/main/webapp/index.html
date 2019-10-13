@@ -10,32 +10,55 @@
   <body>
   <H1>Outils d'analyse des donn&eacute;es intranet SGDF</H1>
 
-<h2>Analyseur en ligne (Responsables)</h2>
-<form id="formAnalyseEnLigneResponsable" method="post" action="/outilssgdf/api/v1/analyseenligne_responsables" enctype="multipart/form-data">
-    <label for="pseudo">Votre identifiant intranet :</label>
-       <input type="text" name="identifiant" id="identifiant" />
-       <br />
-       <label for="pass">Votre mot de passe intranet :</label>
-	   <input type="password" name="password" id="password" />
-	   <br />
-       <label for="code_structure">Votre code de structure :</label>
-       <input type="text" name="code_structure" id="code_structure" />
-       <input type="submit" value="Envoyer" />
-</form>
+<div class="container">
+  <div class="row">
+    <div class="col">
+					<h2>Analyseur "Responsables"</h2>
+					<form id="formAnalyseEnLigneResponsable" method="post" action="/outilssgdf/api/v1/analyseenligne_responsables" enctype="multipart/form-data">
+						<table border="0" cellspacing="2" cellpadding="0">
+							<tr>
+								<td width="190">Votre identifiant intranet :</td>
+								<td align="center" width="170"><input type="text" name="identifiant" id="identifiant" size="15" /></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td width="190">Votre mot de passe intranet :</td>
+								<td align="center" width="170"><input type="password" name="password" id="password" size="15" /></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td width="190">Votre code de structure :</td>
+								<td align="center" width="170"><input type="text" name="code_structure" id="code_structure" size="15" /></td>
+								<td><input type="submit" value="Envoyer" /></td>
+							</tr>
+						</table>
+					</form>
+	</div>
+    <div class="col">
+					<h2>Analyseur "Jeunes"</h2>
+					<form id="formAnalyseEnLigneJeunes" method="post" action="/outilssgdf/api/v1/analyseenligne_jeunes" enctype="multipart/form-data">
+						<table border="0" cellspacing="2" cellpadding="0">
+							<tr>
+								<td width="190">Votre identifiant intranet :</td>
+								<td align="center" width="160"><input type="text" name="identifiant" id="identifiant" size="15" /></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td width="190">Votre mot de passe intranet :</td>
+								<td align="center" width="160"><input type="password" name="password" id="password" size="15" /></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td width="190">Votre code de structure :</td>
+								<td align="center" width="160"><input type="text" name="code_structure" id="code_structure" size="15" /></td>
+								<td><input type="submit" value="Envoyer" /></td>
+							</tr>
+						</table>
+					</form>
+	</div>
+  </div>
+</div>
 
-<HR>
 
-<h2>Analyseur en ligne (Jeunes)</h2>
-<form id="formAnalyseEnLigneJeunes" method="post" action="/outilssgdf/api/v1/analyseenligne_jeunes" enctype="multipart/form-data">
-    <label for="pseudo">Votre identifiant intranet :</label>
-       <input type="text" name="identifiant" id="identifiant" />
-       <br />
-       <label for="pass">Votre mot de passe intranet :</label>
-	   <input type="password" name="password" id="password" />
-	   <br />
-       <label for="code_structure">Votre code de structure :</label>
-       <input type="text" name="code_structure" id="code_structure" />
-       <input type="submit" value="Envoyer" />
-</form>
 </body>
 </html>

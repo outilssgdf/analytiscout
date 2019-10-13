@@ -6,6 +6,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+import org.leplan73.outilssgdf.outils.CryptoException;
+import org.leplan73.outilssgdf.outils.PasswdCrypt;
+
 public class Preferences {
 	
 	static private File file_;

@@ -16,8 +16,11 @@ import picocli.CommandLine.Command;
 @Command(name = "outilsgdf", mixinStandardHelpOptions = true)
 public class GuiCmd extends GuiParams
 {
-	private void go(String[] args)
+	public void go(String[] args)
 	{
+		Logging.initLogger(avance ? OutilsSGDFNormal.class: OutilsSGDFAdvanced.class, true);
+		Params.init();
+		
 		boolean avance = false;
 		
 		CommandLine commandLine = new CommandLine(this);
@@ -45,12 +48,10 @@ public class GuiCmd extends GuiParams
 		if (avance)
 			new OutilsSGDFAdvanced().go();
 		else
-		new OutilsSGDFNormal().go();
+			new OutilsSGDFNormal().go();
 	}
 	
 	public static void main(String[] args) {
-		Logging.initLogger(OutilsSGDFNormal.class, true);
-		Params.init();
 		new GuiCmd().go(args);
 	}
 }

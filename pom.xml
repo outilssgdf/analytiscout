@@ -49,8 +49,9 @@
 		<module>common</module>
 		<module>cmd</module>
 		<module>gui</module>
-    <module>assembly</module>
-  </modules>
+    	<module>assembly</module>
+    	<module>guilauncher</module>
+	</modules>
   <build>
   <plugins>
   <plugin>

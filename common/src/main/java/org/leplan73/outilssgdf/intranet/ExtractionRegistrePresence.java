@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.apache.http.Consts;
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
@@ -81,6 +82,14 @@ public class ExtractionRegistrePresence extends ExtractionIntranet {
 			httpget.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 6.1; rv:31.0) Gecko/20100101 Firefox/31.0");
 			httpget.addHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
 			httpget.addHeader("Accept-Language", "fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3");
+			if (logger_.isDebugEnabled())
+			{
+				Header[] headers = httpget.getAllHeaders();
+				for (Header header : headers)
+				{
+					logger_.debug("header: "+header.getName()+":"+header.getValue());
+				}
+			}
 			CloseableHttpResponse response = httpclient.execute(httpget);
 	
 			HttpEntity entity = response.getEntity();
@@ -213,6 +222,19 @@ public class ExtractionRegistrePresence extends ExtractionIntranet {
 				formparams.add(new BasicNameValuePair("ctl00$_hidReferenceStatistiqueUtilisation", "-1"));
 				formparams.add(new BasicNameValuePair("ctl00$_hfSuggestionAvisUtilisateur", "hidden"));
 				formparams.add(new BasicNameValuePair("ctl00$_ddDelegations", "0"));
+				if (logger_.isDebugEnabled())
+				{
+					Header[] headers = httppost.getAllHeaders();
+					for (Header header : headers)
+					{
+						logger_.debug("Header: "+header.getName()+":"+header.getValue());
+					}
+					formparams.forEach(p ->
+					{
+						logger_.debug("Param: "+p.getName()+":"+p.getValue());
+						
+					});
+				}
 	
 				entity = new UrlEncodedFormEntity(formparams, Consts.UTF_8);
 				httppost.setEntity(entity);
@@ -283,6 +305,19 @@ public class ExtractionRegistrePresence extends ExtractionIntranet {
 				formparams.add(new BasicNameValuePair("ctl00$_hidReferenceStatistiqueUtilisation", "-1"));
 				formparams.add(new BasicNameValuePair("ctl00$_hfSuggestionAvisUtilisateur", "hidden"));
 				formparams.add(new BasicNameValuePair("ctl00$_ddDelegations", "0"));
+				if (logger_.isDebugEnabled())
+				{
+					Header[] headers = httppost.getAllHeaders();
+					for (Header header : headers)
+					{
+						logger_.debug("Header: "+header.getName()+":"+header.getValue());
+					}
+					formparams.forEach(p ->
+					{
+						logger_.debug("Param: "+p.getName()+":"+p.getValue());
+						
+					});
+				}
 	
 				entity = new UrlEncodedFormEntity(formparams, Consts.UTF_8);
 				httppost.setEntity(entity);
@@ -353,6 +388,19 @@ public class ExtractionRegistrePresence extends ExtractionIntranet {
 				formparams.add(new BasicNameValuePair("ctl00$_hidReferenceStatistiqueUtilisation", "-1"));
 				formparams.add(new BasicNameValuePair("ctl00$_hfSuggestionAvisUtilisateur", "hidden"));
 				formparams.add(new BasicNameValuePair("ctl00$_ddDelegations", "0"));
+				if (logger_.isDebugEnabled())
+				{
+					Header[] headers = httppost.getAllHeaders();
+					for (Header header : headers)
+					{
+						logger_.debug("Header: "+header.getName()+":"+header.getValue());
+					}
+					formparams.forEach(p ->
+					{
+						logger_.debug("Param: "+p.getName()+":"+p.getValue());
+						
+					});
+				}
 	
 				entity = new UrlEncodedFormEntity(formparams, Consts.UTF_8);
 				httppost.setEntity(entity);
@@ -420,6 +468,19 @@ public class ExtractionRegistrePresence extends ExtractionIntranet {
 			formparams.add(new BasicNameValuePair("ctl00$_hidReferenceStatistiqueUtilisation", "-1"));
 			formparams.add(new BasicNameValuePair("ctl00$_hfSuggestionAvisUtilisateur", "hidden"));
 			formparams.add(new BasicNameValuePair("ctl00$_ddDelegations", "0"));
+			if (logger_.isDebugEnabled())
+			{
+				Header[] headers = httppost.getAllHeaders();
+				for (Header header : headers)
+				{
+					logger_.debug("Header: "+header.getName()+":"+header.getValue());
+				}
+				formparams.forEach(p ->
+				{
+					logger_.debug("Param: "+p.getName()+":"+p.getValue());
+					
+				});
+			}
 	
 			entity = new UrlEncodedFormEntity(formparams, Consts.UTF_8);
 			httppost.setEntity(entity);

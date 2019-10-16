@@ -27,8 +27,8 @@ import org.slf4j.LoggerFactory;
 
 public class ExtractionIntranet {
 
-	private static final String HTTPS_INTRANET_SGDF_FR = "https://intranet.sgdf.fr/";
-	private static final String HTTPS_TESTINTRANET_SGDF_FR = "http://intranet-qualification.sgdf.fr/";
+	private static final String HTTPS_INTRANET_SGDF_FR = "https://intranet.sgdf.fr";
+	private static final String HTTPS_TESTINTRANET_SGDF_FR = "http://intranet-qualification.sgdf.fr";
 	
 	public final static String GENERATEUR_CSV = "csv";
 	public final static String GENERATEUR_XML = "xml";
@@ -137,8 +137,8 @@ public class ExtractionIntranet {
         if (logger_.isDebugEnabled())
         	logger_.debug(obj);
     	Document doc = Jsoup.parse(obj);
-    	viewstate = doc.select("#__VIEWSTATE").first().val();
-    	eventvalidation = doc.select("#__EVENTVALIDATION").first().val();
+    	viewstate = doc.selectFirst("#__VIEWSTATE").val();
+    	eventvalidation = doc.selectFirst("#__EVENTVALIDATION").val();
     	
     	Element login = doc.select("#_divFormulaire").first();
     	if (login != null)

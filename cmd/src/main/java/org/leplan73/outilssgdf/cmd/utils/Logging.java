@@ -27,7 +27,7 @@ public class Logging {
 		if (debug)
 		{
 			ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger) org.slf4j.LoggerFactory.getLogger("org.leplan73.outilssgdf.intranet");
-			root.setLevel(Level.INFO);
+			root.setLevel(Level.DEBUG);
 		}
 	}
 	

@@ -18,7 +18,7 @@ public class GuiCmd extends GuiParams
 {
 	public void go(String[] args)
 	{
-		Logging.initLogger(avance ? OutilsSGDFNormal.class: OutilsSGDFAdvanced.class, debugintranet);
+		Logging.initLogger(avance ? OutilsSGDFNormal.class: OutilsSGDFAdvanced.class);
 		Params.init();
 		
 		boolean avance = false;
@@ -33,6 +33,7 @@ public class GuiCmd extends GuiParams
 			{
 				ExtractionIntranet.setQualifications(true);
 			}
+			Logging.debugintranet(debugintranet);
 			if (cmd.avance == true)
 			{
 				avance = true;

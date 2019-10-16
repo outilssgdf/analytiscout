@@ -15,19 +15,20 @@ public class Logging {
 
 	public static Logger logger_;
 
-	public static void initLogger(Class<?> classn, boolean debug)
+	public static void initLogger(Class<?> classn)
 	{
 		System.setProperty(ContextInitializer.CONFIG_FILE_PROPERTY, "logback-gui.xml");
+		logger_ = LoggerFactory.getLogger(classn);
+	}
+	
+	public static void debugintranet(boolean debug)
+	{
 		if (debug)
 		{
 			System.setProperty("org.slf4j.simpleLogger.log.org.apache.http", "debug");
 			System.setProperty("org.slf4j.simpleLogger.log.org.apache.http.wire", "debug");
-		}
-		logger_ = LoggerFactory.getLogger(classn);
-		if (debug)
-		{
 			ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger) org.slf4j.LoggerFactory.getLogger("org.leplan73.outilssgdf.intranet");
-			root.setLevel(Level.INFO);
+			root.setLevel(Level.DEBUG);
 		}
 	}
 	

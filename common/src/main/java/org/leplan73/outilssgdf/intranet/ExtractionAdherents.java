@@ -51,7 +51,7 @@ public class ExtractionAdherents extends ExtractionIntranet {
 				viewstate = null;
 				continue;
 			}
-		    viewstate = docViewstate.select("#__VIEWSTATE").first().val();
+		    viewstate = docViewstate.selectFirst("#__VIEWSTATE").val();
 		    responseViewState.close();
 	       	
 	    	Map<Integer, Integer> structureMap = new TreeMap<Integer, Integer>();

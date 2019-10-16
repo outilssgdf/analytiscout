@@ -354,6 +354,11 @@ public class AdherentForme extends Adherent {
 			return estetaetetitulaire_;
 		}
 
+		public boolean getAetaetestagiaire()
+		{
+			return !estetaetetitulaire_;
+		}
+
 		public boolean getDejaexpire()
 		{
 			return dejaExpire_;

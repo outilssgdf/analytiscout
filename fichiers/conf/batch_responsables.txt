@@ -306,3 +306,12 @@ nom.34=fc2
 fichier.34=fc2
 adherents.34=true
 batchtype.34=formation
+
+generateur.35=xml
+format.35=4
+diplome.35=629
+qualif.35=
+formation.35=
+nom.35=noeuddetisserand
+adherents.35=true
+batchtype.35=diplome

@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 
 import org.leplan73.outilssgdf.gui.Template;
 import org.leplan73.outilssgdf.gui.cec.AnalyseCECEnligne;
+import org.leplan73.outilssgdf.gui.registredepresence.AnalyseRegistreDePresence;
 import org.leplan73.outilssgdf.gui.registredepresence.AnalyseRegistreDePresenceEnLigne;
 import org.leplan73.outilssgdf.gui.utils.ElementFactory;
 
@@ -40,8 +41,17 @@ public class RegistrePresence extends Template {
 		panel.setLayout(new BorderLayout(0, 0));
 
 		JButton btnextraireEtAnalyserdes = new JButton(
-				"<html><p style=\"text-align:center;\">Extraire et analyser<br>des données en ligne</p>");
-		panel.add(btnextraireEtAnalyserdes, BorderLayout.NORTH);
+				"<html><p style=\"text-align:center;\">Extraire et analyser des données en ligne</p>");
+		btnextraireEtAnalyserdes.setEnabled(false);
+		panel.add(btnextraireEtAnalyserdes, BorderLayout.WEST);
+		
+		JButton btnextraireEtAnalyserdes_1 = new JButton("<html><p style=\"text-align:center;\">Analyser des données</p>");
+		btnextraireEtAnalyserdes_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new AnalyseRegistreDePresence().setVisible(true);
+			}
+		});
+		panel.add(btnextraireEtAnalyserdes_1, BorderLayout.EAST);
 		btnextraireEtAnalyserdes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new AnalyseRegistreDePresenceEnLigne().setVisible(true);

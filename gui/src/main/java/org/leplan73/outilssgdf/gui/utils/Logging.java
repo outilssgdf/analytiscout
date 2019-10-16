@@ -8,6 +8,7 @@ import java.io.PrintWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.util.ContextInitializer;
 
 public class Logging {
@@ -23,6 +24,11 @@ public class Logging {
 			System.setProperty("org.slf4j.simpleLogger.log.org.apache.http.wire", "debug");
 		}
 		logger_ = LoggerFactory.getLogger(classn);
+		if (debug)
+		{
+			ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger) org.slf4j.LoggerFactory.getLogger("org.leplan73.outilssgdf.intranet");
+			root.setLevel(Level.INFO);
+		}
 	}
 	
 	static public String dumpStack(String message, Throwable ex)

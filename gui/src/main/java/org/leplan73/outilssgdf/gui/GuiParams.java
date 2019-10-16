@@ -14,6 +14,9 @@ public class GuiParams implements IVersionProvider {
 	@Option(names = "-avance", hidden=true)
 	protected boolean avance = false;
 	
+	@Option(names = "-debugintranet", description = "debugintranet (Valeur par défaut: ${DEFAULT-VALUE})")
+	protected boolean debugintranet = false;
+	
 	@Override
 	public String[] getVersion() throws Exception {
 		try {

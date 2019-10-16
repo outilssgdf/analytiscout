@@ -22,7 +22,7 @@ public class CmdLine extends CmdParams {
 	@Override
 	protected void go(String[] args, Class<?> classn)
 	{
-		Logging.initLogger(classn, debug);
+		Logging.initLogger(classn, debugintranet);
 		try
 		{
 			CommandLine commandLine = new CommandLine(this);

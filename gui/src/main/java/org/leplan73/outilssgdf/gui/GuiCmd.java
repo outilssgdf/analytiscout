@@ -18,7 +18,7 @@ public class GuiCmd extends GuiParams
 {
 	public void go(String[] args)
 	{
-		Logging.initLogger(avance ? OutilsSGDFNormal.class: OutilsSGDFAdvanced.class, true);
+		Logging.initLogger(avance ? OutilsSGDFNormal.class: OutilsSGDFAdvanced.class, debugintranet);
 		Params.init();
 		
 		boolean avance = false;

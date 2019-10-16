@@ -34,10 +34,8 @@
 	</appender>
 
 	<logger name="com.jcabi.manifests" level="OFF"></logger>
-	  <root level="error">
-	    <appender-ref ref="appender" />
-		<appender-ref ref="FILE" />
-	  </root>
+	<logger name="org.apache.commons.jexl2.JexlEngine" level="OFF"></logger>
+	<logger name="net.sf.jett" level="OFF"></logger>
   
   <logger name="org.leplan73.outilssgdf.gui" level="info" additivity="false">
    <appender-ref ref="appender" />

@@ -9,10 +9,13 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import org.leplan73.outilssgdf.gui.Template;
+import org.leplan73.outilssgdf.gui.cec.AnalyseCEC;
 import org.leplan73.outilssgdf.gui.cec.AnalyseCECEnligne;
 import org.leplan73.outilssgdf.gui.registredepresence.AnalyseRegistreDePresence;
 import org.leplan73.outilssgdf.gui.registredepresence.AnalyseRegistreDePresenceEnLigne;
 import org.leplan73.outilssgdf.gui.utils.ElementFactory;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 
 public class RegistrePresence extends Template {
 
@@ -41,11 +44,11 @@ public class RegistrePresence extends Template {
 		panel.setLayout(new BorderLayout(0, 0));
 
 		JButton btnextraireEtAnalyserdes = new JButton(
-				"<html><p style=\"text-align:center;\">Extraire et analyser des données en ligne</p>");
+				"<html><p style=\"text-align:center;\">Extraire et analyser<br>des données en ligne</p>");
 		btnextraireEtAnalyserdes.setEnabled(false);
 		panel.add(btnextraireEtAnalyserdes, BorderLayout.WEST);
 		
-		JButton btnextraireEtAnalyserdes_1 = new JButton("<html><p style=\"text-align:center;\">Analyser des données</p>");
+		JButton btnextraireEtAnalyserdes_1 = new JButton("Analyser des données");
 		btnextraireEtAnalyserdes_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new AnalyseRegistreDePresence().setVisible(true);
@@ -73,15 +76,40 @@ public class RegistrePresence extends Template {
 
 		JPanel panel_3 = new JPanel();
 		panel_2.add(panel_3, BorderLayout.CENTER);
-		panel_3.setLayout(new BorderLayout(0, 0));
-
-		JButton button = new JButton(
-				"<html><p style=\"text-align:center;\">Extraire et analyser<br>des données en ligne</p>");
-		button.addActionListener(new ActionListener() {
+		GridBagLayout gbl_panel_3 = new GridBagLayout();
+		gbl_panel_3.columnWidths = new int[]{135, 139, 0};
+		gbl_panel_3.rowHeights = new int[]{220, 0};
+		gbl_panel_3.columnWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
+		gbl_panel_3.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+		panel_3.setLayout(gbl_panel_3);
+		
+				JButton button = new JButton(
+						"<html><p style=\"text-align:center;\">Extraire et analyser<br>des données en ligne</p>");
+				button.setEnabled(false);
+				button.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						new AnalyseCECEnligne().setVisible(true);
+					}
+				});
+				GridBagConstraints gbc_button = new GridBagConstraints();
+				gbc_button.fill = GridBagConstraints.HORIZONTAL;
+				gbc_button.anchor = GridBagConstraints.NORTH;
+				gbc_button.insets = new Insets(0, 0, 0, 5);
+				gbc_button.gridx = 0;
+				gbc_button.gridy = 0;
+				panel_3.add(button, gbc_button);
+		
+		JButton btnGnrationDesFiches = new JButton("Génération des fiches");
+		btnGnrationDesFiches.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new AnalyseCECEnligne().setVisible(true);
+				new AnalyseCEC().setVisible(true);
 			}
 		});
-		panel_3.add(button, BorderLayout.NORTH);
+		GridBagConstraints gbc_btnGnrationDesFiches = new GridBagConstraints();
+		gbc_btnGnrationDesFiches.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnGnrationDesFiches.anchor = GridBagConstraints.NORTH;
+		gbc_btnGnrationDesFiches.gridx = 1;
+		gbc_btnGnrationDesFiches.gridy = 0;
+		panel_3.add(btnGnrationDesFiches, gbc_btnGnrationDesFiches);
 	}
 }

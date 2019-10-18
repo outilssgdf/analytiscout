@@ -11,7 +11,7 @@ import org.jdom2.JDOMException;
 import org.leplan73.outilssgdf.Consts;
 import org.leplan73.outilssgdf.ExtractionException;
 import org.leplan73.outilssgdf.Progress;
-import org.leplan73.outilssgdf.intranet.ExtractionRegistrePresence;
+import org.leplan73.outilssgdf.intranet.ExtractionRegistrePresence2;
 import org.slf4j.Logger;
 
 public class EngineExtractionRegistreDePresence extends EngineConnecte {
@@ -20,7 +20,7 @@ public class EngineExtractionRegistreDePresence extends EngineConnecte {
 		super(progress, logger);
 	}
 	
-	private boolean gopriv(ExtractionRegistrePresence app, String identifiant, String motdepasse, File sortie, int structure, boolean recursif, int annee, boolean sous_dossier) throws ClientProtocolException, IOException, JDOMException, InvalidFormatException, ExtractionException
+	private boolean gopriv(ExtractionRegistrePresence2 app, String identifiant, String motdepasse, File sortie, int structure, boolean recursif, int annee, boolean sous_dossier) throws ClientProtocolException, IOException, JDOMException, InvalidFormatException, ExtractionException, InterruptedException
 	{
 		logger_.info("Extraction registre de presence (annee="+annee+")");
 		String donnees = app.extract(structure, recursif, annee, 0 , false);
@@ -41,7 +41,7 @@ public class EngineExtractionRegistreDePresence extends EngineConnecte {
 		start();
 		try
 		{
-			ExtractionRegistrePresence app = new ExtractionRegistrePresence();
+			ExtractionRegistrePresence2 app = new ExtractionRegistrePresence2();
 			progress_.setProgress(30, "Connexion");
 			login(app, identifiant, motdepasse);
 			progress_.setProgress(40, "Extraction");
@@ -56,7 +56,7 @@ public class EngineExtractionRegistreDePresence extends EngineConnecte {
 			progress_.setProgress(80,"Déconnexion");
 			
 			logout();
-		} catch (IOException | JDOMException | InvalidFormatException | ExtractionException e) {
+		} catch (IOException | JDOMException | InvalidFormatException | ExtractionException | InterruptedException e) {
 			throw new EngineException("Exception dans "+this.getClass().getName(),e);
 		}
 		finally  {

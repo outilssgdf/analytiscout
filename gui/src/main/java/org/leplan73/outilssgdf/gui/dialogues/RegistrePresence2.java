@@ -8,9 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 
 import org.leplan73.outilssgdf.gui.Template;
 import org.leplan73.outilssgdf.gui.cec.AnalyseCEC;
@@ -27,8 +25,6 @@ public class RegistrePresence2 extends Template {
 	public RegistrePresence2() {
 		super();
 
-		if (true)
-		{
 		JPanel panel_title1 = ElementFactory.createActionTitle("<html><b>Registre de présence</b></html>");
 		GridBagLayout gbl_panel_title1 = (GridBagLayout) panel_title1.getLayout();
 		gbl_panel_title1.rowWeights = new double[] { 0.0 };
@@ -120,12 +116,4 @@ public class RegistrePresence2 extends Template {
 		});
 		panel.add(btnNewButton_1, BorderLayout.NORTH);
 	}
-		else
-		{
-			JLabel lblaArrive = new JLabel("ça arrive !!!");
-			lblaArrive.setHorizontalAlignment(SwingConstants.CENTER);
-			panel_collection.add(lblaArrive, BorderLayout.CENTER);
-		}
-	}
-
 }

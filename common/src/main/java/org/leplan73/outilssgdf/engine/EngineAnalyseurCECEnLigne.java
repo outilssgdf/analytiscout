@@ -16,7 +16,7 @@ import org.jdom2.JDOMException;
 import org.leplan73.outilssgdf.Progress;
 import org.leplan73.outilssgdf.Transformeur;
 import org.leplan73.outilssgdf.TransformeurException;
-import org.leplan73.outilssgdf.intranet.ExtractionRegistrePresence;
+import org.leplan73.outilssgdf.intranet.ExtractionRegistrePresence2;
 import org.leplan73.outilssgdf.registrepresence.ExtracteurRegistrePresence;
 import org.leplan73.outilssgdf.registrepresence.RegistrePresenceActiviteHeure;
 import org.leplan73.outilssgdf.registrepresence.RegistrePresenceUnite;
@@ -28,7 +28,7 @@ public class EngineAnalyseurCECEnLigne extends EngineConnecte {
 		super(progress, logger);
 	}
 	
-	private boolean gopriv(ExtractionRegistrePresence app, int structure, int annee, File fSortie, File fModele) throws IOException, JDOMException, TransformeurException
+	private boolean gopriv(ExtractionRegistrePresence2 app, int structure, int annee, File fSortie, File fModele) throws IOException, JDOMException, TransformeurException, InterruptedException
 	{
 		progress_.setProgress(20);
 		
@@ -80,7 +80,7 @@ public class EngineAnalyseurCECEnLigne extends EngineConnecte {
 		start();
 		try
 		{
-			ExtractionRegistrePresence app = new ExtractionRegistrePresence();
+			ExtractionRegistrePresence2 app = new ExtractionRegistrePresence2();
 			login(app, identifiant, motdepasse);
 			progress_.setProgress(40);
 			
@@ -92,7 +92,7 @@ public class EngineAnalyseurCECEnLigne extends EngineConnecte {
 					break;
 			}
 			logout();
-		} catch (IOException | TransformeurException e) {
+		} catch (IOException | TransformeurException | InterruptedException e) {
 			throw new EngineException("Exception dans "+this.getClass().getName(),e);
 		}
 		finally  {

@@ -1,6 +1,7 @@
 package org.leplan73.outilssgdf.intranet;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,11 +10,13 @@ import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
 import org.apache.http.NameValuePair;
+import org.apache.http.ParseException;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.LaxRedirectStrategy;
@@ -24,6 +27,17 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.HtmlForm;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.gargoylesoftware.htmlunit.html.HtmlPasswordInput;
+import com.gargoylesoftware.htmlunit.html.HtmlSubmitInput;
+import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
+import com.jayway.jsonpath.Configuration;
+import com.jayway.jsonpath.JsonPath;
+import com.jayway.jsonpath.PathNotFoundException;
 
 public class ExtractionIntranet {
 
@@ -86,8 +100,10 @@ public class ExtractionIntranet {
 	protected String eventvalidation;
 	protected String viewstate;
 	protected static Logger logger_;
+	protected WebClient webClient;
+	protected HtmlPage page;
 	
-	protected static String getIntranet()
+	public static String getIntranet()
 	{
 		return testmode_ ? HTTPS_TESTINTRANET_SGDF_FR : HTTPS_INTRANET_SGDF_FR;
 	}
@@ -115,13 +131,129 @@ public class ExtractionIntranet {
 	public void init()
 	{
 		httpclient = HttpClientBuilder.create().setRedirectStrategy(new LaxRedirectStrategy()).build();
+		webClient = new WebClient();
+		webClient.getOptions().setTimeout(300*1000*10);
+		webClient.getOptions().setDownloadImages(false);
+		webClient.getOptions().setAppletEnabled(false);
 	}
 
 	public void close() throws IOException {
 		httpclient.close();
+		webClient.close();
 	}
 	
 	public boolean login(String identifiant, String motdepasse) throws ClientProtocolException, IOException
+	{
+		boolean ret = loginHttp(identifiant, motdepasse);
+		boolean ret2 = loginWebClient(identifiant, motdepasse);
+		
+		return ret && ret2;
+	}
+	
+	public class RpCode
+	{
+		public String id;
+		public String name;
+		public String jcode() {
+			return "[{\"id\":\""+id+"\",\"name\":\""+name+"\"}]";
+		}
+	}
+	
+	public RpCode code(int structure) throws ParseException, IOException
+	{
+		for (;;)
+		{
+			HttpGet httpget = new HttpGet(ExtractionIntranet.getIntranet()
+					+ "/Specialisation/Sgdf/ActivitesAnnee/ConsulterRegistrePresence.aspx");
+			httpget.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 6.1; rv:31.0) Gecko/20100101 Firefox/31.0");
+			httpget.addHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+			httpget.addHeader("Accept-Language", "fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3");
+			if (logger_.isDebugEnabled())
+			{
+				Header[] headers = httpget.getAllHeaders();
+				for (Header header : headers)
+				{
+					logger_.debug("header: "+header.getName()+":"+header.getValue());
+				}
+			}
+			CloseableHttpResponse response = httpclient.execute(httpget);
+	
+			HttpEntity entity = response.getEntity();
+			String obj = EntityUtils.toString(entity);
+			if (logger_.isDebugEnabled())
+				logger_.debug(obj);
+			Document doc = Jsoup.parse(obj);
+			if (doc == null)
+				continue;
+			viewstate = doc.select("#__VIEWSTATE").first().val();
+			response.close();
+	
+			// Extraction des codes structure "dd" internes (visible avec un profile
+			// "Groupe")
+			Element ddCodes = doc.selectFirst("select[id=ctl00_MainContent__EditeurRegistrePresence__navigateur__ddStructure]");
+			if (ddCodes == null) {
+				HttpPost httppostStructures = new HttpPost(ExtractionIntranet.getIntranet()
+						+ "/Specialisation/Sgdf/WebServices/AutoComplete.asmx/GetStructures");
+				httppostStructures.addHeader("User-Agent",
+						"Mozilla/5.0 (Windows NT 6.1; rv:31.0) Gecko/20100101 Firefox/31.0");
+				httppostStructures.addHeader("Content-Type", "application/json; charset=UTF-8");
+				httppostStructures.addHeader("Accept", "application/json, text/javascript, */*; q=0.01");
+	
+				String query = "{q: \"" + structure + "\", id_token: \"undefined\"}";
+				StringEntity JsonEntity = new StringEntity(query);
+				httppostStructures.setEntity(JsonEntity);
+				response = httpclient.execute(httppostStructures);
+	
+				entity = response.getEntity();
+				obj = EntityUtils.toString(entity);
+				if (logger_.isDebugEnabled())
+					logger_.debug(obj);
+				response.close();
+	
+				Object jsonDocument = Configuration.defaultConfiguration().jsonProvider().parse(obj);
+				if (jsonDocument != null) {
+					String tbAutoCompleteCode = JsonPath.read(jsonDocument, "$.d");
+					jsonDocument = Configuration.defaultConfiguration().jsonProvider().parse(tbAutoCompleteCode.toString());
+					try
+	       			{
+						Object nodeId = JsonPath.read(jsonDocument, "$.[0].id");
+						Object name = JsonPath.read(jsonDocument, "$.[0].name");
+						RpCode rp = new RpCode();
+						rp.id = (String)nodeId;
+						rp.name = (String)name;
+						return rp;
+	       			}
+	       			catch(PathNotFoundException ex)
+	       			{
+	       				throw ex;
+	       			}
+				}
+			}
+		}
+	}
+	
+	private boolean loginWebClient(String identifiant, String motdepasse) throws FailingHttpStatusCodeException, IOException
+	{
+		final URL url = new URL(ExtractionIntranet.getIntranet());
+        page = (HtmlPage)webClient.getPage(url);
+        
+        HtmlForm form = page.getFormByName("ctl01");
+        HtmlTextInput login = form.getInputByName("login");
+        login.setValueAttribute(identifiant);
+        HtmlPasswordInput mdp = form.getInputByName("password");
+        mdp.setValueAttribute(motdepasse);
+        HtmlSubmitInput btn = form.getInputByName("_btnValider");
+        page = btn.click();
+        
+        String contenu = page.asText();
+        if (contenu.contains("J'ai oublié mon mot de passe"))
+        {
+     	   return false;
+        }
+       return true;
+	}
+	
+	private boolean loginHttp(String identifiant, String motdepasse) throws ClientProtocolException, IOException
 	{
         HttpGet httpget = new HttpGet(ExtractionIntranet.getIntranet());
         httpget.addHeader("User-Agent","Mozilla/5.0 (Windows NT 6.1; rv:31.0) Gecko/20100101 Firefox/31.0");

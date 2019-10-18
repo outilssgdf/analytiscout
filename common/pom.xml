@@ -101,6 +101,11 @@
 			<artifactId>jcl-over-slf4j</artifactId>
 			<version>${slf4j.version}</version>
 		</dependency>
+		<dependency>
+	    <groupId>net.sourceforge.htmlunit</groupId>
+	    <artifactId>htmlunit</artifactId>
+	    <version>${htmlunit.version}</version>
+	</dependency>
 	</dependencies>
 	<build>
 		<plugins>

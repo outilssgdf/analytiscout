@@ -17,7 +17,7 @@ import org.leplan73.outilssgdf.Consts;
 import org.leplan73.outilssgdf.Progress;
 import org.leplan73.outilssgdf.Transformeur;
 import org.leplan73.outilssgdf.TransformeurException;
-import org.leplan73.outilssgdf.intranet.ExtractionRegistrePresence;
+import org.leplan73.outilssgdf.intranet.ExtractionRegistrePresence2;
 import org.leplan73.outilssgdf.registrepresence.ExtracteurRegistrePresence;
 import org.leplan73.outilssgdf.registrepresence.RegistrePresenceActivite;
 import org.leplan73.outilssgdf.registrepresence.RegistrePresenceActiviteHeure;
@@ -29,7 +29,7 @@ public class EngineAnalyseurRegistreDePresenceEnLigne extends EngineConnecte {
 		super(progress, logger);
 	}
 	
-	private boolean gopriv(ExtractionRegistrePresence app, int structure, boolean recursif, int annee, File sortie, File modele, boolean sous_dossier, boolean garderFichiers) throws ClientProtocolException, IOException, JDOMException, TransformeurException
+	private boolean gopriv(ExtractionRegistrePresence2 app, int structure, boolean recursif, int annee, File sortie, File modele, boolean sous_dossier, boolean garderFichiers) throws ClientProtocolException, IOException, JDOMException, TransformeurException, InterruptedException
 	{
 		progress_.setProgress(20, "Extraction");
 		logger_.info("Extraction");
@@ -83,7 +83,7 @@ public class EngineAnalyseurRegistreDePresenceEnLigne extends EngineConnecte {
 		start();
 		try
 		{
-			ExtractionRegistrePresence app = new ExtractionRegistrePresence();
+			ExtractionRegistrePresence2 app = new ExtractionRegistrePresence2();
 			progress_.setProgress(30, "Connexion");
 			login(app, identifiant, motdepasse);
 			progress_.setProgress(40, "Extraction");
@@ -96,7 +96,7 @@ public class EngineAnalyseurRegistreDePresenceEnLigne extends EngineConnecte {
 					break;
 			}
 			logout();
-		} catch (IOException | JDOMException | TransformeurException e) {
+		} catch (IOException | JDOMException | TransformeurException | InterruptedException e) {
 			throw new EngineException("Exception dans "+this.getClass().getName(),e);
 		}
 		finally  {

@@ -18,10 +18,10 @@ public class Database {
 	
 	public class Requete
 	{
-		int id;
-		String identifiant;
-		String motdepasse;
-		int code_structure; 
+		public int id;
+		public String identifiant;
+		public String motdepasse;
+		public int code_structure; 
 	}
 	
 	private void retirerRequete(String nom, int id)
@@ -78,11 +78,11 @@ public class Database {
 		Statement stmt = null;
 		try {
 			stmt = conn_.createStatement();
-			String sql = "INSERT INTO "+nom+" VALUES (NULL,"+PasswdCrypt.encrypt(identifiant)+","+PasswdCrypt.encrypt(motdepasse)+","+code_structure+")";
+			String sql = "INSERT INTO "+nom+" VALUES (NULL,'"+PasswdCrypt.encrypt(identifiant)+"','"+PasswdCrypt.encrypt(motdepasse)+"',"+code_structure+")";
 			stmt.executeUpdate(sql);
 			stmt.close();
-			conn_.commit();
 			
+			stmt = conn_.createStatement();
 			sql = "select count(*) from REQUETES_RESPONSABLES";
 			ResultSet rs = stmt.executeQuery(sql);
 			while (rs.next()) {

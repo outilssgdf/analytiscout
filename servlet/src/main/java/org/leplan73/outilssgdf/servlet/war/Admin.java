@@ -24,30 +24,30 @@ import io.swagger.annotations.Api;
 public class Admin {
 	
 	@GET
-    @Path("/analyseenligne_jeunes_email/lister")
+    @Path("/analyseenligne/jeunes/email/lister")
     public List<Requete> lister_analyseenligne_jeunes_email(@DefaultValue("false") @QueryParam(value = "decrypt") boolean decrypt) throws ExtractionException, IOException, JDOMException, InvalidFormatException, TransformeurException {
 		List<Requete> requetes = Manager.getDb().listRequetesJeunes(decrypt);
 		return requetes;
 	}
 	
 	@DELETE
-    @Path("/analyseenligne_jeunes_email/supprimer")
+    @Path("/analyseenligne/jeunes/email/supprimer")
     public Response supprimer_analyseenligne_jeunes_email(@QueryParam(value = "id") int id) throws ExtractionException, IOException, JDOMException, InvalidFormatException, TransformeurException {
 		Manager.getDb().supprimerRequetesJeunes(id);
 		return Response.ok().build();
 	}
 	
 	@GET
-    @Path("/analyseenligne_responsables_email/list")
+    @Path("/analyseenligne/responsables/email/list")
     public List<Requete> lister_analyseenligne_responsables_email(@DefaultValue("false") @QueryParam(value = "decrypt") boolean decrypt) throws ExtractionException, IOException, JDOMException, InvalidFormatException, TransformeurException {
 		List<Requete> requetes = Manager.getDb().listRequetesResponsables(decrypt);
 		return requetes;
 	}
 	
 	@DELETE
-    @Path("/analyseenligne_responsables_email/supprimer")
+    @Path("/analyseenligne/responsables/email/supprimer")
     public Response supprimer_analyseenligne_responsables_email(@QueryParam(value = "id") int id) throws ExtractionException, IOException, JDOMException, InvalidFormatException, TransformeurException {
-		Manager.getDb().supprimerRequetesJeunes(id);
+		Manager.getDb().supprimerRequetesResponsables(id);
 		return Response.ok().build();
 	}
 }

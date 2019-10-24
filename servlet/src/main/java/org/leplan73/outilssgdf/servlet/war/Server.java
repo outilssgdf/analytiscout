@@ -46,7 +46,7 @@ public class Server {
 	}
 	
 	@POST
-    @Path("/analyseenligne_jeunes_email")
+    @Path("/analyseenligne/jeunes/email")
 	@Produces(MediaType.TEXT_PLAIN)
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
     public Response analyseenligne_jeunes_email(@FormDataParam(value = "identifiant") String identifiant, @FormDataParam(value = "password") String motdepasse, @FormDataParam(value = "code_structure") String code_structure, @DefaultValue("true") @FormDataParam(value = "age") boolean age, @DefaultValue("true") @FormDataParam(value = "recursif") boolean recursif, @DefaultValue("false") @FormDataParam(value = "anonymiser") boolean anonymiser) throws ExtractionException, IOException, JDOMException, InvalidFormatException, TransformeurException {
@@ -62,7 +62,7 @@ public class Server {
 	}
 	
 	@POST
-    @Path("/analyseenligne_jeunes")
+    @Path("/analyseenligne/jeunes")
 	@Produces(MediaType.TEXT_PLAIN)
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
     public Response analyseenligne_jeunes(@FormDataParam(value = "identifiant") String identifiant, @FormDataParam(value = "password") String motdepasse, @FormDataParam(value = "code_structure") String code_structure, @DefaultValue("true") @FormDataParam(value = "age") boolean age, @DefaultValue("true") @FormDataParam(value = "recursif") boolean recursif, @DefaultValue("false") @FormDataParam(value = "anonymiser") boolean anonymiser) throws ExtractionException, IOException, JDOMException, InvalidFormatException, TransformeurException {
@@ -86,7 +86,7 @@ public class Server {
 	}
 	
 	@POST
-    @Path("/analyseenligne_responsables_email")
+    @Path("/analyseenligne/responsables/email")
 	@Produces(MediaType.TEXT_PLAIN)
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
     public Response analyseenligne_responsables_email(@FormDataParam(value = "identifiant") String identifiant, @FormDataParam(value = "password") String motdepasse, @FormDataParam(value = "code_structure") String code_structure, @DefaultValue("true") @FormDataParam(value = "age") boolean age, @DefaultValue("true") @FormDataParam(value = "recursif") boolean recursif, @DefaultValue("false") @FormDataParam(value = "anonymiser") boolean anonymiser) throws ExtractionException, IOException, JDOMException, InvalidFormatException, TransformeurException {
@@ -102,7 +102,7 @@ public class Server {
 	}
 	
 	@POST
-    @Path("/analyseenligne_responsables")
+    @Path("/analyseenligne/responsables")
 	@Produces(MediaType.TEXT_PLAIN)
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
     public Response analyseenligne_responsables(@FormDataParam(value = "identifiant") String identifiant, @FormDataParam(value = "password") String motdepasse, @FormDataParam(value = "code_structure") String code_structure, @DefaultValue("true") @FormDataParam(value = "age") boolean age, @DefaultValue("true") @FormDataParam(value = "recursif") boolean recursif, @DefaultValue("false") @FormDataParam(value = "anonymiser") boolean anonymiser) throws ExtractionException, IOException, JDOMException, InvalidFormatException, TransformeurException {

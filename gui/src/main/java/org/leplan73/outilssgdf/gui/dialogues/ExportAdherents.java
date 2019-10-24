@@ -9,7 +9,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.border.TitledBorder;
 
 import org.leplan73.outilssgdf.gui.Template;
 import org.leplan73.outilssgdf.gui.extracteur.Extracteur;

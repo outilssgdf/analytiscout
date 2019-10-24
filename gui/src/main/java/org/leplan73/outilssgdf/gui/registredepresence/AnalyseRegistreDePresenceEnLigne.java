@@ -9,20 +9,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ProgressMonitor;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 import org.leplan73.outilssgdf.Consts;
@@ -37,14 +36,10 @@ import org.leplan73.outilssgdf.gui.utils.GuiCommand;
 import org.leplan73.outilssgdf.gui.utils.Logging;
 import org.leplan73.outilssgdf.gui.utils.Preferences;
 import org.slf4j.LoggerFactory;
-import javax.swing.border.EtchedBorder;
 
 public class AnalyseRegistreDePresenceEnLigne extends Dialogue implements GuiCommand {
 
 	private final JPanel contentPanel = new JPanel();
-	private JTextField txfIdentifiant;
-	private JPasswordField txfMotdepasse;
-	private JCheckBox chkMemoriser;
 	private JTextField txfAnnee;
 	private JTextField txfCodeStructure;
 	private JLabel lblSortie;
@@ -76,9 +71,9 @@ public class AnalyseRegistreDePresenceEnLigne extends Dialogue implements GuiCom
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		GridBagLayout gbl_contentPanel = new GridBagLayout();
 		gbl_contentPanel.columnWidths = new int[]{60, 0};
-		gbl_contentPanel.rowHeights = new int[]{66, 0, 0, 0, 216};
+		gbl_contentPanel.rowHeights = new int[]{0, 0, 0, 216};
 		gbl_contentPanel.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gbl_contentPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0};
+		gbl_contentPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0};
 		contentPanel.setLayout(gbl_contentPanel);
 		{
 			JPanel buttonPane = new JPanel();
@@ -121,46 +116,6 @@ public class AnalyseRegistreDePresenceEnLigne extends Dialogue implements GuiCom
 		}
 		
 		{
-			JPanel panel = new JPanel();
-			panel.setBorder(
-					new TitledBorder(null, "Acc\u00E8s Intranet", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-			GridBagConstraints gbc_panel = new GridBagConstraints();
-			gbc_panel.insets = new Insets(0, 0, 5, 0);
-			gbc_panel.fill = GridBagConstraints.HORIZONTAL;
-			gbc_panel.anchor = GridBagConstraints.WEST;
-			gbc_panel.gridx = 0;
-			gbc_panel.gridy = 0;
-			
-			gbc_panel.fill = GridBagConstraints.HORIZONTAL;
-			contentPanel.add(panel, gbc_panel);
-			panel.setLayout(new BorderLayout(0, 0));
-			{
-				JPanel panel_1 = new JPanel();
-				panel_1.setBorder(
-						new TitledBorder(null, "Identifiant", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-				panel.add(panel_1, BorderLayout.WEST);
-				panel_1.setLayout(new BoxLayout(panel_1, BoxLayout.X_AXIS));
-				{
-					txfIdentifiant = new JTextField();
-					txfIdentifiant.setColumns(15);
-					panel_1.add(txfIdentifiant);
-				}
-			}
-			{
-				JPanel panel_1 = new JPanel();
-				panel_1.setBorder(
-						new TitledBorder(null, "Mot de passe", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-				panel.add(panel_1, BorderLayout.CENTER);
-				panel_1.setLayout(new BoxLayout(panel_1, BoxLayout.X_AXIS));
-				{
-					txfMotdepasse = new JPasswordField();
-					txfMotdepasse.setColumns(10);
-					panel_1.add(txfMotdepasse);
-				}
-			}
-			chkMemoriser = new JCheckBox("Mémoriser");
-			chkMemoriser.setSelected(Preferences.litb(Consts.INTRANET_MEMORISER, false));
-			panel.add(chkMemoriser, BorderLayout.EAST);
 			{
 				JPanel panelannee = new JPanel();
 				panelannee.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Ann\u00E9e (au 1er septembre)", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
@@ -169,7 +124,7 @@ public class AnalyseRegistreDePresenceEnLigne extends Dialogue implements GuiCom
 				gbc_panelannee.anchor = GridBagConstraints.NORTH;
 				gbc_panelannee.fill = GridBagConstraints.HORIZONTAL;
 				gbc_panelannee.gridx = 0;
-				gbc_panelannee.gridy = 2;
+				gbc_panelannee.gridy = 1;
 				contentPanel.add(panelannee, gbc_panelannee);
 				panelannee.setLayout(new BorderLayout(0, 0));
 				{
@@ -177,15 +132,6 @@ public class AnalyseRegistreDePresenceEnLigne extends Dialogue implements GuiCom
 					txfAnnee.setColumns(30);
 					txfAnnee.setText("2019");
 					panelannee.add(txfAnnee, BorderLayout.NORTH);
-				}
-			}
-			{
-				{
-					if (chkMemoriser.isSelected())
-					{
-						txfIdentifiant.setText(Preferences.lit(Consts.INTRANET_IDENTIFIANT, "", true));
-						txfMotdepasse.setText(Preferences.lit(Consts.INTRANET_MOTDEPASSE, "", true));
-					}
 				}
 			}
 		}
@@ -197,7 +143,7 @@ public class AnalyseRegistreDePresenceEnLigne extends Dialogue implements GuiCom
 			gbc_panel.anchor = GridBagConstraints.NORTH;
 			gbc_panel.fill = GridBagConstraints.HORIZONTAL;
 			gbc_panel.gridx = 0;
-			gbc_panel.gridy = 1;
+			gbc_panel.gridy = 0;
 			contentPanel.add(panel, gbc_panel);
 			panel.setLayout(new BorderLayout(0, 0));
 			{
@@ -220,7 +166,7 @@ public class AnalyseRegistreDePresenceEnLigne extends Dialogue implements GuiCom
 			gbc_panel.anchor = GridBagConstraints.NORTH;
 			gbc_panel.fill = GridBagConstraints.HORIZONTAL;
 			gbc_panel.gridx = 0;
-			gbc_panel.gridy = 3;
+			gbc_panel.gridy = 2;
 			contentPanel.add(panel, gbc_panel);
 			panel.setLayout(new BorderLayout(0, 0));
 			{
@@ -275,7 +221,7 @@ public class AnalyseRegistreDePresenceEnLigne extends Dialogue implements GuiCom
 			GridBagConstraints gbc_panel = new GridBagConstraints();
 			gbc_panel.fill = GridBagConstraints.BOTH;
 			gbc_panel.gridx = 0;
-			gbc_panel.gridy = 4;
+			gbc_panel.gridy = 3;
 			contentPanel.add(panel, gbc_panel);
 			panel.setLayout(new BorderLayout(0, 0));
 			{
@@ -297,20 +243,8 @@ public class AnalyseRegistreDePresenceEnLigne extends Dialogue implements GuiCom
 	@Override
 	public void dispose() {
 		Appender.setLoggedDialog(null);
-		Preferences.sauveb(Consts.INTRANET_MEMORISER, chkMemoriser.isSelected());
 		Preferences.sauved(Consts.FENETRE_ANALYSEURENLIGNE_X, this.getLocation().getX());
 		Preferences.sauved(Consts.FENETRE_ANALYSEURENLIGNE_Y, this.getLocation().getY());
-		if (chkMemoriser.isSelected())
-		{
-			Preferences.sauve(Consts.INTRANET_IDENTIFIANT, txfIdentifiant.getText(), true);
-			Preferences.sauve(Consts.INTRANET_MOTDEPASSE, new String(txfMotdepasse.getPassword()), true);
-		}
-		else
-		{
-			Preferences.sauve(Consts.INTRANET_IDENTIFIANT, "", true);
-			Preferences.sauve(Consts.INTRANET_MOTDEPASSE, "", true);
-		}
-		Preferences.sauve(Consts.INTRANET_STRUCTURE, txfCodeStructure.getText(), true);
 		super.dispose();
 	}
 
@@ -324,13 +258,13 @@ public class AnalyseRegistreDePresenceEnLigne extends Dialogue implements GuiCom
 		
 		new Thread(() -> {
 			initLog();
-			boolean ret = check();
+			boolean ret = check(txfCodeStructure);
 			if (ret) {
 				try {
 					EngineAnalyseurRegistreDePresenceEnLigne en = new EngineAnalyseurRegistreDePresenceEnLigne(progress, logger_);
 					
-					int structures[] = construitStructures(txfCodeStructure);
-					en.go(txfIdentifiant.getText(), new String(txfMotdepasse.getPassword()), fSortie, fModele, Integer.parseInt(txfAnnee.getText()), structures, chkRecursif.isSelected(), false, chkGarderFichiers.isSelected());
+					int structures[] = construitStructures();
+					en.go(identifiant_, motdepasse_, fSortie, fModele, Integer.parseInt(txfAnnee.getText()), structures, chkRecursif.isSelected(), false, chkGarderFichiers.isSelected());
 					btnOuvrir.maj();
 				} catch (Exception e) {
 					logger_.error(Logging.dumpStack(null, e));
@@ -338,20 +272,18 @@ public class AnalyseRegistreDePresenceEnLigne extends Dialogue implements GuiCom
 			}
 		}).start();
 	}
+	
+	public boolean check(JTextField txfStructure) {
+		if (check() == false) return false;
+		structure_ = txfCodeStructure.getText();
+		return checkIntranet();
+	}
 
 	@Override
 	public boolean check() {
 		logger_.info("Vérification des paramètres");
 		if (fSortie == null) {
 			logger_.error("Le répertoire de sortie est non-sélectionnée");
-			return false;
-		}
-		if (txfIdentifiant.getText().isEmpty()) {
-			logger_.error("L'identifiant est vide");
-			return false;
-		}
-		if (txfMotdepasse.getPassword().length == 0) {
-			logger_.error("Le mode de passe est vide");
 			return false;
 		}
 		if (txfAnnee.getText().isEmpty()) {
@@ -365,9 +297,6 @@ public class AnalyseRegistreDePresenceEnLigne extends Dialogue implements GuiCom
 		catch (NumberFormatException e)
 		{
 			logger_.error("Erreur lors de la validation de l'année",e);
-			return false;
-		}
-		if (checkStructures(txfCodeStructure.getText()) == false) {
 			return false;
 		}
 		return true;

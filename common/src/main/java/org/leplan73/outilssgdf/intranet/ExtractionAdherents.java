@@ -83,7 +83,7 @@ public class ExtractionAdherents extends ExtractionIntranet {
 	       	}
 	
 	       	// Extraction des codes structure "tb" internes (visible avec un profile "Territoire")
-	       	if (tbStructure == null)
+	       	if (tbStructure == null && structure != ExtractionIntranet.STRUCTURE_TOUT)
 	       	{
 	       		HttpPost httppostStructures = new HttpPost(ExtractionIntranet.getIntranet()+"/Specialisation/Sgdf/WebServices/AutoComplete.asmx/GetStructures");
 	       		httppostStructures.addHeader("User-Agent","Mozilla/5.0 (Windows NT 6.1; rv:31.0) Gecko/20100101 Firefox/31.0");
@@ -138,7 +138,14 @@ public class ExtractionAdherents extends ExtractionIntranet {
 			formparams.add(new BasicNameValuePair("ctl00$_ddDelegations","0"));
 			formparams.add(new BasicNameValuePair("ctl00$MainContent$_ddlRequetesExistantes","-1"));
 			formparams.add(new BasicNameValuePair("ctl00$MainContent$_tbNomNouvelleRequete",""));
-			formparams.add(new BasicNameValuePair("ctl00$MainContent$_selecteur$_hidCodeStructure",""+structure));
+			if (structure != 0)
+				formparams.add(new BasicNameValuePair("ctl00$MainContent$_selecteur$_hidCodeStructure",""+structure));
+			else
+			{
+				formparams.add(new BasicNameValuePair("ctl00$MainContent$_selecteur$_hidCodeStructure",""));
+				formparams.add(new BasicNameValuePair("ctl00$MainContent$_selecteur$_autocompleteStructures$_txtAutoComplete",""));
+				formparams.add(new BasicNameValuePair("ctl00$MainContent$_selecteur$_autocompleteStructures$_hiddenAutoComplete",""));
+			}
 			if (ddStructure != null)
 			{
 				formparams.add(new BasicNameValuePair("ctl00$MainContent$_selecteur$_ddStructure",""+ ddStructure));

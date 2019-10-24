@@ -14,7 +14,6 @@ import javax.swing.border.EmptyBorder;
 
 import org.leplan73.outilssgdf.Consts;
 import org.leplan73.outilssgdf.gui.dialogues.AnalyseJeunes;
-import org.leplan73.outilssgdf.gui.dialogues.Camps;
 import org.leplan73.outilssgdf.gui.dialogues.ExportAdherents;
 import org.leplan73.outilssgdf.gui.dialogues.RegistrePresence;
 import org.leplan73.outilssgdf.gui.utils.Images;
@@ -53,8 +52,7 @@ public class OutilsSGDFNormal extends OutilsSGDF {
 		
 		double x = Preferences.litd(Consts.FENETRE_PRINCIPALE_X, 100.0);
 		double y = Preferences.litd(Consts.FENETRE_PRINCIPALE_Y, 100.0);
-		setBounds(100, 100, 799, 460);
-		setBounds((int) x, (int) y, 799, 428);
+		setBounds((int) x, (int) y, 799, 496);
 		
 		contentPane = new JPanel();
 		contentPane.setBorder(null);

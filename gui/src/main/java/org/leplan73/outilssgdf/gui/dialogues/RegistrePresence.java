@@ -1,7 +1,9 @@
 package org.leplan73.outilssgdf.gui.dialogues;
 
 import java.awt.BorderLayout;
+import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -14,8 +16,6 @@ import org.leplan73.outilssgdf.gui.cec.AnalyseCECEnligne;
 import org.leplan73.outilssgdf.gui.registredepresence.AnalyseRegistreDePresence;
 import org.leplan73.outilssgdf.gui.registredepresence.AnalyseRegistreDePresenceEnLigne;
 import org.leplan73.outilssgdf.gui.utils.ElementFactory;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
 
 public class RegistrePresence extends Template {
 

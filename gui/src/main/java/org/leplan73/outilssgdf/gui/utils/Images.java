@@ -15,6 +15,10 @@ public class Images {
 				.getImage(Images.class.getClassLoader().getResource(ROOT_FOLDER + "/icone.png"));
 	}
 	
+	public static ImageIcon getIconCog() {
+		return new ImageIcon(Images.class.getClassLoader().getResource(ROOT_FOLDER + "/cog.png"));
+	}
+	
 	public static ImageIcon getImage() {
 		int random = random_.nextInt(5)+1;
 		return new ImageIcon(Images.class.getClassLoader().getResource(ROOT_FOLDER + "/panneau_gauche-"+random+".png"));

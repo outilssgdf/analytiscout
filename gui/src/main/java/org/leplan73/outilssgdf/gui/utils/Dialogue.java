@@ -7,7 +7,6 @@ import java.awt.event.KeyEvent;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 
 import org.leplan73.outilssgdf.Consts;
@@ -15,6 +14,10 @@ import org.slf4j.Logger;
 
 public class Dialogue extends JDialog implements LoggedDialog {
 
+	protected String identifiant_;
+	protected String motdepasse_;
+	protected String structure_;
+	
 	protected Logger logger_;
 	protected JTextArea txtLog;
 	
@@ -22,11 +25,15 @@ public class Dialogue extends JDialog implements LoggedDialog {
 	{
 		setIconImage(Images.getIcon());
 		addEscapeListener(this);
+		
+		identifiant_ = Preferences.lit(Consts.INTRANET_IDENTIFIANT, "", true);
+		motdepasse_ = Preferences.lit(Consts.INTRANET_MOTDEPASSE, "", true);
+		structure_ = Preferences.lit(Consts.INTRANET_STRUCTURE, "", true);
 	}
 
 	@Override
 	public void initLog() {
-		txtLog.setText("");
+		if (txtLog != null) txtLog.setText("");
 	}
 	
 	private static void addEscapeListener(final JDialog dialog) {
@@ -43,19 +50,35 @@ public class Dialogue extends JDialog implements LoggedDialog {
 	            JComponent.WHEN_IN_FOCUSED_WINDOW);
 
 	}
+	
+	protected boolean checkIntranet()
+	{
+		if (identifiant_.isEmpty()) {
+			logger_.error("L'identifiant est vide");
+			return false;
+		}
+		if (motdepasse_.isEmpty()) {
+			logger_.error("Le mode de passe est vide");
+			return false;
+		}
+		if (checkStructures() == false) {
+			return false;
+		}
+		return true;
+	}
 
 	@Override
 	public void addLog(String message) {
 		String texte = txtLog.getText();
 		if (texte.length() > 0)
 			txtLog.append("\n");
-		txtLog.append(message);
-		txtLog.setCaretPosition(txtLog.getDocument().getLength());
+		if (txtLog != null) txtLog.append(message);
+		if (txtLog != null) txtLog.setCaretPosition(txtLog.getDocument().getLength());
 	}
 	
-	static protected int[] construitStructures(JTextField txfCodeStructure)
+	protected int[] construitStructures()
 	{
-		String stStructures[] = txfCodeStructure.getText().split(",");
+		String stStructures[] = structure_.split(",");
 		int structures[] = new int[stStructures.length];
 		int index = 0;
 		for (String stStructure : stStructures)
@@ -65,15 +88,15 @@ public class Dialogue extends JDialog implements LoggedDialog {
 		return structures;
 	}
 	
-	protected boolean checkStructures(String structures)
+	private boolean checkStructures()
 	{
-		if (structures.isEmpty()) {
+		if (structure_.isEmpty()) {
 			logger_.error("Le code de structure est vide");
 			return false;
 		}
 		try
 		{
-			String stStructures[] = structures.split(",");
+			String stStructures[] = structure_.split(",");
 			for (String stStructure : stStructures)
 			{
 				Integer.parseInt(stStructure);
@@ -84,7 +107,7 @@ public class Dialogue extends JDialog implements LoggedDialog {
 			logger_.error("Code de structure invalide");
 			return false;
 		}
-		if (structures.compareTo(Consts.STRUCTURE_NATIONAL) == 0)
+		if (structure_.compareTo(Consts.STRUCTURE_NATIONAL) == 0)
 		{
 			logger_.error("Code de structure interdit");
 			return false;

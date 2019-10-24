@@ -27,13 +27,13 @@ public class Engine {
 	protected void start()
 	{
 		start_ = Instant.now();
-		progress_.setProgress(0, "Lancement");
+		if (progress_ != null) progress_.setProgress(0, "Lancement");
 	}
 	
 	protected void stop()
 	{
 		long d = Instant.now().getEpochSecond() - start_.getEpochSecond();
-		logger_.info("Terminé en "+d+" secondes");
-		progress_.setProgress(100, "Fini");
+		if (logger_ != null) logger_.info("Terminé en "+d+" secondes");
+		if (progress_ != null) progress_.setProgress(100, "Fini");
 	}
 }

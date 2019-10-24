@@ -6,6 +6,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.leplan73.outilssgdf.outils.CryptoException;
 import org.leplan73.outilssgdf.outils.PasswdCrypt;
@@ -22,7 +24,7 @@ public class Database {
 		int code_structure; 
 	}
 	
-	private void retirerRequete(String nom, int id) throws CryptoException
+	private void retirerRequete(String nom, int id)
 	{
 		Statement stmt = null;
 		try {
@@ -158,5 +160,55 @@ public class Database {
 		} catch (SQLException e) {
 			Logger.get().error("Erreur H2 " + e.getLocalizedMessage());
 		}
+	}
+	
+	public void supprimerRequetesJeunes(int id) {
+		retirerRequete("REQUETES_JEUNES", id);
+	}
+
+	public void supprimerRequetesResponsables(int id) {
+		retirerRequete("REQUETES_RESPONSABLES", id);
+	}
+
+	public List<Requete> listRequetesJeunes(boolean decrypt) {
+		List<Requete> requetes = listRequete("REQUETES_JEUNES", decrypt);
+		return requetes;
+	}
+
+	public List<Requete> listRequetesResponsables(boolean decrypt) {
+		List<Requete> requetes = listRequete("REQUETES_RESPONSABLES", decrypt);
+		return requetes;
+	}
+	
+	private List<Requete> listRequete(String nom, boolean decrypt)
+	{
+		List<Requete> requetes = new ArrayList<Requete>();
+		Statement stmt = null;
+		try {
+			stmt = conn_.createStatement();
+			String sql = "select * from "+nom;
+			ResultSet rs = stmt.executeQuery(sql);
+			while (rs.next())
+			{
+				Requete requete = new Requete();
+				requete.id = rs.getInt(1);
+				requete.identifiant = decrypt ? PasswdCrypt.decrypt(rs.getString(2)) : "***";
+				requete.motdepasse = decrypt ? PasswdCrypt.decrypt(rs.getString(3)) : "***";
+				requete.code_structure = rs.getInt(4);
+				requetes.add(requete);
+			}
+			rs.close();
+
+		} catch (SQLException | CryptoException e) {
+			Logger.get().error("Erreur H2 " + e.getLocalizedMessage());
+		} finally {
+			try {
+				if (stmt != null)
+					stmt.close();
+			} catch (SQLException e) {
+				Logger.get().error("Erreur H2 " + e.getLocalizedMessage());
+			}
+		}
+		return requetes;
 	}
 }

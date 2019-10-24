@@ -44,6 +44,7 @@
 		<influxdb.version>2.15</influxdb.version>
 		<h2.version>1.4.199</h2.version>
 		<htmlunit.version>2.36.0</htmlunit.version>
+		<commons-email.version>1.5</commons-email.version>
 	</properties>
 	<modules>
 		<module>servlet</module>

@@ -163,5 +163,10 @@
 			<artifactId>tomcat-jasper</artifactId>
 			<version>${tomcat.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-email</artifactId>
+			<version>${commons-email.version}</version>
+		</dependency>
 	</dependencies>
 </project>

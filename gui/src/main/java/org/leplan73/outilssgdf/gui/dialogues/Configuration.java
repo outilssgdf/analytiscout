@@ -22,7 +22,8 @@ import javax.swing.border.TitledBorder;
 
 import org.leplan73.outilssgdf.Consts;
 import org.leplan73.outilssgdf.Progress;
-import org.leplan73.outilssgdf.engine.EngineDetectionCodeStructure;
+import org.leplan73.outilssgdf.engine.EngineDetection;
+import org.leplan73.outilssgdf.engine.EngineDetection.Utilisateur;
 import org.leplan73.outilssgdf.engine.EngineException;
 import org.leplan73.outilssgdf.gui.GuiProgress;
 import org.leplan73.outilssgdf.gui.utils.Dialogue;
@@ -157,10 +158,10 @@ public class Configuration extends Dialogue {
 		new Thread(() -> {
 			initLog();
 				try {
-					EngineDetectionCodeStructure engine = new EngineDetectionCodeStructure(progress, logger_);
+					EngineDetection engine = new EngineDetection(progress, logger_);
 					try {
-						String codeStructure = engine.go(txfIdentifiant.getText(), new String(txfMotdepasse.getPassword()));
-						txfCodeStructure.setText(codeStructure);
+						Utilisateur utilisateur = engine.go(txfIdentifiant.getText(), new String(txfMotdepasse.getPassword()));
+						txfCodeStructure.setText(utilisateur.structure);
 					} catch (EngineException e1) {
 					}
 				} catch (Exception e) {

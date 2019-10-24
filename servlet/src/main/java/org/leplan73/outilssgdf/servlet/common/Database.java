@@ -1,6 +1,10 @@
 package org.leplan73.outilssgdf.servlet.common;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -9,9 +13,22 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.activation.DataSource;
+import javax.mail.util.ByteArrayDataSource;
+
+import org.apache.commons.mail.DefaultAuthenticator;
+import org.apache.commons.mail.EmailException;
+import org.apache.commons.mail.MultiPartEmail;
+import org.leplan73.outilssgdf.ParamSortie;
+import org.leplan73.outilssgdf.engine.EngineAnalyseurEnLigne;
+import org.leplan73.outilssgdf.engine.EngineDetection;
+import org.leplan73.outilssgdf.engine.EngineDetection.Utilisateur;
+import org.leplan73.outilssgdf.engine.EngineException;
 import org.leplan73.outilssgdf.outils.CryptoException;
 import org.leplan73.outilssgdf.outils.PasswdCrypt;
+import org.leplan73.outilssgdf.outils.ResetableFileInputStream;
 import org.leplan73.outilssgdf.servlet.war.Logger;
+import org.leplan73.outilssgdf.servlet.war.WebProgress;
 
 public class Database {
 	private Connection conn_ = null;
@@ -21,7 +38,81 @@ public class Database {
 		public int id;
 		public String identifiant;
 		public String motdepasse;
-		public int code_structure; 
+		public int code_structure;
+		public boolean age = false;
+		public boolean recursif = true;
+		public boolean anonymiser = false;
+		
+		public boolean go(boolean responsables) throws FileNotFoundException {
+			
+			InputStream fBatch = null;
+			InputStream fModele = null;
+			if (responsables)
+			{
+				fBatch = new ResetableFileInputStream(new FileInputStream(new File(Manager.getConf(),"conf/batch_responsables.txt")));
+				fModele = new ResetableFileInputStream(new FileInputStream(new File(Manager.getConf(),"conf/modele_responsables.xlsx")));
+			}
+			else
+			{
+				fBatch = new ResetableFileInputStream(new FileInputStream(new File(Manager.getConf(),"conf/batch_jeunes.txt")));
+				fModele = new ResetableFileInputStream(new FileInputStream(new File(Manager.getConf(),"conf/modele_jeunes.xlsx")));
+			}
+			
+			WebProgress progress = new WebProgress();
+			EngineAnalyseurEnLigne en = new EngineAnalyseurEnLigne(progress, Logger.get());
+			try {
+				ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
+				ParamSortie psortie = new ParamSortie(outputStream);
+				if (responsables)
+				{
+					en.go(identifiant, motdepasse, fBatch, fModele, code_structure, age, "tout_responsables", recursif, psortie, anonymiser, false);
+				}
+				else
+				{
+ 					en.go(identifiant, motdepasse, fBatch, fModele, code_structure, age, "tout_jeunes", recursif, psortie, anonymiser, false);
+				}
+				
+				byte[] fichier = outputStream.toByteArray();
+				
+				EngineDetection engineUtilisateur = new EngineDetection(progress, Logger.get());
+				Utilisateur utilisateur = engineUtilisateur.go(identifiant, motdepasse);
+				
+				MultiPartEmail email = new MultiPartEmail();
+				email.setHostName(Preferences.lit(Preferences.MAIL_SERVEUR_HOST, "", false));
+				email.setSmtpPort(Preferences.liti(Preferences.MAIL_SERVEUR_PORT, 25));
+				email.setAuthenticator(new DefaultAuthenticator(Preferences.lit(Preferences.MAIL_SERVEUR_UTILISATEUR, "", false), Preferences.lit(Preferences.MAIL_SERVEUR_MOTDEPASSE, "", true)));
+				email.setSSLOnConnect(true);
+				email.setFrom(Preferences.lit(Preferences.MAIL_SERVEUR_UTILISATEUR, "", false));
+				if (responsables)
+				{
+					email.setSubject("Analyse des responsables de la structure "+code_structure);
+					email.setMsg("Voici l'analyse des responsables de la structure "+code_structure);
+				}
+				else
+				{
+					email.setSubject("Analyse des jeunes de la structure "+code_structure);
+					email.setMsg("Voici l'analyse des jeunes de la structure "+code_structure);
+				}
+				
+				String dest = Preferences.lit(Preferences.MAIL_SERVEUR_ADRESSE_DEST, "", false);
+				if (dest.isEmpty())
+					email.addTo(utilisateur.email);
+				else
+					email.addTo(dest);
+				
+				DataSource source = new ByteArrayDataSource(fichier, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");  
+				email.attach(source, "analyse.xlsx", "Analyse");
+				  
+				email.send();
+				
+				return true;
+				
+			} catch (EngineException | EmailException e) {
+				Logger.get().error("Erreur mail",e);
+			}
+			return false;
+		} 
 	}
 	
 	private void retirerRequete(String nom, int id)
@@ -106,14 +197,12 @@ public class Database {
 	public Requete lireRequeteResponsables() throws CryptoException
 	{
 		Requete requete = lireRequete("REQUETES_RESPONSABLES");
-		retirerRequete("REQUETES_RESPONSABLES",requete.id);
 		return requete;
 	}
 	
 	public Requete lireRequeteJeunes() throws CryptoException
 	{
 		Requete requete = lireRequete("REQUETES_JEUNES");
-		retirerRequete("REQUETES_JEUNES",requete.id);
 		return requete;
 	}
 

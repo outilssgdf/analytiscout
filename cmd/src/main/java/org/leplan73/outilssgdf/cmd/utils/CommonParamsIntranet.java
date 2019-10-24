@@ -56,7 +56,7 @@ public class CommonParamsIntranet extends CommonParamsG {
 		connection_ = connection;
 		Logging.logger_.info("Connexion");
 		
-		connection_.init();
+		connection_.init(false);
 		if (connection_.login(identifiant,motdepasse) == false)
 		{
 			throw new CmdLineException("erreur de connexion", true);

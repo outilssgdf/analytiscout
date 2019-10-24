@@ -85,7 +85,7 @@ public class EngineAnalyseurRegistreDePresenceEnLigne extends EngineConnecte {
 		{
 			ExtractionRegistrePresence2 app = new ExtractionRegistrePresence2();
 			progress_.setProgress(30, "Connexion");
-			login(app, identifiant, motdepasse);
+			login(app, identifiant, motdepasse, true);
 			progress_.setProgress(40, "Extraction");
 			
 			for (int istructure : structures)

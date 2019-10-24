@@ -14,21 +14,27 @@ import org.leplan73.outilssgdf.intranet.ExtractionAdherents;
 import org.leplan73.outilssgdf.intranet.ExtractionIntranet;
 import org.slf4j.Logger;
 
-public class EngineDetectionCodeStructure extends EngineConnecte {
+public class EngineDetection extends EngineConnecte {
 
-	public EngineDetectionCodeStructure(Progress progress, Logger logger) {
+	public class Utilisateur
+	{
+		public String structure;
+		public String email;
+	}
+	
+	public EngineDetection(Progress progress, Logger logger) {
 		super(progress, logger);
 	}
 	
-	public String go(String identifiant, String motdepasse) throws EngineException
+	public Utilisateur go(String identifiant, String motdepasse) throws EngineException
 	{
-		String codeStructure = "";
+		Utilisateur utilisateur = new Utilisateur();
 		
 		start();
 		try
 		{
 			ExtractionAdherents app = new ExtractionAdherents();
-			app.init();
+			app.init(false);
 			
 			logger_.info("Connexion");
 			progress_.setProgress(20);
@@ -44,7 +50,8 @@ public class EngineDetectionCodeStructure extends EngineConnecte {
 			progress_.setProgress(60);
 			Adherents adherents = x.getAdherents();
 			Adherent adherent = adherents.get(Integer.parseInt(identifiant));
-			codeStructure = adherent.getCodestructure();
+			utilisateur.structure = adherent.getCodestructure();
+			utilisateur.email = adherent.getEmail();
 			
 			app.close();
 			progress_.stop();
@@ -55,6 +62,6 @@ public class EngineDetectionCodeStructure extends EngineConnecte {
 			stop();
 		}
 		
-		return codeStructure;
+		return utilisateur;
 	}
 }

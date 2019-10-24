@@ -515,7 +515,7 @@ public class Extracteur extends Dialogue implements LoggedDialog, GuiCommand {
 		connection_ = connection;
 		logger_.info("Connexion");
 
-		connection_.init();
+		connection_.init(false);
 		if (connection_.login(identifiant_, motdepasse_) == false) {
 			throw new IOException("erreur de connexion");
 		}

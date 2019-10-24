@@ -128,18 +128,21 @@ public class ExtractionIntranet {
 		return "";
 	}
 	
-	public void init()
+	public void init(boolean complet)
 	{
 		httpclient = HttpClientBuilder.create().setRedirectStrategy(new LaxRedirectStrategy()).build();
-		webClient = new WebClient();
-		webClient.getOptions().setTimeout(300*1000*10);
-		webClient.getOptions().setDownloadImages(false);
-		webClient.getOptions().setAppletEnabled(false);
+		if (complet)
+		{
+			webClient = new WebClient();
+			webClient.getOptions().setTimeout(300*1000*10);
+			webClient.getOptions().setDownloadImages(false);
+			webClient.getOptions().setAppletEnabled(false);
+		}
 	}
 
 	public void close() throws IOException {
 		httpclient.close();
-		webClient.close();
+		if (webClient != null) webClient.close();
 	}
 	
 	public boolean login(String identifiant, String motdepasse) throws ClientProtocolException, IOException
@@ -234,22 +237,25 @@ public class ExtractionIntranet {
 	
 	private boolean loginWebClient(String identifiant, String motdepasse) throws FailingHttpStatusCodeException, IOException
 	{
-		final URL url = new URL(ExtractionIntranet.getIntranet());
-        page = (HtmlPage)webClient.getPage(url);
-        
-        HtmlForm form = page.getFormByName("ctl01");
-        HtmlTextInput login = form.getInputByName("login");
-        login.setValueAttribute(identifiant);
-        HtmlPasswordInput mdp = form.getInputByName("password");
-        mdp.setValueAttribute(motdepasse);
-        HtmlSubmitInput btn = form.getInputByName("_btnValider");
-        page = btn.click();
-        
-        String contenu = page.asText();
-        if (contenu.contains("J'ai oublié mon mot de passe"))
-        {
-     	   return false;
-        }
+		if (webClient != null)
+		{
+			final URL url = new URL(ExtractionIntranet.getIntranet());
+	        page = (HtmlPage)webClient.getPage(url);
+	        
+	        HtmlForm form = page.getFormByName("ctl01");
+	        HtmlTextInput login = form.getInputByName("login");
+	        login.setValueAttribute(identifiant);
+	        HtmlPasswordInput mdp = form.getInputByName("password");
+	        mdp.setValueAttribute(motdepasse);
+	        HtmlSubmitInput btn = form.getInputByName("_btnValider");
+	        page = btn.click();
+	        
+	        String contenu = page.asText();
+	        if (contenu.contains("J'ai oublié mon mot de passe"))
+	        {
+	     	   return false;
+	        }
+		}
        return true;
 	}
 	

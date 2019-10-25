@@ -37,6 +37,7 @@ public class Configuration extends Dialogue {
 	private JTextField txfIdentifiant;
 	private JPasswordField txfMotdepasse;
 	private JTextField txfCodeStructure;
+	private JButton okButton;
 
 	/**
 	 * Create the dialog.
@@ -64,8 +65,9 @@ public class Configuration extends Dialogue {
 			JPanel panel = new JPanel();
 			panel.setBorder(new TitledBorder(null, "Acc\u00E8s Intranet", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			GridBagConstraints gbc_panel = new GridBagConstraints();
+			gbc_panel.anchor = GridBagConstraints.NORTH;
 			gbc_panel.insets = new Insets(0, 0, 5, 0);
-			gbc_panel.fill = GridBagConstraints.BOTH;
+			gbc_panel.fill = GridBagConstraints.HORIZONTAL;
 			gbc_panel.gridx = 0;
 			gbc_panel.gridy = 0;
 			contentPanel.add(panel, gbc_panel);
@@ -78,7 +80,7 @@ public class Configuration extends Dialogue {
 				{
 					txfIdentifiant = new JTextField();
 					panel_1.add(txfIdentifiant);
-					txfIdentifiant.setColumns(20);
+					txfIdentifiant.setColumns(15);
 					txfIdentifiant.setText(Preferences.lit(Consts.INTRANET_IDENTIFIANT, "", true));
 				}
 			}
@@ -135,7 +137,7 @@ public class Configuration extends Dialogue {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("OK");
+				okButton = new JButton("OK");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						dispose();
@@ -143,6 +145,7 @@ public class Configuration extends Dialogue {
 				});
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
+				okButton.setEnabled(txfCodeStructure.getText().isEmpty() == false);
 				getRootPane().setDefaultButton(okButton);
 			}
 		}
@@ -162,6 +165,7 @@ public class Configuration extends Dialogue {
 					try {
 						Utilisateur utilisateur = engine.go(txfIdentifiant.getText(), new String(txfMotdepasse.getPassword()));
 						txfCodeStructure.setText(utilisateur.structure);
+						okButton.setEnabled(txfCodeStructure.getText().isEmpty() == false);
 					} catch (EngineException e1) {
 					}
 				} catch (Exception e) {
@@ -178,15 +182,5 @@ public class Configuration extends Dialogue {
 		Preferences.sauve(Consts.INTRANET_MOTDEPASSE, new String(txfMotdepasse.getPassword()), true);
 		Preferences.sauve(Consts.INTRANET_STRUCTURE, txfCodeStructure.getText(), true);
 		super.dispose();
-	}
-
-	protected JTextField getTxfIdentifiant() {
-		return txfIdentifiant;
-	}
-	protected JPasswordField getTxfMotdepasse() {
-		return txfMotdepasse;
-	}
-	protected JTextField getTxfCodeStructure() {
-		return txfCodeStructure;
 	}
 }

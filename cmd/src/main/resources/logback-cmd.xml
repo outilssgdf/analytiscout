@@ -12,7 +12,7 @@
 		<file>log/outilssgdf.log</file>
 		<rollingPolicy
 			class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-			<fileNamePattern>outilssgdf-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+			<fileNamePattern>log/outilssgdf-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
 			<maxFileSize>100MB</maxFileSize>
 			<maxHistory>60</maxHistory>
 			<totalSizeCap>20GB</totalSizeCap>

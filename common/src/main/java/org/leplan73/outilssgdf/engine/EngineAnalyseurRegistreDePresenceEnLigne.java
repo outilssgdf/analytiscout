@@ -78,7 +78,7 @@ public class EngineAnalyseurRegistreDePresenceEnLigne extends EngineConnecte {
 		return true;
 	}
 
-	public void go(String identifiant, String motdepasse, File fSortie, File fModele, int annee, int[] structures, boolean recursif, boolean sous_dossier, boolean garderFichiers) throws EngineException
+	public void go(String identifiant, String motdepasse, File fSortie, File fModele, int annee, int[] structures, boolean recursif, boolean sous_dossier, boolean garderFichiers) throws EngineException, LoginEngineException
 	{
 		start();
 		try

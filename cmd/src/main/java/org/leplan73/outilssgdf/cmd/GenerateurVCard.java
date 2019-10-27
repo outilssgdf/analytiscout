@@ -10,6 +10,7 @@ import org.leplan73.outilssgdf.cmd.utils.CommonParamsIntranet;
 import org.leplan73.outilssgdf.cmd.utils.Logging;
 import org.leplan73.outilssgdf.engine.EngineException;
 import org.leplan73.outilssgdf.engine.EngineGenerateurVCard;
+import org.leplan73.outilssgdf.engine.LoginEngineException;
 import org.leplan73.outilssgdf.intranet.ExtractionIntranet;
 
 import picocli.CommandLine;
@@ -47,6 +48,8 @@ public class GenerateurVCard extends CommonParamsIntranet {
 			en.go(identifiant,motdepasse, configuration, sortie, structures[0], structures);
 			
 		} catch (IOException|EngineException e) {
+			Logging.logError(e);
+		} catch (LoginEngineException e) {
 			Logging.logError(e);
 		}
 	}

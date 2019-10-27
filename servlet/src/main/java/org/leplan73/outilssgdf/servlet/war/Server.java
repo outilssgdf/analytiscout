@@ -23,6 +23,7 @@ import org.leplan73.outilssgdf.ParamSortie;
 import org.leplan73.outilssgdf.TransformeurException;
 import org.leplan73.outilssgdf.engine.EngineAnalyseurEnLigne;
 import org.leplan73.outilssgdf.engine.EngineException;
+import org.leplan73.outilssgdf.engine.LoginEngineException;
 import org.leplan73.outilssgdf.outils.CryptoException;
 import org.leplan73.outilssgdf.outils.ResetableFileInputStream;
 import org.leplan73.outilssgdf.servlet.common.Manager;
@@ -82,6 +83,8 @@ public class Server {
 			return Response.ok(outputStream.toByteArray()).type(MediaType.TEXT_PLAIN_TYPE).header("Content-Disposition","attachment; filename=\"analyse_jeunes.xlsx\"").build();
 		} catch (EngineException e) {
 			throw new WebApplicationException(e);
+		} catch (LoginEngineException e) {
+			throw new WebApplicationException(e);
 		}
 	}
 	
@@ -121,6 +124,8 @@ public class Server {
 			en.go(identifiant, motdepasse, fBatch, fModele, structures[0], age, "tout_responsables", recursif, psortie, anonymiser, false);
 			return Response.ok(outputStream.toByteArray()).type(MediaType.TEXT_PLAIN_TYPE).header("Content-Disposition","attachment; filename=\"analyse_responsables.xlsx\"").build();
 		} catch (EngineException e) {
+			throw new WebApplicationException(e);
+		} catch (LoginEngineException e) {
 			throw new WebApplicationException(e);
 		}
 	}

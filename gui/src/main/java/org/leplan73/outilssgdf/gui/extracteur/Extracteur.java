@@ -45,6 +45,7 @@ import org.jdom2.input.SAXBuilder;
 import org.jdom2.xpath.XPathExpression;
 import org.jdom2.xpath.XPathFactory;
 import org.leplan73.outilssgdf.Consts;
+import org.leplan73.outilssgdf.engine.LoginEngineException;
 import org.leplan73.outilssgdf.gui.utils.Appender;
 import org.leplan73.outilssgdf.gui.utils.BoutonOuvrir;
 import org.leplan73.outilssgdf.gui.utils.Dialogue;
@@ -511,14 +512,11 @@ public class Extracteur extends Dialogue implements LoggedDialog, GuiCommand {
 	private JButton btnNewButton;
 	private BoutonOuvrir btnOuvrir;
 
-	private void login(ExtractionIntranet connection) throws ClientProtocolException, IOException {
+	private void login(ExtractionIntranet connection) throws ClientProtocolException, IOException, LoginEngineException {
 		connection_ = connection;
 		logger_.info("Connexion");
-
 		connection_.init(false);
-		if (connection_.login(identifiant_, motdepasse_) == false) {
-			throw new IOException("erreur de connexion");
-		}
+		connection_.login(identifiant_, motdepasse_);
 	}
 
 	public void logout() throws IOException {
@@ -652,7 +650,7 @@ public class Extracteur extends Dialogue implements LoggedDialog, GuiCommand {
 						out.close();
 					}
 					btnOuvrir.maj();
-				} catch (IOException | JDOMException e) {
+				} catch (IOException | JDOMException | LoginEngineException e) {
 					logger_.error(Logging.dumpStack(null, e));
 				}
 			}

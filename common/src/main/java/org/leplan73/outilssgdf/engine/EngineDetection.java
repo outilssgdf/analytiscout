@@ -26,7 +26,7 @@ public class EngineDetection extends EngineConnecte {
 		super(progress, logger);
 	}
 	
-	public Utilisateur go(String identifiant, String motdepasse) throws EngineException
+	public Utilisateur go(String identifiant, String motdepasse) throws EngineException, LoginEngineException
 	{
 		Utilisateur utilisateur = new Utilisateur();
 		
@@ -38,7 +38,11 @@ public class EngineDetection extends EngineConnecte {
 			
 			logger_.info("Connexion");
 			progress_.setProgress(20);
-			app.login(identifiant, motdepasse);
+			boolean ret = app.login(identifiant, motdepasse);
+			if (!ret)
+			{
+				throw new LoginEngineException("Identifiant ou mot de passe incorrect");
+			}
 			
 			logger_.info("Extraction");
 			progress_.setProgress(40);

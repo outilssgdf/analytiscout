@@ -61,7 +61,7 @@ public class EngineGenerateurVCard extends EngineConnecte {
 		return true;
 	}
 
-	public void go(String identifiant, String motdepasse, File categories, File sortie, int structure, int[] structures) throws EngineException
+	public void go(String identifiant, String motdepasse, File categories, File sortie, int structure, int[] structures) throws EngineException, LoginEngineException
 	{
 		start();
 		try

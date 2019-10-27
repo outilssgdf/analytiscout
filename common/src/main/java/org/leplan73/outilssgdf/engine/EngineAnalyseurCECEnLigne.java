@@ -76,7 +76,7 @@ public class EngineAnalyseurCECEnLigne extends EngineConnecte {
 		return true;
 	}
 
-	public void go(String identifiant, String motdepasse, File fSortie, File fModele, int annee, int[] structures) throws IOException, EngineException, JDOMException {
+	public void go(String identifiant, String motdepasse, File fSortie, File fModele, int annee, int[] structures) throws IOException, EngineException, JDOMException, LoginEngineException {
 		start();
 		try
 		{

@@ -142,7 +142,7 @@ public class EngineExtracteurBatch extends EngineConnecte {
 		return true;
 	}
 	
-	public void go(String identifiant, String motdepasse, File batch, File sortie, int[] structures, boolean recursif) throws EngineException {
+	public void go(String identifiant, String motdepasse, File batch, File sortie, int[] structures, boolean recursif) throws EngineException, LoginEngineException {
 		start();
 		try {
 			Properties pbatch = new Properties();

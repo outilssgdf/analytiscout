@@ -36,7 +36,7 @@ public class EngineExtractionRegistreDePresence extends EngineConnecte {
 		return true;
 	}
 
-	public void go(String identifiant, String motdepasse, File sortie, int[] structures, boolean recursif, int annee) throws EngineException
+	public void go(String identifiant, String motdepasse, File sortie, int[] structures, boolean recursif, int annee) throws EngineException, LoginEngineException
 	{
 		start();
 		try

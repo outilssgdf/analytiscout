@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -25,6 +26,7 @@ import org.leplan73.outilssgdf.Progress;
 import org.leplan73.outilssgdf.engine.EngineDetection;
 import org.leplan73.outilssgdf.engine.EngineDetection.Utilisateur;
 import org.leplan73.outilssgdf.engine.EngineException;
+import org.leplan73.outilssgdf.engine.LoginEngineException;
 import org.leplan73.outilssgdf.gui.GuiProgress;
 import org.leplan73.outilssgdf.gui.utils.Dialogue;
 import org.leplan73.outilssgdf.gui.utils.Logging;
@@ -168,6 +170,10 @@ public class Configuration extends Dialogue {
 						okButton.setEnabled(txfCodeStructure.getText().isEmpty() == false);
 					} catch (EngineException e1) {
 					}
+				} catch (LoginEngineException e) {
+					JOptionPane.showMessageDialog(this, e.getMessage());
+					txfCodeStructure.setText("");
+					okButton.setEnabled(txfCodeStructure.getText().isEmpty() == false);
 				} catch (Exception e) {
 					logger_.error(Logging.dumpStack(null, e));
 				}

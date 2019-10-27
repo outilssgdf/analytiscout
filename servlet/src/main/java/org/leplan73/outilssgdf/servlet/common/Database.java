@@ -24,6 +24,7 @@ import org.leplan73.outilssgdf.engine.EngineAnalyseurEnLigne;
 import org.leplan73.outilssgdf.engine.EngineDetection;
 import org.leplan73.outilssgdf.engine.EngineDetection.Utilisateur;
 import org.leplan73.outilssgdf.engine.EngineException;
+import org.leplan73.outilssgdf.engine.LoginEngineException;
 import org.leplan73.outilssgdf.outils.CryptoException;
 import org.leplan73.outilssgdf.outils.PasswdCrypt;
 import org.leplan73.outilssgdf.outils.ResetableFileInputStream;
@@ -109,6 +110,8 @@ public class Database {
 				return true;
 				
 			} catch (EngineException | EmailException e) {
+				Logger.get().error("Erreur mail",e);
+			} catch (LoginEngineException e) {
 				Logger.get().error("Erreur mail",e);
 			}
 			return false;

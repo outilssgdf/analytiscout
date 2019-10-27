@@ -25,6 +25,7 @@ import org.apache.http.util.EntityUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.leplan73.outilssgdf.engine.LoginEngineException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -145,7 +146,7 @@ public class ExtractionIntranet {
 		if (webClient != null) webClient.close();
 	}
 	
-	public boolean login(String identifiant, String motdepasse) throws ClientProtocolException, IOException
+	public boolean login(String identifiant, String motdepasse) throws ClientProtocolException, IOException, LoginEngineException
 	{
 		boolean ret = loginHttp(identifiant, motdepasse);
 		boolean ret2 = loginWebClient(identifiant, motdepasse);

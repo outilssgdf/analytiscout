@@ -44,7 +44,7 @@ public class EngineGenerateur extends EngineConnecte {
 		return true;
 	}
 
-	public void go(String identifiant, String motdepasse, File sortie, int structure, int[] structures) throws EngineException
+	public void go(String identifiant, String motdepasse, File sortie, int structure, int[] structures) throws EngineException, LoginEngineException
 	{
 		start();
 		try

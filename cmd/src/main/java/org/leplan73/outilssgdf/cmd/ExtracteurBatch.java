@@ -10,6 +10,7 @@ import org.leplan73.outilssgdf.cmd.utils.CommonParamsIntranet;
 import org.leplan73.outilssgdf.cmd.utils.Logging;
 import org.leplan73.outilssgdf.engine.EngineException;
 import org.leplan73.outilssgdf.engine.EngineExtracteurBatch;
+import org.leplan73.outilssgdf.engine.LoginEngineException;
 import org.leplan73.outilssgdf.intranet.ExtractionIntranet;
 
 import picocli.CommandLine;
@@ -50,6 +51,8 @@ public class ExtracteurBatch extends CommonParamsIntranet {
 		} catch (FileNotFoundException e) {
 			Logging.logError(e);
 		} catch (IOException e) {
+			Logging.logError(e);
+		} catch (LoginEngineException e) {
 			Logging.logError(e);
 		}
 	}

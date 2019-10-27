@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 import org.apache.http.client.ClientProtocolException;
+import org.leplan73.outilssgdf.engine.LoginEngineException;
 import org.leplan73.outilssgdf.intranet.ExtractionIntranet;
 
 import picocli.CommandLine.Option;
@@ -51,16 +52,13 @@ public class CommonParamsIntranet extends CommonParamsG {
 		}
 	}
 
-	protected void login(ExtractionIntranet connection) throws ClientProtocolException, IOException, CmdLineException
+	protected void login(ExtractionIntranet connection) throws ClientProtocolException, IOException, CmdLineException, LoginEngineException
 	{
 		connection_ = connection;
 		Logging.logger_.info("Connexion");
 		
 		connection_.init(false);
-		if (connection_.login(identifiant,motdepasse) == false)
-		{
-			throw new CmdLineException("erreur de connexion", true);
-		}
+		connection_.login(identifiant,motdepasse);
 	}
 	
 	protected void logout() throws IOException

@@ -172,7 +172,7 @@ public class EngineAnalyseurEnLigne extends EngineConnecte {
 		return true;
 	}
 
-	public void go(String identifiant, String motdepasse, InputStream batch, InputStream modele, int structure, boolean age, String batch_type, boolean recursif, ParamSortie sortie, boolean anonymiser, boolean garderFichiers) throws EngineException
+	public void go(String identifiant, String motdepasse, InputStream batch, InputStream modele, int structure, boolean age, String batch_type, boolean recursif, ParamSortie sortie, boolean anonymiser, boolean garderFichiers) throws EngineException, LoginEngineException
 	{
 		start();
 		try
@@ -196,7 +196,7 @@ public class EngineAnalyseurEnLigne extends EngineConnecte {
 		}
 	}
 
-	public void go(String identifiant, String motdepasse, InputStream batch, InputStream modele, int[] structures, boolean age, String batch_type, boolean recursif, ParamSortie sortie, boolean anonymiser, boolean garderFichiers) throws EngineException
+	public void go(String identifiant, String motdepasse, InputStream batch, InputStream modele, int[] structures, boolean age, String batch_type, boolean recursif, ParamSortie sortie, boolean anonymiser, boolean garderFichiers) throws EngineException, LoginEngineException
 	{
 		start();
 		try

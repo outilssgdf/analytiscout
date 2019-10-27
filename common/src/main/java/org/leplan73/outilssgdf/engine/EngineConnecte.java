@@ -14,7 +14,7 @@ public class EngineConnecte extends Engine {
 		super(progress, logger);
 	}
 	
-	protected void login(ExtractionIntranet connection, String identifiant, String motdepasse, boolean full) throws ClientProtocolException, IOException, EngineException
+	protected void login(ExtractionIntranet connection, String identifiant, String motdepasse, boolean full) throws ClientProtocolException, IOException, LoginEngineException
 	{
 		connection_ = connection;
 		logger_.info("Connexion");
@@ -22,11 +22,11 @@ public class EngineConnecte extends Engine {
 		connection_.init(full);
 		if (connection_.login(identifiant,motdepasse) == false)
 		{
-			throw new EngineException("erreur de connexion", true);
+			throw new LoginEngineException("erreur de connexion");
 		}
 	}
 
-	protected void login(ExtractionIntranet connection, String identifiant, String motdepasse) throws ClientProtocolException, IOException, EngineException
+	protected void login(ExtractionIntranet connection, String identifiant, String motdepasse) throws ClientProtocolException, IOException, EngineException, LoginEngineException
 	{
 		login(connection, identifiant, motdepasse, false);
 	}

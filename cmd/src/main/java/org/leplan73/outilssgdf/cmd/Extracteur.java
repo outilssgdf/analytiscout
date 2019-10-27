@@ -24,6 +24,7 @@ import org.leplan73.outilssgdf.cmd.utils.CmdLineException;
 import org.leplan73.outilssgdf.cmd.utils.CommonParamsG;
 import org.leplan73.outilssgdf.cmd.utils.CommonParamsIntranet;
 import org.leplan73.outilssgdf.cmd.utils.Logging;
+import org.leplan73.outilssgdf.engine.LoginEngineException;
 import org.leplan73.outilssgdf.intranet.ExtractionAdherents;
 import org.leplan73.outilssgdf.intranet.ExtractionIntranet;
 
@@ -158,6 +159,8 @@ public class Extracteur extends CommonParamsIntranet {
 			}
 			
 		} catch (IOException|JDOMException e) {
+			Logging.logError(e);
+		} catch (LoginEngineException e) {
 			Logging.logError(e);
 		}
 		

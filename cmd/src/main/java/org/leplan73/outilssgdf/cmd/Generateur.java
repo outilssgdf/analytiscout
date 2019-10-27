@@ -9,6 +9,7 @@ import org.leplan73.outilssgdf.cmd.utils.CommonParamsIntranet;
 import org.leplan73.outilssgdf.cmd.utils.Logging;
 import org.leplan73.outilssgdf.engine.EngineException;
 import org.leplan73.outilssgdf.engine.EngineGenerateur;
+import org.leplan73.outilssgdf.engine.LoginEngineException;
 import org.leplan73.outilssgdf.intranet.ExtractionIntranet;
 
 import picocli.CommandLine;
@@ -42,6 +43,8 @@ public class Generateur extends CommonParamsIntranet {
 			en.go(identifiant,motdepasse, sortie, structures[0], structures);
 			
 		} catch (EngineException e) {
+			Logging.logError(e);
+		} catch (LoginEngineException e) {
 			Logging.logError(e);
 		}
 		

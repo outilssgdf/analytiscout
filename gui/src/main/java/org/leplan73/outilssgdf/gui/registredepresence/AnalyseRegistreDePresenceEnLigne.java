@@ -231,7 +231,7 @@ public class AnalyseRegistreDePresenceEnLigne extends Dialogue implements GuiCom
 					txtLog = new JTextArea();
 					scrollPane.setViewportView(txtLog);
 					{
-						chkGarderFichiers = new JCheckBox("Garder fichiers téléchargés");
+						chkGarderFichiers = new JCheckBox("Garder les fichiers téléchargés");
 						panel.add(chkGarderFichiers, BorderLayout.SOUTH);
 					}
 					txtLog.setEditable(false);

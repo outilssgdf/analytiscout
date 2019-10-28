@@ -315,3 +315,13 @@ formation.35=
 nom.35=noeuddetisserand
 adherents.35=true
 batchtype.35=diplome
+
+generateur.36=xml
+format.36=4
+diplome.36=
+qualif.36=
+formation.36=252
+nom.36=responsable_farfadets
+fichier.36=responsable_farfadets
+adherents.36=true
+batchtype.36=formation

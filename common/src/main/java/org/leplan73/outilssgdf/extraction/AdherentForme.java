@@ -129,15 +129,37 @@ public class AdherentForme extends Adherent {
 			alertes.ajouter(this, Alerte.Severite.MOYENNE, Alerte.ALERTE_TYPE_JS, "AnimSF titulaire mais déclaré \"Animateur SF stagiaire\"");
 		}
 	}
+	
+	public boolean getFarfadet()
+	{
+		int fonctionSecondaire = extraitCodeSecondaire();
+		if (fonctionSecondaire ==  Consts.CODE_RESPONSABLE_FARFADETS || fonctionSecondaire == Consts.CODE_PARENTS_FARFADETS)
+			return true;
+		if (this.getFonction() == Consts.CODE_RESPONSABLE_FARFADETS || this.getFonction() == Consts.CODE_PARENTS_FARFADETS)
+			return true;
+		return false;
+	}
+	
+	public boolean getCompa()
+	{
+		boolean ret = super.getCompa();
+		if (!ret)
+		{
+			int fonctionSecondaire = extraitCodeSecondaire();
+			if (fonctionSecondaire ==  Consts.CODE_ACCOMPAGNATEUR_COMPAS)
+				ret = true;
+			if (this.getFonction() == Consts.CODE_ACCOMPAGNATEUR_COMPAS)
+				ret = true;
+		}
+		return ret;
+	}
 
 	public boolean getAge18ok()
 	{
 		if (ageCamp_ > 0)
 		{
 			if (this.getFonction() == Consts.CODE_RESPONSABLE_FARFADETS || this.getFonction() == Consts.CODE_PARENTS_FARFADETS)
-			{
 				return true;
-			}
 			if (ageCamp_ < 18)
 				return false;
 			else

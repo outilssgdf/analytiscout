@@ -242,7 +242,7 @@ public class Adherent {
 		return Integer.valueOf(code);
 	}
 	
-	private int extraitCodeSecondaire()
+	protected int extraitCodeSecondaire()
 	{
 		String code = this.getFonctionsecondairecomplet();
 		if (code.isEmpty())
@@ -507,7 +507,7 @@ public class Adherent {
 	{
 		if (ageCamp_ > 0)
 		{
-			if (this.getFonction() < Consts.CODE_COMPAS)
+			if (this.getFonction() < Consts.CODE_ACCOMPAGNATEUR_COMPAS)
 			{
 				return ageCamp_ >= 18 ? "Oui" : "Non";
 			}

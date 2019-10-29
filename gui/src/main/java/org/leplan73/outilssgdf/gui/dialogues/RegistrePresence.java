@@ -41,12 +41,28 @@ public class RegistrePresence extends Template {
 
 		JPanel panel = new JPanel();
 		panel_1.add(panel, BorderLayout.SOUTH);
-		panel.setLayout(new BorderLayout(0, 0));
-
-		JButton btnextraireEtAnalyserdes = new JButton(
-				"<html><p style=\"text-align:center;\">Extraire et analyser<br>des données en ligne</p>");
-		btnextraireEtAnalyserdes.setEnabled(false);
-		panel.add(btnextraireEtAnalyserdes, BorderLayout.WEST);
+		GridBagLayout gbl_panel = new GridBagLayout();
+		gbl_panel.columnWidths = new int[]{135, 139, 0};
+		gbl_panel.rowHeights = new int[]{37, 0};
+		gbl_panel.columnWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
+		gbl_panel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+		panel.setLayout(gbl_panel);
+		
+				JButton btnextraireEtAnalyserdes = new JButton(
+						"<html><p style=\"text-align:center;\">Extraire et analyser<br>des données en ligne</p>");
+				btnextraireEtAnalyserdes.setEnabled(false);
+				GridBagConstraints gbc_btnextraireEtAnalyserdes = new GridBagConstraints();
+				gbc_btnextraireEtAnalyserdes.fill = GridBagConstraints.HORIZONTAL;
+				gbc_btnextraireEtAnalyserdes.anchor = GridBagConstraints.NORTH;
+				gbc_btnextraireEtAnalyserdes.insets = new Insets(0, 0, 0, 5);
+				gbc_btnextraireEtAnalyserdes.gridx = 0;
+				gbc_btnextraireEtAnalyserdes.gridy = 0;
+				panel.add(btnextraireEtAnalyserdes, gbc_btnextraireEtAnalyserdes);
+				btnextraireEtAnalyserdes.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						new AnalyseRegistreDePresenceEnLigne().setVisible(true);
+					}
+				});
 		
 		JButton btnextraireEtAnalyserdes_1 = new JButton("Analyser des données");
 		btnextraireEtAnalyserdes_1.addActionListener(new ActionListener() {
@@ -54,12 +70,11 @@ public class RegistrePresence extends Template {
 				new AnalyseRegistreDePresence().setVisible(true);
 			}
 		});
-		panel.add(btnextraireEtAnalyserdes_1, BorderLayout.EAST);
-		btnextraireEtAnalyserdes.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				new AnalyseRegistreDePresenceEnLigne().setVisible(true);
-			}
-		});
+		GridBagConstraints gbc_btnextraireEtAnalyserdes_1 = new GridBagConstraints();
+		gbc_btnextraireEtAnalyserdes_1.fill = GridBagConstraints.BOTH;
+		gbc_btnextraireEtAnalyserdes_1.gridx = 1;
+		gbc_btnextraireEtAnalyserdes_1.gridy = 0;
+		panel.add(btnextraireEtAnalyserdes_1, gbc_btnextraireEtAnalyserdes_1);
 
 		JPanel panel_title2 = ElementFactory.createActionTitle("<html><b>CEC</b></html>");
 		GridBagLayout gbl_panel_title2 = (GridBagLayout) panel_title2.getLayout();

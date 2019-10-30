@@ -25,6 +25,7 @@ public class Unite extends UniteSimple
 	private int module_appro_accueil_scoutisme_;
 	private int module_animateur_scoutisme_campisme_;
 	private int module_appro_surveillant_baignade_;
+	private int responsable_farfadets_;
 	
 	public Unite(String nom, String codeStructure, int fonction) {
 		super(nom, codeStructure, fonction);
@@ -86,6 +87,14 @@ public class Unite extends UniteSimple
 
 	public int getApf() {
 		return apf_;
+	}
+	
+	public int getResponsablefarfadets() {
+		return responsable_farfadets_;
+	}
+	
+	public void addResponsablefarfadets() {
+		this.responsable_farfadets_++;
 	}
 
 	public void addStagiaire() {

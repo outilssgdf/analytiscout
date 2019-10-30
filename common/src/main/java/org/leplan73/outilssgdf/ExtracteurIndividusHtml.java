@@ -207,6 +207,12 @@ public class ExtracteurIndividusHtml {
 				boolean aqualif = false;
 				boolean aqualifsf = false;
 				
+				boolean responsable_farfadets = chef.getFormation("responsable_farfadets").getOk();
+				if (responsable_farfadets)
+				{
+					uniteObj.addResponsablefarfadets();
+				}
+				
 				if (dirsf)
 				{
 					if (uniteObj.getDirsfqnonq() == 0)

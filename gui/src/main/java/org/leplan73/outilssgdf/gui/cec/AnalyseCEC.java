@@ -289,6 +289,8 @@ public class AnalyseCEC extends Dialogue implements LoggedDialog, GuiCommand {
 		Appender.setLoggedDialog(null);
 		Preferences.sauved(Consts.FENETRE_ANALYSEUR_X, this.getLocation().getX());
 		Preferences.sauved(Consts.FENETRE_ANALYSEUR_Y, this.getLocation().getY());
+		Preferences.sauve(Consts.REPERTOIRE_ENTREE, this.fEntreeAnnee.getParent(), false);
+		Preferences.sauve(Consts.REPERTOIRE_ENTREE, this.fEntreeAnneeP.getParent(), false);
 		Preferences.sauve(Consts.REPERTOIRE_SORTIE, this.fSortie.getParent(), false);
 		super.dispose();
 	}

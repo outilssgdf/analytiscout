@@ -304,6 +304,7 @@ abstract public class Analyseur extends Dialogue implements LoggedDialog, GuiCom
 		Appender.setLoggedDialog(null);
 		Preferences.sauved(Consts.FENETRE_ANALYSEUR_X, this.getLocation().getX());
 		Preferences.sauved(Consts.FENETRE_ANALYSEUR_Y, this.getLocation().getY());
+		Preferences.sauve(Consts.REPERTOIRE_ENTREE, this.fEntree.getPath(), false);
 		Preferences.sauve(Consts.REPERTOIRE_SORTIE, this.fSortie.getParent(), false);
 		super.dispose();
 	}

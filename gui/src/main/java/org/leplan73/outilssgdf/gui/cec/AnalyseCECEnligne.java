@@ -40,7 +40,7 @@ public class AnalyseCECEnligne extends Dialogue implements LoggedDialog, GuiComm
 	private final JPanel contentPanel = new JPanel();
 	protected File fModele = new File("conf/modele_cec.xlsx");
 	private JFileChooser fcSortie = new JFileChooser();
-	protected File fSortie = new File("données");
+	protected File fSortie = new File(Preferences.lit(Consts.REPERTOIRE_SORTIE, "données", false));
 	private JLabel lblSortie;
 	private JButton btnGo;
 	private JTextField txfAnnee;
@@ -259,6 +259,7 @@ public class AnalyseCECEnligne extends Dialogue implements LoggedDialog, GuiComm
 		Preferences.sauved(Consts.FENETRE_ANALYSEUR_X, this.getLocation().getX());
 		Preferences.sauved(Consts.FENETRE_ANALYSEUR_Y, this.getLocation().getY());
 		Preferences.sauve(Consts.INTRANET_STRUCTURE, txfCodeStructure.getText(), true);
+		Preferences.sauve(Consts.REPERTOIRE_SORTIE, this.fSortie.getParent(), false);
 		super.dispose();
 	}
 

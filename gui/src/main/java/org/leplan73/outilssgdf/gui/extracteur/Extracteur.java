@@ -65,7 +65,7 @@ public class Extracteur extends Dialogue implements LoggedDialog, GuiCommand {
 	private JTextField txfCodefonction;
 
 	private JFileChooser fcSortie;
-	private File fSortie = new File("données/export.xls");
+	private File fSortie = new File(Preferences.lit(Consts.REPERTOIRE_SORTIE, "données", false),"export.xls");
 	private JLabel lblSortie;
 	private JCheckBox chkFormatIndividu;
 	private JCheckBox chkFormatParents;
@@ -669,6 +669,7 @@ public class Extracteur extends Dialogue implements LoggedDialog, GuiCommand {
 		Appender.setLoggedDialog(null);
 		Preferences.sauved(Consts.FENETRE_EXTRACTEUR_X, this.getLocation().getX());
 		Preferences.sauved(Consts.FENETRE_EXTRACTEUR_Y, this.getLocation().getY());
+		Preferences.sauve(Consts.REPERTOIRE_SORTIE, this.fSortie.getParent(), false);
 		super.dispose();
 	}
 

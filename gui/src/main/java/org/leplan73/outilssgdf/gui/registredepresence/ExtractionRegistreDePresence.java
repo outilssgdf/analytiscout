@@ -45,7 +45,7 @@ public class ExtractionRegistreDePresence extends Dialogue implements GuiCommand
 	private JTextField txfCodeStructure;
 	private JLabel lblSortie;
 	private JFileChooser fcSortie;
-	private File fSortie = new File("données/registrepresence.csv");
+	private File fSortie = new File(Preferences.lit(Consts.REPERTOIRE_SORTIE, "données", false),"registrepresence.csv");
 	private JCheckBox chkRecursif;
 	private BoutonOuvrir btnOuvrir;
 
@@ -240,6 +240,7 @@ public class ExtractionRegistreDePresence extends Dialogue implements GuiCommand
 		Appender.setLoggedDialog(null);
 		Preferences.sauved(Consts.FENETRE_ANALYSEURENLIGNE_X, this.getLocation().getX());
 		Preferences.sauved(Consts.FENETRE_ANALYSEURENLIGNE_Y, this.getLocation().getY());
+		Preferences.sauve(Consts.REPERTOIRE_SORTIE, this.fSortie.getParent(), false);
 		super.dispose();
 	}
 

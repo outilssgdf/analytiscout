@@ -41,7 +41,7 @@ abstract public class ExtracteurBatch extends Dialogue implements LoggedDialog, 
 
 	private final JPanel contentPanel = new JPanel();
 	private JFileChooser fcSortie;
-	private File fSortie = new File("données");
+	protected File fSortie = new File(Preferences.lit(Consts.REPERTOIRE_SORTIE, "données", false));
 	private JFileChooser fcBatch;
 	protected File fBatch = new File("conf/batch.txt");
 
@@ -273,9 +273,9 @@ abstract public class ExtracteurBatch extends Dialogue implements LoggedDialog, 
 	@Override
 	public void dispose() {
 		Appender.setLoggedDialog(null);
-
 		Preferences.sauved(Consts.FENETRE_EXTRACTEURBATCH_X, this.getLocation().getX());
 		Preferences.sauved(Consts.FENETRE_EXTRACTEURBATCH_Y, this.getLocation().getY());
+		Preferences.sauve(Consts.REPERTOIRE_SORTIE, this.fSortie.getParent(), false);
 		super.dispose();
 	}
 

@@ -45,7 +45,7 @@ abstract public class Analyseur extends Dialogue implements LoggedDialog, GuiCom
 	private final JPanel contentPanel = new JPanel();
 	protected File fBatch = new File("conf/batch_responsables.txt");
 	private JFileChooser fcEntree = new JFileChooser();
-	private File fEntree = new File("données");
+	protected File fEntree = new File(Preferences.lit(Consts.REPERTOIRE_ENTREE, "données", false));
 	protected File fModele = new File("conf/modele_responsables.xlsx");
 	private JFileChooser fcSortie = new JFileChooser();
 	protected File fSortie = new File("données/analyse.xlsx");
@@ -304,6 +304,7 @@ abstract public class Analyseur extends Dialogue implements LoggedDialog, GuiCom
 		Appender.setLoggedDialog(null);
 		Preferences.sauved(Consts.FENETRE_ANALYSEUR_X, this.getLocation().getX());
 		Preferences.sauved(Consts.FENETRE_ANALYSEUR_Y, this.getLocation().getY());
+		Preferences.sauve(Consts.REPERTOIRE_SORTIE, this.fSortie.getParent(), false);
 		super.dispose();
 	}
 

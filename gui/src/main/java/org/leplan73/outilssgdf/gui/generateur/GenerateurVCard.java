@@ -46,7 +46,7 @@ public class GenerateurVCard extends Dialogue implements LoggedDialog, GuiComman
 	private JFileChooser fcModele;
 	private File fModele = new File("conf/"+Consts.FICHIER_CONF_EXPORT);
 	private JFileChooser fcSortie;
-	private File fSortie = new File("données/export.vcf");
+	private File fSortie = new File(Preferences.lit(Consts.REPERTOIRE_SORTIE, "données", false),"export.vcf");
 	private JLabel lblSortie;
 	private JLabel lblModele;
 
@@ -265,6 +265,7 @@ public class GenerateurVCard extends Dialogue implements LoggedDialog, GuiComman
 		Appender.setLoggedDialog(null);
 		Preferences.sauved(Consts.FENETRE_GENERATEUR_X, this.getLocation().getX());
 		Preferences.sauved(Consts.FENETRE_GENERATEUR_Y, this.getLocation().getY());
+		Preferences.sauve(Consts.REPERTOIRE_SORTIE, this.fSortie.getParent(), false);
 		super.dispose();
 	}
 	public JLabel getLblSortie() {

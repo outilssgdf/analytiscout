@@ -38,11 +38,11 @@ public class AnalyseCEC extends Dialogue implements LoggedDialog, GuiCommand {
 	private final JPanel contentPanel = new JPanel();
 	private JFileChooser fcEntreeAnnee = new JFileChooser();
 	private JFileChooser fcEntreeAnneeP = new JFileChooser();
-	private File fEntreeAnnee = new File("données/registrepresence.csv");
-	private File fEntreeAnneeP = new File("données/registrepresence_precedente.csv");
+	private File fEntreeAnnee = new File(Preferences.lit(Consts.REPERTOIRE_ENTREE, "données", false),"registrepresence.csv");
+	private File fEntreeAnneeP = new File(Preferences.lit(Consts.REPERTOIRE_ENTREE, "données", false),"registrepresence_precedente.csv");
 	protected File fModele = new File("conf/modele_cec.xlsx");
 	private JFileChooser fcSortie = new JFileChooser();
-	protected File fSortie = new File("données");
+	protected File fSortie = new File(Preferences.lit(Consts.REPERTOIRE_SORTIE, "données", false));
 	private JLabel lblSortie;
 	private JLabel lblEntree;
 	private JButton btnGo;
@@ -289,6 +289,7 @@ public class AnalyseCEC extends Dialogue implements LoggedDialog, GuiCommand {
 		Appender.setLoggedDialog(null);
 		Preferences.sauved(Consts.FENETRE_ANALYSEUR_X, this.getLocation().getX());
 		Preferences.sauved(Consts.FENETRE_ANALYSEUR_Y, this.getLocation().getY());
+		Preferences.sauve(Consts.REPERTOIRE_SORTIE, this.fSortie.getParent(), false);
 		super.dispose();
 	}
 

@@ -44,7 +44,7 @@ public class AnalyseRegistreDePresenceEnLigne extends Dialogue implements GuiCom
 	private JTextField txfCodeStructure;
 	private JLabel lblSortie;
 	private JFileChooser fcSortie;
-	private File fSortie = new File("données/analyse_registrepresence.xlsx");
+	private File fSortie = new File(Preferences.lit(Consts.REPERTOIRE_SORTIE, "données", false),"analyse_registrepresence.xlsx");
 	private File fModele = new File("conf/modele_registrepresence.xlsx");
 	private JCheckBox chkRecursif;
 	private BoutonOuvrir btnOuvrir;
@@ -245,6 +245,7 @@ public class AnalyseRegistreDePresenceEnLigne extends Dialogue implements GuiCom
 		Appender.setLoggedDialog(null);
 		Preferences.sauved(Consts.FENETRE_ANALYSEURENLIGNE_X, this.getLocation().getX());
 		Preferences.sauved(Consts.FENETRE_ANALYSEURENLIGNE_Y, this.getLocation().getY());
+		Preferences.sauve(Consts.REPERTOIRE_SORTIE, this.fSortie.getParent(), false);
 		super.dispose();
 	}
 

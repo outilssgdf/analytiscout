@@ -41,7 +41,7 @@ public class ExportRegistreDePresence extends Dialogue implements LoggedDialog, 
 
 	private final JPanel contentPanel = new JPanel();
 	private JFileChooser fcEntree = new JFileChooser();
-	private File fEntree = new File("données/registrepresence.csv");
+	private File fEntree = new File(Preferences.lit(Consts.REPERTOIRE_ENTREE, "données", false),"registrepresence.csv");
 	private JLabel lblEntree;
 	private JButton btnGo;
 	private JTextField txfConnexion;

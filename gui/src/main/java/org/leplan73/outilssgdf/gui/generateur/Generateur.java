@@ -44,7 +44,7 @@ public class Generateur extends Dialogue implements LoggedDialog, GuiCommand {
 	private Logger logger_ = LoggerFactory.getLogger(Generateur.class);
 	private JTextField txfCodeStructure;
 	private JFileChooser fcSortie;
-	private File fSortie = new File("données/archive.zip");
+	private File fSortie = new File(Preferences.lit(Consts.REPERTOIRE_SORTIE, "données", false),"archive.zip");
 	private JLabel lblSortie;
 
 	/**
@@ -225,6 +225,7 @@ public class Generateur extends Dialogue implements LoggedDialog, GuiCommand {
 		Appender.setLoggedDialog(null);
 		Preferences.sauved(Consts.FENETRE_GENERATEUR_X, this.getLocation().getX());
 		Preferences.sauved(Consts.FENETRE_GENERATEUR_Y, this.getLocation().getY());
+		Preferences.sauve(Consts.REPERTOIRE_SORTIE, this.fSortie.getParent(), false);
 		super.dispose();
 	}
 	public JLabel getLblSortie() {

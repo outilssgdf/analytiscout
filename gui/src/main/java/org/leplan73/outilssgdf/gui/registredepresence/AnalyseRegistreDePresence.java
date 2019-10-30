@@ -38,10 +38,10 @@ public class AnalyseRegistreDePresence extends Dialogue implements LoggedDialog,
 
 	private final JPanel contentPanel = new JPanel();
 	private JFileChooser fcEntree = new JFileChooser();
-	private File fEntree = new File("données/registrepresence.csv");
+	private File fEntree = new File(Preferences.lit(Consts.REPERTOIRE_ENTREE, "données", false),"registrepresence.csv");
 	protected File fModele = new File("conf/modele_registrepresence.xlsx");
 	private JFileChooser fcSortie = new JFileChooser();
-	protected File fSortie = new File("données/analyse_registrepresence.xlsx");
+	protected File fSortie = new File(Preferences.lit(Consts.REPERTOIRE_SORTIE, "données", false),"analyse_registrepresence.xlsx");
 	private JLabel lblSortie;
 	private JLabel lblEntree;
 	private JButton btnGo;
@@ -274,6 +274,7 @@ public class AnalyseRegistreDePresence extends Dialogue implements LoggedDialog,
 		Appender.setLoggedDialog(null);
 		Preferences.sauved(Consts.FENETRE_ANALYSEUR_X, this.getLocation().getX());
 		Preferences.sauved(Consts.FENETRE_ANALYSEUR_Y, this.getLocation().getY());
+		Preferences.sauve(Consts.REPERTOIRE_SORTIE, this.fSortie.getParent(), false);
 		super.dispose();
 	}
 

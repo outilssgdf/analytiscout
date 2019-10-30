@@ -46,9 +46,9 @@ abstract public class AnalyseurEnLigne extends Dialogue implements LoggedDialog,
 
 	private final JPanel contentPanel = new JPanel();
 	private JFileChooser fcSortie;
-	private File fSortie = new File("données/analyse.xlsx");
-	private File fBatch = new File("conf/batch_responsables.txt");
-	private File fModele = new File("conf/modele_responsables.xlsx");
+	protected File fSortie = new File("données/analyse.xlsx");
+	protected File fBatch = new File("conf/batch_responsables.txt");
+	protected File fModele = new File("conf/modele_responsables.xlsx");
 
 	/**
 	 * Create the dialog.
@@ -295,6 +295,7 @@ abstract public class AnalyseurEnLigne extends Dialogue implements LoggedDialog,
 		Appender.setLoggedDialog(null);
 		Preferences.sauved(Consts.FENETRE_ANALYSEURENLIGNE_X, this.getLocation().getX());
 		Preferences.sauved(Consts.FENETRE_ANALYSEURENLIGNE_Y, this.getLocation().getY());
+		Preferences.sauve(Consts.REPERTOIRE_SORTIE, this.fSortie.getParent(), false);
 		super.dispose();
 	}
 

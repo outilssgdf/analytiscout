@@ -34,6 +34,9 @@ public class Consts {
 	
 	public static final String ALERTE_EXPORTDONNEES = "alerte.1";
 	
+	public static final String REPERTOIRE_ENTREE = "repertoire.entree";
+	public static final String REPERTOIRE_SORTIE = "repertoire.sortie";
+	
 	public static final String FENETRE_CONFIGURATION_X = "fenetre.configuration.x";
 	public static final String FENETRE_CONFIGURATION_Y = "fenetre.configuration.y";
 	

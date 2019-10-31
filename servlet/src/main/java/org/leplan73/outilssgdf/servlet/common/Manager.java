@@ -113,7 +113,7 @@ public class Manager implements ServletContextListener {
         beanConfig.setBasePath("/outilssgdf/api");
         beanConfig.setResourcePackage(Server.class.getPackage().getName());
         beanConfig.setDescription("Outils d'analyse SGDF");
-//        beanConfig.setScan( false );
+        beanConfig.setScan( true );
  	}
     
 	@Override

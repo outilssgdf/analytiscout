@@ -60,7 +60,6 @@ public class Consts {
 	
 	public static final String INTRANET_IDENTIFIANT = "intranet.identifiant";
 	public static final String INTRANET_MOTDEPASSE = "intranet.motdepasse";
-	public static final String INTRANET_MEMORISER = "intranet.memoriser";
 	public static final String INTRANET_STRUCTURE = "intranet.structure";
 	
 	public static final String VCARD_CATEGORIE_NOM = "categorie.nom.";

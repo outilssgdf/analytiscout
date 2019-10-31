@@ -62,3 +62,8 @@ Version 1.3.0 :
 	- Ajout du noeud de tisserand
 	- Ajout d'une alerte au lancement quant à l'export de données (le même que sur l'intranet)
 	- Mutualisation du panneau intégrant l'identifiant, le mot de passe et le code de structure (avec détection automatique)
+	- Ajout de la formation de responsable farfadets
+	- Ajout d'un onglet Farfadets et Compas dans les analyses responsables
+	- Mémorisation des répertoires d'entrée et de sortie
+	- Fusion PSC1/AFPS dans "Synthèse par unité"
+	- L'extension xlsx ou cs est automatiquement ajouté si elle est absente 

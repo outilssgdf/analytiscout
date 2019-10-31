@@ -3,9 +3,12 @@ package org.leplan73.outilssgdf.gui.utils;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.File;
 
 import javax.swing.JComponent;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
 
@@ -65,6 +68,17 @@ public class Dialogue extends JDialog implements LoggedDialog {
 			return false;
 		}
 		return true;
+	}
+	
+	protected void ajouteExtensionFichier(JFileChooser fc, JLabel label, File f, String extension)
+	{
+		f = fc.getSelectedFile();
+		String path = f.getPath();
+		if (path.endsWith("."+extension) == false) {
+			path = path + "."+extension;
+			f = new File(path);
+		}
+		label.setText(path);
 	}
 
 	@Override

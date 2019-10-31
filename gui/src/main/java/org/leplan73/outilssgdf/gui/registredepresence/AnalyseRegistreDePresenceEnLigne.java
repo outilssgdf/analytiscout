@@ -206,8 +206,7 @@ public class AnalyseRegistreDePresenceEnLigne extends Dialogue implements GuiCom
 							fcSortie.addChoosableFileFilter(new ExportFileFilter("csv"));
 							int result = fcSortie.showDialog(panel, "OK");
 							if (result == JFileChooser.APPROVE_OPTION) {
-								fSortie = fcSortie.getSelectedFile();
-								lblSortie.setText(fSortie.getPath());
+								ajouteExtensionFichier(fcSortie, lblSortie, fSortie, "xlsx");
 								btnOuvrir.maj();
 							}
 						}

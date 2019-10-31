@@ -167,8 +167,7 @@ abstract public class AnalyseurEnLigne extends Dialogue implements LoggedDialog,
 							fcSortie.addChoosableFileFilter(new ExportFileFilter("xlsx"));
 							int result = fcSortie.showDialog(panel, "OK");
 							if (result == JFileChooser.APPROVE_OPTION) {
-								fSortie = fcSortie.getSelectedFile();
-								lblSortie.setText(fSortie.getPath());
+								ajouteExtensionFichier(fcSortie, lblSortie, fSortie, "xlsx");
 								btnOuvrir.maj();
 							}
 						}

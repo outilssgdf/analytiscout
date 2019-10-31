@@ -116,8 +116,7 @@ public class Generateur extends Dialogue implements LoggedDialog, GuiCommand {
 						fcSortie.addChoosableFileFilter(new ExportFileFilter("zip"));
 						int result = fcSortie.showDialog(panel, "OK");
 						if (result == JFileChooser.APPROVE_OPTION) {
-							fSortie = fcSortie.getSelectedFile();
-							lblSortie.setText(fSortie.getPath());
+							ajouteExtensionFichier(fcSortie, lblSortie, fSortie, "zip");
 						}
 					}
 				});

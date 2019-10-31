@@ -112,6 +112,8 @@ public class Configuration extends Dialogue {
 			panel.setLayout(new BorderLayout(0, 0));
 			{
 				txfCodeStructure = new JTextField();
+				txfCodeStructure.setEditable(false);
+				txfCodeStructure.setEnabled(false);
 				txfCodeStructure.setColumns(15);
 				panel.add(txfCodeStructure, BorderLayout.CENTER);
 				txfCodeStructure.setText(Preferences.lit(Consts.INTRANET_STRUCTURE, "", true));

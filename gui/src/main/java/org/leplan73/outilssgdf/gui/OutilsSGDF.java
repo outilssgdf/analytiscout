@@ -20,7 +20,20 @@ public class OutilsSGDF extends JFrame {
 		afficheAlertes();
 	}
 	
-	private void afficheAlerteExportDonnees()
+	private boolean afficheAlerteIdentifiants()
+	{
+		String identifiant = Preferences.lit(Consts.INTRANET_IDENTIFIANT, "", true);
+		String motdepasse = Preferences.lit(Consts.INTRANET_MOTDEPASSE, "", true);
+		String structure = Preferences.lit(Consts.INTRANET_STRUCTURE, "", true);
+		if (identifiant.isEmpty() || motdepasse.isEmpty() || structure.isEmpty())
+		{
+			JOptionPane.showMessageDialog(this,"Merci de rentrer identifiant, mot de passe\ndans la configuration (en bas à gauche)");
+			return true;
+		}
+		return false;
+	}
+	
+	private boolean afficheAlerteExportDonnees()
 	{
 		boolean ret = Preferences.litb(Consts.ALERTE_EXPORTDONNEES, false);
 		if (!ret)
@@ -34,11 +47,14 @@ public class OutilsSGDF extends JFrame {
 					"de cette règle de confidentialité.\n\n"+
 					"En cliquant sur le bouton OK, je déclare accepter cette règle.");
 			Preferences.sauveb(Consts.ALERTE_EXPORTDONNEES, true);
+			return true;
 		}
+		return false;
 	}
 	
 	protected void afficheAlertes()
 	{
+		afficheAlerteIdentifiants();
 		afficheAlerteExportDonnees();
 	}
 	

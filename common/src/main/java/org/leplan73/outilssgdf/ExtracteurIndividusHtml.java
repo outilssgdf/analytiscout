@@ -6,7 +6,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -40,8 +40,12 @@ public class ExtracteurIndividusHtml {
 	protected boolean marins_;
 	
 	private Map<ExtraKey, ExtracteurExtraHtml> extras_;
+
+	public ExtracteurIndividusHtml() {}
 	
-	public ExtracteurIndividusHtml() throws ExtractionException, IOException, JDOMException {
+	public ExtracteurIndividusHtml(ColonnesAdherents colonnes) {
+		colonnes_ = colonnes;
+		adherents_ = new Adherents();
 	}
 	
 	public ExtracteurIndividusHtml(InputStream input, Map<ExtraKey, ExtracteurExtraHtml> extras, boolean age, boolean anonymiser) throws ExtractionException, IOException, JDOMException {
@@ -52,6 +56,30 @@ public class ExtracteurIndividusHtml {
 	public ExtracteurIndividusHtml(File fichier, Map<ExtraKey, ExtracteurExtraHtml> extras, boolean age, boolean anonymiser) throws ExtractionException, IOException, JDOMException {
 		extras_ = extras;
 		charge(fichier, age, anonymiser);
+	}
+
+	public Map<String, ExtracteurIndividusHtml> genereGroupes() {
+		Map<String, ExtracteurIndividusHtml> groupes = new HashMap<String,ExtracteurIndividusHtml>();
+		adherents_.forEach((code,adherent) ->
+		{
+			String groupe = adherent.getCodegroupe();
+			ExtracteurIndividusHtml individus = groupes.get(groupe);
+			if (individus == null)
+			{
+				individus = new ExtracteurIndividusHtml(this.colonnes_);
+				groupes.put(groupe, individus);
+			}
+			individus.ajouterAdherent(adherent);
+		});
+		
+		groupes.forEach((k,v) -> {
+			v.complete();
+		});
+		return groupes;
+	}
+
+	private void ajouterAdherent(Adherent adherent) {
+		adherents_.put(adherent.getCode(), adherent);
 	}
 
 	public Adherents getAdherents()

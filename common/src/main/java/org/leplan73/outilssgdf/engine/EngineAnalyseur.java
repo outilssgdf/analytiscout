@@ -22,7 +22,7 @@ import org.leplan73.outilssgdf.alerte.Alertes;
 import org.leplan73.outilssgdf.calcul.General;
 import org.leplan73.outilssgdf.calcul.Global;
 import org.leplan73.outilssgdf.extraction.AdherentForme.ExtraKey;
-import org.leplan73.outilssgdf.extraction.AdherentFormes;
+import org.leplan73.outilssgdf.extraction.AdherentsFormes;
 import org.slf4j.Logger;
 
 import com.jcabi.manifests.Manifests;
@@ -72,7 +72,7 @@ public class EngineAnalyseur extends Engine {
 		logger_.info("Chargement du fichier \"" + fichierAdherents.getName() + "\"");
 		ExtracteurIndividusHtml adherents = new ExtracteurIndividusHtml(fichierAdherents, extraMap, age, anonymiser);
 
-		AdherentFormes compas = new AdherentFormes();
+		AdherentsFormes compas = new AdherentsFormes();
 		compas.charge(adherents, extraMap);
 		progress_.setProgress(60);
 

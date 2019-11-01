@@ -9,7 +9,7 @@ import org.leplan73.outilssgdf.ExtracteurExtraHtml;
 import org.leplan73.outilssgdf.ExtracteurIndividusHtml;
 import org.leplan73.outilssgdf.extraction.AdherentForme.ExtraKey;
 
-public class AdherentFormes extends HashMap<Integer,AdherentForme>
+public class AdherentsFormes extends HashMap<Integer,AdherentForme>
 {
 	private static final long serialVersionUID = 1L;
 	

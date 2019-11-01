@@ -24,7 +24,7 @@ import org.leplan73.outilssgdf.alerte.Alertes;
 import org.leplan73.outilssgdf.calcul.General;
 import org.leplan73.outilssgdf.calcul.Global;
 import org.leplan73.outilssgdf.extraction.AdherentForme.ExtraKey;
-import org.leplan73.outilssgdf.extraction.AdherentFormes;
+import org.leplan73.outilssgdf.extraction.AdherentsFormes;
 import org.leplan73.outilssgdf.intranet.ExtractionAdherents;
 import org.leplan73.outilssgdf.intranet.ExtractionIntranet;
 import org.slf4j.Logger;
@@ -116,7 +116,7 @@ public class EngineAnalyseurEnLigne extends EngineConnecte {
 		InputStream in = new ByteArrayInputStream(donneesAdherents.getBytes(Consts.ENCODING_UTF8));
 		ExtracteurIndividusHtml adherents = new ExtracteurIndividusHtml(in, extraMap,age, anonymiser);
  
-		AdherentFormes adherentsFormes = new AdherentFormes();
+		AdherentsFormes adherentsFormes = new AdherentsFormes();
 		adherentsFormes.charge(adherents,extraMap);
 		progress_.setProgress(60);
 		

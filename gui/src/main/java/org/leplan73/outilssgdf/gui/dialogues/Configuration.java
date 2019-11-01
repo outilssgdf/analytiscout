@@ -32,6 +32,8 @@ import org.leplan73.outilssgdf.gui.utils.Dialogue;
 import org.leplan73.outilssgdf.gui.utils.Logging;
 import org.leplan73.outilssgdf.gui.utils.Preferences;
 import org.slf4j.LoggerFactory;
+import javax.swing.JCheckBox;
+import javax.swing.JToggleButton;
 
 public class Configuration extends Dialogue {
 
@@ -96,6 +98,19 @@ public class Configuration extends Dialogue {
 					txfMotdepasse.setColumns(15);
 					panel_1.add(txfMotdepasse);
 					txfMotdepasse.setText(Preferences.lit(Consts.INTRANET_MOTDEPASSE, "", true));
+				}
+				{
+					JCheckBox chckbxNewCheckBox = new JCheckBox("Afficher");
+					chckbxNewCheckBox.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							if (chckbxNewCheckBox.isSelected()) {
+								txfMotdepasse.setEchoChar((char)0);
+							   } else {
+								   txfMotdepasse.setEchoChar('*');
+							   }
+						}
+					});
+					panel_1.add(chckbxNewCheckBox);
 				}
 			}
 		}

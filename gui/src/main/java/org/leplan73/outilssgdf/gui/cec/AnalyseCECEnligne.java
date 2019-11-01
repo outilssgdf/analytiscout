@@ -127,7 +127,7 @@ public class AnalyseCECEnligne extends Dialogue implements LoggedDialog, GuiComm
 				JButton button = new JButton("Fichier...");
 				button.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						fcSortie.setDialogTitle("Export Configuration");
+						fcSortie.setDialogTitle("Répertoire de sortie");
 						fcSortie.setApproveButtonText("Export");
 						fcSortie.setCurrentDirectory(new File("./données"));
 						fcSortie.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);

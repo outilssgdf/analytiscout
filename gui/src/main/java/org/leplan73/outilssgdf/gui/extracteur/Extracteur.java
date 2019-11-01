@@ -393,7 +393,7 @@ public class Extracteur extends Dialogue implements LoggedDialog, GuiCommand {
 							btnFichier.addActionListener(new ActionListener() {
 								public void actionPerformed(ActionEvent arg0) {
 									fcSortie = new JFileChooser();
-									fcSortie.setDialogTitle("Export Configuration");
+									fcSortie.setDialogTitle("Fichier de sortie");
 									fcSortie.setApproveButtonText("Export");
 									fcSortie.setCurrentDirectory(new File("./données"));
 									fcSortie.setSelectedFile(fSortie);

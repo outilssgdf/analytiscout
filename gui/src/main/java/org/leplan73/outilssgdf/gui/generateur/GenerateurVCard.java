@@ -156,7 +156,7 @@ public class GenerateurVCard extends Dialogue implements LoggedDialog, GuiComman
 						fcSortie.addChoosableFileFilter(new ExportFileFilter("vcf"));
 						int result = fcSortie.showDialog(panel, "OK");
 						if (result == JFileChooser.APPROVE_OPTION) {
-							ajouteExtensionFichier(fcSortie, lblSortie, fSortie, "vcf");
+							fSortie = ajouteExtensionFichier(fcSortie, lblSortie, "vcf");
 						}
 					}
 				});

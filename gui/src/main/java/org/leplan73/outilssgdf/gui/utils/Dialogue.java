@@ -70,15 +70,16 @@ public class Dialogue extends JDialog implements LoggedDialog {
 		return true;
 	}
 	
-	protected void ajouteExtensionFichier(JFileChooser fc, JLabel label, File f, String extension)
+	protected File ajouteExtensionFichier(JFileChooser fc, JLabel label, String extension)
 	{
-		f = fc.getSelectedFile();
+		File f = fc.getSelectedFile();
 		String path = f.getPath();
 		if (path.endsWith("."+extension) == false) {
 			path = path + "."+extension;
 			f = new File(path);
 		}
 		label.setText(path);
+		return f;
 	}
 
 	@Override

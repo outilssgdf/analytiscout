@@ -195,7 +195,7 @@ public class ExtractionRegistreDePresence extends Dialogue implements GuiCommand
 					btnFichier.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							fcSortie = new JFileChooser();
-							fcSortie.setDialogTitle("Export Configuration");
+							fcSortie.setDialogTitle("Fichier de sortie");
 							fcSortie.setApproveButtonText("Export");
 							fcSortie.setCurrentDirectory(new File("./données"));
 							fcSortie.setSelectedFile(fSortie);
@@ -205,7 +205,7 @@ public class ExtractionRegistreDePresence extends Dialogue implements GuiCommand
 							fcSortie.addChoosableFileFilter(new ExportFileFilter("csv"));
 							int result = fcSortie.showDialog(panel, "OK");
 							if (result == JFileChooser.APPROVE_OPTION) {
-								ajouteExtensionFichier(fcSortie, lblSortie, fSortie, "csv");
+								fSortie = ajouteExtensionFichier(fcSortie, lblSortie, "csv");
 								btnOuvrir.maj();
 							}
 						}

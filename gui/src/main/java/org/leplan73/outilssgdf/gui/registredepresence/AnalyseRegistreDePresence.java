@@ -144,7 +144,7 @@ public class AnalyseRegistreDePresence extends Dialogue implements LoggedDialog,
 					}
 					btnFichier.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
-							fcSortie.setDialogTitle("Export Configuration");
+							fcSortie.setDialogTitle("Fichier de sortie");
 							fcSortie.setApproveButtonText("Export");
 							fcSortie.setCurrentDirectory(new File("./données"));
 							fcSortie.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -154,7 +154,7 @@ public class AnalyseRegistreDePresence extends Dialogue implements LoggedDialog,
 							fcSortie.addChoosableFileFilter(new ExportFileFilter("xlsx"));
 							int result = fcSortie.showDialog(panel, "OK");
 							if (result == JFileChooser.APPROVE_OPTION) {
-								ajouteExtensionFichier(fcSortie, lblSortie, fSortie, "xlsx");
+								fSortie = ajouteExtensionFichier(fcSortie, lblSortie, "xlsx");
 								btnOuvrir.maj();
 							}
 						}

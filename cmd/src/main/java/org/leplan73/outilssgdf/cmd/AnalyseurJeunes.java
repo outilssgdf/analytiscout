@@ -36,6 +36,9 @@ public class AnalyseurJeunes extends CommonParamsG {
 	
 	@Option(names = "-age", description = "Gère l'âge des adhérents (Valeur par défaut: ${DEFAULT-VALUE})")
 	protected boolean age = false;
+	
+	@Option(names = "-pargroupe", description = "Générer un fichier par groupe (Valeur par défaut: ${DEFAULT-VALUE})")
+	private boolean pargroupe = false;
 
 	@Override
 	public void run(CommandLine commandLine) throws IOException, ExtractionException, JDOMException, InvalidFormatException
@@ -47,7 +50,7 @@ public class AnalyseurJeunes extends CommonParamsG {
 			
 			ParamEntree pentree = new ParamEntree(entree, structures);
 			ParamSortie psortie = new ParamSortie(sortie, structures, "jeunes_");
-			en.go(pentree, new ResetableFileInputStream(new FileInputStream(batch)), new ResetableFileInputStream(new FileInputStream(modele)), structures, age, "tout_jeunes" , psortie, anonymiser);
+			en.go(pentree, new ResetableFileInputStream(new FileInputStream(batch)), new ResetableFileInputStream(new FileInputStream(modele)), structures, age, "tout_jeunes" , psortie, anonymiser, pargroupe);
 		} catch (EngineException e) {
 			Logging.logError(e);
 		}

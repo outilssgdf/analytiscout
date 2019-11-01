@@ -37,6 +37,9 @@ public class AnalyseurJeunesEnLigne extends CommonParamsIntranet {
 	@Option(names = "-garder", description = "Garder les fichiers téléchargés (Valeur par défaut: ${DEFAULT-VALUE})", hidden = true)
 	private boolean garder = false;
 	
+	@Option(names = "-pargroupe", description = "Générer un fichier par groupe (Valeur par défaut: ${DEFAULT-VALUE})")
+	private boolean pargroupe = false;
+	
 	@Override
 	public void run(CommandLine commandLine) throws CmdLineException
 	{
@@ -53,7 +56,7 @@ public class AnalyseurJeunesEnLigne extends CommonParamsIntranet {
 			CmdProgress progress = new CmdProgress();
 			EngineAnalyseurEnLigne en = new EngineAnalyseurEnLigne(progress, Logging.logger_);
 			ParamSortie psortie = new ParamSortie(sortie, structures, "jeunes_");
-			en.go(identifiant,motdepasse, new ResetableFileInputStream(new FileInputStream(batch)), new ResetableFileInputStream(new FileInputStream(modele)), structures, age, "tout_jeunes", recursif, psortie, anonymiser, garder);
+			en.go(identifiant,motdepasse, new ResetableFileInputStream(new FileInputStream(batch)), new ResetableFileInputStream(new FileInputStream(modele)), structures, age, "tout_jeunes", recursif, psortie, anonymiser, garder, pargroupe);
 		} catch (Exception e) {
 			Logging.logger_.error(Logging.dumpStack(null, e));
 		}

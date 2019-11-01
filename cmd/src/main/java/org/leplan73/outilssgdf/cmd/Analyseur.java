@@ -35,6 +35,9 @@ public class Analyseur extends CommonParamsG {
 	@Option(names = "-age", description = "Gère l'âge des adhérents (Valeur par défaut: ${DEFAULT-VALUE})")
 	protected boolean age = false;
 	
+	@Option(names = "-pargroupe", description = "Générer un fichier par groupe (Valeur par défaut: ${DEFAULT-VALUE})")
+	private boolean pargroupe = false;
+	
 	@Override
 	public void run(CommandLine commandLine) throws CmdLineException
 	{
@@ -45,7 +48,7 @@ public class Analyseur extends CommonParamsG {
 			
 			ParamEntree pentree = new ParamEntree(entree, structures);
 			ParamSortie psortie = new ParamSortie(sortie, structures, "responsables_");
-			en.go(pentree, new ResetableFileInputStream(new FileInputStream(batch)), new ResetableFileInputStream(new FileInputStream(modele)), structures, age, "tout_responsables" , psortie, anonymiser);
+			en.go(pentree, new ResetableFileInputStream(new FileInputStream(batch)), new ResetableFileInputStream(new FileInputStream(modele)), structures, age, "tout_responsables" , psortie, anonymiser, pargroupe);
 		} catch (EngineException | FileNotFoundException e) {
 			Logging.logError(e);
 		}

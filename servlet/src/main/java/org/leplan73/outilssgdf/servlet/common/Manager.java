@@ -33,7 +33,7 @@ public class Manager implements ServletContextListener {
 				if (rqResponsables != null)
 				{
 					// Execution de la requête
-					boolean ret = rqResponsables.go(true);
+					boolean ret = rqResponsables.go(true, false);
 					if (ret)
 					{
 						// Suppression de la requête effectuéd
@@ -44,7 +44,7 @@ public class Manager implements ServletContextListener {
 				if (rqJeunes != null)
 				{
 					// Execution de la requête
-					boolean ret = rqJeunes.go(false);
+					boolean ret = rqJeunes.go(false, false);
 					if (ret)
 					{
 						// Suppression de la requête effectuéd

@@ -44,7 +44,7 @@ public class Database {
 		public boolean recursif = true;
 		public boolean anonymiser = false;
 		
-		public boolean go(boolean responsables) throws FileNotFoundException {
+		public boolean go(boolean responsables, boolean pargroupe) throws FileNotFoundException {
 			
 			InputStream fBatch = null;
 			InputStream fModele = null;
@@ -67,11 +67,11 @@ public class Database {
 				ParamSortie psortie = new ParamSortie(outputStream);
 				if (responsables)
 				{
-					en.go(identifiant, motdepasse, fBatch, fModele, code_structure, age, "tout_responsables", recursif, psortie, anonymiser, false);
+					en.go(identifiant, motdepasse, fBatch, fModele, code_structure, age, "tout_responsables", recursif, psortie, anonymiser, false, pargroupe);
 				}
 				else
 				{
- 					en.go(identifiant, motdepasse, fBatch, fModele, code_structure, age, "tout_jeunes", recursif, psortie, anonymiser, false);
+ 					en.go(identifiant, motdepasse, fBatch, fModele, code_structure, age, "tout_jeunes", recursif, psortie, anonymiser, false, pargroupe);
 				}
 				
 				byte[] fichier = outputStream.toByteArray();

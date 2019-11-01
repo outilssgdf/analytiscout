@@ -47,22 +47,26 @@ abstract public class Analyseur extends Dialogue implements LoggedDialog, GuiCom
 	private JFileChooser fcEntree = new JFileChooser();
 	protected File fEntree = new File(Preferences.lit(Consts.REPERTOIRE_ENTREE, "données", false));
 	protected File fModele = new File("conf/modele_responsables.xlsx");
-	private JFileChooser fcSortie = new JFileChooser();
-	protected File fSortie = new File("données/analyse.xlsx");
+	private JFileChooser fcSortieFichier = new JFileChooser();
+	private JFileChooser fcSortieRepertoire = new JFileChooser();
+	protected File fSortieFichier = new File("données/analyse.xlsx");
+	protected File fSortieRepertoire = new File("données");
 	private JCheckBox chcAge;
 	private JLabel lblSortie;
 	private JLabel lblEntree;
 	private JButton btnGo;
 	private JButton btnFichier;
 	private BoutonOuvrir btnOuvrir;
+	private JCheckBox chkGenererParGroupe;
 
 	/**
 	 * Create the dialog.
 	 */
-	public Analyseur(String titre, Logger logger, File pfSortie, File pfBatch, File pfModele) {
+	public Analyseur(String titre, Logger logger, File pfSortieFichier, File pfSortieRepertoire, File pfBatch, File pfModele) {
 		super();
 		this.logger_ = logger;
-		this.fSortie = pfSortie;
+		this.fSortieFichier = pfSortieFichier;
+		this.fSortieRepertoire = pfSortieRepertoire;
 		this.fBatch = pfBatch;
 		this.fModele = pfModele;
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -145,16 +149,26 @@ abstract public class Analyseur extends Dialogue implements LoggedDialog, GuiCom
 			contentPanel.add(panel, gbc_panel);
 			panel.setLayout(new BorderLayout(0, 0));
 			{
-				lblSortie = new JLabel(fSortie.getAbsolutePath());
+				lblSortie = new JLabel(fSortieFichier.getAbsolutePath());
 				panel.add(lblSortie, BorderLayout.WEST);
 			}
 			{
 				JPanel panel_1 = new JPanel();
 				panel.add(panel_1, BorderLayout.EAST);
-				panel_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+				panel_1.setLayout(new BorderLayout(0, 0));
+				{
+					chkGenererParGroupe = new JCheckBox("Générer un fichier par groupe");
+					chkGenererParGroupe.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							btnFichier.setText(chkGenererParGroupe.isSelected() ? "Répertoire..." : "Fichier...");
+							lblSortie.setText(chkGenererParGroupe.isSelected() ? fSortieRepertoire.getPath() : fSortieFichier.getPath());
+						}
+					});
+					panel_1.add(chkGenererParGroupe, BorderLayout.NORTH);
+				}
 				{
 					btnFichier = new JButton("Fichier...");
-					panel_1.add(btnFichier);
+					panel_1.add(btnFichier, BorderLayout.CENTER);
 					{
 						btnOuvrir = new BoutonOuvrir("Ouvrir...", lblSortie);
 						btnOuvrir.addActionListener(new ActionListener() {
@@ -167,21 +181,40 @@ abstract public class Analyseur extends Dialogue implements LoggedDialog, GuiCom
 								}
 							}
 						});
-						panel_1.add(btnOuvrir);
+						panel_1.add(btnOuvrir, BorderLayout.EAST);
 					}
 					btnFichier.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
-							fcSortie.setDialogTitle("Fichier de sortie");
-							fcSortie.setApproveButtonText("Export");
-							fcSortie.setCurrentDirectory(new File("."));
-							fcSortie.setFileSelectionMode(JFileChooser.FILES_ONLY);
-							fcSortie.removeChoosableFileFilter(fcSortie.getFileFilter());
-							fcSortie.removeChoosableFileFilter(fcSortie.getAcceptAllFileFilter());
-							fcSortie.addChoosableFileFilter(new ExportFileFilter("xlsx"));
-							int result = fcSortie.showDialog(panel, "OK");
-							if (result == JFileChooser.APPROVE_OPTION) {
-								fSortie = ajouteExtensionFichier(fcSortie, lblSortie, "xlsx");
-								btnOuvrir.maj();
+							if (chkGenererParGroupe.isSelected())
+							{
+								fcSortieRepertoire = new JFileChooser();
+								fcSortieRepertoire.setDialogTitle("Répertoire de sortie");
+								fcSortieRepertoire.setApproveButtonText("Export");
+								fcSortieRepertoire.setCurrentDirectory(new File("."));
+								fcSortieRepertoire.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+								int resultRepertoire = fcSortieRepertoire.showDialog(panel, "OK");
+								if (resultRepertoire == JFileChooser.APPROVE_OPTION) {
+									fSortieRepertoire = fcSortieRepertoire.getSelectedFile();
+									String path = fSortieRepertoire.getPath();
+									lblSortie.setText(path);
+									btnOuvrir.maj();
+								}
+							}
+							else
+							{
+								fcSortieFichier = new JFileChooser();
+								fcSortieFichier.setDialogTitle("Fichier de sortie");
+								fcSortieFichier.setApproveButtonText("Export");
+								fcSortieFichier.setCurrentDirectory(new File("."));
+								fcSortieFichier.setFileSelectionMode(JFileChooser.FILES_ONLY);
+								fcSortieFichier.removeChoosableFileFilter(fcSortieFichier.getFileFilter());
+								fcSortieFichier.removeChoosableFileFilter(fcSortieFichier.getAcceptAllFileFilter());
+								fcSortieFichier.addChoosableFileFilter(new ExportFileFilter("xlsx"));
+								int result = fcSortieFichier.showDialog(panel, "OK");
+								if (result == JFileChooser.APPROVE_OPTION) {
+									fSortieFichier = ajouteExtensionFichier(fcSortieFichier, lblSortie, "xlsx");
+									btnOuvrir.maj();
+								}
 							}
 						}
 					});
@@ -264,7 +297,7 @@ abstract public class Analyseur extends Dialogue implements LoggedDialog, GuiCom
 			logger_.error("Modèle non-sélectionnée");
 			return false;
 		}
-		if (fSortie == null) {
+		if (fSortieFichier == null) {
 			logger_.error("Sortie non-sélectionnée");
 			return false;
 		}
@@ -288,8 +321,8 @@ abstract public class Analyseur extends Dialogue implements LoggedDialog, GuiCom
 				logger_.info("Lancement");
 				try {
 					ParamEntree pentree = new ParamEntree(fEntree);
-					ParamSortie psortie = new ParamSortie(fSortie);
-					en.go(pentree, new ResetableFileInputStream(new FileInputStream(fBatch)), new ResetableFileInputStream(new FileInputStream(fModele)), null, getChcAge().isSelected(), "tout_responsables", psortie, false);
+					ParamSortie psortie = new ParamSortie(fSortieFichier);
+					en.go(pentree, new ResetableFileInputStream(new FileInputStream(fBatch)), new ResetableFileInputStream(new FileInputStream(fModele)), null, getChcAge().isSelected(), "tout_responsables", psortie, false, chkGenererParGroupe.isSelected());
 					btnOuvrir.maj();
 				} catch (Exception e) {
 					logger_.error(Logging.dumpStack(null, e));
@@ -304,7 +337,7 @@ abstract public class Analyseur extends Dialogue implements LoggedDialog, GuiCom
 		Preferences.sauved(Consts.FENETRE_ANALYSEUR_X, this.getLocation().getX());
 		Preferences.sauved(Consts.FENETRE_ANALYSEUR_Y, this.getLocation().getY());
 		Preferences.sauve(Consts.REPERTOIRE_ENTREE, this.fEntree.getPath(), false);
-		Preferences.sauve(Consts.REPERTOIRE_SORTIE, this.fSortie.getParent(), false);
+		Preferences.sauve(Consts.REPERTOIRE_SORTIE, this.fSortieFichier.getParent(), false);
 		super.dispose();
 	}
 
@@ -325,8 +358,5 @@ abstract public class Analyseur extends Dialogue implements LoggedDialog, GuiCom
 	}
 	protected JButton getBtnFichier() {
 		return btnFichier;
-	}
-	public BoutonOuvrir getBtnOuvrir() {
-		return btnOuvrir;
 	}
 }

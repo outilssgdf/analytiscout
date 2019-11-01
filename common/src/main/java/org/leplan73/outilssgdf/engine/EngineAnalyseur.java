@@ -33,7 +33,7 @@ public class EngineAnalyseur extends Engine {
 		super(progress, logger);
 	}
 	
-	private boolean gopriv(Properties pbatch, ParamEntree entree, InputStream batch, InputStream modele, int structure, boolean age, String batch_type, ParamSortie sortie, boolean anonymiser) throws TransformeurException, ExtractionException, IOException, JDOMException
+	private boolean gopriv(Properties pbatch, ParamEntree entree, InputStream batch, InputStream modele, int structure, boolean age, String batch_type, ParamSortie sortie, boolean anonymiser, boolean pargroupe) throws TransformeurException, ExtractionException, IOException, JDOMException
 	{
 		logger_.info("Traitement de la structure "+structure);
 		
@@ -110,7 +110,7 @@ public class EngineAnalyseur extends Engine {
 		return true;
 	}
 
-	public void go(ParamEntree entree, InputStream batch, InputStream modele, int[] structures, boolean age, String batch_type, ParamSortie sortie, boolean anonymiser) throws EngineException {
+	public void go(ParamEntree entree, InputStream batch, InputStream modele, int[] structures, boolean age, String batch_type, ParamSortie sortie, boolean anonymiser, boolean pargroupe) throws EngineException {
 		start();
 		
 		chargeParametres();
@@ -123,13 +123,13 @@ public class EngineAnalyseur extends Engine {
 			if (structures == null)
 			{
 				logger_.info("Traitement de la structure");
-				gopriv(pbatch, entree, batch, modele, 0, age, batch_type, sortie, anonymiser);
+				gopriv(pbatch, entree, batch, modele, 0, age, batch_type, sortie, anonymiser, pargroupe);
 			}
 			else
 				for (int istructure : structures)
 				{
 					logger_.info("Traitement de la structure "+istructure);
-					boolean ret = gopriv(pbatch, entree, batch, modele, istructure, age, batch_type, sortie, anonymiser);
+					boolean ret = gopriv(pbatch, entree, batch, modele, istructure, age, batch_type, sortie, anonymiser, pargroupe);
 					if (ret == false)
 						break;
 				}

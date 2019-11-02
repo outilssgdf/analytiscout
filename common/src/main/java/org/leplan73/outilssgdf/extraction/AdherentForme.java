@@ -429,18 +429,21 @@ public class AdherentForme extends Adherent {
 				if (fin_validite_.compareTo(PAS_DE_DATE) != 0)
 				{
 					Date date = df.parse(fin_validite_);
-					
+
+					// Qualif déjà expiré
 					Date date_aujourdhui = Date.from(Instant.now());
+					Date debutCamp = Params.getDateDebutCamp();
+					
 					if (date.before(date_aujourdhui))
 					{
 						defini_ = false;
 						titulaire_ = false;
 						dejaExpire_ = true;
 					}
-					if (date.before(Params.getDateDebutCamp()))
+					
+					// Qualif qui expirera bientôt
+					if (date.before(debutCamp))
 					{
-						defini_ = false;
-						titulaire_ = false;
 						expireAvantCamp_ = true;
 					}
 				}

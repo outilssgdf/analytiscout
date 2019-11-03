@@ -198,7 +198,7 @@ public class AnalyseRegistreDePresenceEnLigne extends Dialogue implements GuiCom
 							fcSortie = new JFileChooser();
 							fcSortie.setDialogTitle("Fichier de sortie");
 							fcSortie.setApproveButtonText("Export");
-							fcSortie.setCurrentDirectory(new File("./données"));
+							fcSortie.setCurrentDirectory(fSortie);
 							fcSortie.setSelectedFile(fSortie);
 							fcSortie.setFileSelectionMode(JFileChooser.FILES_ONLY);
 							fcSortie.removeChoosableFileFilter(fcSortie.getFileFilter());

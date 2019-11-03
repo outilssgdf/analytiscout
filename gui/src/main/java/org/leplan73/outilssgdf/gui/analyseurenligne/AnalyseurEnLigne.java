@@ -176,7 +176,7 @@ abstract public class AnalyseurEnLigne extends Dialogue implements LoggedDialog,
 								fcSortieRepertoire = new JFileChooser();
 								fcSortieRepertoire.setDialogTitle("Répertoire de sortie");
 								fcSortieRepertoire.setApproveButtonText("Export");
-								fcSortieRepertoire.setCurrentDirectory(new File("."));
+								fcSortieRepertoire.setCurrentDirectory(fSortieRepertoire);
 								fcSortieRepertoire.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 								int resultRepertoire = fcSortieRepertoire.showDialog(panel, "OK");
 								if (resultRepertoire == JFileChooser.APPROVE_OPTION) {
@@ -191,7 +191,7 @@ abstract public class AnalyseurEnLigne extends Dialogue implements LoggedDialog,
 								fcSortieFichier = new JFileChooser();
 								fcSortieFichier.setDialogTitle("Fichier de sortie");
 								fcSortieFichier.setApproveButtonText("Export");
-								fcSortieFichier.setCurrentDirectory(new File("."));
+								fcSortieFichier.setCurrentDirectory(fSortieFichier);
 								fcSortieFichier.setFileSelectionMode(JFileChooser.FILES_ONLY);
 								fcSortieFichier.removeChoosableFileFilter(fcSortieFichier.getFileFilter());
 								fcSortieFichier.removeChoosableFileFilter(fcSortieFichier.getAcceptAllFileFilter());
@@ -328,7 +328,7 @@ abstract public class AnalyseurEnLigne extends Dialogue implements LoggedDialog,
 		Appender.setLoggedDialog(null);
 		Preferences.sauved(Consts.FENETRE_ANALYSEURENLIGNE_X, this.getLocation().getX());
 		Preferences.sauved(Consts.FENETRE_ANALYSEURENLIGNE_Y, this.getLocation().getY());
-		Preferences.sauve(Consts.REPERTOIRE_SORTIE, this.fSortieFichier.getAbsoluteFile().getParent(), false);
+		Preferences.sauve(Consts.REPERTOIRE_SORTIE, chkGenererParGroupe.isSelected() ? this.fSortieRepertoire.getPath() : this.fSortieFichier.getAbsoluteFile().getParent(), false);
 		super.dispose();
 	}
 

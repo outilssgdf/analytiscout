@@ -17,7 +17,12 @@ public class Version {
 	public String toString()
 	{
 		if (complete_)
-			return major_+"."+minor_+"."+subminor_;
+		{
+			if (mode_ != null)
+				return major_+"."+minor_+"."+subminor_+" ("+mode_+")";
+			else
+				return major_+"."+minor_+"."+subminor_;
+		}
 		return "0.0.0";
 	}
 	

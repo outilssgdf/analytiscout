@@ -27,6 +27,9 @@ public class Consts {
 	static final public int CODE_COMPAS_T1T2 = 140;
 	static final public int CODE_COMPAS_T3 = 141;
 	
+	static final public String NOM_FICHIER_ANALYSE_RESPONSABLES = "responsables_";
+	static final public String NOM_FICHIER_ANALYSE_JEUNES = "jeunes_";
+	
 	static final public String GROUPE_PARENTS = "Parents";
 	
 	static final public String DATE_DEBUT_CAMP = "01/07/2019";

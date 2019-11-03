@@ -16,10 +16,10 @@ public class ParamSortie {
 		sortie_ = sortie;
 	}
 	
-	public ParamSortie(File sortie, int[] structures, String nom_fichier_sortie)
+	public ParamSortie(File sortie, boolean sous_dossier , String nom_fichier_sortie)
 	{
 		sortie_ = sortie;
-		sous_dossier_ = (structures.length > 1);
+		sous_dossier_ = sous_dossier;
 		nom_fichier_sortie_ = nom_fichier_sortie;
 	}
 	
@@ -37,6 +37,10 @@ public class ParamSortie {
 	{
 		return nom_fichier_sortie_;
 	}
+
+	public void setSousDossier() {
+		sous_dossier_ = true;
+	}
 	
 	public boolean getSousDossier()
 	{
@@ -51,6 +55,11 @@ public class ParamSortie {
 	public OutputStream getStream()
 	{
 		return os_;
+	}
+	
+	public File construit(String structure, String nom, String extension)
+	{
+		return sous_dossier_ ? new File(sortie_, nom_fichier_sortie_+structure+"-"+nom+extension) : sortie_;
 	}
 	
 	public File construit(int structure, String extension)

@@ -191,11 +191,26 @@ public class ExtracteurIndividusHtml {
 		parents_.complete();
 		
 		unites_ = new Unites();
-		adherents_.forEach((code,ad) ->
+		
+		AtomicInteger codeMax = new AtomicInteger();
+		adherents_.forEach((code,adherent) ->
 		{
-			String unite = ad.getUnite();
-			Unite uniteObj = unites_.computeIfAbsent(unite, k -> new Unite(unite, ad.getCodestructure(), ad.getFonction()));
-			uniteObj.ajouter(ad.getJeune(), ad.getChef());
+			String unite = adherent.getUnite();
+			Unite uniteObj = unites_.computeIfAbsent(unite, k -> new Unite(unite, adherent.getCodestructure(), adherent.getFonction()));
+			uniteObj.ajouter(adherent.getJeune(), adherent.getChef());
+
+			if (adherent.getFonction() >= Consts.CODE_VIOLETS)
+			{
+				if (adherent.getFonction() > codeMax.get())
+				{
+					codeMax.set(adherent.getFonction());
+					groupe_ = adherent.getUnite();
+				}
+			}
+			if (adherent.getMarin())
+			{
+				marins_ = true;
+			}
 		});
 		
 		adherents_.forEach((code,ad) ->

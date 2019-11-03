@@ -67,8 +67,6 @@ public class EngineAnalyseur extends Engine {
 			index++;
 		}
 		
-		File fichier_sortie = sortie.construit(structure, ".xlsx");
-
 		progress_.setProgress(50);
 		logger_.info("Chargement du fichier \"" + fichierAdherents.getName() + "\"");
 		ExtracteurIndividusHtml adherents = new ExtracteurIndividusHtml(fichierAdherents, extraMap, age, anonymiser);
@@ -90,6 +88,8 @@ public class EngineAnalyseur extends Engine {
 				ExtracteurIndividusHtml groupe = groupes.get(codeGroupe);
 				AdherentsFormes compas = new AdherentsFormes();
 				compas.charge(groupe, extraMap);
+				
+				File fichier_sortie = sortie.construit(codeGroupe, groupe.getGroupe(), ".xlsx");
 				
 				Global global = new Global(groupe.getGroupe(), groupe.getMarins());
 				groupe.calculGlobal(global);
@@ -121,6 +121,8 @@ public class EngineAnalyseur extends Engine {
 		}
 		else
 		{
+			File fichier_sortie = sortie.construit(structure, ".xlsx");
+			
 			AdherentsFormes compas = new AdherentsFormes();
 			compas.charge(adherents, extraMap);
 			progress_.setProgress(60);

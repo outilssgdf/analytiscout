@@ -51,6 +51,7 @@ abstract public class AnalyseurEnLigne extends Dialogue implements LoggedDialog,
 	protected File fSortieRepertoire = new File("données");
 	protected File fBatch = new File("conf/batch_responsables.txt");
 	protected File fModele = new File("conf/modele_responsables.xlsx");
+	protected String nomFichier_;
 
 	/**
 	 * Create the dialog.
@@ -60,13 +61,14 @@ abstract public class AnalyseurEnLigne extends Dialogue implements LoggedDialog,
 	 * @param logger 
 	 * @throws URISyntaxException 
 	 */
-	public AnalyseurEnLigne(String titre, Logger logger, File pfSortieFichier, File pfSortieRepertoire, File pfBatch, File pfModele) {
+	public AnalyseurEnLigne(String titre, Logger logger, File pfSortieFichier, File pfSortieRepertoire, String nomFichier, File pfBatch, File pfModele) {
 		super();
 		this.logger_ = logger;
 		this.fSortieFichier = pfSortieFichier;
 		this.fSortieRepertoire = pfSortieRepertoire;
 		this.fBatch = pfBatch;
 		this.fModele = pfModele;
+		this.nomFichier_ = nomFichier;
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		
 		Appender.setLoggedDialog(this);
@@ -311,7 +313,7 @@ abstract public class AnalyseurEnLigne extends Dialogue implements LoggedDialog,
 				try {
 					int structures[] = construitStructures();
 					EngineAnalyseurEnLigne en = new EngineAnalyseurEnLigne(progress, logger_);
-					ParamSortie psortie = new ParamSortie(fSortieFichier);
+					ParamSortie psortie = chkGenererParGroupe.isSelected() ? new ParamSortie(fSortieRepertoire, true, nomFichier_) : new ParamSortie(fSortieFichier);
 					en.go(identifiant_, motdepasse_, new ResetableFileInputStream(new FileInputStream(fBatch)), new ResetableFileInputStream(new FileInputStream(fModele)), structures, chkAge.isSelected(), "tout_responsables", true, psortie ,false, chkGarderFichiers.isSelected(), chkGenererParGroupe.isSelected());
 					btnOuvrir.maj();
 				} catch (Exception e) {

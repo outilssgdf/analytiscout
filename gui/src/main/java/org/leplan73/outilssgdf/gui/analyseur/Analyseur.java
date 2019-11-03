@@ -1,7 +1,6 @@
 package org.leplan73.outilssgdf.gui.analyseur;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -51,6 +50,7 @@ abstract public class Analyseur extends Dialogue implements LoggedDialog, GuiCom
 	private JFileChooser fcSortieRepertoire = new JFileChooser();
 	protected File fSortieFichier = new File("données/analyse.xlsx");
 	protected File fSortieRepertoire = new File("données");
+	protected String nomFichier_;
 	private JCheckBox chcAge;
 	private JLabel lblSortie;
 	private JLabel lblEntree;
@@ -62,13 +62,14 @@ abstract public class Analyseur extends Dialogue implements LoggedDialog, GuiCom
 	/**
 	 * Create the dialog.
 	 */
-	public Analyseur(String titre, Logger logger, File pfSortieFichier, File pfSortieRepertoire, File pfBatch, File pfModele) {
+	public Analyseur(String titre, Logger logger, File pfSortieFichier, File pfSortieRepertoire, String nomFichier, File pfBatch, File pfModele) {
 		super();
 		this.logger_ = logger;
 		this.fSortieFichier = pfSortieFichier;
 		this.fSortieRepertoire = pfSortieRepertoire;
 		this.fBatch = pfBatch;
 		this.fModele = pfModele;
+		this.nomFichier_ = nomFichier;
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 
 		Appender.setLoggedDialog(this);
@@ -109,7 +110,7 @@ abstract public class Analyseur extends Dialogue implements LoggedDialog, GuiCom
 					public void actionPerformed(ActionEvent e) {
 						fcEntree.setDialogTitle("Répertoire de données");
 						fcEntree.setApproveButtonText("Go");
-						fcEntree.setCurrentDirectory(new File("."));
+						fcEntree.setCurrentDirectory(fEntree);
 						fcEntree.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 						int result = fcEntree.showDialog(panel, "OK");
 						if (result == JFileChooser.APPROVE_OPTION) {
@@ -321,7 +322,7 @@ abstract public class Analyseur extends Dialogue implements LoggedDialog, GuiCom
 				logger_.info("Lancement");
 				try {
 					ParamEntree pentree = new ParamEntree(fEntree);
-					ParamSortie psortie = new ParamSortie(fSortieFichier);
+					ParamSortie psortie = chkGenererParGroupe.isSelected() ? new ParamSortie(fSortieRepertoire, true, nomFichier_) : new ParamSortie(fSortieFichier);
 					en.go(pentree, new ResetableFileInputStream(new FileInputStream(fBatch)), new ResetableFileInputStream(new FileInputStream(fModele)), null, getChcAge().isSelected(), "tout_responsables", psortie, false, chkGenererParGroupe.isSelected());
 					btnOuvrir.maj();
 				} catch (Exception e) {
@@ -337,7 +338,7 @@ abstract public class Analyseur extends Dialogue implements LoggedDialog, GuiCom
 		Preferences.sauved(Consts.FENETRE_ANALYSEUR_X, this.getLocation().getX());
 		Preferences.sauved(Consts.FENETRE_ANALYSEUR_Y, this.getLocation().getY());
 		Preferences.sauve(Consts.REPERTOIRE_ENTREE, this.fEntree.getPath(), false);
-		Preferences.sauve(Consts.REPERTOIRE_SORTIE, this.fSortieFichier.getParent(), false);
+		Preferences.sauve(Consts.REPERTOIRE_SORTIE, this.fSortieFichier.getAbsoluteFile().getParent(), false);
 		super.dispose();
 	}
 

@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 import java.util.TreeMap;
 
 import org.apache.http.client.ClientProtocolException;
@@ -128,47 +129,94 @@ public class EngineAnalyseurEnLigne extends EngineConnecte {
 		catch(java.lang.IllegalArgumentException e) {
 		}
 		General general = new General(version);
-		Global global = new Global(adherents.getGroupe(), adherents.getMarins());
-		adherents.calculGlobal(global);
-		progress_.setProgress(80);
 		
-		Alertes alertesJeunes = new Alertes();
-		adherents.construitsAlertes(alertesJeunes, true, age);
-		Alertes alertesResponsables = new Alertes();
-		adherents.construitsAlertes(alertesResponsables, false, age);
-
-		File fichier_sortie = sortie.construit(structure, ".xlsx");
-		
-	    if (sortie.getIsStream())
-	    {
-	    	logger_.info("Génération du stream de sortie à partir du modèle");
-	    }
-	    else
-	    {
-	    	logger_.info("Génération du fichier \""+fichier_sortie.getName()+"\" à partir du modèle");
-	    }
-		Map<String, Object> beans = new HashMap<String, Object>();
-		beans.put("adherents", adherents.getAdherentsList());
-		beans.put("chefs", adherents.getChefsList());
-		beans.put("compas", adherents.getCompasList());
-		beans.put("unites", adherents.getUnitesList());
-		beans.put("alertes_jeunes", alertesJeunes);
-		beans.put("alertes_responsables", alertesResponsables);
-		beans.put("general", general);
-		beans.put("global", global);
-
-		modele.reset();
-		if (sortie.getIsStream())
+		if (pargroupe)
 		{
-			Transformeur.go(modele, beans, sortie.getStream());
-			sortie.close();
+			Map<String,ExtracteurIndividusHtml> groupes = adherents.genereGroupes();
+			
+			Set<String> codeGroupes = groupes.keySet();
+			for (String codeGroupe : codeGroupes)
+			{
+				ExtracteurIndividusHtml groupe = groupes.get(codeGroupe);
+				AdherentsFormes compas = new AdherentsFormes();
+				compas.charge(groupe, extraMap);
+				
+				File fichier_sortie = sortie.construit(codeGroupe, groupe.getGroupe(), ".xlsx");
+				
+				Global global = new Global(groupe.getGroupe(), groupe.getMarins());
+				groupe.calculGlobal(global);
+				progress_.setProgress(60);
+				
+				Alertes alertesJeunes = new Alertes();
+				groupe.construitsAlertes(alertesJeunes, true, age);
+				Alertes alertesResponsables = new Alertes();
+				groupe.construitsAlertes(alertesResponsables, false, age);
+				progress_.setProgress(70);
+				
+				logger_.info("Génération du fichier \"" + fichier_sortie.getName() + "\" à partir du modèle");
+				Map<String, Object> beans = new HashMap<String, Object>();
+				beans.put("adherents", groupe.getAdherentsList());
+				beans.put("chefs", groupe.getChefsList());
+				beans.put("compas", groupe.getCompasList());
+				beans.put("unites", groupe.getUnitesList());
+				beans.put("alertes_jeunes", alertesJeunes);
+				beans.put("alertes_responsables", alertesResponsables);
+				beans.put("general", general);
+				beans.put("global", global);
+		
+				modele.reset();
+				FileOutputStream fosSortie = new FileOutputStream(fichier_sortie);
+				Transformeur.go(modele, beans, fosSortie);
+				fosSortie.close();
+			};
+			progress_.setProgress(80);
 		}
 		else
 		{
-			FileOutputStream fosSortie = new FileOutputStream(fichier_sortie);
-			Transformeur.go(modele, beans, fosSortie);
-			fosSortie.close();
+			File fichier_sortie = sortie.construit(structure, ".xlsx");
+			
+			Global global = new Global(adherents.getGroupe(), adherents.getMarins());
+			adherents.calculGlobal(global);
+			progress_.setProgress(80);
+			
+			Alertes alertesJeunes = new Alertes();
+			adherents.construitsAlertes(alertesJeunes, true, age);
+			Alertes alertesResponsables = new Alertes();
+			adherents.construitsAlertes(alertesResponsables, false, age);
+			
+		    if (sortie.getIsStream())
+		    {
+		    	logger_.info("Génération du stream de sortie à partir du modèle");
+		    }
+		    else
+		    {
+		    	logger_.info("Génération du fichier \""+fichier_sortie.getName()+"\" à partir du modèle");
+		    }
+			Map<String, Object> beans = new HashMap<String, Object>();
+			beans.put("adherents", adherents.getAdherentsList());
+			beans.put("chefs", adherents.getChefsList());
+			beans.put("compas", adherents.getCompasList());
+			beans.put("unites", adherents.getUnitesList());
+			beans.put("alertes_jeunes", alertesJeunes);
+			beans.put("alertes_responsables", alertesResponsables);
+			beans.put("general", general);
+			beans.put("global", global);
+
+			modele.reset();
+			if (sortie.getIsStream())
+			{
+				Transformeur.go(modele, beans, sortie.getStream());
+				sortie.close();
+			}
+			else
+			{
+				FileOutputStream fosSortie = new FileOutputStream(fichier_sortie);
+				Transformeur.go(modele, beans, fosSortie);
+				fosSortie.close();
+			}
 		}
+		
+		
 		return true;
 	}
 

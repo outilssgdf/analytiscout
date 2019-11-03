@@ -12,6 +12,6 @@ public class AnalyseurResponsables extends Analyseur {
 	private static Logger logger_ = LoggerFactory.getLogger(AnalyseurResponsables.class);
 	
 	public AnalyseurResponsables() {
-		super("Analyseur (Responsables)",logger_,new File(Preferences.lit(Consts.REPERTOIRE_SORTIE, "données", false),"analyse_responsables.xlsx"), new File(Preferences.lit(Consts.REPERTOIRE_SORTIE, "données", false)), new File("conf/batch_responsables.txt"),new File("conf/modele_responsables.xlsx"));
+		super("Analyseur (Responsables)",logger_,new File(Preferences.lit(Consts.REPERTOIRE_SORTIE, "données", false),"analyse_responsables.xlsx"), new File(Preferences.lit(Consts.REPERTOIRE_SORTIE, "données", false)), Consts.NOM_FICHIER_ANALYSE_RESPONSABLES, new File("conf/batch_responsables.txt"),new File("conf/modele_responsables.xlsx"));
 	}
 }

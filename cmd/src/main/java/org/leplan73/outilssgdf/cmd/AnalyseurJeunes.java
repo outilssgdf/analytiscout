@@ -6,6 +6,7 @@ import java.io.IOException;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.jdom2.JDOMException;
+import org.leplan73.outilssgdf.Consts;
 import org.leplan73.outilssgdf.ExtractionException;
 import org.leplan73.outilssgdf.ParamEntree;
 import org.leplan73.outilssgdf.ParamSortie;
@@ -49,7 +50,7 @@ public class AnalyseurJeunes extends CommonParamsG {
 			EngineAnalyseur en = new EngineAnalyseur(progress, Logging.logger_);
 			
 			ParamEntree pentree = new ParamEntree(entree, structures);
-			ParamSortie psortie = new ParamSortie(sortie, structures, "jeunes_");
+			ParamSortie psortie = new ParamSortie(sortie, structures.length > 1, Consts.NOM_FICHIER_ANALYSE_JEUNES);
 			en.go(pentree, new ResetableFileInputStream(new FileInputStream(batch)), new ResetableFileInputStream(new FileInputStream(modele)), structures, age, "tout_jeunes" , psortie, anonymiser, pargroupe);
 		} catch (EngineException e) {
 			Logging.logError(e);

@@ -55,7 +55,7 @@ public class AnalyseurJeunesEnLigne extends CommonParamsIntranet {
 			check();
 			CmdProgress progress = new CmdProgress();
 			EngineAnalyseurEnLigne en = new EngineAnalyseurEnLigne(progress, Logging.logger_);
-			ParamSortie psortie = new ParamSortie(sortie, structures, "jeunes_");
+			ParamSortie psortie = new ParamSortie(sortie, structures.length > 1, "jeunes_");
 			en.go(identifiant,motdepasse, new ResetableFileInputStream(new FileInputStream(batch)), new ResetableFileInputStream(new FileInputStream(modele)), structures, age, "tout_jeunes", recursif, psortie, anonymiser, garder, pargroupe);
 		} catch (Exception e) {
 			Logging.logger_.error(Logging.dumpStack(null, e));

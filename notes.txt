@@ -32,7 +32,7 @@ Version 0.0.10 :
 	- Mise en évidence des directions qui expirent le 1er juillet de l'année du camp
 	- Analyse des jeunes
 Version 0.0.10 :
-	- Analyse des unités compas avec lesformations spécifiques
+	- Analyse des unités compas avec les formations spécifiques
 	- Ajout de la fonction secondaire dans les feuilles "responsables" & "compas"
 Version 1.0.0 :
 	- Compatibilité avec la nouvel intranet

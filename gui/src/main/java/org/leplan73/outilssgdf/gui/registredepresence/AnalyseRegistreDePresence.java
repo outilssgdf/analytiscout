@@ -94,7 +94,7 @@ public class AnalyseRegistreDePresence extends Dialogue implements LoggedDialog,
 						fcEntree.setDialogTitle("Répertoire de données");
 						fcEntree.setApproveButtonText("Go");
 						fcEntree.setSelectedFile(fEntree);
-						fcEntree.setCurrentDirectory(fEntree);
+						fcEntree.setCurrentDirectory(fEntree.getParentFile());
 						fcEntree.setFileSelectionMode(JFileChooser.FILES_ONLY);
 						fcEntree.addChoosableFileFilter(new ExportFileFilter("csv"));
 						int result = fcEntree.showDialog(panel, "OK");

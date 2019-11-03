@@ -2,7 +2,6 @@ package org.leplan73.outilssgdf.gui.analyseurenligne;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -191,7 +190,7 @@ abstract public class AnalyseurEnLigne extends Dialogue implements LoggedDialog,
 								fcSortieFichier = new JFileChooser();
 								fcSortieFichier.setDialogTitle("Fichier de sortie");
 								fcSortieFichier.setApproveButtonText("Export");
-								fcSortieFichier.setCurrentDirectory(fSortieFichier);
+								fcSortieFichier.setCurrentDirectory(fSortieFichier.getParentFile());
 								fcSortieFichier.setFileSelectionMode(JFileChooser.FILES_ONLY);
 								fcSortieFichier.removeChoosableFileFilter(fcSortieFichier.getFileFilter());
 								fcSortieFichier.removeChoosableFileFilter(fcSortieFichier.getAcceptAllFileFilter());

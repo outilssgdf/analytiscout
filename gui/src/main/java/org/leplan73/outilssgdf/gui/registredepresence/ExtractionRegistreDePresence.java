@@ -197,7 +197,7 @@ public class ExtractionRegistreDePresence extends Dialogue implements GuiCommand
 							fcSortie = new JFileChooser();
 							fcSortie.setDialogTitle("Fichier de sortie");
 							fcSortie.setApproveButtonText("Export");
-							fcSortie.setCurrentDirectory(fSortie);
+							fcSortie.setCurrentDirectory(fSortie.getParentFile());
 							fcSortie.setSelectedFile(fSortie);
 							fcSortie.setFileSelectionMode(JFileChooser.FILES_ONLY);
 							fcSortie.removeChoosableFileFilter(fcSortie.getFileFilter());

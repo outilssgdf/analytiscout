@@ -95,7 +95,7 @@ public class AnalyseCEC extends Dialogue implements LoggedDialog, GuiCommand {
 						fcEntreeAnnee.setDialogTitle("Fichier de données");
 						fcEntreeAnnee.setApproveButtonText("Go");
 						fcEntreeAnnee.setSelectedFile(fEntreeAnnee);
-						fcEntreeAnnee.setCurrentDirectory(new File("./données"));
+						fcEntreeAnnee.setCurrentDirectory(fEntreeAnnee.getParentFile());
 						fcEntreeAnnee.setFileSelectionMode(JFileChooser.FILES_ONLY);
 						fcEntreeAnnee.addChoosableFileFilter(new ExportFileFilter("csv"));
 						int result = fcEntreeAnnee.showDialog(panel, "OK");
@@ -128,7 +128,7 @@ public class AnalyseCEC extends Dialogue implements LoggedDialog, GuiCommand {
 					public void actionPerformed(ActionEvent e) {
 						fcEntreeAnneeP.setDialogTitle("Fichier de données");
 						fcEntreeAnneeP.setApproveButtonText("Go");
-						fcEntreeAnneeP.setCurrentDirectory(new File("./données"));
+						fcEntreeAnneeP.setCurrentDirectory(fEntreeAnneeP.getParentFile());
 						fcEntreeAnneeP.setSelectedFile(fEntreeAnneeP);
 						fcEntreeAnneeP.setFileSelectionMode(JFileChooser.FILES_ONLY);
 						fcEntreeAnneeP.addChoosableFileFilter(new ExportFileFilter("csv"));
@@ -163,7 +163,7 @@ public class AnalyseCEC extends Dialogue implements LoggedDialog, GuiCommand {
 					public void actionPerformed(ActionEvent e) {
 						fcSortie.setDialogTitle("Répertoire de sortie");
 						fcSortie.setApproveButtonText("Export");
-						fcSortie.setCurrentDirectory(new File("./données"));
+						fcSortie.setCurrentDirectory(fSortie);
 						fcSortie.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 						fcSortie.removeChoosableFileFilter(fcSortie.getFileFilter());
 						fcSortie.removeChoosableFileFilter(fcSortie.getAcceptAllFileFilter());
@@ -291,7 +291,7 @@ public class AnalyseCEC extends Dialogue implements LoggedDialog, GuiCommand {
 		Preferences.sauved(Consts.FENETRE_ANALYSEUR_Y, this.getLocation().getY());
 		Preferences.sauve(Consts.REPERTOIRE_ENTREE, this.fEntreeAnnee.getParent(), false);
 		Preferences.sauve(Consts.REPERTOIRE_ENTREE, this.fEntreeAnneeP.getParent(), false);
-		Preferences.sauve(Consts.REPERTOIRE_SORTIE, this.fSortie.getParent(), false);
+		Preferences.sauve(Consts.REPERTOIRE_SORTIE, this.fSortie.getPath(), false);
 		super.dispose();
 	}
 

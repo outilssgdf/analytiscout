@@ -129,7 +129,7 @@ public class AnalyseCECEnligne extends Dialogue implements LoggedDialog, GuiComm
 					public void actionPerformed(ActionEvent e) {
 						fcSortie.setDialogTitle("Répertoire de sortie");
 						fcSortie.setApproveButtonText("Export");
-						fcSortie.setCurrentDirectory(new File("./données"));
+						fcSortie.setCurrentDirectory(fSortie);
 						fcSortie.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 						fcSortie.removeChoosableFileFilter(fcSortie.getFileFilter());
 						fcSortie.removeChoosableFileFilter(fcSortie.getAcceptAllFileFilter());
@@ -259,7 +259,7 @@ public class AnalyseCECEnligne extends Dialogue implements LoggedDialog, GuiComm
 		Preferences.sauved(Consts.FENETRE_ANALYSEUR_X, this.getLocation().getX());
 		Preferences.sauved(Consts.FENETRE_ANALYSEUR_Y, this.getLocation().getY());
 		Preferences.sauve(Consts.INTRANET_STRUCTURE, txfCodeStructure.getText(), true);
-		Preferences.sauve(Consts.REPERTOIRE_SORTIE, this.fSortie.getParent(), false);
+		Preferences.sauve(Consts.REPERTOIRE_SORTIE, this.fSortie.getPath(), false);
 		super.dispose();
 	}
 

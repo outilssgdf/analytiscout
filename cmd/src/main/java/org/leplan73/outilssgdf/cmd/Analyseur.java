@@ -48,7 +48,7 @@ public class Analyseur extends CommonParamsG {
 			EngineAnalyseur en = new EngineAnalyseur(progress, Logging.logger_);
 			
 			ParamEntree pentree = new ParamEntree(entree, structures);
-			ParamSortie psortie = new ParamSortie(sortie, (structures.length > 1), Consts.NOM_FICHIER_ANALYSE_RESPONSABLES);
+			ParamSortie psortie = new ParamSortie(sortie, pargroupe || structures.length > 1, Consts.NOM_FICHIER_ANALYSE_RESPONSABLES);
 			en.go(pentree, new ResetableFileInputStream(new FileInputStream(batch)), new ResetableFileInputStream(new FileInputStream(modele)), structures, age, "tout_responsables" , psortie, anonymiser, pargroupe);
 		} catch (EngineException | FileNotFoundException e) {
 			Logging.logError(e);

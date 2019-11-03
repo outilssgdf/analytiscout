@@ -187,6 +187,15 @@ public class ExtracteurIndividusHtml {
 	
 	private void complete()
 	{
+		adherents_.forEach((code,adherent) ->
+		{
+			if (adherent.getChef())
+			{
+				AdherentForme chef = (AdherentForme)adherent;
+				chef.finalise();
+			}
+		});
+		
 		parents_ = adherents_.parents(colonnes_);
 		parents_.complete();
 		

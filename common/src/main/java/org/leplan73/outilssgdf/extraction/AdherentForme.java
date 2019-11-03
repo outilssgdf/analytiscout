@@ -610,6 +610,31 @@ public class AdherentForme extends Adherent {
 		});
 	}
 	
+	public void finalise() {
+		
+		Diplome dPsc1 = diplomes_.get("psc1");
+		Diplome dAfps = diplomes_.get("afps");
+		if (dPsc1 == null && dAfps != null)
+		{
+			diplomes_.put("afpspsc1", dAfps);
+		}
+		if (dPsc1 != null && dAfps == null)
+		{
+			diplomes_.put("afpspsc1", dPsc1);
+		}
+		if (dPsc1 != null && dAfps != null)
+		{
+			if (dPsc1.getDateobtention().getTime() > dAfps.getDateobtention().getTime())
+			{
+				diplomes_.put("afpspsc1", dPsc1);
+			}
+			else
+			{
+				diplomes_.put("afpspsc1", dAfps);
+			}
+		}
+	}
+	
 	public void complete() {
 		qualifs_.forEach((k,v) ->
 		{

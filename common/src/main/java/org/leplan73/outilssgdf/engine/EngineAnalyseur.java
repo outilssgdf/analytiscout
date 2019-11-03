@@ -184,6 +184,11 @@ public class EngineAnalyseur extends Engine {
 		}
 		finally  {
 			stop();
+			try {
+				modele.close();
+				batch.close();
+			} catch (IOException e) {
+			}
 		}
 	}
 

@@ -241,6 +241,11 @@ public class EngineAnalyseurEnLigne extends EngineConnecte {
 		}
 		finally  {
 			stop();
+			try {
+				modele.close();
+				batch.close();
+			} catch (IOException e) {
+			}
 		}
 	}
 
@@ -270,6 +275,11 @@ public class EngineAnalyseurEnLigne extends EngineConnecte {
 		}
 		finally  {
 			stop();
+			try {
+				modele.close();
+				batch.close();
+			} catch (IOException e) {
+			}
 		}
 	}
 }

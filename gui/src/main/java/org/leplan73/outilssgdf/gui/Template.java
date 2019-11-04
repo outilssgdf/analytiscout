@@ -45,7 +45,8 @@ public class Template extends JPanel {
 			
 		panel_illustration.add( lblBanner, BorderLayout.NORTH);
 		
-		JButton btnNewButton = new JButton("Config");
+		JButton btnNewButton = new JButton("Paramètres");
+		btnNewButton.setToolTipText("Définir l'identification utilisée et autres paramètres");
 		btnNewButton.setIcon(Images.getIconCog());
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

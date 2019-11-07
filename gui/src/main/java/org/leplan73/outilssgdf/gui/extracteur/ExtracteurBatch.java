@@ -149,7 +149,7 @@ abstract public class ExtracteurBatch extends Dialogue implements LoggedDialog, 
 						fcSortie = new JFileChooser();
 						fcSortie.setDialogTitle("Répertoire de données");
 						fcSortie.setApproveButtonText("Go");
-						fcSortie.setCurrentDirectory(new File("."));
+						fcSortie.setCurrentDirectory(fSortie);
 						fcSortie.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 						int result = fcSortie.showDialog(panel, "OK");
 						if (result == JFileChooser.APPROVE_OPTION) {
@@ -275,7 +275,7 @@ abstract public class ExtracteurBatch extends Dialogue implements LoggedDialog, 
 		Appender.setLoggedDialog(null);
 		Preferences.sauved(Consts.FENETRE_EXTRACTEURBATCH_X, this.getLocation().getX());
 		Preferences.sauved(Consts.FENETRE_EXTRACTEURBATCH_Y, this.getLocation().getY());
-		Preferences.sauve(Consts.REPERTOIRE_SORTIE, this.fSortie.getParent(), false);
+		Preferences.sauve(Consts.REPERTOIRE_SORTIE, this.fSortie.getPath(), false);
 		super.dispose();
 	}
 

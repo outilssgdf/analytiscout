@@ -168,7 +168,7 @@ qualif.19=
 formation.19=250
 nom.19=apf_rg
 adherents.19=true
-batchtype.19=
+batchtype.19=formation
 
 generateur.20=xml
 format.20=4

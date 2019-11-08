@@ -1,6 +1,7 @@
 generateur.1=xml
 format.1=5
 type.1=0
+categorie.1=0
 diplome.1=
 qualif.1=
 formation.1=

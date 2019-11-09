@@ -111,7 +111,7 @@ abstract public class ExtracteurBatch extends Dialogue implements LoggedDialog, 
 						fcBatch = new JFileChooser();
 						fcBatch.setDialogTitle("Fichier batch");
 						fcBatch.setApproveButtonText("Go");
-						fcBatch.setCurrentDirectory(new File("."));
+						fcBatch.setCurrentDirectory(fBatch);
 						fcBatch.setSelectedFile(fBatch);
 						fcBatch.setFileSelectionMode(JFileChooser.FILES_ONLY);
 						fcBatch.removeChoosableFileFilter(fcBatch.getAcceptAllFileFilter());
@@ -150,6 +150,7 @@ abstract public class ExtracteurBatch extends Dialogue implements LoggedDialog, 
 						fcSortie.setDialogTitle("Répertoire de données");
 						fcSortie.setApproveButtonText("Go");
 						fcSortie.setCurrentDirectory(fSortie);
+						fcSortie.setSelectedFile(fSortie);
 						fcSortie.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 						int result = fcSortie.showDialog(panel, "OK");
 						if (result == JFileChooser.APPROVE_OPTION) {

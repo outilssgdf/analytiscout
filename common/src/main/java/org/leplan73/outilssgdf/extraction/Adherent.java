@@ -687,14 +687,27 @@ public class Adherent {
 		}
 		data_.forEach((key,value) -> {
 			try {
+				String n = colonnes_.getNom(key);
 				if (id != -1)
 				{
-					String n = colonnes_.getNom(key);
 					if (n.startsWith("Formations") || n.startsWith("Qualifications") || n.startsWith("Diplomes") || n.startsWith("Individu.CodeAdherent"))
-						out.print(value);
+					{
+						if (n.compareTo("Qualifications.DateFinValidite") == 0 || n.compareTo("Diplomes.DateObtention") == 0 || n.compareTo("Formations.DateFin") == 0)
+						{
+							String parts[] = value.split("/");
+							if (parts.length==3)
+								out.print(parts[2]+"-"+parts[1]+"-"+parts[0]);
+							else
+								out.print(value);
+						}
+						else
+							out.print(value);
+					}
 				}
 				else
+				{
 					out.print(value);
+				}
 			} catch (IOException e) {
 			}
 		});

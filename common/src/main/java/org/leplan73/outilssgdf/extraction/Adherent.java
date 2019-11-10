@@ -10,6 +10,7 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.csv.CSVPrinter;
 import org.leplan73.outilssgdf.Check;
 import org.leplan73.outilssgdf.Consts;
 import org.leplan73.outilssgdf.Params;
@@ -676,5 +677,32 @@ public class Adherent {
 					alertes.ajouter(this, Alerte.Severite.MOYENNE, Alerte.ALERTE_TYPE_AGE, "Pas 14 ans au 31 décembre prochain, il/elle les aura le "+simpleDateFormat.format(dateAge(14)));
 			break;
 		}
+	}
+
+	public void liste(int id, String nom, CSVPrinter out, String groupe) throws IOException {
+		if (id != -1)
+		{
+			out.print(id);
+			out.print(nom);
+		}
+		data_.forEach((key,value) -> {
+			try {
+				if (id != -1)
+				{
+					String n = colonnes_.getNom(key);
+					if (n.startsWith("Formations") || n.startsWith("Qualifications") || n.startsWith("Diplomes") || n.startsWith("Individu.CodeAdherent"))
+						out.print(value);
+				}
+				else
+					out.print(value);
+			} catch (IOException e) {
+			}
+		});
+		if (id == -1)
+		{
+			out.print(getCodegroupe());
+			out.print(groupe);
+		}
+		out.println();
 	}
 }

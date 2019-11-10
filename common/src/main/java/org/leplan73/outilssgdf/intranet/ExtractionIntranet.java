@@ -48,6 +48,7 @@ public class ExtractionIntranet {
 	public final static String GENERATEUR_CSV = "csv";
 	public final static String GENERATEUR_XML = "xml";
 	public final static String GENERATEUR_XLS = "xls";
+	public final static String GENERATEUR_CSVMYSQL = "csvmysql";
 	
 	public final static int STRUCTURE_TOUT = 0;
 	

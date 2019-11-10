@@ -7,11 +7,14 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.PrintStream;
 import java.io.Writer;
 import java.nio.charset.Charset;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
@@ -22,7 +25,11 @@ import org.jdom2.input.SAXBuilder;
 import org.jdom2.xpath.XPathExpression;
 import org.jdom2.xpath.XPathFactory;
 import org.leplan73.outilssgdf.Consts;
+import org.leplan73.outilssgdf.ExtracteurIndividusHtml;
+import org.leplan73.outilssgdf.ExtractionException;
 import org.leplan73.outilssgdf.Progress;
+import org.leplan73.outilssgdf.extraction.ColonnesAdherents;
+import org.leplan73.outilssgdf.formatage.CsvMySqlFormatteur;
 import org.leplan73.outilssgdf.intranet.ExtractionAdherents;
 import org.leplan73.outilssgdf.intranet.ExtractionIntranet;
 import org.slf4j.Logger;
@@ -98,6 +105,84 @@ public class EngineExtracteurBatch extends EngineConnecte {
 				logger_.info("Extraction du fichier \""+nom+"\" fait");
 			}
 			else
+			if (generateur.compareTo(ExtractionIntranet.GENERATEUR_CSVMYSQL) == 0)
+			{
+				logger_.info("Extraction du fichier \""+nom+"\" dans "+fichier);
+
+				nfichier = pbatch.getProperty("batchtype." + index, "script");
+				
+				fichier = new File(dossierStructure, nfichier + "." + "csv");
+				
+				String donnees = app.extract(structure,recursif,type,adherents,fonction,specialite,categorie,diplome,qualif,formation,format, false);
+				
+				logger_.info("Conversion");
+				try {
+					OutputStreamWriter w = new OutputStreamWriter(new FileOutputStream(fichier, true), Charset.forName(Consts.ENCODING_WINDOWS));
+					final CSVPrinter out = CSVFormat.DEFAULT.withAllowMissingColumnNames().print(w);
+					
+					ExtracteurIndividusHtml x = new ExtracteurIndividusHtml();
+					x.charge(new ByteArrayInputStream(donnees.getBytes(Charset.forName("UTF-8"))),true,false);
+					
+					Map<String,ExtracteurIndividusHtml> groupes = x.genereGroupes();
+					
+					if (nfichier.compareTo("tout") == 0)
+					{
+						// Creation des scripts sql
+						File sqlFichier = new File(dossierStructure, "creation.sql");
+						PrintStream wSql = new PrintStream(new FileOutputStream(sqlFichier, true));
+						
+						ColonnesAdherents colonnes = x.getColonnes();
+						Set<Integer> noms = colonnes.ids();
+						
+						wSql.print("CREATE TABLE adherents(");
+						for (Integer id : noms)
+						{
+							String nomSql = colonnes.getNom(id).replace(".", "_");
+							String typeSql = "text(1024) NULL";
+							wSql.print("`"+nomSql+"` "+typeSql);
+							wSql.print(",");
+						}
+						wSql.print(" groupe_code INT NULL, groupe_nom text(1024) NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;");
+						wSql.println();
+						
+						wSql.println("CREATE TABLE qualifs (code INT NULL, nom text(1024) NULL, `Individu_CodeAdherent` INT NULL, `QualificationsQualificationJeunesseSports.Libelle` text(1024) NULL, `Qualifications_EstTitulaire` text(1024) NULL,`Qualifications_DateFinValidite` text(1024) NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;");
+						wSql.println("CREATE TABLE diplomes (code INT NULL, nom text(1024) NULL, `Individu_CodeAdherent` INT NULL,`DiplomesType_Libelle` text(1024) NULL,`Diplomes_Numero` text(1024) NULL,`Diplomes_DateObtention` text(1024) NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;");
+						wSql.println("CREATE TABLE formations (code INT NULL, nom text(1024) NULL, `Individu_CodeAdherent` INT NULL,`FormationsType_Libelle` text(1024) NULL,`Formations_Role` text(1024) NULL,`Formations_DateFin` text(1024) NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;");
+						
+						wSql.flush();
+						wSql.close();
+						
+						for (Integer id : noms)
+						{
+							String nomSql = colonnes.getNom(id).replace(".", "_");
+							out.print(nomSql);
+						}
+						out.print("groupe_code");
+						out.print("groupe_nom");
+						out.println();
+					}
+					
+					Set<String> codeGroupes = groupes.keySet();
+					for (String codeGroupe : codeGroupes)
+					{
+						ExtracteurIndividusHtml groupe = groupes.get(codeGroupe);
+						
+						CsvMySqlFormatteur f = new CsvMySqlFormatteur();
+						
+						int id = diplome;
+						if (id == ExtractionIntranet.DIPLOME_TOUT)
+							id = formation;
+						if (id == ExtractionIntranet.FORMATION_TOUT)
+							id = qualif;
+						f.genereEmail(id,nom, groupe.getUnites(), groupe.getAdherents(), groupe.getColonnes(), out ,!fichier.exists(), groupe.getGroupe());
+					}
+					out.flush();
+					out.close();
+				} catch (ExtractionException e) {
+					e.printStackTrace();
+				}
+				
+			}
 			if (generateur.compareTo(ExtractionIntranet.GENERATEUR_CSV) == 0)
 			{
 				logger_.info("Extraction du fichier \""+nom+"\" dans "+fichier);

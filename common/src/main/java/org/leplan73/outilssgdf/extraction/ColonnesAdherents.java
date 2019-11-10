@@ -1,6 +1,7 @@
 package org.leplan73.outilssgdf.extraction;
 
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 
 import org.leplan73.outilssgdf.ExtractionException;
@@ -240,6 +241,11 @@ public class ColonnesAdherents {
 	{
 		return map_.get(code);
 	}
+	
+	public String getNom(int code)
+	{
+		return ids_.get(code);
+	}
 
 	public int getStructureNom() {
 		return stuctureNom;
@@ -267,5 +273,13 @@ public class ColonnesAdherents {
 
 	public int getQualitejs() {
 		return qualiteJs;
+	}
+
+	public Set<String> noms() {
+		return map_.keySet();
+	}
+
+	public Set<Integer> ids() {
+		return ids_.keySet();
 	}
 }

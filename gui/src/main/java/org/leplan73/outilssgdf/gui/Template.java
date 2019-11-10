@@ -45,15 +45,16 @@ public class Template extends JPanel {
 			
 		panel_illustration.add( lblBanner, BorderLayout.NORTH);
 		
-		JButton btnNewButton = new JButton("Paramètres");
-		btnNewButton.setToolTipText("Définir l'identification utilisée et autres paramètres");
-		btnNewButton.setIcon(Images.getIconCog());
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton btnParametres = new JButton("Paramètres");
+		btnParametres.setFont(btnParametres.getFont().deriveFont(btnParametres.getFont().getSize() - 1f));
+		btnParametres.setToolTipText("Définir l'identification utilisée et autres paramètres");
+		btnParametres.setIcon(Images.getIconCog());
+		btnParametres.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new Configuration().setVisible(true);
 			}
 		});
-		panel_illustration.add(btnNewButton, BorderLayout.CENTER);
+		panel_illustration.add(btnParametres, BorderLayout.CENTER);
 	}
 
 }

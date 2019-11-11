@@ -121,9 +121,14 @@ public class Adherent {
 		return this.get(colonnes_.getPrenomIndividuId());
 	}
 	
-	public String getEmail()
+	public String getEmailPersonnel()
 	{
-		return this.get(colonnes_.getEmailIndividuId());
+		return this.get(colonnes_.getEmailPersonnelIndividuId());
+	}
+	
+	public String getEmailProfessionnel()
+	{
+		return this.get(colonnes_.getEmailProfessionelIndividuId());
 	}
 	
 	public boolean getMarin()
@@ -531,8 +536,8 @@ public class Adherent {
 		String bureauIndividu = (String)this.get(colonnes.getBureauIndividu());
 		String mobilePere = (String)this.get(colonnes.getMobilePereId());
 		String mobileMere = (String)this.get(colonnes.getMobileMereId());
-		String emailIndividu1 = (String)this.get(colonnes.getEmailIndividuId());
-		String emailIndividu2 = (String)this.get(colonnes.getEmailIndividu2Id());
+		String emailIndividu1 = (String)this.get(colonnes.getEmailPersonnelIndividuId());
+		String emailIndividu2 = (String)this.get(colonnes.getEmailProfessionelIndividuId());
 		String emailPere = (String)this.get(colonnes.getEmailPereId());
 		String emailMere = (String)this.get(colonnes.getEmailMereId());
 		
@@ -566,7 +571,7 @@ public class Adherent {
 			String nomIndividu = (String)this.get(colonnes.getNomIndividuId());
 			String prenomIndividu = (String)this.get(colonnes.getPrenomIndividuId());
 			String mobileIndividu1 = (String)this.get(colonnes.getMobileIndividu1Id());
-			String emailIndividu = (String)this.get(colonnes.getEmailIndividuId());
+			String emailIndividu = (String)this.get(colonnes.getEmailPersonnelIndividuId());
 			
 			if (code >= Consts.CODE_VIOLETS || code == Consts.CODE_RESPONSABLE_FARFADETS || code == Consts.CODE_PARENTS_FARFADETS)
 			{
@@ -619,7 +624,7 @@ public class Adherent {
 		int code = this.getFonction();
 		if (code >= Consts.CODE_RESPONSABLES)
 		{
-			String emailIndividu = (String)this.get(colonnes.getEmailIndividuId());
+			String emailIndividu = (String)this.get(colonnes.getEmailPersonnelIndividuId());
 			if (emailIndividu != null && !emailIndividu.isEmpty())
 			{
 				os.println(emailIndividu.toLowerCase());

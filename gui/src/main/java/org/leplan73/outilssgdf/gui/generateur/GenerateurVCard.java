@@ -112,7 +112,8 @@ public class GenerateurVCard extends Dialogue implements LoggedDialog, GuiComman
 						fcModele = new JFileChooser();
 						fcModele.setDialogTitle("Modèle");
 						fcModele.setApproveButtonText("Modèle");
-						fcModele.setCurrentDirectory(new File("./conf"));
+						fcModele.setCurrentDirectory(fModele.getParentFile());
+						fcModele.setSelectedFile(fModele);
 						fcModele.setFileSelectionMode(JFileChooser.FILES_ONLY);
 						fcModele.removeChoosableFileFilter(fcModele.getFileFilter());
 						fcModele.removeChoosableFileFilter(fcModele.getAcceptAllFileFilter());
@@ -120,7 +121,7 @@ public class GenerateurVCard extends Dialogue implements LoggedDialog, GuiComman
 						int result = fcModele.showDialog(panel, "OK");
 						if (result == JFileChooser.APPROVE_OPTION) {
 							fModele = fcModele.getSelectedFile();
-							lblModele.setText(fSortie.getPath());
+							lblModele.setText(fModele.getPath());
 						}
 					}
 				});
@@ -149,7 +150,8 @@ public class GenerateurVCard extends Dialogue implements LoggedDialog, GuiComman
 						fcSortie = new JFileChooser();
 						fcSortie.setDialogTitle("Export");
 						fcSortie.setApproveButtonText("Export");
-						fcSortie.setCurrentDirectory(new File("./données"));
+						fcSortie.setCurrentDirectory(fSortie);
+						fcSortie.setSelectedFile(fSortie);
 						fcSortie.setFileSelectionMode(JFileChooser.FILES_ONLY);
 						fcSortie.removeChoosableFileFilter(fcSortie.getFileFilter());
 						fcSortie.removeChoosableFileFilter(fcSortie.getAcceptAllFileFilter());
@@ -264,7 +266,7 @@ public class GenerateurVCard extends Dialogue implements LoggedDialog, GuiComman
 		Appender.setLoggedDialog(null);
 		Preferences.sauved(Consts.FENETRE_GENERATEUR_X, this.getLocation().getX());
 		Preferences.sauved(Consts.FENETRE_GENERATEUR_Y, this.getLocation().getY());
-		Preferences.sauve(Consts.REPERTOIRE_SORTIE, this.fSortie.getParent(), false);
+		Preferences.sauve(Consts.REPERTOIRE_SORTIE, this.fSortie.getAbsoluteFile().getParent(), false);
 		super.dispose();
 	}
 	public JLabel getLblSortie() {

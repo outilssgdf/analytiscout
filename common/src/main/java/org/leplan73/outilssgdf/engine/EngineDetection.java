@@ -55,7 +55,7 @@ public class EngineDetection extends EngineConnecte {
 			Adherents adherents = x.getAdherents();
 			Adherent adherent = adherents.get(Integer.parseInt(identifiant));
 			utilisateur.structure = adherent.getCodestructure();
-			utilisateur.email = adherent.getEmail();
+			utilisateur.email = adherent.getEmailPersonnel();
 			
 			app.close();
 			progress_.stop();

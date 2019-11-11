@@ -14,8 +14,8 @@ public class ColonnesAdherents {
 	private int codeAdherentId = -1;
 	private int uniteId = -1;
 	private int nomIndividuId = -1;
-	private int emailIndividuId = -1;
-	private int emailIndividu2Id = -1;
+	private int emailPersonnelIndividuId = -1;
+	private int emailProfessionelIndividuId = -1;
 	private int prenomIndividuId = -1;
 	private int mobileIndividu1 = -1;
 	private int mobileIndividu2 = -1;
@@ -109,11 +109,11 @@ public class ColonnesAdherents {
 			}
 			else if (ids_.get(key).compareTo("Individu.CourrielPersonnel") == 0)
 			{
-				emailIndividuId = key;
+				emailPersonnelIndividuId = key;
 			}
 			else if (ids_.get(key).compareTo("Individu.CourrielProfessionnel") == 0)
 			{
-				emailIndividu2Id = key;
+				emailProfessionelIndividuId = key;
 			}
 			else if (ids_.get(key).compareTo("Individu.DateNaissance") == 0)
 			{
@@ -193,12 +193,12 @@ public class ColonnesAdherents {
 		return prenomIndividuId;
 	}
 
-	public int getEmailIndividuId() {
-		return emailIndividuId;
+	public int getEmailPersonnelIndividuId() {
+		return emailPersonnelIndividuId;
 	}
 
-	public int getEmailIndividu2Id() {
-		return emailIndividu2Id;
+	public int getEmailProfessionelIndividuId() {
+		return emailProfessionelIndividuId;
 	}
 
 	public int getEmailPereId() {

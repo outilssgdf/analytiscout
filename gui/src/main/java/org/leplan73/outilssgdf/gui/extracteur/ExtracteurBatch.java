@@ -276,7 +276,7 @@ abstract public class ExtracteurBatch extends Dialogue implements LoggedDialog, 
 		Appender.setLoggedDialog(null);
 		Preferences.sauved(Consts.FENETRE_EXTRACTEURBATCH_X, this.getLocation().getX());
 		Preferences.sauved(Consts.FENETRE_EXTRACTEURBATCH_Y, this.getLocation().getY());
-		Preferences.sauve(Consts.REPERTOIRE_SORTIE, this.fSortie.getPath(), false);
+		Preferences.sauve(Consts.REPERTOIRE_SORTIE, this.fSortie.getAbsoluteFile().getParent(), false);
 		super.dispose();
 	}
 

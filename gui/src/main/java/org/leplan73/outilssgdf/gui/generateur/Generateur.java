@@ -109,7 +109,8 @@ public class Generateur extends Dialogue implements LoggedDialog, GuiCommand {
 						fcSortie = new JFileChooser();
 						fcSortie.setDialogTitle("Export");
 						fcSortie.setApproveButtonText("Export");
-						fcSortie.setCurrentDirectory(new File("./données"));
+						fcSortie.setCurrentDirectory(fSortie);
+						fcSortie.setSelectedFile(fSortie);
 						fcSortie.setFileSelectionMode(JFileChooser.FILES_ONLY);
 						fcSortie.removeChoosableFileFilter(fcSortie.getFileFilter());
 						fcSortie.removeChoosableFileFilter(fcSortie.getAcceptAllFileFilter());

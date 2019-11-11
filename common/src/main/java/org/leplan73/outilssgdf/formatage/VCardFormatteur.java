@@ -142,11 +142,11 @@ public class VCardFormatteur {
 		out.println("VERSION:3.0");
 		out.println("N:"+adherent.getNom()+";"+adherent.getPrenom()+";;;");
 		out.println("FN:"+adherent.getPrenom()+" "+adherent.getNom());
-		out.println("EMAIL;TYPE=INTERNET;TYPE=HOME:"+adherent.getEmail());
+		out.println("EMAIL;TYPE=INTERNET;TYPE=HOME:"+adherent.getEmailPersonnel());
 		out.println("TITLE:"+adherent.getCode());
 		StringBuilder sb = new StringBuilder();
 		
-		cvardEmails.add(adherent.getEmail());
+		cvardEmails.add(adherent.getEmailPersonnel());
 		
 		int index = 0;
 		
@@ -170,7 +170,20 @@ public class VCardFormatteur {
 			
 			for (Email email : emails)
 			{
-				if (email.adresse.compareTo(adherent.getEmail()) == 0)
+				if (email.adresse.compareTo(adherent.getEmailPersonnel()) == 0)
+				{
+					for (String catEmail : email.categories)
+					{
+						if (catEmail.compareTo(cat.nom) == 0)
+						{
+							if (index > 0)
+								sb.append(",");
+							sb.append(catEmail);
+							index++;
+						}
+					}
+				}
+				if (email.adresse.compareTo(adherent.getEmailProfessionnel()) == 0)
 				{
 					for (String catEmail : email.categories)
 					{

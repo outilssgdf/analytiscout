@@ -40,7 +40,7 @@ public class Generateur extends CommonParamsIntranet {
 		try {
 			CmdProgress progress = new CmdProgress();
 			EngineGenerateur en = new EngineGenerateur(progress, Logging.logger_);
-			en.go(identifiant,motdepasse, sortie, structures[0], structures);
+			en.go(identifiant,motdepasse, sortie, structures[0], structures, anonymiser);
 			
 		} catch (EngineException e) {
 			Logging.logError(e);

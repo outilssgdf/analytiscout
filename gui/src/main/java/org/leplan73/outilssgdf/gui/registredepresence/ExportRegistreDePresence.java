@@ -52,8 +52,9 @@ public class ExportRegistreDePresence extends Dialogue implements LoggedDialog, 
 	/**
 	 * Create the dialog.
 	 */
-	public ExportRegistreDePresence() {
-		super();
+	public ExportRegistreDePresence(boolean anonymiser) {
+		super(anonymiser);
+		
 		logger_ = LoggerFactory.getLogger(ExportRegistreDePresence.class);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setTitle("Export registre de présence");

@@ -22,8 +22,8 @@ public class RegistrePresence extends Template {
 	/**
 	 * Create the panel.
 	 */
-	public RegistrePresence() {
-		super();
+	public RegistrePresence(boolean anonymiser) {
+		super(anonymiser);
 
 		JPanel panel_title1 = ElementFactory.createActionTitle("<html><b>Registre de présence</b></html>");
 		GridBagLayout gbl_panel_title1 = (GridBagLayout) panel_title1.getLayout();
@@ -60,14 +60,14 @@ public class RegistrePresence extends Template {
 				panel.add(btnextraireEtAnalyserdes, gbc_btnextraireEtAnalyserdes);
 				btnextraireEtAnalyserdes.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						new AnalyseRegistreDePresenceEnLigne().setVisible(true);
+						new AnalyseRegistreDePresenceEnLigne(anonymiser_).setVisible(true);
 					}
 				});
 		
 		JButton btnextraireEtAnalyserdes_1 = new JButton("Analyser des données");
 		btnextraireEtAnalyserdes_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new AnalyseRegistreDePresence().setVisible(true);
+				new AnalyseRegistreDePresence(anonymiser_).setVisible(true);
 			}
 		});
 		GridBagConstraints gbc_btnextraireEtAnalyserdes_1 = new GridBagConstraints();
@@ -103,7 +103,7 @@ public class RegistrePresence extends Template {
 				button.setEnabled(false);
 				button.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						new AnalyseCECEnligne().setVisible(true);
+						new AnalyseCECEnligne(anonymiser_).setVisible(true);
 					}
 				});
 				GridBagConstraints gbc_button = new GridBagConstraints();
@@ -117,7 +117,7 @@ public class RegistrePresence extends Template {
 		JButton btnGnrationDesFiches = new JButton("Génération des fiches");
 		btnGnrationDesFiches.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new AnalyseCEC().setVisible(true);
+				new AnalyseCEC(anonymiser_).setVisible(true);
 			}
 		});
 		GridBagConstraints gbc_btnGnrationDesFiches = new GridBagConstraints();

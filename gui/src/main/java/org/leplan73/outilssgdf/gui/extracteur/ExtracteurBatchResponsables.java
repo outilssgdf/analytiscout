@@ -9,7 +9,7 @@ public class ExtracteurBatchResponsables extends ExtracteurBatch {
 
 	private static Logger logger_ = LoggerFactory.getLogger(ExtracteurBatchResponsables.class);
 
-	public ExtracteurBatchResponsables() {
-		super("ExtracteurBatch (Responsables)",logger_,new File("conf/batch_responsables.txt"));
+	public ExtracteurBatchResponsables(boolean anonymiser) {
+		super("ExtracteurBatch (Responsables)",logger_,new File("conf/batch_responsables.txt"), anonymiser);
 	}
 }

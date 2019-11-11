@@ -60,8 +60,8 @@ abstract public class AnalyseurEnLigne extends Dialogue implements LoggedDialog,
 	 * @param logger 
 	 * @throws URISyntaxException 
 	 */
-	public AnalyseurEnLigne(String titre, Logger logger, File pfSortieFichier, File pfSortieRepertoire, String nomFichier, File pfBatch, File pfModele) {
-		super();
+	public AnalyseurEnLigne(String titre, Logger logger, File pfSortieFichier, File pfSortieRepertoire, String nomFichier, File pfBatch, File pfModele, boolean anonymiser) {
+		super(anonymiser);
 		this.logger_ = logger;
 		this.fSortieFichier = pfSortieFichier;
 		this.fSortieRepertoire = pfSortieRepertoire;
@@ -313,7 +313,7 @@ abstract public class AnalyseurEnLigne extends Dialogue implements LoggedDialog,
 					int structures[] = construitStructures();
 					EngineAnalyseurEnLigne en = new EngineAnalyseurEnLigne(progress, logger_);
 					ParamSortie psortie = chkGenererParGroupe.isSelected() ? new ParamSortie(fSortieRepertoire, true, nomFichier_) : new ParamSortie(fSortieFichier);
-					en.go(identifiant_, motdepasse_, new ResetableFileInputStream(new FileInputStream(fBatch)), new ResetableFileInputStream(new FileInputStream(fModele)), structures, chkAge.isSelected(), "tout_responsables", true, psortie ,false, chkGarderFichiers.isSelected(), chkGenererParGroupe.isSelected());
+					en.go(identifiant_, motdepasse_, new ResetableFileInputStream(new FileInputStream(fBatch)), new ResetableFileInputStream(new FileInputStream(fModele)), structures, chkAge.isSelected(), "tout_responsables", true, psortie ,anonymiser_, chkGarderFichiers.isSelected(), chkGenererParGroupe.isSelected());
 					btnOuvrir.maj();
 				} catch (Exception e) {
 					logger_.error(Logging.dumpStack(null, e));

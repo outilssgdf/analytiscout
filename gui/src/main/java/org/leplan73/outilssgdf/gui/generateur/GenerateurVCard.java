@@ -53,8 +53,9 @@ public class GenerateurVCard extends Dialogue implements LoggedDialog, GuiComman
 	/**
 	 * Create the dialog.
 	 */
-	public GenerateurVCard() {
-		super();
+	public GenerateurVCard(boolean anonymiser) {
+		super(anonymiser);
+		
 		setTitle("Générateur VCard");
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 
@@ -253,7 +254,7 @@ public class GenerateurVCard extends Dialogue implements LoggedDialog, GuiComman
 				try {
 					int structures[] = construitStructures();
 					EngineGenerateurVCard en = new EngineGenerateurVCard(progress, logger_);
-					en.go(identifiant_, motdepasse_, fModele, fSortie, structures[0], structures);
+					en.go(identifiant_, motdepasse_, fModele, fSortie, structures[0], structures, anonymiser_);
 				} catch (Exception e) {
 					logger_.error(Logging.dumpStack(null, e));
 				}

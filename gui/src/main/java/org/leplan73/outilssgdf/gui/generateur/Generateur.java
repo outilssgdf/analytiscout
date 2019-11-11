@@ -50,8 +50,9 @@ public class Generateur extends Dialogue implements LoggedDialog, GuiCommand {
 	/**
 	 * Create the dialog.
 	 */
-	public Generateur() {
-		super();
+	public Generateur(boolean anonymiser) {
+		super(anonymiser);
+		
 		setTitle("Générateur");
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 
@@ -212,7 +213,7 @@ public class Generateur extends Dialogue implements LoggedDialog, GuiCommand {
 				try {
 					int structures[] = construitStructures();
 					EngineGenerateur en = new EngineGenerateur(progress, logger_);
-					en.go(identifiant_, motdepasse_, fSortie, structures[0], structures);
+					en.go(identifiant_, motdepasse_, fSortie, structures[0], structures, anonymiser_);
 				} catch (Exception e) {
 					logger_.error(Logging.dumpStack(null, e));
 				}

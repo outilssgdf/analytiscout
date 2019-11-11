@@ -63,16 +63,16 @@ public class OutilsSGDFAdvanced extends OutilsSGDF {
 		tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 		contentPane.add(tabbedPane, BorderLayout.CENTER);
 		
-		AnalyseJeunes2 a = new AnalyseJeunes2();
+		AnalyseJeunes2 a = new AnalyseJeunes2(anonymiser_);
 		tabbedPane.addTab("Formations, qualifications et diplômes",a);
 		
-		RegistrePresence2 c = new RegistrePresence2();
+		RegistrePresence2 c = new RegistrePresence2(anonymiser_);
 		tabbedPane.addTab("Registre de présence / CEC",c);
 		
 //		Camps d = new Camps();
 //		tabbedPane.addTab("Camps",d);
 		
-		ExportAdherents b = new ExportAdherents();
+		ExportAdherents b = new ExportAdherents(anonymiser_);
 		tabbedPane.addTab("Exporter",b);
 		
 		JPanel panel = new JPanel();

@@ -20,12 +20,15 @@ public class Dialogue extends JDialog implements LoggedDialog {
 	protected String identifiant_;
 	protected String motdepasse_;
 	protected String structure_;
+	protected boolean anonymiser_;
 	
 	protected Logger logger_;
 	protected JTextArea txtLog;
 	
-	public Dialogue()
+	public Dialogue(boolean anonymiser)
 	{
+		anonymiser_ = anonymiser;
+		
 		setIconImage(Images.getIcon());
 		addEscapeListener(this);
 		

@@ -45,7 +45,7 @@ public class GenerateurVCard extends CommonParamsIntranet {
 			
 			CmdProgress progress = new CmdProgress();
 			EngineGenerateurVCard en = new EngineGenerateurVCard(progress, Logging.logger_);
-			en.go(identifiant,motdepasse, configuration, sortie, structures[0], structures);
+			en.go(identifiant,motdepasse, configuration, sortie, structures[0], structures, anonymiser);
 			
 		} catch (IOException|EngineException e) {
 			Logging.logError(e);

@@ -22,8 +22,8 @@ public class RegistrePresence2 extends Template {
 	/**
 	 * Create the panel.
 	 */
-	public RegistrePresence2() {
-		super();
+	public RegistrePresence2(boolean anonymiser) {
+		super(anonymiser);
 
 		JPanel panel_title1 = ElementFactory.createActionTitle("<html><b>Registre de présence</b></html>");
 		GridBagLayout gbl_panel_title1 = (GridBagLayout) panel_title1.getLayout();
@@ -56,7 +56,7 @@ public class RegistrePresence2 extends Template {
 		JButton btnNewButton = new JButton("Extraction");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new ExtractionRegistreDePresence().setVisible(true);
+				new ExtractionRegistreDePresence(anonymiser_).setVisible(true);
 			}
 		});
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
@@ -69,7 +69,7 @@ public class RegistrePresence2 extends Template {
 		JButton btnAnalyse = new JButton("Analyse");
 		btnAnalyse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new AnalyseRegistreDePresence().setVisible(true);
+				new AnalyseRegistreDePresence(anonymiser_).setVisible(true);
 			}
 		});
 		GridBagConstraints gbc_btnAnalyse = new GridBagConstraints();
@@ -82,7 +82,7 @@ public class RegistrePresence2 extends Template {
 		JButton btnExport = new JButton("Export");
 		btnExport.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new ExportRegistreDePresence().setVisible(true);
+				new ExportRegistreDePresence(anonymiser_).setVisible(true);
 			}
 		});
 		GridBagConstraints gbc_btnExport = new GridBagConstraints();
@@ -111,7 +111,7 @@ public class RegistrePresence2 extends Template {
 		JButton btnNewButton_1 = new JButton("Génération");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new AnalyseCEC().setVisible(true);
+				new AnalyseCEC(anonymiser_).setVisible(true);
 			}
 		});
 		panel.add(btnNewButton_1, BorderLayout.NORTH);

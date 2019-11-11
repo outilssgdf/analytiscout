@@ -22,8 +22,8 @@ public class AnalyseJeunes2 extends Template {
 	/**
 	 * Create the panel.
 	 */
-	public AnalyseJeunes2() {
-		super();
+	public AnalyseJeunes2(boolean anonymiser) {
+		super(anonymiser);
 
 		JPanel panel_title1 = ElementFactory.createActionTitle("<html><b>Analyse des maitrises et compas</b></html>");
 		GridBagLayout gbl_panel_title1 = (GridBagLayout) panel_title1.getLayout();
@@ -56,7 +56,7 @@ public class AnalyseJeunes2 extends Template {
 				"<html><p style=\"text-align:center;\">Analyser des données<br>déjà extraites</p>");
 		button_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new AnalyseurResponsables().setVisible(true);
+				new AnalyseurResponsables(anonymiser).setVisible(true);
 			}
 		});
 		GridBagConstraints gbc_button_2 = new GridBagConstraints();
@@ -70,7 +70,7 @@ public class AnalyseJeunes2 extends Template {
 				"<html><p style=\"text-align:center;\">Exporter des données<br>en batch</p>");
 		btnexporterDesDonnesen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new ExtracteurBatchResponsables().setVisible(true);
+				new ExtracteurBatchResponsables(anonymiser).setVisible(true);
 			}
 		});
 		GridBagConstraints gbc_btnexporterDesDonnesen = new GridBagConstraints();
@@ -106,7 +106,7 @@ public class AnalyseJeunes2 extends Template {
 				"<html><p style=\"text-align:center;\">Analyser des données<br>déjà extraites</p>");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new AnalyseurJeunes().setVisible(true);
+				new AnalyseurJeunes(anonymiser).setVisible(true);
 			}
 		});
 		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
@@ -120,7 +120,7 @@ public class AnalyseJeunes2 extends Template {
 		JButton btnNewButton = new JButton("Exporter des données en batch");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new ExtracteurBatchJeunes().setVisible(true);
+				new ExtracteurBatchJeunes(anonymiser).setVisible(true);
 			}
 		});
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();

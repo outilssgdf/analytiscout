@@ -47,9 +47,9 @@ public class GuiCmd extends GuiParams
 		}
 		
 		if (avance)
-			new OutilsSGDFAdvanced().go();
+			new OutilsSGDFAdvanced().go(anonymiser);
 		else
-			new OutilsSGDFNormal().go();
+			new OutilsSGDFNormal().go(anonymiser);
 	}
 	
 	public static void main(String[] args) {

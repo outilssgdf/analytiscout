@@ -51,8 +51,9 @@ public class AnalyseCEC extends Dialogue implements LoggedDialog, GuiCommand {
 	/**
 	 * Create the dialog.
 	 */
-	public AnalyseCEC() {
-		super();
+	public AnalyseCEC(boolean anonymiser) {
+		super(anonymiser);
+		
 		logger_ = LoggerFactory.getLogger(AnalyseCEC.class);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setTitle("Analyse CEC");

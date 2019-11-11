@@ -17,6 +17,9 @@ public class GuiParams implements IVersionProvider {
 	@Option(names = "-debugintranet", description = "debugintranet (Valeur par défaut: ${DEFAULT-VALUE})")
 	protected boolean debugintranet = false;
 	
+	@Option(names = "-anonymiser", description = "anonymiser les nom, prénoms et code (Valeur par défaut: ${DEFAULT-VALUE})", hidden = true)
+	protected boolean anonymiser = false;
+	
 	@Override
 	public String[] getVersion() throws Exception {
 		try {

@@ -46,6 +46,8 @@ public class Configuration extends Dialogue {
 	 * Create the dialog.
 	 */
 	public Configuration() {
+		super(false);
+		
 		logger_ = LoggerFactory.getLogger(Configuration.class);
 		setModal(true);
 		setResizable(false);

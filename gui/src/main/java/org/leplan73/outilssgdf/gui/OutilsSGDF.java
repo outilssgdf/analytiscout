@@ -12,10 +12,14 @@ import org.leplan73.outilssgdf.gui.utils.VersionCheck;
 public class OutilsSGDF extends JFrame {
 	public OutilsSGDF() {
 	}
-	protected JPanel contentPane;
 	
-	public void go()
+	protected JPanel contentPane;
+	protected boolean anonymiser_;
+	
+	public void go(boolean anonymiser)
 	{
+		anonymiser_ = anonymiser;
+		
 		setVisible(true);
 		afficheAlertes();
 	}

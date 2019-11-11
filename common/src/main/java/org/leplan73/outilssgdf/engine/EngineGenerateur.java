@@ -25,7 +25,7 @@ public class EngineGenerateur extends EngineConnecte {
 		super(progress, logger);
 	}
 	
-	private boolean gopriv(ExtractionAdherents app, String identifiant, String motdepasse, File sortie, int structure) throws ClientProtocolException, IOException, JDOMException, InvalidFormatException, ExtractionException
+	private boolean gopriv(ExtractionAdherents app, String identifiant, String motdepasse, File sortie, int structure, boolean anonymiser) throws ClientProtocolException, IOException, JDOMException, InvalidFormatException, ExtractionException
 	{
 		logger_.info("Extraction (structure="+structure+")");
 		String donnees = app.extract(structure, true, ExtractionIntranet.TYPE_INSCRIT, true, null, ExtractionIntranet.SPECIALITE_SANS_IMPORTANCE, ExtractionIntranet.CATEGORIE_TOUT, ExtractionIntranet.DIPLOME_TOUT,ExtractionIntranet.QUALIFICATION_TOUT,ExtractionIntranet.FORMATION_TOUT, ExtractionIntranet.FORMAT_INDIVIDU|ExtractionIntranet.FORMAT_PARENTS,false);
@@ -44,7 +44,7 @@ public class EngineGenerateur extends EngineConnecte {
 		return true;
 	}
 
-	public void go(String identifiant, String motdepasse, File sortie, int structure, int[] structures) throws EngineException, LoginEngineException
+	public void go(String identifiant, String motdepasse, File sortie, int structure, int[] structures, boolean anonymiser) throws EngineException, LoginEngineException
 	{
 		start();
 		try
@@ -54,7 +54,7 @@ public class EngineGenerateur extends EngineConnecte {
 			login(app, identifiant, motdepasse);
 			progress_.setProgress(40, "Génération des fichiers");
 			
-			gopriv(app, identifiant, motdepasse, sortie, structure);
+			gopriv(app, identifiant, motdepasse, sortie, structure, anonymiser);
 			progress_.setProgress(80,"Déconnexion");
 			
 			logout();

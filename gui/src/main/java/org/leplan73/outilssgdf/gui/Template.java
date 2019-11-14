@@ -18,15 +18,12 @@ public class Template extends JPanel {
 
 	public JPanel panel_collection= null;
 	protected JLabel lblBanner;
-	protected boolean anonymiser_;
 	
 	/**
 	 * Create the panel.
 	 */
-	public Template(boolean anonymiser) {
+	public Template() {
 		super();
-		anonymiser_ = anonymiser;
-		
 		setBorder(new EmptyBorder(0, 0, 0, 5));
 		setMinimumSize(new Dimension(10, 300));
 		setLayout(new BorderLayout(0, 0));

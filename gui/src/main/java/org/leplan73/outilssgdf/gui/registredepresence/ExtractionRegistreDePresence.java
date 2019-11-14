@@ -52,9 +52,7 @@ public class ExtractionRegistreDePresence extends Dialogue implements GuiCommand
 	/**
 	 * Create the dialog.
 	 */
-	public ExtractionRegistreDePresence(boolean anonymiser) {
-		super(anonymiser);
-		
+	public ExtractionRegistreDePresence() {
 		logger_ = LoggerFactory.getLogger(ExtractionRegistreDePresence.class);
 		
 		setResizable(false);

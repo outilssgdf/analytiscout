@@ -50,9 +50,8 @@ public class AnalyseRegistreDePresence extends Dialogue implements LoggedDialog,
 	/**
 	 * Create the dialog.
 	 */
-	public AnalyseRegistreDePresence(boolean anonymiser) {
-		super(anonymiser);
-		
+	public AnalyseRegistreDePresence() {
+		super();
 		logger_ = LoggerFactory.getLogger(AnalyseRegistreDePresence.class);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setTitle("Analyse registre de présence");

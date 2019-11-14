@@ -53,9 +53,7 @@ public class AnalyseRegistreDePresenceEnLigne extends Dialogue implements GuiCom
 	/**
 	 * Create the dialog.
 	 */
-	public AnalyseRegistreDePresenceEnLigne(boolean anonymiser) {
-		super(anonymiser);
-		
+	public AnalyseRegistreDePresenceEnLigne() {
 		logger_ = LoggerFactory.getLogger(AnalyseRegistreDePresenceEnLigne.class);
 		
 		setResizable(false);

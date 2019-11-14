@@ -18,8 +18,8 @@ public class AnalyseJeunes extends Template {
 	/**
 	 * Create the panel.
 	 */
-	public AnalyseJeunes(boolean anonymiser) {
-		super(anonymiser);
+	public AnalyseJeunes() {
+		super();
 
 		JPanel panel_title1 = ElementFactory.createActionTitle("<html><b>Analyse des maitrises et compas</b></html>");
 		GridBagLayout gbl_panel_title1 = (GridBagLayout) panel_title1.getLayout();
@@ -43,7 +43,7 @@ public class AnalyseJeunes extends Template {
 		panel_6.add(button_1, BorderLayout.NORTH);
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new AnalyseurEnLigneResponsables(anonymiser).setVisible(true);
+				new AnalyseurEnLigneResponsables().setVisible(true);
 			}
 		});
 
@@ -68,7 +68,7 @@ public class AnalyseJeunes extends Template {
 				"<html><p style=\"text-align:center;\">Extraire et analyser<br>des données en ligne</p>");
 		btnAnalyserDesDonnesAdherents.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new AnalyseurEnLigneJeunes(anonymiser).setVisible(true);
+				new AnalyseurEnLigneJeunes().setVisible(true);
 			}
 		});
 		panel_3.add(btnAnalyserDesDonnesAdherents, BorderLayout.NORTH);

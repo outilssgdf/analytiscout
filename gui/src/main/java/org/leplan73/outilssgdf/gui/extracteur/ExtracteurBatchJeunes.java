@@ -9,7 +9,7 @@ public class ExtracteurBatchJeunes extends ExtracteurBatch {
 
 	private static Logger logger_ = LoggerFactory.getLogger(ExtracteurBatchJeunes.class);
 
-	public ExtracteurBatchJeunes(boolean anonymiser) {
-		super("ExtracteurBatch (Jeunes)",logger_,new File("conf/batch_jeunes.txt"), anonymiser);
+	public ExtracteurBatchJeunes() {
+		super("ExtracteurBatch (Jeunes)",logger_,new File("conf/batch_jeunes.txt"));
 	}
 }

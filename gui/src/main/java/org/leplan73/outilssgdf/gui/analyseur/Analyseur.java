@@ -62,9 +62,8 @@ abstract public class Analyseur extends Dialogue implements LoggedDialog, GuiCom
 	/**
 	 * Create the dialog.
 	 */
-	public Analyseur(String titre, Logger logger, File pfSortieFichier, File pfSortieRepertoire, String nomFichier, File pfBatch, File pfModele , boolean anonymiser) {
-		super(anonymiser);
-		
+	public Analyseur(String titre, Logger logger, File pfSortieFichier, File pfSortieRepertoire, String nomFichier, File pfBatch, File pfModele) {
+		super();
 		this.logger_ = logger;
 		this.fSortieFichier = pfSortieFichier;
 		this.fSortieRepertoire = pfSortieRepertoire;
@@ -324,7 +323,7 @@ abstract public class Analyseur extends Dialogue implements LoggedDialog, GuiCom
 				try {
 					ParamEntree pentree = new ParamEntree(fEntree);
 					ParamSortie psortie = chkGenererParGroupe.isSelected() ? new ParamSortie(fSortieRepertoire, true, nomFichier_) : new ParamSortie(fSortieFichier);
-					en.go(pentree, new ResetableFileInputStream(new FileInputStream(fBatch)), new ResetableFileInputStream(new FileInputStream(fModele)), null, getChcAge().isSelected(), "tout_responsables", psortie, anonymiser_, chkGenererParGroupe.isSelected());
+					en.go(pentree, new ResetableFileInputStream(new FileInputStream(fBatch)), new ResetableFileInputStream(new FileInputStream(fModele)), null, getChcAge().isSelected(), "tout_responsables", psortie, false, chkGenererParGroupe.isSelected());
 					btnOuvrir.maj();
 				} catch (Exception e) {
 					logger_.error(Logging.dumpStack(null, e));

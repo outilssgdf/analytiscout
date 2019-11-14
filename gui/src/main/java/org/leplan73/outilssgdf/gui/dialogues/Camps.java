@@ -12,8 +12,8 @@ public class Camps extends Template {
 	/**
 	 * Create the panel.
 	 */
-	public Camps(boolean anonymiser) {
-		super(anonymiser);
+	public Camps() {
+		super();
 		
 		JLabel lblaArrive = new JLabel("ça arrive !!!");
 		lblaArrive.setHorizontalAlignment(SwingConstants.CENTER);

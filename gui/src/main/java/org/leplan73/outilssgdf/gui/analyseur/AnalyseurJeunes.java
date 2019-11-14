@@ -11,7 +11,7 @@ public class AnalyseurJeunes extends Analyseur {
 
 	private static Logger logger_ = LoggerFactory.getLogger(AnalyseurJeunes.class);
 	
-	public AnalyseurJeunes(boolean anonymiser) {
-		super("Analyseur (Jeunes)",logger_,new File(Preferences.lit(Consts.REPERTOIRE_SORTIE, "données", false),"analyse_jeunes.xlsx"), new File(Preferences.lit(Consts.REPERTOIRE_SORTIE, "données", false)), Consts.NOM_FICHIER_ANALYSE_JEUNES, new File("conf/batch_jeunes.txt"),new File("conf/modele_jeunes.xlsx"), anonymiser);
+	public AnalyseurJeunes() {
+		super("Analyseur (Jeunes)",logger_,new File(Preferences.lit(Consts.REPERTOIRE_SORTIE, "données", false),"analyse_jeunes.xlsx"), new File(Preferences.lit(Consts.REPERTOIRE_SORTIE, "données", false)), Consts.NOM_FICHIER_ANALYSE_JEUNES, new File("conf/batch_jeunes.txt"),new File("conf/modele_jeunes.xlsx"));
 	}
 }

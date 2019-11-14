@@ -29,7 +29,7 @@ public class EngineGenerateurVCard extends EngineConnecte {
 		super(progress, logger);
 	}
 	
-	private boolean gopriv(ExtractionAdherents app, String identifiant, String motdepasse, File props, File sortie, int structure, boolean anonymiser) throws ClientProtocolException, IOException, JDOMException, InvalidFormatException, ExtractionException
+	private boolean gopriv(ExtractionAdherents app, String identifiant, String motdepasse, File props, File sortie, int structure) throws ClientProtocolException, IOException, JDOMException, InvalidFormatException, ExtractionException
 	{
 		logger_.info("Chargement du fichier de paramètrage");
 		Properties properties = new Properties();
@@ -48,7 +48,7 @@ public class EngineGenerateurVCard extends EngineConnecte {
 		
 		logger_.info("Conversion");
 		ExtracteurIndividusHtml x = new ExtracteurIndividusHtml();
-		x.charge(new ByteArrayInputStream(donnees.getBytes(Charset.forName("UTF-8"))),true,anonymiser);
+		x.charge(new ByteArrayInputStream(donnees.getBytes(Charset.forName("UTF-8"))),true,false);
 		
 		// Génération de l'archive
 		logger_.info("Génération de l'archive "+sortie.getName());
@@ -61,7 +61,7 @@ public class EngineGenerateurVCard extends EngineConnecte {
 		return true;
 	}
 
-	public void go(String identifiant, String motdepasse, File categories, File sortie, int structure, int[] structures, boolean anonymiser) throws EngineException, LoginEngineException
+	public void go(String identifiant, String motdepasse, File categories, File sortie, int structure, int[] structures) throws EngineException, LoginEngineException
 	{
 		start();
 		try
@@ -71,7 +71,7 @@ public class EngineGenerateurVCard extends EngineConnecte {
 			login(app, identifiant, motdepasse);
 			progress_.setProgress(40, "Génération des fichiers");
 			
-			gopriv(app, identifiant, motdepasse, categories, sortie, structure, anonymiser);
+			gopriv(app, identifiant, motdepasse, categories, sortie, structure);
 			progress_.setProgress(80,"Déconnexion");
 			
 			logout();

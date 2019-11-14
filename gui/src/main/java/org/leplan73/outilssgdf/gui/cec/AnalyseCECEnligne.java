@@ -49,9 +49,8 @@ public class AnalyseCECEnligne extends Dialogue implements LoggedDialog, GuiComm
 	/**
 	 * Create the dialog.
 	 */
-	public AnalyseCECEnligne(boolean anonymiser) {
-		super(anonymiser);
-		
+	public AnalyseCECEnligne() {
+		super();
 		logger_ = LoggerFactory.getLogger(AnalyseCECEnligne.class);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setTitle("Analyse CEC");

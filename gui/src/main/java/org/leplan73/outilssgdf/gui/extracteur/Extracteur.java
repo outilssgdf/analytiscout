@@ -85,9 +85,8 @@ public class Extracteur extends Dialogue implements LoggedDialog, GuiCommand {
 	/**
 	 * Create the dialog.
 	 */
-	public Extracteur(boolean anonymiser) {
-		super(anonymiser);
-		
+	public Extracteur() {
+		super();
 		logger_ = LoggerFactory.getLogger(Extracteur.class);
 				
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);

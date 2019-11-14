@@ -21,9 +21,8 @@ public class ExportAdherents extends Template {
 	/**
 	 * Create the panel.
 	 */
-	public ExportAdherents(boolean anonymiser) {
-		super(anonymiser);
-		
+	public ExportAdherents() {
+		super();
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{312, 0};
 		gridBagLayout.rowHeights = new int[]{37, 238, 0, 0};
@@ -62,7 +61,7 @@ public class ExportAdherents extends Template {
 										JButton btnNewButton = new JButton("Exporter des données");
 										btnNewButton.addActionListener(new ActionListener() {
 											public void actionPerformed(ActionEvent e) {
-												new Extracteur(anonymiser).setVisible(true);
+												new Extracteur().setVisible(true);
 											}
 										});
 										panel_1.setLayout(new BorderLayout(0, 0));
@@ -99,7 +98,7 @@ public class ExportAdherents extends Template {
 												JButton btnNewButton_1 = new JButton("Générer une archive zip");
 												btnNewButton_1.addActionListener(new ActionListener() {
 													public void actionPerformed(ActionEvent e) {
-														new Generateur(anonymiser_).setVisible(true);
+														new Generateur().setVisible(true);
 													}
 												});
 												GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
@@ -113,7 +112,7 @@ public class ExportAdherents extends Template {
 										JButton btnGnrerUneArchive = new JButton("Générer un fichier vcard");
 										btnGnrerUneArchive.addActionListener(new ActionListener() {
 											public void actionPerformed(ActionEvent e) {
-												new GenerateurVCard(anonymiser_).setVisible(true);
+												new GenerateurVCard().setVisible(true);
 											}
 										});
 										GridBagConstraints gbc_btnGnrerUneArchive = new GridBagConstraints();

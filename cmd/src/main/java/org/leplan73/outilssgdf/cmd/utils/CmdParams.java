@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.jdom2.JDOMException;
+import org.leplan73.outilssgdf.Consts;
 import org.leplan73.outilssgdf.ExtractionException;
 import org.leplan73.outilssgdf.Params;
 
@@ -30,6 +31,10 @@ public class CmdParams implements IVersionProvider {
 	{
 		Logging.logger_.info("Chargement du fichier de paramètres");
 		Params.init();
+		if (anonymiser)
+		{
+			Params.set(Consts.PARAMS_ANONYMISER, "1");
+		}
 	}
 
 	@Override

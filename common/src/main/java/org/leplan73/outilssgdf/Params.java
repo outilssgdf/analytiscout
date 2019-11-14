@@ -57,6 +57,11 @@ public class Params extends Properties {
 		}
 	}
 	
+	static public void set(String nom, String value)
+	{
+		this_.put(nom, value);
+	}
+	
 	static public String get(String nom)
 	{
 		return this_.getProperty(nom);
@@ -65,6 +70,12 @@ public class Params extends Properties {
 	static public String get(String nom, String defaut)
 	{
 		return this_.getProperty(nom, defaut);
+	}
+	
+	static public boolean getb(String nom, boolean defaut)
+	{
+		String v = this_.getProperty(nom, String.valueOf(defaut));
+		return Boolean.parseBoolean(v);
 	}
 
 	public static Date getDateDebutCamp() {

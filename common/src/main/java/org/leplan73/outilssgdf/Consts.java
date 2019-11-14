@@ -2,6 +2,8 @@ package org.leplan73.outilssgdf;
 
 public class Consts {
 
+	public static final String PARAMS_ANONYMISER = "params.anonymiser";
+	
 	public static final String STRUCTURE_NATIONAL = "000000000";
 	public static final String ENCODING_WINDOWS = "Windows-1252";
 	public static final String ENCODING_UTF8 = "UTF-8";

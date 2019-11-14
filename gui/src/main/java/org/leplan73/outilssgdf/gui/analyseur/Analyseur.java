@@ -25,6 +25,7 @@ import javax.swing.border.TitledBorder;
 import org.leplan73.outilssgdf.Consts;
 import org.leplan73.outilssgdf.ParamEntree;
 import org.leplan73.outilssgdf.ParamSortie;
+import org.leplan73.outilssgdf.Params;
 import org.leplan73.outilssgdf.Progress;
 import org.leplan73.outilssgdf.engine.EngineAnalyseur;
 import org.leplan73.outilssgdf.gui.GuiProgress;
@@ -323,7 +324,8 @@ abstract public class Analyseur extends Dialogue implements LoggedDialog, GuiCom
 				try {
 					ParamEntree pentree = new ParamEntree(fEntree);
 					ParamSortie psortie = chkGenererParGroupe.isSelected() ? new ParamSortie(fSortieRepertoire, true, nomFichier_) : new ParamSortie(fSortieFichier);
-					en.go(pentree, new ResetableFileInputStream(new FileInputStream(fBatch)), new ResetableFileInputStream(new FileInputStream(fModele)), null, getChcAge().isSelected(), "tout_responsables", psortie, false, chkGenererParGroupe.isSelected());
+					
+					en.go(pentree, new ResetableFileInputStream(new FileInputStream(fBatch)), new ResetableFileInputStream(new FileInputStream(fModele)), null, getChcAge().isSelected(), "tout_responsables", psortie, Params.getb(Consts.PARAMS_ANONYMISER, false), chkGenererParGroupe.isSelected());
 					btnOuvrir.maj();
 				} catch (Exception e) {
 					logger_.error(Logging.dumpStack(null, e));

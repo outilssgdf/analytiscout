@@ -5,6 +5,7 @@ import java.util.List;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import org.leplan73.outilssgdf.Consts;
 import org.leplan73.outilssgdf.Params;
 import org.leplan73.outilssgdf.gui.utils.Logging;
 import org.leplan73.outilssgdf.gui.utils.Preferences;
@@ -37,6 +38,10 @@ public class GuiCmd extends GuiParams
 			if (cmd.avance == true)
 			{
 				avance = true;
+			}
+			if (anonymiser)
+			{
+				Params.set(Consts.PARAMS_ANONYMISER, "1");
 			}
 		}
 		

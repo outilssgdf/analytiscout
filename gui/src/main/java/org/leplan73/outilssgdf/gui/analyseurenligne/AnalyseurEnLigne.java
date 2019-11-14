@@ -27,6 +27,7 @@ import javax.swing.border.TitledBorder;
 
 import org.leplan73.outilssgdf.Consts;
 import org.leplan73.outilssgdf.ParamSortie;
+import org.leplan73.outilssgdf.Params;
 import org.leplan73.outilssgdf.Progress;
 import org.leplan73.outilssgdf.engine.EngineAnalyseurEnLigne;
 import org.leplan73.outilssgdf.gui.GuiProgress;
@@ -313,7 +314,7 @@ abstract public class AnalyseurEnLigne extends Dialogue implements LoggedDialog,
 					int structures[] = construitStructures();
 					EngineAnalyseurEnLigne en = new EngineAnalyseurEnLigne(progress, logger_);
 					ParamSortie psortie = chkGenererParGroupe.isSelected() ? new ParamSortie(fSortieRepertoire, true, nomFichier_) : new ParamSortie(fSortieFichier);
-					en.go(identifiant_, motdepasse_, new ResetableFileInputStream(new FileInputStream(fBatch)), new ResetableFileInputStream(new FileInputStream(fModele)), structures, chkAge.isSelected(), "tout_responsables", true, psortie ,false, chkGarderFichiers.isSelected(), chkGenererParGroupe.isSelected());
+					en.go(identifiant_, motdepasse_, new ResetableFileInputStream(new FileInputStream(fBatch)), new ResetableFileInputStream(new FileInputStream(fModele)), structures, chkAge.isSelected(), "tout_responsables", true, psortie ,Params.getb(Consts.PARAMS_ANONYMISER, false), chkGarderFichiers.isSelected(), chkGenererParGroupe.isSelected());
 					btnOuvrir.maj();
 				} catch (Exception e) {
 					logger_.error(Logging.dumpStack(null, e));

@@ -1,6 +1,6 @@
 package org.leplan73.outilssgdf.calcul;
 
-public class Groupe {
+public class Groupe implements Comparable<Groupe> {
 	protected String nomcomplet_;
 	protected String nom_;
 	protected String code_;
@@ -46,5 +46,10 @@ public class Groupe {
 		nom_ = groupe.substring(groupe.indexOf(" - ")+3);
 		code_ = groupe.substring(0,groupe.indexOf(" - ")-2);
 		code_ = code_ + "00";
+	}
+
+	@Override
+	public int compareTo(Groupe o) {
+		return code_.compareTo(o.code_);
 	}
 }

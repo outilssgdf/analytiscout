@@ -132,7 +132,7 @@ public class AdherentForme extends Adherent {
 	
 	public boolean getFarfadet()
 	{
-		int fonctionSecondaire = extraitCodeSecondaire();
+		int fonctionSecondaire = extraitCodeFonctionSecondaire();
 		if (fonctionSecondaire ==  Consts.CODE_RESPONSABLE_FARFADETS || fonctionSecondaire == Consts.CODE_PARENTS_FARFADETS)
 			return true;
 		if (this.getFonction() == Consts.CODE_RESPONSABLE_FARFADETS || this.getFonction() == Consts.CODE_PARENTS_FARFADETS)
@@ -145,7 +145,7 @@ public class AdherentForme extends Adherent {
 		boolean ret = super.getCompa();
 		if (!ret)
 		{
-			int fonctionSecondaire = extraitCodeSecondaire();
+			int fonctionSecondaire = extraitCodeFonctionSecondaire();
 			if (fonctionSecondaire ==  Consts.CODE_ACCOMPAGNATEUR_COMPAS)
 				ret = true;
 			if (this.getFonction() == Consts.CODE_ACCOMPAGNATEUR_COMPAS)

@@ -33,7 +33,7 @@ public class CmdParams implements IVersionProvider {
 		Params.init();
 		if (anonymiser)
 		{
-			Params.set(Consts.PARAMS_ANONYMISER, "1");
+			Params.set(Consts.PARAMS_ANONYMISER, "true");
 		}
 	}
 

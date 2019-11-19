@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.jdom2.Element;
@@ -377,8 +378,127 @@ public class ExtracteurIndividusHtml {
 		{
 			Anonymizer anon = new Anonymizer();
 			anon.init();
+			
+			Map<String, String> tableDeTraductionNoms = new TreeMap<String, String>();
+			Map<String, String> tableDeTraductionCode = new TreeMap<String, String>();
+			
+			Map<String, List<String>> unites = new TreeMap<String, List<String>>();
+			adherents_.forEach((id, adherent) ->
+			{
+				String c = adherent.getBranche() + "-" + adherent.getCodegroupe();
+				List<String> us = unites.get(c);
+				if (us == null)
+				{
+					us = new ArrayList<String>();
+					unites.put(c, us);
+				}
+				int index = us.indexOf(adherent.getCodestructure());
+				if (index == -1)
+					us.add(adherent.getCodestructure());
+			});
+			
+			
+			AtomicInteger groupeId = new AtomicInteger();
+			adherents_.forEach((id, adherent) ->
+			{
+				String groupe = adherent.getCodegroupe();
+				String unite = adherent.getUnite();
+				
+				if (tableDeTraductionNoms.containsKey(unite) == false)
+				{
+					if (unite.startsWith("TERRITOIRE "))
+					{
+						unite = "TERRITOIRE "+ "UNIVERS";
+						tableDeTraductionNoms.put(adherent.getUnite(), unite);
+					}
+					else if (unite.startsWith("GROUPE "))
+					{
+						unite = "GROUPE A"+ groupeId.incrementAndGet();
+						tableDeTraductionNoms.put(adherent.getUnite(), unite);
+						tableDeTraductionCode.put(groupe, unite);
+					}
+				}
+			});
+			
+			adherents_.forEach((id, adherent) ->
+			{
+				String unite = adherent.getUnite();
+				String c = adherent.getBranche() + "-" + adherent.getCodegroupe();
+				
+				if (unite.startsWith("RÉSEAU IMPEESA"))
+				{
+					unite = "RÉSEAU IMPEESA "+ tableDeTraductionCode.get(adherent.getCodegroupe());
+					tableDeTraductionNoms.put(adherent.getUnite(), unite);
+				}
+				else
+				{
+					String branche = adherent.getBranche();
+					List<String> us = unites.get(c);
+					if (branche.compareTo("F") == 0)
+					{
+						if (us.size() == 1)
+						{
+							tableDeTraductionNoms.put(adherent.getUnite(), "FARFADETS "+tableDeTraductionCode.get(adherent.getCodegroupe()));
+						}
+						else
+						{
+							int index = us.indexOf(adherent.getCodestructure());
+							tableDeTraductionNoms.put(adherent.getUnite(), "FARFADETS "+tableDeTraductionCode.get(adherent.getCodegroupe())+" UNITE "+(index+1));
+						}
+					}
+					if (branche.compareTo("LJ") == 0)
+					{
+						if (us.size() == 1)
+						{
+							tableDeTraductionNoms.put(adherent.getUnite(), "LOUVETEAUX JEANNETTES "+tableDeTraductionCode.get(adherent.getCodegroupe()));
+						}
+						else
+						{
+							int index = us.indexOf(adherent.getCodestructure());
+							tableDeTraductionNoms.put(adherent.getUnite(), "LOUVETEAUX JEANNETTES "+tableDeTraductionCode.get(adherent.getCodegroupe())+" UNITE "+(index+1));
+						}
+					}
+					if (branche.compareTo("SG") == 0)
+					{
+						if (us.size() == 1)
+						{
+							tableDeTraductionNoms.put(adherent.getUnite(), "SCOUTS GUIDES "+tableDeTraductionCode.get(adherent.getCodegroupe()));
+						}
+						else
+						{
+							int index = us.indexOf(adherent.getCodestructure());
+							tableDeTraductionNoms.put(adherent.getUnite(), "SCOUTS GUIDES "+tableDeTraductionCode.get(adherent.getCodegroupe())+" UNITE "+(index+1));
+						}
+					}
+					if (branche.compareTo("PC") == 0)
+					{
+						if (us.size() == 1)
+						{
+							tableDeTraductionNoms.put(adherent.getUnite(), "PIONNNERS CARAVELLES "+tableDeTraductionCode.get(adherent.getCodegroupe()));
+						}
+						else
+						{
+							int index = us.indexOf(adherent.getCodestructure());
+							tableDeTraductionNoms.put(adherent.getUnite(), "PIONNNERS CARAVELLES "+tableDeTraductionCode.get(adherent.getCodegroupe())+" UNITE "+(index+1));
+						}
+					}
+					if (branche.compareTo("C") == 0)
+					{
+						if (us.size() == 1)
+						{
+							tableDeTraductionNoms.put(adherent.getUnite(), "COMPAGNONS "+tableDeTraductionCode.get(adherent.getCodegroupe()));
+						}
+						else
+						{
+							int index = us.indexOf(adherent.getCodestructure());
+							tableDeTraductionNoms.put(adherent.getUnite(), "COMPAGNONS "+tableDeTraductionCode.get(adherent.getCodegroupe())+" UNITE "+(index+1));
+						}
+					}
+				}
+			}
+			);
 
-			AtomicInteger ai = new AtomicInteger(1);
+			AtomicInteger ai = new AtomicInteger(100000000);
 			List<Adherent> adds = new ArrayList<Adherent>();
 			adherents_.forEach((id, adherent) ->
 			{
@@ -388,6 +508,14 @@ public class ExtracteurIndividusHtml {
 				adherent.setCode(code);
 				adherent.setNom(anon.prochainNom());
 				adherent.setPrenom(anon.prochainPrenom());
+				
+				// Nom de la structure
+				adherent.anonymiserStructure(tableDeTraductionNoms, tableDeTraductionCode);
+				
+				// Code structure
+				int codeStructure = Integer.parseInt(adherent.getCodestructure());
+				codeStructure+=100000000;
+				adherent.setCodestructure(codeStructure);
 			});
 			adherents_.clear();
 			adds.forEach(adherent-> adherents_.put(adherent.getCode(), adherent));

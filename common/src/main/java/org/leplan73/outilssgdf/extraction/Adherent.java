@@ -139,7 +139,7 @@ public class Adherent {
 	
 	public int getFonction()
 	{
-		return extraitCode();
+		return extraitCodeFonction();
 	}
 	
 	public String getFonctioncomplet()
@@ -165,22 +165,22 @@ public class Adherent {
 	
 	public boolean getJeune()
 	{
-		int fonction = extraitCode();
+		int fonction = extraitCodeFonction();
 		return fonction < Consts.CODE_RESPONSABLES ? true : false;
 	}
 	
 	public boolean getCompa()
 	{
-		int fonctionSecondaire = extraitCodeSecondaire();
+		int fonctionSecondaire = extraitCodeFonctionSecondaire();
 		if (fonctionSecondaire ==  Consts.CODE_COMPAS_T1T2 || fonctionSecondaire == Consts.CODE_COMPAS_T3)
 			return true;
-		int fonction = extraitCode();
+		int fonction = extraitCodeFonction();
 		return (fonction ==  Consts.CODE_COMPAS_T1T2 || fonction == Consts.CODE_COMPAS_T3) ? true : false;
 	}
 	
 	public boolean getChef()
 	{
-		int fonction = extraitCode();
+		int fonction = extraitCodeFonction();
 		return fonction >= Consts.CODE_RESPONSABLES ? true : false;
 	}
 	
@@ -197,6 +197,11 @@ public class Adherent {
 	public String getCodestructure()
 	{
 		return this.get(colonnes_.getStructureCode());
+	}
+	
+	public void setCodestructure(int code)
+	{
+		this.put(colonnes_.getStructureCode(), String.valueOf(code));
 	}
 	
 	public String getDelegations()
@@ -239,7 +244,7 @@ public class Adherent {
 		codeMaman_ = codeMaman;
 	}
 	
-	private int extraitCode()
+	private int extraitCodeFonction()
 	{
 		String code = this.get(colonnes_.getFonctionCodeId());
 		char lcode = code.charAt(code.length()-1);
@@ -248,7 +253,7 @@ public class Adherent {
 		return Integer.valueOf(code);
 	}
 	
-	protected int extraitCodeSecondaire()
+	protected int extraitCodeFonctionSecondaire()
 	{
 		String code = this.getFonctionsecondairecomplet();
 		if (code.isEmpty())
@@ -291,6 +296,10 @@ public class Adherent {
 			} catch (ParseException e) {
 			}
 		}
+	}
+
+	public void anonymiserStructure(Map<String, String> tableDeTraductionNoms, Map<String, String> tableDeTraductionCode) {
+		unite_ = tableDeTraductionNoms.getOrDefault(unite_, unite_);
 	}
 	
 	private String calculBranche()

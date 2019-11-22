@@ -1,10 +1,12 @@
 package org.leplan73.outilssgdf.calcul;
 
+import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.util.Date;
 
 public class General {
 	
-	private Instant now = Instant.now();
+	private Date now = Date.from(Instant.now());
 	private String version_;
 	
 	public General(String version)
@@ -14,7 +16,8 @@ public class General {
 	
 	public String getDategeneration()
 	{
-		return now.toString();
+		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+		return format.format(now);
 	}
 	
 	public String getVersion()

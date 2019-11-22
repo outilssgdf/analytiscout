@@ -13,12 +13,12 @@ import org.leplan73.outilssgdf.gui.analyseurenligne.AnalyseurEnLigneJeunes;
 import org.leplan73.outilssgdf.gui.analyseurenligne.AnalyseurEnLigneResponsables;
 import org.leplan73.outilssgdf.gui.utils.ElementFactory;
 
-public class AnalyseJeunes extends Template {
+public class AnalysesEnLigne extends Template {
 
 	/**
 	 * Create the panel.
 	 */
-	public AnalyseJeunes() {
+	public AnalysesEnLigne() {
 		super();
 
 		JPanel panel_title1 = ElementFactory.createActionTitle("<html><b>Analyse des maitrises et compas</b></html>");

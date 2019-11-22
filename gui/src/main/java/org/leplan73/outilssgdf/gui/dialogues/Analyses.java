@@ -17,12 +17,12 @@ import org.leplan73.outilssgdf.gui.extracteur.ExtracteurBatchJeunes;
 import org.leplan73.outilssgdf.gui.extracteur.ExtracteurBatchResponsables;
 import org.leplan73.outilssgdf.gui.utils.ElementFactory;
 
-public class AnalyseJeunes2 extends Template {
+public class Analyses extends Template {
 
 	/**
 	 * Create the panel.
 	 */
-	public AnalyseJeunes2() {
+	public Analyses() {
 		super();
 
 		JPanel panel_title1 = ElementFactory.createActionTitle("<html><b>Analyse des maitrises et compas</b></html>");

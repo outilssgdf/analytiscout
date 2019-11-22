@@ -30,6 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
+import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -139,6 +140,14 @@ public class ExtractionIntranet {
 			webClient.getOptions().setTimeout(300*1000*10);
 			webClient.getOptions().setDownloadImages(false);
 			webClient.getOptions().setAppletEnabled(false);
+            webClient.getCookieManager().setCookiesEnabled(true);
+            webClient.getOptions().setCssEnabled(true);
+            webClient.getOptions().setUseInsecureSSL(true);
+            webClient.getOptions().setThrowExceptionOnFailingStatusCode(false);
+            webClient.setAjaxController(new NicelyResynchronizingAjaxController());
+            webClient.getOptions().setThrowExceptionOnScriptError(false);
+            webClient.getOptions().setPopupBlockerEnabled(false);
+            webClient.getOptions().setRedirectEnabled(true);
 		}
 	}
 

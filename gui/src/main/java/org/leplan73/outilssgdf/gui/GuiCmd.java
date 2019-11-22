@@ -54,7 +54,7 @@ public class GuiCmd extends GuiParams
 		if (avance)
 			new OutilsSGDFAdvanced().go();
 		else
-			new OutilsSGDFNormal().go();
+			new OutilsSGDFNormal(cr).go();
 	}
 	
 	public static void main(String[] args) {

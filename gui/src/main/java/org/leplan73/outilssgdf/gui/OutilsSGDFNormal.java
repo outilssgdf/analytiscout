@@ -13,9 +13,10 @@ import javax.swing.JTabbedPane;
 import javax.swing.border.EmptyBorder;
 
 import org.leplan73.outilssgdf.Consts;
-import org.leplan73.outilssgdf.gui.dialogues.AnalyseJeunes;
+import org.leplan73.outilssgdf.gui.dialogues.AnalysesEnLigne;
 import org.leplan73.outilssgdf.gui.dialogues.ExportAdherents;
 import org.leplan73.outilssgdf.gui.dialogues.RegistrePresence;
+import org.leplan73.outilssgdf.gui.dialogues.StatsEnLigne;
 import org.leplan73.outilssgdf.gui.utils.Images;
 import org.leplan73.outilssgdf.gui.utils.JHyperlink;
 import org.leplan73.outilssgdf.gui.utils.Preferences;
@@ -29,7 +30,7 @@ public class OutilsSGDFNormal extends OutilsSGDF {
 	/**
 	 * Create the frame.
 	 */
-	public OutilsSGDFNormal() {
+	public OutilsSGDFNormal(boolean cr) {
 		super();
 		setTitle("Outils SGDF v0.0.0");
 		setResizable(false);
@@ -63,7 +64,7 @@ public class OutilsSGDFNormal extends OutilsSGDF {
 		tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 		contentPane.add(tabbedPane, BorderLayout.CENTER);
 		
-		AnalyseJeunes a = new AnalyseJeunes();
+		AnalysesEnLigne a = new AnalysesEnLigne();
 		tabbedPane.addTab("Formations, qualifications et diplômes",a);
 		
 		RegistrePresence c = new RegistrePresence();
@@ -71,6 +72,12 @@ public class OutilsSGDFNormal extends OutilsSGDF {
 		
 //		Camps d = new Camps();
 //		tabbedPane.addTab("Camps",d);
+		
+		if (cr)
+		{
+			StatsEnLigne d = new StatsEnLigne();
+			tabbedPane.addTab("Stats de structure",d);
+		}
 		
 		ExportAdherents b = new ExportAdherents();
 		tabbedPane.addTab("Exporter",b);

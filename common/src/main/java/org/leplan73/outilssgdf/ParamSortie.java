@@ -62,6 +62,11 @@ public class ParamSortie {
 		return sous_dossier_ ? new File(sortie_, nom_fichier_sortie_+structure+"-"+nom+extension) : sortie_;
 	}
 	
+	public File construit(String structure, String extension)
+	{
+		return sous_dossier_ ? new File(sortie_, nom_fichier_sortie_+structure+extension) : sortie_;
+	}
+	
 	public File construit(int structure, String extension)
 	{
 		return sous_dossier_ ? new File(sortie_, nom_fichier_sortie_+structure+extension) : sortie_;

@@ -64,7 +64,23 @@ public class Dialogue extends JDialog implements LoggedDialog {
 			logger_.error("Le mode de passe est vide");
 			return false;
 		}
-		if (checkStructures() == false) {
+		if (checkStructures(false) == false) {
+			return false;
+		}
+		return true;
+	}
+	
+	protected boolean checkIntranet(boolean codeStructureNationalAutorise)
+	{
+		if (identifiant_.isEmpty()) {
+			logger_.error("L'identifiant est vide");
+			return false;
+		}
+		if (motdepasse_.isEmpty()) {
+			logger_.error("Le mode de passe est vide");
+			return false;
+		}
+		if (checkStructures(codeStructureNationalAutorise) == false) {
 			return false;
 		}
 		return true;
@@ -103,7 +119,7 @@ public class Dialogue extends JDialog implements LoggedDialog {
 		return structures;
 	}
 	
-	private boolean checkStructures()
+	private boolean checkStructures(boolean codeStructureNationalAutorise)
 	{
 		if (structure_.isEmpty()) {
 			logger_.error("Le code de structure est vide");
@@ -122,7 +138,7 @@ public class Dialogue extends JDialog implements LoggedDialog {
 			logger_.error("Code de structure invalide");
 			return false;
 		}
-		if (structure_.compareTo(Consts.STRUCTURE_NATIONAL) == 0)
+		if (codeStructureNationalAutorise == false && structure_.compareTo(Consts.STRUCTURE_NATIONAL) == 0)
 		{
 			logger_.error("Code de structure interdit");
 			return false;

@@ -24,9 +24,6 @@ public class StatsStructure extends CommonParamsIntranet {
 
 	@Option(names = "-sortie", required=true, description = "Fichier de sortie")
 	private File sortie;
-	
-	@Option(names = "-structure", description = "Structure à extraire")
-	private String structure;
 
 	@Option(names = "-garder", description = "Garder les fichiers téléchargés (Valeur par défaut: ${DEFAULT-VALUE})", hidden = true)
 	private boolean garder = false;
@@ -47,7 +44,7 @@ public class StatsStructure extends CommonParamsIntranet {
 			CmdProgress progress = new CmdProgress();
 			EngineStatsEnLigne en = new EngineStatsEnLigne(progress, Logging.logger_);
 			ParamSortie psortie = new ParamSortie(sortie);
-			en.go(identifiant,motdepasse, new ResetableFileInputStream(new FileInputStream(modele)), structure, psortie, garder);
+			en.go(identifiant,motdepasse, new ResetableFileInputStream(new FileInputStream(modele)), structures[0], psortie, garder);
 		} catch (Exception e) {
 			Logging.logger_.error(Logging.dumpStack(null, e));
 		}

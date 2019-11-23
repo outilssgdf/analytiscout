@@ -17,19 +17,18 @@ import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
 
 public class ExtractionStats extends ExtractionIntranet {
 
-	public Map<Groupe,Map<Integer, Effectifs>> extract(String structure) throws IOException
+	public Map<Groupe,Map<Integer, Effectifs>> extract(int structure) throws IOException
 	{
 		Map<Groupe,Map<Integer, Effectifs>> effectifs = new TreeMap<Groupe,Map<Integer,Effectifs>>();
 		
 		HtmlAnchor a = page.getAnchorByHref("/Specialisation/Sgdf/Pilotage/Adherents/EffectifTotalCategorieMembre.aspx");
 		HtmlPage page3 = a.click(false, false, false, false, true, false);
-		System.out.println(page3.toString());
 		
 		DomElement b = page3.getElementById("ctl00_ctl00_MainContent_EntreeContent__entree__pilotageEntree__btnPopupStructure__btnPopup__button");
 		page3 = b.click();
 		
 		HtmlTextInput te = (HtmlTextInput)page3.getElementById("ctl00_Popup__recherche__tbCodeStructure");
-		te.setValueAttribute(structure);
+		te.setValueAttribute(formatStructure(structure));
 		
 		a = (HtmlAnchor)page3.getElementById("ctl00_Popup__recherche__btnRechercher");
 		page3 = a.click();

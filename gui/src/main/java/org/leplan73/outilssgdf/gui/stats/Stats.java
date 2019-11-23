@@ -255,9 +255,10 @@ public class Stats extends Dialogue implements LoggedDialog, GuiCommand {
 			boolean ret = check(txfCodeStructure);
 			if (ret) {
 				try {
+					int structures[] = construitStructures();
 					EngineStatsEnLigne en = new EngineStatsEnLigne(progress, logger_);
 					ParamSortie psortie = new ParamSortie(fSortieFichier);
-					en.go(identifiant_, motdepasse_, new ResetableFileInputStream(new FileInputStream(fModele)), structure_, psortie, chkGarderFichiers.isSelected());
+					en.go(identifiant_, motdepasse_, new ResetableFileInputStream(new FileInputStream(fModele)), structures[0], psortie, chkGarderFichiers.isSelected());
 					btnOuvrir.maj();
 				} catch (Exception e) {
 					logger_.error(Logging.dumpStack(null, e));

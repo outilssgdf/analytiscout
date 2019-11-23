@@ -31,7 +31,7 @@ public class EngineStatsEnLigne extends EngineConnecte {
 		super(progress, logger);
 	}
 
-	private boolean gopriv(ExtractionStats app, String identifiant, String motdepasse, InputStream modele, String structure, ParamSortie sortie, boolean garderFichiers) throws ExtractionException, TransformeurException, ClientProtocolException, IOException, JDOMException
+	private boolean gopriv(ExtractionStats app, String identifiant, String motdepasse, InputStream modele, int structure, ParamSortie sortie, boolean garderFichiers) throws ExtractionException, TransformeurException, ClientProtocolException, IOException, JDOMException
 	{
 		progress_.setProgress(60);
 		logger_.info("Extraction des stats de la structure "+structure);
@@ -89,7 +89,7 @@ public class EngineStatsEnLigne extends EngineConnecte {
 		return true;
 	}
 
-	public void go(String identifiant, String motdepasse, InputStream modele, String structure, ParamSortie sortie, boolean garderFichiers) throws EngineException, LoginEngineException
+	public void go(String identifiant, String motdepasse, InputStream modele, int structure, ParamSortie sortie, boolean garderFichiers) throws EngineException, LoginEngineException
 	{
 		start();
 		try

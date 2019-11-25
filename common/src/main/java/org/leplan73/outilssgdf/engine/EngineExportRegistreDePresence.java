@@ -17,14 +17,14 @@ public class EngineExportRegistreDePresence extends Engine {
 		super(progress, logger);
 	}
 
-	public void go(File entree, String connexion, String utilisateur, String motdePasse, String database) throws EngineException {
+	public void go(File entree, String connexion, String utilisateur, String motdePasse, String database, boolean anonymiser) throws EngineException {
 		start();
 		try
 		{
 			progress_.setProgress(20,"Chargement des fichiers");
 			ExtracteurRegistrePresence ex = new ExtracteurRegistrePresence();
 			logger_.info("Chargement du fichier \"" + entree.getName() + "\"");
-			ex.charge(new FileInputStream(entree));
+			ex.charge(new FileInputStream(entree), anonymiser);
 			progress_.setProgress(40,"Export");
 			logger_.info("Export");
 			

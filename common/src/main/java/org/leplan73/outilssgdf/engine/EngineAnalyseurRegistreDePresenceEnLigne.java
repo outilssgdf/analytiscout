@@ -29,7 +29,7 @@ public class EngineAnalyseurRegistreDePresenceEnLigne extends EngineConnecte {
 		super(progress, logger);
 	}
 	
-	private boolean gopriv(ExtractionRegistrePresence2 app, int structure, boolean recursif, int annee, File sortie, File modele, boolean sous_dossier, boolean garderFichiers) throws ClientProtocolException, IOException, JDOMException, TransformeurException, InterruptedException
+	private boolean gopriv(ExtractionRegistrePresence2 app, int structure, boolean recursif, int annee, File sortie, File modele, boolean sous_dossier, boolean anonymiser, boolean garderFichiers) throws ClientProtocolException, IOException, JDOMException, TransformeurException, InterruptedException
 	{
 		progress_.setProgress(20, "Extraction");
 		logger_.info("Extraction");
@@ -45,7 +45,7 @@ public class EngineAnalyseurRegistreDePresenceEnLigne extends EngineConnecte {
 		}
 		
 		ExtracteurRegistrePresence ex = new ExtracteurRegistrePresence();
-		int anneeDebut = ex.charge(in)+1;
+		int anneeDebut = ex.charge(in, anonymiser)+1;
 		progress_.setProgress(40, "Chargement des fichiers");
 		logger_.info("Chargement des fichiers");
 		
@@ -78,7 +78,7 @@ public class EngineAnalyseurRegistreDePresenceEnLigne extends EngineConnecte {
 		return true;
 	}
 
-	public void go(String identifiant, String motdepasse, File fSortie, File fModele, int annee, int[] structures, boolean recursif, boolean sous_dossier, boolean garderFichiers) throws EngineException, LoginEngineException
+	public void go(String identifiant, String motdepasse, File fSortie, File fModele, int annee, int[] structures, boolean recursif, boolean sous_dossier, boolean anonymiser, boolean garderFichiers) throws EngineException, LoginEngineException
 	{
 		start();
 		try
@@ -91,7 +91,7 @@ public class EngineAnalyseurRegistreDePresenceEnLigne extends EngineConnecte {
 			for (int istructure : structures)
 			{
 				logger_.info("Traitement de la structure "+istructure);
-				boolean ret = gopriv(app, istructure, recursif, annee, fSortie, fModele, sous_dossier, garderFichiers);
+				boolean ret = gopriv(app, istructure, recursif, annee, fSortie, fModele, sous_dossier, anonymiser, garderFichiers);
 				if (ret == false)
 					break;
 			}

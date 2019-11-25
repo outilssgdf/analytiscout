@@ -45,7 +45,7 @@ public class AnalyseurRegistreDePresence extends CommonParamsG {
 			check();
 			CmdProgress progress = new CmdProgress();
 			EngineAnalyseurRegistreDePresence en = new EngineAnalyseurRegistreDePresence(progress, Logging.logger_);
-			en.go(annee, modele, sortie, structures, true);
+			en.go(annee, modele, sortie, structures, true, anonymiser);
 		} catch (Exception e) {
 			Logging.logger_.error(Logging.dumpStack(null, e));
 		}

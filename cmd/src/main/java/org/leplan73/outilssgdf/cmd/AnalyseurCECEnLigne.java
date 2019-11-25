@@ -52,7 +52,7 @@ public class AnalyseurCECEnLigne extends CommonParamsIntranet {
 			check();
 			CmdProgress progress = new CmdProgress();
 			EngineAnalyseurCECEnLigne en = new EngineAnalyseurCECEnLigne(progress, Logging.logger_);
-			en.go(identifiant,motdepasse, sortie, modele, annee, structures);
+			en.go(identifiant,motdepasse, sortie, modele, annee, structures, anonymiser);
 		} catch (Exception e) {
 			Logging.logger_.error(Logging.dumpStack(null, e));
 		}

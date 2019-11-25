@@ -25,6 +25,7 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 import org.leplan73.outilssgdf.Consts;
+import org.leplan73.outilssgdf.Params;
 import org.leplan73.outilssgdf.Progress;
 import org.leplan73.outilssgdf.engine.EngineAnalyseurRegistreDePresenceEnLigne;
 import org.leplan73.outilssgdf.gui.GuiProgress;
@@ -264,7 +265,7 @@ public class AnalyseRegistreDePresenceEnLigne extends Dialogue implements GuiCom
 					EngineAnalyseurRegistreDePresenceEnLigne en = new EngineAnalyseurRegistreDePresenceEnLigne(progress, logger_);
 					
 					int structures[] = construitStructures();
-					en.go(identifiant_, motdepasse_, fSortie, fModele, Integer.parseInt(txfAnnee.getText()), structures, chkRecursif.isSelected(), false, chkGarderFichiers.isSelected());
+					en.go(identifiant_, motdepasse_, fSortie, fModele, Integer.parseInt(txfAnnee.getText()), structures, chkRecursif.isSelected(), false, Params.getb(Consts.PARAMS_ANONYMISER, false), chkGarderFichiers.isSelected());
 					btnOuvrir.maj();
 				} catch (Exception e) {
 					logger_.error(Logging.dumpStack(null, e));

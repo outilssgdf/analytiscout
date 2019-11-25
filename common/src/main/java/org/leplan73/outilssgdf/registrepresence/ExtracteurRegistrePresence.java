@@ -32,7 +32,7 @@ public class ExtracteurRegistrePresence {
 		unites_.forEach((k,v) -> v.construitActivites(activites));
 	}
 	
-	public int charge(final InputStream stream) throws IOException
+	public int charge(final InputStream stream, boolean anonymiser) throws IOException
 	{
 		RegistrePresenceUnite unite = null;
 		int anneeDebut = -1;

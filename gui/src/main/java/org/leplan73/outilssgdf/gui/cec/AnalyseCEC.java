@@ -21,6 +21,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
 import org.leplan73.outilssgdf.Consts;
+import org.leplan73.outilssgdf.Params;
 import org.leplan73.outilssgdf.Progress;
 import org.leplan73.outilssgdf.engine.EngineAnalyseurCEC;
 import org.leplan73.outilssgdf.gui.GuiProgress;
@@ -276,7 +277,7 @@ public class AnalyseCEC extends Dialogue implements LoggedDialog, GuiCommand {
 			if (ret) {
 				logger_.info("Lancement");
 				try {
-					en.go(fEntreeAnnee, fEntreeAnneeP, fSortie, fModele);
+					en.go(fEntreeAnnee, fEntreeAnneeP, fSortie, fModele, Params.getb(Consts.PARAMS_ANONYMISER, false));
 				} catch (Exception e) {
 					logger_.error(Logging.dumpStack(null, e));
 				}

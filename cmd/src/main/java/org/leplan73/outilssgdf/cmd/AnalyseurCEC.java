@@ -54,7 +54,7 @@ public class AnalyseurCEC extends CommonParamsG {
 			check();
 			CmdProgress progress = new CmdProgress();
 			EngineAnalyseurCEC en = new EngineAnalyseurCEC(progress, Logging.logger_);
-			en.go(annee, anneep, sortie, modele);
+			en.go(annee, anneep, sortie, modele, anonymiser);
 		} catch (Exception e) {
 			Logging.logger_.error(Logging.dumpStack(null, e));
 		}

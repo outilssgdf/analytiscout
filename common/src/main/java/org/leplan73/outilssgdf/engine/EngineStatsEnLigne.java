@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.http.client.ClientProtocolException;
 import org.jdom2.JDOMException;
@@ -31,7 +32,7 @@ public class EngineStatsEnLigne extends EngineConnecte {
 		super(progress, logger);
 	}
 
-	private boolean gopriv(ExtractionStats app, String identifiant, String motdepasse, InputStream modele, int structure, ParamSortie sortie, boolean garderFichiers) throws ExtractionException, TransformeurException, ClientProtocolException, IOException, JDOMException
+	private boolean gopriv(ExtractionStats app, String identifiant, String motdepasse, InputStream modele, int structure, ParamSortie sortie, boolean anonymiser, boolean garderFichiers) throws ExtractionException, TransformeurException, ClientProtocolException, IOException, JDOMException
 	{
 		progress_.setProgress(60);
 		logger_.info("Extraction des stats de la structure "+structure);
@@ -56,6 +57,16 @@ public class EngineStatsEnLigne extends EngineConnecte {
 			e.eff = v;
 			effg.add(e);
 		});
+
+		if (anonymiser)
+		{
+			AtomicInteger ai = new AtomicInteger(100000000);
+			AtomicInteger groupeId = new AtomicInteger();
+			effg.forEach(v ->
+			{
+				v.groupe.setNom(ai.incrementAndGet() + " - STRUCTURE A"+ groupeId.incrementAndGet());
+			});
+		}
 		
 		String version = "";
 		try
@@ -89,7 +100,7 @@ public class EngineStatsEnLigne extends EngineConnecte {
 		return true;
 	}
 
-	public void go(String identifiant, String motdepasse, InputStream modele, int structure, ParamSortie sortie, boolean garderFichiers) throws EngineException, LoginEngineException
+	public void go(String identifiant, String motdepasse, InputStream modele, int structure, ParamSortie sortie, boolean anonymiser, boolean garderFichiers) throws EngineException, LoginEngineException
 	{
 		start();
 		try
@@ -100,7 +111,7 @@ public class EngineStatsEnLigne extends EngineConnecte {
 			progress_.setProgress(40);
 			
 			logger_.info("Traitement de la structure "+structure);
-			gopriv(app, identifiant, motdepasse, modele, structure, sortie, garderFichiers);
+			gopriv(app, identifiant, motdepasse, modele, structure, sortie, anonymiser, garderFichiers);
 			logout();
 		} catch (IOException | JDOMException | ExtractionException | TransformeurException e) {
 			throw new EngineException("Exception dans "+this.getClass().getName(),e);

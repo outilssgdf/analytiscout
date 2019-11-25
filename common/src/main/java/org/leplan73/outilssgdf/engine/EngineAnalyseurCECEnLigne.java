@@ -28,7 +28,7 @@ public class EngineAnalyseurCECEnLigne extends EngineConnecte {
 		super(progress, logger);
 	}
 	
-	private boolean gopriv(ExtractionRegistrePresence2 app, int structure, int annee, File fSortie, File fModele) throws IOException, JDOMException, TransformeurException, InterruptedException
+	private boolean gopriv(ExtractionRegistrePresence2 app, int structure, int annee, File fSortie, File fModele, boolean anonymiser) throws IOException, JDOMException, TransformeurException, InterruptedException
 	{
 		progress_.setProgress(20);
 		
@@ -44,9 +44,9 @@ public class EngineAnalyseurCECEnLigne extends EngineConnecte {
 		ExtracteurRegistrePresence ex = new ExtracteurRegistrePresence();
 		logger_.info("Chargement des données de l'année " + annee + "\"");
 		progress_.setProgress(30);
-		int anneeDebut = ex.charge(new ByteArrayInputStream(donneesAnnee.getBytes()))+1;
+		int anneeDebut = ex.charge(new ByteArrayInputStream(donneesAnnee.getBytes()), anonymiser)+1;
 		logger_.info("Chargement des données de l'année " + (annee-1) + "\"");
-		ex.charge(new ByteArrayInputStream(donneesAnneeP.getBytes()));
+		ex.charge(new ByteArrayInputStream(donneesAnneeP.getBytes()), anonymiser);
 		progress_.setProgress(40);
 
 		Collection<RegistrePresenceUnite> unites = ex.getUnites();
@@ -76,7 +76,7 @@ public class EngineAnalyseurCECEnLigne extends EngineConnecte {
 		return true;
 	}
 
-	public void go(String identifiant, String motdepasse, File fSortie, File fModele, int annee, int[] structures) throws IOException, EngineException, JDOMException, LoginEngineException {
+	public void go(String identifiant, String motdepasse, File fSortie, File fModele, int annee, int[] structures, boolean anonymiser) throws IOException, EngineException, JDOMException, LoginEngineException {
 		start();
 		try
 		{
@@ -87,7 +87,7 @@ public class EngineAnalyseurCECEnLigne extends EngineConnecte {
 			for (int istructure : structures)
 			{
 				logger_.info("Traitement de la structure "+istructure);
-				boolean ret = gopriv(app, istructure, annee, fSortie, fModele);
+				boolean ret = gopriv(app, istructure, annee, fSortie, fModele, anonymiser);
 				if (ret == false)
 					break;
 			}

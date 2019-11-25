@@ -44,7 +44,7 @@ public class StatsStructure extends CommonParamsIntranet {
 			CmdProgress progress = new CmdProgress();
 			EngineStatsEnLigne en = new EngineStatsEnLigne(progress, Logging.logger_);
 			ParamSortie psortie = new ParamSortie(sortie);
-			en.go(identifiant,motdepasse, new ResetableFileInputStream(new FileInputStream(modele)), structures[0], psortie, garder);
+			en.go(identifiant,motdepasse, new ResetableFileInputStream(new FileInputStream(modele)), structures[0], psortie, anonymiser, garder);
 		} catch (Exception e) {
 			Logging.logger_.error(Logging.dumpStack(null, e));
 		}

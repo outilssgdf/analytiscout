@@ -25,15 +25,15 @@ public class EngineAnalyseurCEC extends Engine {
 		super(progress, logger);
 	}
 	
-	public void go(File fEntreeAnnee, File fEntreeAnneeP, File fSortie, File fModele) throws EngineException {
+	public void go(File fEntreeAnnee, File fEntreeAnneeP, File fSortie, File fModele, boolean anonymiser) throws EngineException {
 		start();
 		ExtracteurRegistrePresence ex = new ExtracteurRegistrePresence();
 		logger_.info("Chargement du fichier \"" + fEntreeAnnee.getName() + "\"");
 		progress_.setProgress(30);
 		try {
-			int anneeDebut = ex.charge(new FileInputStream(fEntreeAnnee))+1;
+			int anneeDebut = ex.charge(new FileInputStream(fEntreeAnnee), anonymiser)+1;
 			logger_.info("Chargement du fichier \"" + fEntreeAnneeP.getName() + "\"");
-			ex.charge(new FileInputStream(fEntreeAnneeP));
+			ex.charge(new FileInputStream(fEntreeAnneeP), anonymiser);
 			progress_.setProgress(40);
 			
 			Collection<RegistrePresenceUnite> unites = ex.getUnites();

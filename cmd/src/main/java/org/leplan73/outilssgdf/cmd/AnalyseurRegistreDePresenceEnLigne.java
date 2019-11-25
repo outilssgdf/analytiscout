@@ -58,7 +58,7 @@ public class AnalyseurRegistreDePresenceEnLigne extends CommonParamsIntranet {
 			check();
 			CmdProgress progress = new CmdProgress();
 			EngineAnalyseurRegistreDePresenceEnLigne en = new EngineAnalyseurRegistreDePresenceEnLigne(progress, Logging.logger_);
-			en.go(identifiant,motdepasse, sortie, modele, annee, structures, recursif, true, garder);
+			en.go(identifiant,motdepasse, sortie, modele, annee, structures, recursif, true, anonymiser, garder);
 		} catch (Exception e) {
 			Logging.logger_.error(Logging.dumpStack(null, e));
 		}

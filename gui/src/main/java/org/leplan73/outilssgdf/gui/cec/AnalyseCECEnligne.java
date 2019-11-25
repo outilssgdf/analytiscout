@@ -24,6 +24,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
 import org.leplan73.outilssgdf.Consts;
+import org.leplan73.outilssgdf.Params;
 import org.leplan73.outilssgdf.Progress;
 import org.leplan73.outilssgdf.engine.EngineAnalyseurCECEnLigne;
 import org.leplan73.outilssgdf.gui.GuiProgress;
@@ -245,7 +246,7 @@ public class AnalyseCECEnligne extends Dialogue implements LoggedDialog, GuiComm
 				logger_.info("Lancement");
 				try {
 					int structures[] = construitStructures();
-					en.go(identifiant_, motdepasse_, fSortie, fModele, Integer.parseInt(txfAnnee.getText()), structures);
+					en.go(identifiant_, motdepasse_, fSortie, fModele, Integer.parseInt(txfAnnee.getText()), structures, Params.getb(Consts.PARAMS_ANONYMISER, false));
 				} catch (Exception e) {
 					logger_.error(Logging.dumpStack(null, e));
 				}

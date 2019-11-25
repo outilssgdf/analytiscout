@@ -21,6 +21,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
 import org.leplan73.outilssgdf.Consts;
+import org.leplan73.outilssgdf.Params;
 import org.leplan73.outilssgdf.Progress;
 import org.leplan73.outilssgdf.engine.EngineAnalyseurRegistreDePresence;
 import org.leplan73.outilssgdf.gui.GuiProgress;
@@ -259,7 +260,7 @@ public class AnalyseRegistreDePresence extends Dialogue implements LoggedDialog,
 			if (ret) {
 				logger_.info("Lancement");
 				try {
-					en.go(fEntree, fModele, fSortie, null, false);
+					en.go(fEntree, fModele, fSortie, null, false, Params.getb(Consts.PARAMS_ANONYMISER, false));
 					btnOuvrir.maj();
 				} catch (Exception e) {
 					logger_.error(Logging.dumpStack(null, e));

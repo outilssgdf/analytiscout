@@ -30,7 +30,7 @@ public class OutilsSGDFNormal extends OutilsSGDF {
 	/**
 	 * Create the frame.
 	 */
-	public OutilsSGDFNormal(boolean cr) {
+	public OutilsSGDFNormal() {
 		super();
 		setTitle("Outils SGDF v0.0.0");
 		setResizable(false);
@@ -73,11 +73,8 @@ public class OutilsSGDFNormal extends OutilsSGDF {
 //		Camps d = new Camps();
 //		tabbedPane.addTab("Camps",d);
 		
-		if (cr)
-		{
-			StatsEnLigne d = new StatsEnLigne();
-			tabbedPane.addTab("Stats de structure",d);
-		}
+		StatsEnLigne d = new StatsEnLigne();
+		tabbedPane.addTab("Stats de structure",d);
 		
 		ExportAdherents b = new ExportAdherents();
 		tabbedPane.addTab("Exporter",b);

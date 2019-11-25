@@ -20,9 +20,6 @@ public class GuiParams implements IVersionProvider {
 	@Option(names = "-anonymiser", description = "anonymiser les nom, prénoms et code (Valeur par défaut: ${DEFAULT-VALUE})", hidden = true)
 	protected boolean anonymiser = false;
 	
-	@Option(names = "-cr", description = "Générer des stats de territoire (Valeur par défaut: ${DEFAULT-VALUE})", hidden = true)
-	protected boolean cr = false;
-	
 	@Override
 	public String[] getVersion() throws Exception {
 		try {

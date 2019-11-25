@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.leplan73</groupId>
 		<artifactId>outilssgdf</artifactId>
-		<version>1.3.0-SNAPSHOT</version>
+		<version>1.3.0-beta2</version>
 	</parent>
 	<artifactId>cmd</artifactId>
 	<name>cmd</name>

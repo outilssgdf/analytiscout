@@ -12,6 +12,7 @@ import org.leplan73.outilssgdf.Consts;
 import org.leplan73.outilssgdf.ExtractionException;
 import org.leplan73.outilssgdf.Progress;
 import org.leplan73.outilssgdf.intranet.ExtractionRegistrePresence2;
+import org.leplan73.outilssgdf.outils.Structure;
 import org.slf4j.Logger;
 
 public class EngineExtractionRegistreDePresence extends EngineConnecte {
@@ -46,10 +47,10 @@ public class EngineExtractionRegistreDePresence extends EngineConnecte {
 			login(app, identifiant, motdepasse, true);
 			progress_.setProgress(40, "Extraction");
 			
-			for (int istructure : structures)
+			for (int structure : structures)
 			{
-				logger_.info("Traitement de la structure "+istructure);
-				boolean ret = gopriv(app, identifiant, motdepasse, sortie, istructure, recursif, annee, (structures.length > 1));
+				logger_.info("Traitement de la structure "+Structure.formatStructure(structure));
+				boolean ret = gopriv(app, identifiant, motdepasse, sortie, structure, recursif, annee, (structures.length > 1));
 				if (ret == false)
 					break;
 			}

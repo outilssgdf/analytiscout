@@ -23,6 +23,7 @@ import org.leplan73.outilssgdf.alerte.Alertes;
 import org.leplan73.outilssgdf.calcul.General;
 import org.leplan73.outilssgdf.calcul.Global;
 import org.leplan73.outilssgdf.extraction.AdherentForme.ExtraKey;
+import org.leplan73.outilssgdf.outils.Structure;
 import org.leplan73.outilssgdf.extraction.AdherentsFormes;
 import org.slf4j.Logger;
 
@@ -36,7 +37,7 @@ public class EngineAnalyseur extends Engine {
 	
 	private boolean gopriv(Properties pbatch, ParamEntree entree, InputStream batch, InputStream modele, int structure, boolean age, String batch_type, ParamSortie sortie, boolean anonymiser, boolean pargroupe) throws TransformeurException, ExtractionException, IOException, JDOMException
 	{
-		logger_.info("Traitement de la structure "+structure);
+		logger_.info("Traitement de la structure "+Structure.formatStructure(structure));
 		
 		Map<ExtraKey, ExtracteurExtraHtml> extraMap = new TreeMap<ExtraKey, ExtracteurExtraHtml>();
 		File fichierAdherents = null;
@@ -172,10 +173,10 @@ public class EngineAnalyseur extends Engine {
 				gopriv(pbatch, entree, batch, modele, 0, age, batch_type, sortie, anonymiser, pargroupe);
 			}
 			else
-				for (int istructure : structures)
+				for (int structure : structures)
 				{
-					logger_.info("Traitement de la structure "+istructure);
-					boolean ret = gopriv(pbatch, entree, batch, modele, istructure, age, batch_type, sortie, anonymiser, pargroupe);
+					logger_.info("Traitement de la structure "+Structure.formatStructure(structure));
+					boolean ret = gopriv(pbatch, entree, batch, modele, structure, age, batch_type, sortie, anonymiser, pargroupe);
 					if (ret == false)
 						break;
 				}

@@ -28,6 +28,7 @@ import org.leplan73.outilssgdf.extraction.AdherentForme.ExtraKey;
 import org.leplan73.outilssgdf.extraction.AdherentsFormes;
 import org.leplan73.outilssgdf.intranet.ExtractionAdherents;
 import org.leplan73.outilssgdf.intranet.ExtractionIntranet;
+import org.leplan73.outilssgdf.outils.Structure;
 import org.slf4j.Logger;
 
 import com.jcabi.manifests.Manifests;
@@ -233,7 +234,7 @@ public class EngineAnalyseurEnLigne extends EngineConnecte {
 			login(app, identifiant, motdepasse);
 			progress_.setProgress(40);
 			
-			logger_.info("Traitement de la structure "+structure);
+			logger_.info("Traitement de la structure "+Structure.formatStructure(structure));
 			gopriv(app, pbatch, identifiant, motdepasse, modele, structure, age, batch_type, sortie, anonymiser, garderFichiers, pargroupe);
 			logout();
 		} catch (IOException | JDOMException | ExtractionException | TransformeurException e) {
@@ -262,10 +263,10 @@ public class EngineAnalyseurEnLigne extends EngineConnecte {
 			login(app, identifiant, motdepasse);
 			progress_.setProgress(40);
 			
-			for (int istructure : structures)
+			for (int structure : structures)
 			{
-				logger_.info("Traitement de la structure "+istructure);
-				boolean ret = gopriv(app, pbatch, identifiant, motdepasse, modele, istructure, age, batch_type, sortie, anonymiser, garderFichiers, pargroupe);
+				logger_.info("Traitement de la structure "+Structure.formatStructure(structure));
+				boolean ret = gopriv(app, pbatch, identifiant, motdepasse, modele, structure, age, batch_type, sortie, anonymiser, garderFichiers, pargroupe);
 				if (ret == false)
 					break;
 			}

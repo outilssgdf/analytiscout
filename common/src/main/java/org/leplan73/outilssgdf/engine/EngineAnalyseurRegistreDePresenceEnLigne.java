@@ -18,6 +18,7 @@ import org.leplan73.outilssgdf.Progress;
 import org.leplan73.outilssgdf.Transformeur;
 import org.leplan73.outilssgdf.TransformeurException;
 import org.leplan73.outilssgdf.intranet.ExtractionRegistrePresence2;
+import org.leplan73.outilssgdf.outils.Structure;
 import org.leplan73.outilssgdf.registrepresence.ExtracteurRegistrePresence;
 import org.leplan73.outilssgdf.registrepresence.RegistrePresenceActivite;
 import org.leplan73.outilssgdf.registrepresence.RegistrePresenceActiviteHeure;
@@ -88,10 +89,10 @@ public class EngineAnalyseurRegistreDePresenceEnLigne extends EngineConnecte {
 			login(app, identifiant, motdepasse, true);
 			progress_.setProgress(40, "Extraction");
 			
-			for (int istructure : structures)
+			for (int structure : structures)
 			{
-				logger_.info("Traitement de la structure "+istructure);
-				boolean ret = gopriv(app, istructure, recursif, annee, fSortie, fModele, sous_dossier, anonymiser, garderFichiers);
+				logger_.info("Traitement de la structure "+Structure.formatStructure(structure));
+				boolean ret = gopriv(app, structure, recursif, annee, fSortie, fModele, sous_dossier, anonymiser, garderFichiers);
 				if (ret == false)
 					break;
 			}

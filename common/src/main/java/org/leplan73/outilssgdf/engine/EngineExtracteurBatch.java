@@ -32,6 +32,7 @@ import org.leplan73.outilssgdf.extraction.ColonnesAdherents;
 import org.leplan73.outilssgdf.formatage.CsvMySqlFormatteur;
 import org.leplan73.outilssgdf.intranet.ExtractionAdherents;
 import org.leplan73.outilssgdf.intranet.ExtractionIntranet;
+import org.leplan73.outilssgdf.outils.Structure;
 import org.slf4j.Logger;
 
 public class EngineExtracteurBatch extends EngineConnecte {
@@ -241,10 +242,10 @@ public class EngineExtracteurBatch extends EngineConnecte {
 			login(app, identifiant, motdepasse);
 			progress_.setProgress(40, "Extraction");
 
-			for (int istructure : structures)
+			for (int structure : structures)
 			{
-				logger_.info("Traitement de la structure "+istructure);
-				boolean ret = gopriv(app, pbatch, identifiant, motdepasse, batch, sortie, istructure, recursif, (structures.length > 1));
+				logger_.info("Traitement de la structure "+Structure.formatStructure(structure));
+				boolean ret = gopriv(app, pbatch, identifiant, motdepasse, batch, sortie, structure, recursif, (structures.length > 1));
 				if (ret == false)
 					break;
 			}

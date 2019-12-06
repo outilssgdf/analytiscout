@@ -16,6 +16,7 @@ import org.leplan73.outilssgdf.ExtractionException;
 import org.leplan73.outilssgdf.Progress;
 import org.leplan73.outilssgdf.Transformeur;
 import org.leplan73.outilssgdf.TransformeurException;
+import org.leplan73.outilssgdf.outils.Structure;
 import org.leplan73.outilssgdf.registrepresence.ExtracteurRegistrePresence;
 import org.leplan73.outilssgdf.registrepresence.RegistrePresenceActivite;
 import org.leplan73.outilssgdf.registrepresence.RegistrePresenceActiviteHeure;
@@ -73,10 +74,10 @@ public class EngineAnalyseurRegistreDePresence extends Engine {
 				gopriv(entree, modele, sortie, 0, sous_dossier, anonymiser);
 			}
 			else
-				for (int istructure : structures)
+				for (int structure : structures)
 				{
-					logger_.info("Traitement de la structure "+istructure);
-					gopriv(entree, modele, sortie, istructure, sous_dossier, anonymiser);
+					logger_.info("Traitement de la structure "+Structure.formatStructure(structure));
+					gopriv(entree, modele, sortie, structure, sous_dossier, anonymiser);
 				}
 		} catch (IOException | JDOMException | ExtractionException | TransformeurException e) {
 			throw new EngineException("Exception dans "+this.getClass().getName(),e);

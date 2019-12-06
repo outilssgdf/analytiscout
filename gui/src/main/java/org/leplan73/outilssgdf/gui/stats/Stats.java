@@ -259,7 +259,7 @@ public class Stats extends Dialogue implements LoggedDialog, GuiCommand {
 					int structures[] = construitStructures();
 					EngineStatsEnLigne en = new EngineStatsEnLigne(progress, logger_);
 					ParamSortie psortie = new ParamSortie(fSortieFichier);
-					en.go(identifiant_, motdepasse_, new ResetableFileInputStream(new FileInputStream(fModele)), structures[0], psortie, Params.getb(Consts.PARAMS_ANONYMISER, false), chkGarderFichiers.isSelected());
+					en.go(identifiant_, motdepasse_, new ResetableFileInputStream(new FileInputStream(fModele)), structures, psortie, Params.getb(Consts.PARAMS_ANONYMISER, false), chkGarderFichiers.isSelected());
 					btnOuvrir.maj();
 				} catch (Exception e) {
 					logger_.error(Logging.dumpStack(null, e));

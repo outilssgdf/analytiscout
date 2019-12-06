@@ -357,14 +357,4 @@ public class ExtractionIntranet {
 		}
 		return found;
 	}
-	
-	protected String formatStructure(int structure)
-	{
-		String s = String.valueOf(structure);
-		while (s.length() < 9)
-		{
-			s = "0"+s;
-		}
-		return s;
-	}
 }

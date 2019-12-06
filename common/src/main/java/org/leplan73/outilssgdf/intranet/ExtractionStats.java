@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.leplan73.outilssgdf.calcul.Groupe;
+import org.leplan73.outilssgdf.outils.Structure;
 import org.leplan73.outilssgdf.stats.Effectifs;
 
 import com.gargoylesoftware.htmlunit.html.DomElement;
@@ -28,7 +29,7 @@ public class ExtractionStats extends ExtractionIntranet {
 		page3 = b.click();
 		
 		HtmlTextInput te = (HtmlTextInput)page3.getElementById("ctl00_Popup__recherche__tbCodeStructure");
-		te.setValueAttribute(formatStructure(structure));
+		te.setValueAttribute(Structure.formatStructure(structure));
 		
 		a = (HtmlAnchor)page3.getElementById("ctl00_Popup__recherche__btnRechercher");
 		page3 = a.click();

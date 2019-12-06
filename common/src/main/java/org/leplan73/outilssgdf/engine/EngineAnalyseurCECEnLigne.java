@@ -17,6 +17,7 @@ import org.leplan73.outilssgdf.Progress;
 import org.leplan73.outilssgdf.Transformeur;
 import org.leplan73.outilssgdf.TransformeurException;
 import org.leplan73.outilssgdf.intranet.ExtractionRegistrePresence2;
+import org.leplan73.outilssgdf.outils.Structure;
 import org.leplan73.outilssgdf.registrepresence.ExtracteurRegistrePresence;
 import org.leplan73.outilssgdf.registrepresence.RegistrePresenceActiviteHeure;
 import org.leplan73.outilssgdf.registrepresence.RegistrePresenceUnite;
@@ -84,10 +85,10 @@ public class EngineAnalyseurCECEnLigne extends EngineConnecte {
 			login(app, identifiant, motdepasse);
 			progress_.setProgress(40);
 			
-			for (int istructure : structures)
+			for (int structure : structures)
 			{
-				logger_.info("Traitement de la structure "+istructure);
-				boolean ret = gopriv(app, istructure, annee, fSortie, fModele, anonymiser);
+				logger_.info("Traitement de la structure "+Structure.formatStructure(structure));
+				boolean ret = gopriv(app, structure, annee, fSortie, fModele, anonymiser);
 				if (ret == false)
 					break;
 			}

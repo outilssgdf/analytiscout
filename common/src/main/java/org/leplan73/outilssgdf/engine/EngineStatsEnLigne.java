@@ -20,6 +20,7 @@ import org.leplan73.outilssgdf.TransformeurException;
 import org.leplan73.outilssgdf.calcul.General;
 import org.leplan73.outilssgdf.calcul.Groupe;
 import org.leplan73.outilssgdf.intranet.ExtractionStats;
+import org.leplan73.outilssgdf.outils.Structure;
 import org.leplan73.outilssgdf.stats.EffectifG;
 import org.leplan73.outilssgdf.stats.Effectifs;
 import org.slf4j.Logger;
@@ -35,7 +36,7 @@ public class EngineStatsEnLigne extends EngineConnecte {
 	private boolean gopriv(ExtractionStats app, String identifiant, String motdepasse, InputStream modele, int structure, ParamSortie sortie, boolean anonymiser, boolean garderFichiers) throws ExtractionException, TransformeurException, ClientProtocolException, IOException, JDOMException
 	{
 		progress_.setProgress(60);
-		logger_.info("Extraction des stats de la structure "+structure);
+		logger_.info("Extraction des stats de la structure "+Structure.formatStructure(structure));
 		
 		Map<Groupe,Map<Integer, Effectifs>> effectifs = app.extract(structure);
 		
@@ -100,7 +101,7 @@ public class EngineStatsEnLigne extends EngineConnecte {
 		return true;
 	}
 
-	public void go(String identifiant, String motdepasse, InputStream modele, int structure, ParamSortie sortie, boolean anonymiser, boolean garderFichiers) throws EngineException, LoginEngineException
+	public void go(String identifiant, String motdepasse, InputStream modele, int[] structures, ParamSortie sortie, boolean anonymiser, boolean garderFichiers) throws EngineException, LoginEngineException
 	{
 		start();
 		try
@@ -110,8 +111,11 @@ public class EngineStatsEnLigne extends EngineConnecte {
 			login(app, identifiant, motdepasse, true);
 			progress_.setProgress(40);
 			
-			logger_.info("Traitement de la structure "+structure);
-			gopriv(app, identifiant, motdepasse, modele, structure, sortie, anonymiser, garderFichiers);
+			for (int structure : structures)
+			{
+				logger_.info("Traitement de la structure "+Structure.formatStructure(structure));
+				gopriv(app, identifiant, motdepasse, modele, structure, sortie, anonymiser, garderFichiers);
+			}
 			logout();
 		} catch (IOException | JDOMException | ExtractionException | TransformeurException e) {
 			throw new EngineException("Exception dans "+this.getClass().getName(),e);

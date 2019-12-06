@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -19,6 +20,7 @@ import org.jdom2.xpath.XPathFactory;
 import org.leplan73.outilssgdf.camp.Camp;
 import org.leplan73.outilssgdf.camp.Camps;
 import org.leplan73.outilssgdf.camp.Chef;
+import org.leplan73.outilssgdf.camp.ChefCamp;
 import org.leplan73.outilssgdf.extraction.ColonnesCamps;
 
 public class ExtracteurCampsHtml {
@@ -37,9 +39,9 @@ public class ExtracteurCampsHtml {
 		charge(fichier);
 	}
 	
-	public void charge(final String donnnes) throws ExtractionException, IOException, JDOMException
+	public void charge(final String donnees) throws ExtractionException, IOException, JDOMException
 	{
-   		ByteArrayInputStream excelFile = new ByteArrayInputStream(donnnes.getBytes());
+   		ByteArrayInputStream excelFile = new ByteArrayInputStream(donnees.getBytes(Charset.forName("UTF-8")));
    		charge(excelFile);
 		excelFile.close();
 	}
@@ -147,5 +149,19 @@ public class ExtracteurCampsHtml {
 
 	public Collection<Camp> camps() {
 		return camps_.values();
+	}
+	
+	public Collection<ChefCamp> maitrises() {
+		List<ChefCamp> maitrises = new ArrayList<ChefCamp>();
+		camps_.values().forEach(k ->
+		{
+			k.getMaitrise().forEach(v ->
+			{
+				maitrises.add(new ChefCamp(v,k));
+			});
+		});
+		
+		
+		return maitrises;
 	}
 }

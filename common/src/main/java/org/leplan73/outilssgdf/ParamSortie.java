@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import org.leplan73.outilssgdf.outils.FichierSortie;
 import org.leplan73.outilssgdf.outils.Structure;
 
 public class ParamSortie {
@@ -61,12 +62,12 @@ public class ParamSortie {
 	
 	public File construit(String structure, String nom, String extension)
 	{
-		return sous_dossier_ ? new File(sortie_, nom_fichier_sortie_+structure+"-"+nom+extension) : sortie_;
+		return sous_dossier_ ? new FichierSortie(sortie_, nom_fichier_sortie_+structure+"-"+nom+extension) : sortie_;
 	}
 	
 	public File construit(int structure, String extension)
 	{
-		return sous_dossier_ ? new File(sortie_, nom_fichier_sortie_+Structure.formatStructure(structure)+extension) : sortie_;
+		return sous_dossier_ ? new FichierSortie(sortie_, nom_fichier_sortie_+Structure.formatStructure(structure)+extension) : sortie_;
 	}
 
 	public void close() {

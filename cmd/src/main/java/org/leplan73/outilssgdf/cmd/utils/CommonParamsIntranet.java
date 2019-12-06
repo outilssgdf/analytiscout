@@ -7,8 +7,8 @@ import java.io.IOException;
 import java.util.Properties;
 
 import org.apache.http.client.ClientProtocolException;
-import org.leplan73.outilssgdf.engine.LoginEngineException;
 import org.leplan73.outilssgdf.intranet.ExtractionIntranet;
+import org.leplan73.outilssgdf.intranet.LoginEngineException;
 
 import picocli.CommandLine.Option;
 import picocli.CommandLine.PicocliException;

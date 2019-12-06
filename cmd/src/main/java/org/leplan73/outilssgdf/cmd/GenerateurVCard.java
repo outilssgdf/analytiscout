@@ -10,8 +10,8 @@ import org.leplan73.outilssgdf.cmd.utils.CommonParamsIntranet;
 import org.leplan73.outilssgdf.cmd.utils.Logging;
 import org.leplan73.outilssgdf.engine.EngineException;
 import org.leplan73.outilssgdf.engine.EngineGenerateurVCard;
-import org.leplan73.outilssgdf.engine.LoginEngineException;
 import org.leplan73.outilssgdf.intranet.ExtractionIntranet;
+import org.leplan73.outilssgdf.intranet.LoginEngineException;
 
 import picocli.CommandLine;
 import picocli.CommandLine.Command;

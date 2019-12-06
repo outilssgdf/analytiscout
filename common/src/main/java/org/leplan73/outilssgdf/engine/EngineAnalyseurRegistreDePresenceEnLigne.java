@@ -18,6 +18,8 @@ import org.leplan73.outilssgdf.Progress;
 import org.leplan73.outilssgdf.Transformeur;
 import org.leplan73.outilssgdf.TransformeurException;
 import org.leplan73.outilssgdf.intranet.ExtractionRegistrePresence2;
+import org.leplan73.outilssgdf.intranet.LoginEngineException;
+import org.leplan73.outilssgdf.outils.FichierSortie;
 import org.leplan73.outilssgdf.outils.Structure;
 import org.leplan73.outilssgdf.registrepresence.ExtracteurRegistrePresence;
 import org.leplan73.outilssgdf.registrepresence.RegistrePresenceActivite;
@@ -39,7 +41,7 @@ public class EngineAnalyseurRegistreDePresenceEnLigne extends EngineConnecte {
 		
 		if (garderFichiers)
 		{
-			FileOutputStream fos = new FileOutputStream(new File("log","registredepresence_"+structure+".csv"));
+			FileOutputStream fos = new FileOutputStream(new FichierSortie("log","registredepresence_"+structure+".csv"));
 			fos.write(donnees.getBytes());
 			fos.flush();
 			fos.close();
@@ -67,7 +69,7 @@ public class EngineAnalyseurRegistreDePresenceEnLigne extends EngineConnecte {
 		beans.put("activites_reel", activites_personnes);
 		beans.put("activites_cec", activites_cec);
 		
-		File fichier_sortie = sous_dossier ? new File(sortie, "registredepresence_"+structure+".xlsx") : sortie;
+		File fichier_sortie = sous_dossier ? new FichierSortie(sortie, "registredepresence_"+structure+".xlsx") : sortie;
 
 		logger_.info("Génération du fichier");
 		FileInputStream fismodele = new FileInputStream(modele);

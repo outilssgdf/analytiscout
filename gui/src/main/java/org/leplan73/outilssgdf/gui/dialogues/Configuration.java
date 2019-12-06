@@ -27,11 +27,11 @@ import org.leplan73.outilssgdf.Progress;
 import org.leplan73.outilssgdf.engine.EngineDetection;
 import org.leplan73.outilssgdf.engine.EngineDetection.Utilisateur;
 import org.leplan73.outilssgdf.engine.EngineException;
-import org.leplan73.outilssgdf.engine.LoginEngineException;
 import org.leplan73.outilssgdf.gui.GuiProgress;
 import org.leplan73.outilssgdf.gui.utils.Dialogue;
 import org.leplan73.outilssgdf.gui.utils.Logging;
 import org.leplan73.outilssgdf.gui.utils.Preferences;
+import org.leplan73.outilssgdf.intranet.LoginEngineException;
 import org.slf4j.LoggerFactory;
 
 public class Configuration extends Dialogue {

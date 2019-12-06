@@ -25,7 +25,6 @@ import org.apache.http.util.EntityUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.leplan73.outilssgdf.engine.LoginEngineException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

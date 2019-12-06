@@ -28,6 +28,8 @@ import org.leplan73.outilssgdf.extraction.AdherentForme.ExtraKey;
 import org.leplan73.outilssgdf.extraction.AdherentsFormes;
 import org.leplan73.outilssgdf.intranet.ExtractionAdherents;
 import org.leplan73.outilssgdf.intranet.ExtractionIntranet;
+import org.leplan73.outilssgdf.intranet.LoginEngineException;
+import org.leplan73.outilssgdf.outils.FichierSortie;
 import org.leplan73.outilssgdf.outils.Structure;
 import org.slf4j.Logger;
 
@@ -99,7 +101,7 @@ public class EngineAnalyseurEnLigne extends EngineConnecte {
 			
 			if (garderFichiers)
 			{
-				FileOutputStream fos = new FileOutputStream(new File("log",batch_type+"_"+nom+"_"+structure+".xml"));
+				FileOutputStream fos = new FileOutputStream(new FichierSortie("log",batch_type+"_"+nom+"_"+Structure.formatStructure(structure)+".xml"));
 				fos.write(donnees.getBytes());
 				fos.flush();
 				fos.close();

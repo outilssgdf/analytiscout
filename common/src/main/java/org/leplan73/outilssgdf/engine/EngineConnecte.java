@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.apache.http.client.ClientProtocolException;
 import org.leplan73.outilssgdf.Progress;
 import org.leplan73.outilssgdf.intranet.ExtractionIntranet;
+import org.leplan73.outilssgdf.intranet.LoginEngineException;
 import org.slf4j.Logger;
 
 public class EngineConnecte extends Engine {

@@ -12,6 +12,8 @@ import org.leplan73.outilssgdf.Consts;
 import org.leplan73.outilssgdf.ExtractionException;
 import org.leplan73.outilssgdf.Progress;
 import org.leplan73.outilssgdf.intranet.ExtractionRegistrePresence2;
+import org.leplan73.outilssgdf.intranet.LoginEngineException;
+import org.leplan73.outilssgdf.outils.FichierSortie;
 import org.leplan73.outilssgdf.outils.Structure;
 import org.slf4j.Logger;
 
@@ -26,7 +28,7 @@ public class EngineExtractionRegistreDePresence extends EngineConnecte {
 		logger_.info("Extraction registre de presence (annee="+annee+")");
 		String donnees = app.extract(structure, recursif, annee, 0 , false);
 		
-		File fichier_sortie = sous_dossier ? new File(sortie, "registredepresence_"+structure+".csv") : sortie;
+		File fichier_sortie = sous_dossier ? new FichierSortie(sortie, "registredepresence_"+structure+".csv") : sortie;
 		
 		// Génération du fichier csv
 		logger_.info("Génération du fichier "+fichier_sortie.getName());

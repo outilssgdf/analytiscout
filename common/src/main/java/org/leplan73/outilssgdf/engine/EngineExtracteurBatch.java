@@ -32,6 +32,8 @@ import org.leplan73.outilssgdf.extraction.ColonnesAdherents;
 import org.leplan73.outilssgdf.formatage.CsvMySqlFormatteur;
 import org.leplan73.outilssgdf.intranet.ExtractionAdherents;
 import org.leplan73.outilssgdf.intranet.ExtractionIntranet;
+import org.leplan73.outilssgdf.intranet.LoginEngineException;
+import org.leplan73.outilssgdf.outils.FichierSortie;
 import org.leplan73.outilssgdf.outils.Structure;
 import org.slf4j.Logger;
 
@@ -80,7 +82,7 @@ public class EngineExtracteurBatch extends EngineConnecte {
 			File dossierStructure = sous_dossier ? new File(sortie,""+structure) : sortie;
 			dossierStructure.mkdirs();
 			
-			File fichier = new File(dossierStructure, nfichier + "." + generateur);
+			File fichier = new FichierSortie(dossierStructure, nfichier + "." + generateur);
 			
 			if (generateur.compareTo(ExtractionIntranet.GENERATEUR_XLS) == 0)
 			{
@@ -112,7 +114,7 @@ public class EngineExtracteurBatch extends EngineConnecte {
 
 				nfichier = pbatch.getProperty("batchtype." + index, "script");
 				
-				fichier = new File(dossierStructure, nfichier + "." + "csv");
+				fichier = new FichierSortie(dossierStructure, nfichier + "." + "csv");
 				
 				String donnees = app.extract(structure,recursif,type,adherents,fonction,specialite,categorie,diplome,qualif,formation,format, false);
 				

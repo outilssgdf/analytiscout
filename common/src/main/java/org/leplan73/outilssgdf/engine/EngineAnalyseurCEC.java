@@ -14,6 +14,7 @@ import java.util.Set;
 import org.leplan73.outilssgdf.Progress;
 import org.leplan73.outilssgdf.Transformeur;
 import org.leplan73.outilssgdf.TransformeurException;
+import org.leplan73.outilssgdf.outils.FichierSortie;
 import org.leplan73.outilssgdf.registrepresence.ExtracteurRegistrePresence;
 import org.leplan73.outilssgdf.registrepresence.RegistrePresenceActiviteHeure;
 import org.leplan73.outilssgdf.registrepresence.RegistrePresenceUnite;
@@ -49,7 +50,7 @@ public class EngineAnalyseurCEC extends Engine {
 					beans.put("annee", anneeDebut);
 					beans.put("activites_cec", activites_cec_chef);
 					FileInputStream fismodele = new FileInputStream(fModele);
-					FileOutputStream fosSortie = new FileOutputStream(new File(fSortie, "CEC-"+anneeDebut+"-"+chef+".xlsx"));
+					FileOutputStream fosSortie = new FileOutputStream(new FichierSortie(fSortie, "CEC-"+anneeDebut+"-"+chef+".xlsx"));
 					Transformeur.go(fismodele, beans, fosSortie);
 					fismodele.close();
 					fosSortie.close();

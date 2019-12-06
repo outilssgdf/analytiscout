@@ -45,7 +45,6 @@ import org.jdom2.input.SAXBuilder;
 import org.jdom2.xpath.XPathExpression;
 import org.jdom2.xpath.XPathFactory;
 import org.leplan73.outilssgdf.Consts;
-import org.leplan73.outilssgdf.engine.LoginEngineException;
 import org.leplan73.outilssgdf.gui.utils.Appender;
 import org.leplan73.outilssgdf.gui.utils.BoutonOuvrir;
 import org.leplan73.outilssgdf.gui.utils.Dialogue;
@@ -56,6 +55,7 @@ import org.leplan73.outilssgdf.gui.utils.Logging;
 import org.leplan73.outilssgdf.gui.utils.Preferences;
 import org.leplan73.outilssgdf.intranet.ExtractionAdherents;
 import org.leplan73.outilssgdf.intranet.ExtractionIntranet;
+import org.leplan73.outilssgdf.intranet.LoginEngineException;
 import org.slf4j.LoggerFactory;
 
 public class Extracteur extends Dialogue implements LoggedDialog, GuiCommand {

@@ -12,6 +12,7 @@ import org.leplan73.outilssgdf.extraction.Adherent;
 import org.leplan73.outilssgdf.extraction.Adherents;
 import org.leplan73.outilssgdf.intranet.ExtractionAdherents;
 import org.leplan73.outilssgdf.intranet.ExtractionIntranet;
+import org.leplan73.outilssgdf.intranet.LoginEngineException;
 import org.slf4j.Logger;
 
 public class EngineDetection extends EngineConnecte {

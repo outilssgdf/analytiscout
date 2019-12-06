@@ -1,4 +1,4 @@
-package org.leplan73.outilssgdf.engine;
+package org.leplan73.outilssgdf.intranet;
 
 public class LoginEngineException extends Exception {
 

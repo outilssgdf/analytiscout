@@ -20,6 +20,7 @@ import org.leplan73.outilssgdf.TransformeurException;
 import org.leplan73.outilssgdf.calcul.General;
 import org.leplan73.outilssgdf.calcul.Groupe;
 import org.leplan73.outilssgdf.intranet.ExtractionStats;
+import org.leplan73.outilssgdf.intranet.LoginEngineException;
 import org.leplan73.outilssgdf.outils.Structure;
 import org.leplan73.outilssgdf.stats.EffectifG;
 import org.leplan73.outilssgdf.stats.Effectifs;

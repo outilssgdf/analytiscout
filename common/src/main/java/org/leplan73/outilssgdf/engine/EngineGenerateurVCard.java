@@ -21,6 +21,7 @@ import org.leplan73.outilssgdf.Progress;
 import org.leplan73.outilssgdf.formatage.VCardFormatteur;
 import org.leplan73.outilssgdf.intranet.ExtractionAdherents;
 import org.leplan73.outilssgdf.intranet.ExtractionIntranet;
+import org.leplan73.outilssgdf.intranet.LoginEngineException;
 import org.slf4j.Logger;
 
 public class EngineGenerateurVCard extends EngineConnecte {

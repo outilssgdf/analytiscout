@@ -27,6 +27,21 @@ public class Chef {
 		return unite_;
 	}
 	
+	public String getCodeadherent()
+	{
+		return get("Code adhérent");
+	}
+	
+	public String getNom()
+	{
+		return get("Nom");
+	}
+	
+	public String getPrenom()
+	{
+		return get("Prénom");
+	}
+	
 	public void complete() {
 		String structure = get("Structure appartenance");
 		unite_ = new UniteSimple(structure);

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.leplan73.outilssgdf.calcul.UniteSimple;
+
 public class Camp {
 	private int numero_;
 	private int indexDirecteur_ = -1;
@@ -18,16 +20,21 @@ public class Camp {
 	public Camp(String numero) {
 		numero_ = Integer.parseInt(numero);
 	}
+	
+	public List<Chef> getMaitrise()
+	{
+		return maitrise_;
+	}
 
 	public int getNumero() {
 		return numero_;
 	}
 
-	public String getStructure() {
+	public UniteSimple getUnite() {
 		if (indexDirecteur_ >= 0)
-			return maitrise_.get(indexDirecteur_).getUnite().getNom();
+			return maitrise_.get(indexDirecteur_).getUnite();
 		else
-			return maitrise_.get(0).getUnite().getNom();
+			return maitrise_.get(0).getUnite();
 	}
 
 	public String getDirecteur() {
@@ -38,6 +45,10 @@ public class Camp {
 	
 	public int getJeunes() {
 		return getI("Jeunes");
+	}
+	
+	public int getChefs() {
+		return maitrise_.size();
 	}
 	
 	public String get(String champ)

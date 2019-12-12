@@ -52,7 +52,7 @@ public class OutilsSGDFAdvanced extends OutilsSGDF {
 		
 		double x = Preferences.litd(Consts.FENETRE_PRINCIPALE_X, 100.0);
 		double y = Preferences.litd(Consts.FENETRE_PRINCIPALE_Y, 100.0);
-		setBounds((int) x, (int) y, 799, 496);
+		setBounds((int) x, (int) y, 799, 516);
 		
 		contentPane = new JPanel();
 		contentPane.setBorder(null);

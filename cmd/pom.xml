@@ -51,6 +51,7 @@
 						<addMavenDescriptor>false</addMavenDescriptor>
 						<manifestEntries>
 		                <Multi-Release>true</Multi-Release>
+		                <version>${project.version}</version>
         			    </manifestEntries>
 					</archive>
 				</configuration>

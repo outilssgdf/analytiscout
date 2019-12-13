@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.leplan73</groupId>
     <artifactId>outilssgdf</artifactId>
-    <version>1.3.0-beta3</version>
+    <version>1.3.0-SNAPSHOT</version>
   </parent>
   <artifactId>guilauncher</artifactId>
 	<name>guilauncher</name>

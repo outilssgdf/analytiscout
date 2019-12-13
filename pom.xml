@@ -27,10 +27,10 @@
 		<httpmime.version>4.5.9</httpmime.version>
 		<jett.version>0.11.2</jett.version>
 		<poi.version>4.0.1</poi.version>
-		<slf4j.version>1.7.26</slf4j.version>
+		<slf4j.version>1.7.29</slf4j.version>
 		<picocli.version>3.9.6</picocli.version>
 		<jersey.version>2.27</jersey.version>
-		<tomcat.version>8.5.42</tomcat.version>
+		<tomcat.version>8.5.49</tomcat.version>
 		<jdom.version>2.0.6</jdom.version>
 		<jsoup.version>1.12.1</jsoup.version>
 		<jaxen.version>1.2.0</jaxen.version>

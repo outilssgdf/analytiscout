@@ -33,6 +33,17 @@ public class OutilsSGDF extends JFrame {
 			}
 		});
 		mnFichier.add(mntmNewMenuItem);
+		
+		JSeparator separator = new JSeparator();
+		mnFichier.add(separator);
+		
+		JMenuItem mntmQuitter = new JMenuItem("Quitter");
+		mntmQuitter.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
+		mnFichier.add(mntmQuitter);
 	}
 	protected JPanel contentPane;
 	

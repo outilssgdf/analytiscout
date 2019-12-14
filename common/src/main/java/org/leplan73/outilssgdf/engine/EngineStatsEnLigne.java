@@ -39,17 +39,17 @@ public class EngineStatsEnLigne extends EngineConnecte {
 		progress_.setProgress(60);
 		logger_.info("Extraction des stats de la structure "+Structure.formatStructure(structure));
 		
-		Map<Groupe,Map<Integer, Effectifs>> effectifs = app.extract(structure);
+		Map<Groupe,Map<Integer, Effectifs>> effectifs_findannee = app.extract(structure, true);
+		Map<Groupe,Map<Integer, Effectifs>> effectifs = app.extract(structure, false);
 		
-//		effectifs.forEach((k,v) ->
-//		{
-//			System.out.print(k.toString() + " --> ");
-//			v.forEach((k2,v2) ->
-//			{
-//				System.out.print(k2+"="+v2.toString()+",");
-//			});
-//			System.out.println();
-//		});
+		List<EffectifG> effg_findannee = new ArrayList<EffectifG>();
+		effectifs_findannee.forEach((k,v) -> 
+		{
+			EffectifG e = new EffectifG();
+			e.groupe = k;
+			e.eff = v;
+			effg_findannee.add(e);
+		});
 		
 		List<EffectifG> effg = new ArrayList<EffectifG>();
 		effectifs.forEach((k,v) -> 
@@ -64,10 +64,14 @@ public class EngineStatsEnLigne extends EngineConnecte {
 		{
 			AtomicInteger ai = new AtomicInteger(100000000);
 			AtomicInteger groupeId = new AtomicInteger();
-			effg.forEach(v ->
+			
+			for (int i=0;i<effg_findannee.size();i++)
 			{
-				v.groupe.setNom(ai.incrementAndGet() + " - STRUCTURE A"+ groupeId.incrementAndGet());
-			});
+				int n = ai.incrementAndGet();
+				int id = groupeId.incrementAndGet();
+				effg_findannee.get(i).groupe.setNom(n + " - STRUCTURE A"+ id);
+				effg.get(i).groupe.setNom(n + " - STRUCTURE A"+ id);
+			}
 		}
 		
 		String version = "";
@@ -83,6 +87,7 @@ public class EngineStatsEnLigne extends EngineConnecte {
 		logger_.info("Génération du fichier \"" + fichier_sortie.getName() + "\" à partir du modèle");
 		Map<String, Object> beans = new HashMap<String, Object>();
 		beans.put("effectifs", effg);
+		beans.put("effectifs_findannee", effg_findannee);
 		beans.put("general", general);
 		progress_.setProgress(80);
 		

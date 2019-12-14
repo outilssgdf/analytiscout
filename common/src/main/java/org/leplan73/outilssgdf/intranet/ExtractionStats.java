@@ -18,7 +18,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
 
 public class ExtractionStats extends ExtractionIntranet {
 
-	public Map<Groupe,Map<Integer, Effectifs>> extract(int structure) throws IOException
+	public Map<Groupe,Map<Integer, Effectifs>> extract(int structure, boolean findannee) throws IOException
 	{
 		Map<Groupe,Map<Integer, Effectifs>> effectifs = new TreeMap<Groupe,Map<Integer,Effectifs>>();
 		
@@ -75,7 +75,10 @@ public class ExtractionStats extends ExtractionIntranet {
 		b = page3.getElementById("ctl00_Popup__recherche__btnValider");
 		page3 = b.click();
 		
-		b = page3.getElementById("ctl00_ctl00_MainContent_EntreeContent__entree__pilotageEntree__rbSaisonFinSaison");
+		if (findannee)
+			b = page3.getElementById("ctl00_ctl00_MainContent_EntreeContent__entree__pilotageEntree__rbSaisonFinSaison");
+		else
+			b = page3.getElementById("ctl00_ctl00_MainContent_EntreeContent__entree__pilotageEntree__rbSaisonDateJour");
 		page3 = b.click();
 		
 		b = page3.getElementById("ctl00_ctl00_MainContent__btnValider");

@@ -68,6 +68,32 @@ public class UniteSimple implements Comparable<UniteSimple> {
 		return groupe_.getCode();
 	}
 	
+	public String getBranche()
+	{
+		String unite = this.getCodebranche();
+		if (unite.compareTo("FARFADET") == 5)
+		{
+			return "F";
+		}
+		if (unite.compareTo("1") == 0)
+		{
+			return "LJ";
+		}
+		if (unite.compareTo("2") == 0)
+		{
+			return "SG";
+		}
+		if (unite.compareTo("3") == 0)
+		{
+			return "PC";
+		}
+		if (unite.compareTo("4") == 0)
+		{
+			return "C";
+		}
+		return "T";
+	}
+	
 	public String getCodebranche()
 	{
 		String codeBranche = codeStructure_.substring(codeStructure_.length()-2, codeStructure_.length()-1);

@@ -414,10 +414,20 @@ public class Adherent {
 	
 	public String getDroitimageok()
 	{
-		String droitimage = this.get(colonnes_.getDroitImage());
-		if (!droitimage.isEmpty())
+		String droit = this.get(colonnes_.getDroitImage());
+		if (!droit.isEmpty())
 		{
-			return droitimage;
+			return droit;
+		}
+		return "Oui";
+	}
+	
+	public String getDroitinformationsok()
+	{
+		String droit = this.get(colonnes_.getDroitInformations());
+		if (!droit.isEmpty())
+		{
+			return droit;
 		}
 		return "Oui";
 	}

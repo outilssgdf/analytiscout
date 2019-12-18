@@ -31,6 +31,7 @@ public class ColonnesAdherents {
 	private int bureauIndividu = -1;
 	private int datedenaissanceId = -1;
 	private int droitImage = -1;
+	private int droitInformations = -1;
 	private int diplomeJs = -1;
 	private int diplomeDetailsJs = -1;
 	private int qualiteJs = -1;
@@ -62,6 +63,10 @@ public class ColonnesAdherents {
 			if (ids_.get(key).compareTo("Individu.DroitImage") == 0)
 			{
 				droitImage = key;
+			}
+			if (ids_.get(key).compareTo("Individu.DroitInformations") == 0)
+			{
+				droitInformations = key;
 			}
 			if (ids_.get(key).compareTo("Inscription.Delegations") == 0)
 			{
@@ -261,6 +266,10 @@ public class ColonnesAdherents {
 
 	public int getDroitImage() {
 		return droitImage;
+	}
+
+	public int getDroitInformations() {
+		return droitInformations;
 	}
 
 	public int getDiplomejsId() {

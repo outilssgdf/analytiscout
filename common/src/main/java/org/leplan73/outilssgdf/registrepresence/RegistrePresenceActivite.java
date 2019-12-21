@@ -358,6 +358,10 @@ public class RegistrePresenceActivite {
 		return dureeFortaitaire_*(getPresencechefs()+getPresencejeunes());
 	}
 	
+	public long getDureeforfaitairetotaljeune() {
+		return dureeFortaitaire_*getPresencejeunes();
+	}
+	
 	public long getDureereel() {
 		long v = (fin_.getTime() - debut_.getTime())/1000/3600;
 		return v;
@@ -366,5 +370,10 @@ public class RegistrePresenceActivite {
 	public long getDureereeltotal() {
 		long v = (fin_.getTime() - debut_.getTime())/1000/3600;
 		return v*(getPresencechefs()+getPresencejeunes());
+	}
+	
+	public long getDureereeltotaljeune() {
+		long v = (fin_.getTime() - debut_.getTime())/1000/3600;
+		return v*getPresencejeunes();
 	}
 }

@@ -78,7 +78,15 @@ public class RegistrePresenceActiviteHeure {
 		return dureeReel_;
 	}
 	
+	public long getDureereeljeune() {
+		return chef_ ? 0 : dureeReel_;
+	}
+	
 	public long getDureeforfaitaire() {
 		return dureeForfaitaire_;
+	}
+	
+	public long getDureeforfaitairejeune() {
+		return chef_ ? 0 : dureeForfaitaire_;
 	}
 }

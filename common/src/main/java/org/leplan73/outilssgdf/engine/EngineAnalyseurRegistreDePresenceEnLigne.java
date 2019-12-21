@@ -17,6 +17,8 @@ import org.leplan73.outilssgdf.Consts;
 import org.leplan73.outilssgdf.Progress;
 import org.leplan73.outilssgdf.Transformeur;
 import org.leplan73.outilssgdf.TransformeurException;
+import org.leplan73.outilssgdf.calcul.General;
+import org.leplan73.outilssgdf.calcul.Global;
 import org.leplan73.outilssgdf.intranet.ExtractionRegistrePresence2;
 import org.leplan73.outilssgdf.intranet.LoginEngineException;
 import org.leplan73.outilssgdf.outils.FichierSortie;
@@ -25,6 +27,8 @@ import org.leplan73.outilssgdf.registrepresence.ExtracteurRegistrePresence;
 import org.leplan73.outilssgdf.registrepresence.RegistrePresenceActivite;
 import org.leplan73.outilssgdf.registrepresence.RegistrePresenceActiviteHeure;
 import org.slf4j.Logger;
+
+import com.jcabi.manifests.Manifests;
 
 public class EngineAnalyseurRegistreDePresenceEnLigne extends EngineConnecte {
 
@@ -59,8 +63,17 @@ public class EngineAnalyseurRegistreDePresenceEnLigne extends EngineConnecte {
 		progress_.setProgress(60, "Calculs");
 		logger_.info("Calculs");
 		
+		String version = "";
+		try {
+			version = Manifests.read("version");
+		} catch (java.lang.IllegalArgumentException e) {
+		}
+		General general = new General(version);
+		
 		List<RegistrePresenceActivite> activites_total = new ArrayList<RegistrePresenceActivite>();
 		ex.construitActivites(activites_total);
+		
+		Global global = new Global(ex.getGroupe(), false);
 		
 		Map<String, Object> beans = new HashMap<String, Object>();
 		beans.put("unites", ex.getUnites());
@@ -68,6 +81,8 @@ public class EngineAnalyseurRegistreDePresenceEnLigne extends EngineConnecte {
 		beans.put("activites_personnes", activites_personnes);
 		beans.put("activites_reel", activites_personnes);
 		beans.put("activites_cec", activites_cec);
+		beans.put("general", general);
+		beans.put("global", global);
 		
 		File fichier_sortie = sous_dossier ? new FichierSortie(sortie, "registredepresence_"+structure+".xlsx") : sortie;
 

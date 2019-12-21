@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.leplan73</groupId>
-		<artifactId>outilssgdf</artifactId>
+		<artifactId>analytiscout</artifactId>
 		<version>1.3.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>assembly</artifactId>
@@ -51,7 +51,7 @@
 								<descriptor>src/main/assembly/package.xml</descriptor>
 							</descriptors>
 							<finalName>
-								outilssgdf-${project.version}
+								analytiscout-${project.version}
 							</finalName>
 							<appendAssemblyId>false</appendAssemblyId>
 						</configuration>
@@ -67,7 +67,7 @@
 								<descriptor>src/main/assembly/package-dev.xml</descriptor>
 							</descriptors>
 							<finalName>
-								outilssgdf-${project.version}-dev
+								analytiscout-${project.version}-dev
 							</finalName>
 							<appendAssemblyId>false</appendAssemblyId>
 						</configuration>

@@ -1,4 +1,4 @@
-# Outilssgdf
+# AnalytiScout
 
 Un outils en Java pour faciliter l'analyse des maitrises de l'intranet SGDF ([Scouts et Guides de France](https://www.sgdf.fr))
 

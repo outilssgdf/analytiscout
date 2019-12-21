@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.leplan73</groupId>
-    <artifactId>outilssgdf</artifactId>
+    <artifactId>analytiscout</artifactId>
     <version>1.3.0-SNAPSHOT</version>
   </parent>
   <artifactId>guilauncher</artifactId>
@@ -21,7 +21,7 @@
 				<artifactId>maven-jar-plugin</artifactId>
 				<version>3.1.0</version>
 				<configuration>
-					<finalName>outilssgdf-launcher</finalName>
+					<finalName>analytiscout-launcher</finalName>
 					<archive>
 						<addMavenDescriptor>false</addMavenDescriptor>
 						<manifestEntries>

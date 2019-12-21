@@ -2,7 +2,7 @@
 <launch4jConfig>
   <dontWrapJar>true</dontWrapJar>
   <headerType>gui</headerType>
-  <outfile>../fichiers/outilssgdf-gui2.exe</outfile>
+  <outfile>../fichiers/analytiscout-gui2.exe</outfile>
   <errTitle></errTitle>
   <cmdLine></cmdLine>
   <chdir>.</chdir>
@@ -14,9 +14,9 @@
   <manifest></manifest>
   <icon>icone.ico</icon>
   <classPath>
-    <mainClass>org.leplan73.outilssgdf.gui.Launcher</mainClass>
-  	<cp>app/outilssgdf-launcher.jar</cp>
-  	<cp>app/outilssgdf-gui.jar</cp>
+    <mainClass>org.leplan73.analytiscout.gui.Launcher</mainClass>
+  	<cp>app/analytiscout-launcher.jar</cp>
+  	<cp>app/analytiscout-gui.jar</cp>
   </classPath>
   <jre>
     <path></path>

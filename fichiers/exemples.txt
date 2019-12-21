@@ -1,14 +1,14 @@
-outilssgdf.exe extracteur -params C:\dev\outilssgdf\extraction-convertisseur\extracteur.properties -sortie C:\dev\outilssgdf_data\adherent-invites.xls -generateur csv -type 1 -format 3 -structures 117544000
-outilssgdf.exe extracteur -params C:\dev\outilssgdf\extraction-convertisseur\extracteur.properties -sortie C:\dev\outilssgdf_data\adherent.xls -generateur xls -structures 117544000
+analytiscout.exe extracteur -params C:\dev\outilssgdf\extraction-convertisseur\extracteur.properties -sortie C:\dev\outilssgdf_data\adherent-invites.xls -generateur csv -type 1 -format 3 -structures 117544000
+analytiscout.exe extracteur -params C:\dev\outilssgdf\extraction-convertisseur\extracteur.properties -sortie C:\dev\outilssgdf_data\adherent.xls -generateur xls -structures 117544000
 
-outilssgdf.exe analyseur -params C:\dev\outilssgdf\extraction-convertisseur\extracteur_luc.properties -sortie C:\dev\outilssgdf_data\adherent.xls -generateur xls -structures 117540000 -fonction 5*,6*
+analytiscout.exe analyseur -params C:\dev\outilssgdf\extraction-convertisseur\extracteur_luc.properties -sortie C:\dev\outilssgdf_data\adherent.xls -generateur xls -structures 117540000 -fonction 5*,6*
 
-outilssgdf.exe analyseurbatch -params C:\dev\outilssgdf\extraction-convertisseur\extracteur.properties -sortie C:\dev\outilssgdf_data -batch conf\batch_responsables.txt -structures 117544000
-outilssgdf.exe analyseur -batch conf\batch_responsables.txt -structure 117544000 -entree C:\dev\outilssgdf_data -modele conf\modele_responsables.xlsx -sortie C:\dev\sgdfExtractor\tmp\sortie.xlsx
+analytiscout.exe analyseurbatch -params C:\dev\outilssgdf\extraction-convertisseur\extracteur.properties -sortie C:\dev\outilssgdf_data -batch conf\batch_responsables.txt -structures 117544000
+analytiscout.exe analyseur -batch conf\batch_responsables.txt -structure 117544000 -entree C:\dev\outilssgdf_data -modele conf\modele_responsables.xlsx -sortie C:\dev\sgdfExtractor\tmp\sortie.xlsx
 
-outilssgdf.exe extracteurbatch -params C:\dev\outilssgdf\extraction-convertisseur\extracteur.properties -sortie C:\dev\outilssgdf_data -batch conf\batch_formations.txt -structures 117544000
+analytiscout.exe extracteurbatch -params C:\dev\outilssgdf\extraction-convertisseur\extracteur.properties -sortie C:\dev\outilssgdf_data -batch conf\batch_formations.txt -structures 117544000
 
-outilssgdf.exe analyseur -modele conf\modele_responsables.xlsx -entree C:\dev\outilssgdf_data -batch conf\batch_responsables.txt -structures 117544000 -sortie C:\dev\outilssgdf_data\117544000.xlsx
-outilssgdf.exe analyseur -modele conf\modele_responsables.xlsx -entree C:\dev\outilssgdf_data -batch conf\batch_responsables.txt -structures 117540000 -sortie C:\dev\outilssgdf_data\117540000.xlsx
+analytiscout.exe analyseur -modele conf\modele_responsables.xlsx -entree C:\dev\outilssgdf_data -batch conf\batch_responsables.txt -structures 117544000 -sortie C:\dev\outilssgdf_data\117544000.xlsx
+analytiscout.exe analyseur -modele conf\modele_responsables.xlsx -entree C:\dev\outilssgdf_data -batch conf\batch_responsables.txt -structures 117540000 -sortie C:\dev\outilssgdf_data\117540000.xlsx
 
-outilssgdf.exe analyseuradherents -modele conf\modele_jeunes.xlsx -entree C:\dev\outilssgdf_data -batch conf\batch_responsables.txt -structures 117540000 -sortie C:\dev\outilssgdf_data\117540000_jeunes.xlsx
+analytiscout.exe analyseuradherents -modele conf\modele_jeunes.xlsx -entree C:\dev\outilssgdf_data -batch conf\batch_responsables.txt -structures 117540000 -sortie C:\dev\outilssgdf_data\117540000_jeunes.xlsx

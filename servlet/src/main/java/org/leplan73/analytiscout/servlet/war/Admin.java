@@ -1,0 +1,53 @@
+package org.leplan73.analytiscout.servlet.war;
+
+import java.io.IOException;
+import java.util.List;
+
+import javax.ws.rs.DELETE;
+import javax.ws.rs.DefaultValue;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Response;
+
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.jdom2.JDOMException;
+import org.leplan73.analytiscout.ExtractionException;
+import org.leplan73.analytiscout.TransformeurException;
+import org.leplan73.analytiscout.servlet.common.Manager;
+import org.leplan73.analytiscout.servlet.common.Database.Requete;
+
+import io.swagger.annotations.Api;
+
+@Path("/v1")
+@Api(value = "Admin")
+public class Admin {
+	
+	@GET
+    @Path("/analyseenligne/jeunes/email/lister")
+    public List<Requete> lister_analyseenligne_jeunes_email(@DefaultValue("false") @QueryParam(value = "decrypt") boolean decrypt) throws ExtractionException, IOException, JDOMException, InvalidFormatException, TransformeurException {
+		List<Requete> requetes = Manager.getDb().listRequetesJeunes(decrypt);
+		return requetes;
+	}
+	
+	@DELETE
+    @Path("/analyseenligne/jeunes/email/supprimer")
+    public Response supprimer_analyseenligne_jeunes_email(@QueryParam(value = "id") int id) throws ExtractionException, IOException, JDOMException, InvalidFormatException, TransformeurException {
+		Manager.getDb().supprimerRequetesJeunes(id);
+		return Response.ok().build();
+	}
+	
+	@GET
+    @Path("/analyseenligne/responsables/email/list")
+    public List<Requete> lister_analyseenligne_responsables_email(@DefaultValue("false") @QueryParam(value = "decrypt") boolean decrypt) throws ExtractionException, IOException, JDOMException, InvalidFormatException, TransformeurException {
+		List<Requete> requetes = Manager.getDb().listRequetesResponsables(decrypt);
+		return requetes;
+	}
+	
+	@DELETE
+    @Path("/analyseenligne/responsables/email/supprimer")
+    public Response supprimer_analyseenligne_responsables_email(@QueryParam(value = "id") int id) throws ExtractionException, IOException, JDOMException, InvalidFormatException, TransformeurException {
+		Manager.getDb().supprimerRequetesResponsables(id);
+		return Response.ok().build();
+	}
+}

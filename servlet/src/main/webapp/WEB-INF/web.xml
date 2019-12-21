@@ -6,7 +6,7 @@
          version="3.1">
 
 	<listener>
-     		<listener-class>org.leplan73.outilssgdf.servlet.common.Manager</listener-class>
+     		<listener-class>org.leplan73.analytiscout.servlet.common.Manager</listener-class>
   	</listener>
 	<servlet>
         <servlet-name>javax.ws.rs.core.Application</servlet-name>
@@ -16,7 +16,7 @@
             <param-name>jersey.config.server.provider.packages</param-name>
             <param-value>
             	io.swagger.jaxrs.listing,
-            	org.leplan73.outilssgdf.servlet.war
+            	org.leplan73.analytiscout.servlet.war
             </param-value>
         </init-param>
         <init-param>

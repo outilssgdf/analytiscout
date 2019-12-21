@@ -9,10 +9,10 @@
 	</appender>
 
 	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>log/outilssgdf.log</file>
+		<file>log/analytiscout.log</file>
 		<rollingPolicy
 			class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-			<fileNamePattern>log/outilssgdf-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+			<fileNamePattern>log/analytiscout-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
 			<maxFileSize>100MB</maxFileSize>
 			<maxHistory>60</maxHistory>
 			<totalSizeCap>20GB</totalSizeCap>
@@ -24,10 +24,10 @@
 	</appender>
 	
 	<appender name="FILE_DEBUG" class="ch.qos.logback.core.rolling.RollingFileAppender">
-  <file>log/outilssgdf-debug.log</file>
+  <file>log/analytiscout-debug.log</file>
 		<rollingPolicy
 			class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-			<fileNamePattern>log/outilssgdf-debug-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+			<fileNamePattern>log/analytiscout-debug-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
 			<maxFileSize>100MB</maxFileSize>
 			<maxHistory>60</maxHistory>
 			<totalSizeCap>20GB</totalSizeCap>
@@ -42,12 +42,12 @@
 	<logger name="org.apache.commons.jexl2.JexlEngine" level="OFF"></logger>
 	<logger name="net.sf.jett" level="OFF"></logger>
 
-	<logger name="org.leplan73.outilssgdf.cmd" level="info" additivity="false">
+	<logger name="org.leplan73.analytiscout.cmd" level="info" additivity="false">
 		<appender-ref ref="appender" />
     	<appender-ref ref="FILE" />
 	</logger>
   
-  <logger name="org.leplan73.outilssgdf.intranet" level="info" additivity="false">
+  <logger name="org.leplan73.analytiscout.intranet" level="info" additivity="false">
 	<appender-ref ref="FILE_DEBUG" />
   </logger>
 </configuration>

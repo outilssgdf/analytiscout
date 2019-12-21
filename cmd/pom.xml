@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.leplan73</groupId>
-		<artifactId>outilssgdf</artifactId>
+		<artifactId>analytiscout</artifactId>
 		<version>1.3.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>cmd</artifactId>
@@ -76,11 +76,11 @@
 						<configuration>
 							<transformers>
 								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-									<mainClass>org.leplan73.outilssgdf.cmd.CmdLine</mainClass>
+									<mainClass>org.leplan73.analytiscout.cmd.CmdLine</mainClass>
 								</transformer>
 								<transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
 							</transformers>
-							<finalName>outilssgdf-cmd</finalName>
+							<finalName>analytiscout-cmd</finalName>
 						</configuration>
 					</execution>
 				</executions>

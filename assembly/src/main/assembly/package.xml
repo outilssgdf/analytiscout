@@ -5,26 +5,26 @@
   <formats>
     <format>zip</format>
   </formats>
-  <baseDirectory>outilssgdf</baseDirectory>
+  <baseDirectory>analytiscout</baseDirectory>
   <files>
     <file>
       <source>../LICENSE</source>
       <outputDirectory>.</outputDirectory>
     </file>
     <file>
-      <source>../fichiers/outilssgdf.exe</source>
+      <source>../fichiers/analytiscout.exe</source>
       <outputDirectory>.</outputDirectory>
     </file>
     <file>
-      <source>../fichiers/outilssgdf-gui.exe</source>
+      <source>../fichiers/analytiscout-gui.exe</source>
       <outputDirectory>.</outputDirectory>
     </file>
     <file>
-      <source>../fichiers/outilssgdf.sh</source>
+      <source>../fichiers/analytiscout.sh</source>
       <outputDirectory>.</outputDirectory>
     </file>
     <file>
-      <source>../fichiers/outilssgdf-gui.sh</source>
+      <source>../fichiers/analytiscout-gui.sh</source>
       <outputDirectory>.</outputDirectory>
     </file>
     <file>
@@ -40,15 +40,15 @@
       <outputDirectory>.</outputDirectory>
     </file>
     <file>
-      <source>../fichiers/SGDF-ParisSud-outilssgdf-manuel.pdf</source>
+      <source>../fichiers/SGDF-ParisSud-analytiscout-manuel.pdf</source>
       <outputDirectory>.</outputDirectory>
     </file>
     <file>
-      <source>../cmd/target/outilssgdf-cmd.jar</source>
+      <source>../cmd/target/analytiscout-cmd.jar</source>
       <outputDirectory>./app</outputDirectory>
     </file>
     <file>
-      <source>../gui/target/outilssgdf-gui.jar</source>
+      <source>../gui/target/analytiscout-gui.jar</source>
       <outputDirectory>./app</outputDirectory>
     </file>
   </files>

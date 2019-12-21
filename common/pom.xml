@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.leplan73</groupId>
-		<artifactId>outilssgdf</artifactId>
+		<artifactId>analytiscout</artifactId>
 		<version>1.3.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>common</artifactId>

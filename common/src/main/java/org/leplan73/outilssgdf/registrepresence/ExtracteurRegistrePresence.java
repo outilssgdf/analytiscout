@@ -21,10 +21,16 @@ import org.leplan73.outilssgdf.Consts;
 public class ExtracteurRegistrePresence {
 	
 	private Map<String, RegistrePresenceUnite> unites_ = new TreeMap<String, RegistrePresenceUnite>();
+	private String groupe_;
 	
 	public Collection<RegistrePresenceUnite> getUnites()
 	{
 		return unites_.values();
+	}
+	
+	public String getGroupe()
+	{
+		return groupe_;
 	}
 	
 	public void construitActivites(List<RegistrePresenceActivite> activites)
@@ -34,6 +40,7 @@ public class ExtracteurRegistrePresence {
 	
 	public int charge(final InputStream stream, boolean anonymiser) throws IOException
 	{
+		RegistrePresenceUnite premiereUnite = null;
 		RegistrePresenceUnite unite = null;
 		int anneeDebut = -1;
 		try {
@@ -56,10 +63,12 @@ public class ExtracteurRegistrePresence {
 					if (unites_.containsKey(nunite.getCodestructure()))
 					{
 						unite = unites_.get(nunite.getCodestructure());
+						if (premiereUnite == null) premiereUnite = unite;
 					}
 					else
 					{
 						unite = new RegistrePresenceUnite(record.get(0));
+						if (premiereUnite == null) premiereUnite = unite;
 					}
 					boolean est_groupe = unite.estGroupe();
 					if (est_groupe)
@@ -87,6 +96,10 @@ public class ExtracteurRegistrePresence {
 		} catch (IOException e) {
 			throw e;
 		} finally {
+		}
+		if (premiereUnite != null)
+		{
+			groupe_ = premiereUnite.getNom();
 		}
 		return anneeDebut;
 	}

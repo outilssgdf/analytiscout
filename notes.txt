@@ -70,3 +70,5 @@ Version 1.3.0 :
 	- Possibilité de générer les fiches pour chaque groupe séparément à partir d'une seule extraction au niveau territorial
 	- Génération de stats de structure
 	- Erreur de génération du fichier si le nom du groupe contient /
+	- Registre de présence : Ajout du temps "jeunes"
+	- Registre de présence : Correction du no mde la structure

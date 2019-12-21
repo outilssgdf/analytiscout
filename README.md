@@ -3,7 +3,7 @@
 Un outils en Java pour faciliter l'analyse des maitrises de l'intranet SGDF ([Scouts et Guides de France](https://www.sgdf.fr))
 
 ## Présentation
-Ce document donne une description de l’outil outilssgdf, développé pour faciliter l’extraction et l’analyse des maîtrises et le contrôle de l’âge des adhérents à partir de l’Intranet SGDF.
+Ce document donne une description de l’outil analytiscout, développé pour faciliter l’extraction et l’analyse des maîtrises et le contrôle de l’âge des adhérents à partir de l’Intranet SGDF.
 L’outil est disponible pour les équipes territoriales sur la plateforme collaborative, ou sinon sur demande adressée via le groupe Facebook outilssgdf.
 
 ## Informations importantes
@@ -24,8 +24,8 @@ L’outil est disponible pour les équipes territoriales sur la plateforme colla
 - cd jett-poi4
 - git checkout -b slf4j_migration
 - mvn install
-- git clone https://github.com/outilssgdf/outilssgdf.git
-- cd outilssgdf
+- git clone https://github.com/outilssgdf/analytiscout.git
+- cd analytiscout
 - mvn install
 
 ## Licence

@@ -72,3 +72,4 @@ Version 1.3.0 :
 	- Erreur de génération du fichier si le nom du groupe contient /
 	- Registre de présence : Ajout du temps "jeunes"
 	- Registre de présence : Correction du no mde la structure
+	- Registre de présence : Analyse en année civile

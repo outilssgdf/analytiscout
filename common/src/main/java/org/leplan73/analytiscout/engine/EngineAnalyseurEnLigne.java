@@ -24,16 +24,14 @@ import org.leplan73.analytiscout.TransformeurException;
 import org.leplan73.analytiscout.alerte.Alertes;
 import org.leplan73.analytiscout.calcul.General;
 import org.leplan73.analytiscout.calcul.Global;
-import org.leplan73.analytiscout.extraction.AdherentsFormes;
 import org.leplan73.analytiscout.extraction.AdherentForme.ExtraKey;
+import org.leplan73.analytiscout.extraction.AdherentsFormes;
 import org.leplan73.analytiscout.intranet.ExtractionAdherents;
 import org.leplan73.analytiscout.intranet.ExtractionIntranet;
 import org.leplan73.analytiscout.intranet.LoginEngineException;
 import org.leplan73.analytiscout.outils.FichierSortie;
 import org.leplan73.analytiscout.outils.Structure;
 import org.slf4j.Logger;
-
-import com.jcabi.manifests.Manifests;
 
 public class EngineAnalyseurEnLigne extends EngineConnecte {
 
@@ -124,14 +122,7 @@ public class EngineAnalyseurEnLigne extends EngineConnecte {
 		adherentsFormes.charge(adherents,extraMap);
 		progress_.setProgress(60);
 		
-		String version = "";
-		try
-		{
-			version = Manifests.read("version");
-		}
-		catch(java.lang.IllegalArgumentException e) {
-		}
-		General general = new General(version);
+		General general = General.generer();
 		
 		if (pargroupe)
 		{

@@ -22,12 +22,10 @@ import org.leplan73.analytiscout.TransformeurException;
 import org.leplan73.analytiscout.alerte.Alertes;
 import org.leplan73.analytiscout.calcul.General;
 import org.leplan73.analytiscout.calcul.Global;
-import org.leplan73.analytiscout.extraction.AdherentsFormes;
 import org.leplan73.analytiscout.extraction.AdherentForme.ExtraKey;
+import org.leplan73.analytiscout.extraction.AdherentsFormes;
 import org.leplan73.analytiscout.outils.Structure;
 import org.slf4j.Logger;
-
-import com.jcabi.manifests.Manifests;
 
 public class EngineAnalyseur extends Engine {
 
@@ -72,12 +70,7 @@ public class EngineAnalyseur extends Engine {
 		logger_.info("Chargement du fichier \"" + fichierAdherents.getName() + "\"");
 		ExtracteurIndividusHtml adherents = new ExtracteurIndividusHtml(fichierAdherents, extraMap, age, anonymiser);
 		
-		String version = "";
-		try {
-			version = Manifests.read("version");
-		} catch (java.lang.IllegalArgumentException e) {
-		}
-		General general = new General(version);
+		General general = General.generer();
 		
 		if (pargroupe)
 		{

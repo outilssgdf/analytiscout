@@ -28,8 +28,6 @@ import org.leplan73.analytiscout.registrepresence.RegistrePresenceActivite;
 import org.leplan73.analytiscout.registrepresence.RegistrePresenceActiviteHeure;
 import org.slf4j.Logger;
 
-import com.jcabi.manifests.Manifests;
-
 public class EngineAnalyseurRegistreDePresenceEnLigne extends EngineConnecte {
 
 	public EngineAnalyseurRegistreDePresenceEnLigne(Progress progress, Logger logger) {
@@ -63,12 +61,7 @@ public class EngineAnalyseurRegistreDePresenceEnLigne extends EngineConnecte {
 		progress_.setProgress(60, "Calculs");
 		logger_.info("Calculs");
 		
-		String version = "";
-		try {
-			version = Manifests.read("version");
-		} catch (java.lang.IllegalArgumentException e) {
-		}
-		General general = new General(version);
+		General general = General.generer();
 		
 		List<RegistrePresenceActivite> activites_total = new ArrayList<RegistrePresenceActivite>();
 		ex.construitActivites(activites_total);

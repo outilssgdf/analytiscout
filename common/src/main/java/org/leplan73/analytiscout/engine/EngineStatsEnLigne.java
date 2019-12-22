@@ -26,8 +26,6 @@ import org.leplan73.analytiscout.stats.EffectifG;
 import org.leplan73.analytiscout.stats.Effectifs;
 import org.slf4j.Logger;
 
-import com.jcabi.manifests.Manifests;
-
 public class EngineStatsEnLigne extends EngineConnecte {
 
 	public EngineStatsEnLigne(Progress progress, Logger logger) {
@@ -74,14 +72,8 @@ public class EngineStatsEnLigne extends EngineConnecte {
 			}
 		}
 		
-		String version = "";
-		try
-		{
-			version = Manifests.read("version");
-		}
-		catch(java.lang.IllegalArgumentException e) {
-		}
-		General general = new General(version);
+		General general = General.generer();
+		
 		File fichier_sortie = sortie.construit(structure, ".xlsx");
 
 		logger_.info("Génération du fichier \"" + fichier_sortie.getName() + "\" à partir du modèle");

@@ -21,19 +21,19 @@ public class AnalyseurCEC extends CommonParamsG {
 	@Option(names = "-sortie", required=true, description = "Fichier de sortie")
 	private File sortie;
 	
-	@Option(names = "-annee", description = "Fichier Année \"N\"", required = true)
-	protected File annee;
-	
 	@Option(names = "-anneep", description = "Fichier Année \"N-1\"", required = true)
 	protected File anneep;
 	
+	@Option(names = "-annee", description = "Fichier Année \"N\"", required = true)
+	protected File annee;
+	
 	protected void check() throws EngineException
 	{
-		if (annee.isFile() == false) {
-			throw new EngineException("Le paramètre pour l'option -annee doit être un fichier", false);
-		}
 		if (anneep.isFile() == false) {
 			throw new EngineException("Le paramètre pour l'option -anneep doit être un fichier", false);
+		}
+		if (annee.isFile() == false) {
+			throw new EngineException("Le paramètre pour l'option -annee doit être un fichier", false);
 		}
 		if (sortie.isDirectory() == false) {
 			throw new EngineException("Le paramètre pour l'option -sortie doit être un répertoire", false);
@@ -54,7 +54,7 @@ public class AnalyseurCEC extends CommonParamsG {
 			check();
 			CmdProgress progress = new CmdProgress();
 			EngineAnalyseurCEC en = new EngineAnalyseurCEC(progress, Logging.logger_);
-			en.go(annee, anneep, sortie, modele, anonymiser);
+			en.go(anneep, annee, sortie, modele, anonymiser);
 		} catch (Exception e) {
 			Logging.logger_.error(Logging.dumpStack(null, e));
 		}

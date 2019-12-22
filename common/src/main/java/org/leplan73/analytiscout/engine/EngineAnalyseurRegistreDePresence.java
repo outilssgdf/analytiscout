@@ -25,29 +25,40 @@ import org.leplan73.analytiscout.registrepresence.RegistrePresenceActivite;
 import org.leplan73.analytiscout.registrepresence.RegistrePresenceActiviteHeure;
 import org.slf4j.Logger;
 
-import com.jcabi.manifests.Manifests;
-
 public class EngineAnalyseurRegistreDePresence extends Engine {
 
 	public EngineAnalyseurRegistreDePresence(Progress progress, Logger logger) {
 		super(progress, logger);
 	}
 	
-	private boolean gopriv(File entree, File modele, File sortie, int structure, boolean sous_dossier, boolean anonymiser) throws ClientProtocolException, IOException, JDOMException, InvalidFormatException, ExtractionException, TransformeurException
+	private boolean gopriv(File fEntreeAnneeP, File fEntreeAnnee, File modele, File sortie, int structure, boolean sous_dossier, boolean anonymiser) throws ClientProtocolException, IOException, JDOMException, InvalidFormatException, ExtractionException, TransformeurException
 	{
 		progress_.setProgress(20,"Chargement des fichiers");
 		ExtracteurRegistrePresence ex = new ExtracteurRegistrePresence();
-		logger_.info("Chargement du fichier \"" + entree.getName() + "\"");
-		int anneeDebut = ex.charge(new FileInputStream(entree), anonymiser)+1;
+		int anneeDebut = 0;
+		int anneeFin = 0;
+		if (fEntreeAnneeP != null)
+		{
+			logger_.info("Chargement du fichier \"" + fEntreeAnneeP.getName() + "\"");
+			anneeDebut = ex.charge(new FileInputStream(fEntreeAnneeP), anonymiser)+1;
+			anneeFin = anneeDebut;
+		}
+		if (fEntreeAnnee != null)
+		{
+			int ann = ex.charge(new FileInputStream(fEntreeAnnee), anonymiser)+1;
+			if (anneeDebut != 0) anneeDebut = ann;
+			anneeFin = ann;
+		}
+		
+		if (fEntreeAnneeP != null && fEntreeAnnee != null)
+		{
+			ex.purger(anneeFin);
+		}
+		
 		progress_.setProgress(40,"Calculs");
 		logger_.info("Calculs");
-		
-		String version = "";
-		try {
-			version = Manifests.read("version");
-		} catch (java.lang.IllegalArgumentException e) {
-		}
-		General general = new General(version);
+
+		General general = General.generer();
 		
 		List<RegistrePresenceActiviteHeure> activites_personnes = new ArrayList<RegistrePresenceActiviteHeure>();
 		List<RegistrePresenceActiviteHeure> activites_cec = new ArrayList<RegistrePresenceActiviteHeure>();
@@ -79,7 +90,7 @@ public class EngineAnalyseurRegistreDePresence extends Engine {
 		return true;
 	}
 
-	public void go(File entree, File modele, File sortie, int[] structures, boolean sous_dossier, boolean anonymiser) throws Exception
+	public void go(File fEntreeAnneeP, File fEntreeAnnee, File modele, File sortie, int[] structures, boolean sous_dossier, boolean anonymiser) throws Exception
 	{
 		start();
 		try
@@ -87,13 +98,13 @@ public class EngineAnalyseurRegistreDePresence extends Engine {
 			if (structures == null)
 			{
 				logger_.info("Traitement de la structure");
-				gopriv(entree, modele, sortie, 0, sous_dossier, anonymiser);
+				gopriv(fEntreeAnneeP, fEntreeAnnee, modele, sortie, 0, sous_dossier, anonymiser);
 			}
 			else
 				for (int structure : structures)
 				{
 					logger_.info("Traitement de la structure "+Structure.formatStructure(structure));
-					gopriv(entree, modele, sortie, structure, sous_dossier, anonymiser);
+					gopriv(fEntreeAnneeP, fEntreeAnnee, modele, sortie, structure, sous_dossier, anonymiser);
 				}
 		} catch (IOException | JDOMException | ExtractionException | TransformeurException e) {
 			throw new EngineException("Exception dans "+this.getClass().getName(),e);

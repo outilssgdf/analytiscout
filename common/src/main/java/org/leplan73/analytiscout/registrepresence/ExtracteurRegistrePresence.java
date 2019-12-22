@@ -160,4 +160,8 @@ public class ExtracteurRegistrePresence {
 	public void getActivitesCecChef(String chef, RegistrePresenceUnite unite, int anneeDebut, List<RegistrePresenceActiviteHeure> activites_cec) {
 		unite.genereCecChef(chef, anneeDebut, activites_cec);
 	}
+
+	public void purger(int anneeFin) {
+		unites_.forEach((k,v) -> v.purger(anneeFin));
+	}
 }

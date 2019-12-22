@@ -34,28 +34,33 @@ import org.leplan73.analytiscout.gui.utils.LoggedDialog;
 import org.leplan73.analytiscout.gui.utils.Logging;
 import org.leplan73.analytiscout.gui.utils.Preferences;
 import org.slf4j.LoggerFactory;
+import javax.swing.border.EtchedBorder;
+import java.awt.Color;
 
-public class AnalyseRegistreDePresence extends Dialogue implements LoggedDialog, GuiCommand {
+public class AnalyseRegistreDePresenceCivile extends Dialogue implements LoggedDialog, GuiCommand {
 
 	private final JPanel contentPanel = new JPanel();
 	private JFileChooser fcEntree = new JFileChooser();
+	private JFileChooser fcEntreeP = new JFileChooser();
 	private File fEntree = new File(Preferences.lit(Consts.REPERTOIRE_ENTREE, "données", false),"registrepresence.csv");
-	protected File fModele = new File("conf/modele_registrepresence.xlsx");
+	private File fEntreeP = new File(Preferences.lit(Consts.REPERTOIRE_ENTREE, "données", false),"registrepresence.csv");
+	protected File fModele = new File("conf/modele_registrepresence_civile.xlsx");
 	private JFileChooser fcSortie = new JFileChooser();
 	protected File fSortie = new File(Preferences.lit(Consts.REPERTOIRE_SORTIE, "données", false),"analyse_registrepresence.xlsx");
 	private JLabel lblSortie;
 	private JLabel lblEntree;
 	private JButton btnGo;
 	private BoutonOuvrir btnOuvrir;
+	private JLabel lblEntreeP;
 
 	/**
 	 * Create the dialog.
 	 */
-	public AnalyseRegistreDePresence() {
+	public AnalyseRegistreDePresenceCivile() {
 		super();
-		logger_ = LoggerFactory.getLogger(AnalyseRegistreDePresence.class);
+		logger_ = LoggerFactory.getLogger(AnalyseRegistreDePresenceCivile.class);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		setTitle("Analyse registre de présence");
+		setTitle("Analyse registre de présence (année civile)");
 
 		Appender.setLoggedDialog(this);
 
@@ -69,19 +74,53 @@ public class AnalyseRegistreDePresence extends Dialogue implements LoggedDialog,
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		GridBagLayout gbl_contentPanel = new GridBagLayout();
 		gbl_contentPanel.columnWidths = new int[] { 211, 0 };
-		gbl_contentPanel.rowHeights = new int[] { 0, 0, 0, 0 };
+		gbl_contentPanel.rowHeights = new int[] { 0, 0, 0, 0, 0 };
 		gbl_contentPanel.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
-		gbl_contentPanel.rowWeights = new double[] { 0.0, 0.0, 1.0, Double.MIN_VALUE };
+		gbl_contentPanel.rowWeights = new double[] { 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		contentPanel.setLayout(gbl_contentPanel);
 		{
 			JPanel panel = new JPanel();
-			panel.setBorder(new TitledBorder(null, "Entr\u00E9e", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			panel.setBorder(new TitledBorder(null, "Entr\u00E9e Ann\u00E9e N-1", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			GridBagConstraints gbc_panel = new GridBagConstraints();
+			gbc_panel.insets = new Insets(0, 0, 5, 0);
+			gbc_panel.fill = GridBagConstraints.BOTH;
+			gbc_panel.gridx = 0;
+			gbc_panel.gridy = 0;
+			contentPanel.add(panel, gbc_panel);
+			panel.setLayout(new BorderLayout(0, 0));
+			{
+				lblEntreeP = new JLabel(fEntreeP.getAbsolutePath());
+				panel.add(lblEntreeP, BorderLayout.WEST);
+			}
+			{
+				JButton btnFichierP = new JButton("Fichier...");
+				btnFichierP.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						fcEntreeP.setDialogTitle("Répertoire de données");
+						fcEntreeP.setApproveButtonText("Go");
+						fcEntreeP.setCurrentDirectory(fEntreeP.getParentFile());
+						fcEntreeP.setSelectedFile(fEntreeP);
+						fcEntreeP.setFileSelectionMode(JFileChooser.FILES_ONLY);
+						fcEntreeP.addChoosableFileFilter(new ExportFileFilter("csv"));
+						int result = fcEntreeP.showDialog(panel, "OK");
+						if (result == JFileChooser.APPROVE_OPTION) {
+							fEntreeP = fcEntreeP.getSelectedFile();
+							lblEntreeP.setText(fEntreeP.getPath());
+						}
+					}
+				});
+				panel.add(btnFichierP, BorderLayout.EAST);
+			}
+		}
+		{
+			JPanel panel = new JPanel();
+			panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Entr\u00E9e Ann\u00E9e N", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 			GridBagConstraints gbc_panel = new GridBagConstraints();
 			gbc_panel.anchor = GridBagConstraints.NORTH;
 			gbc_panel.insets = new Insets(0, 0, 5, 0);
 			gbc_panel.fill = GridBagConstraints.HORIZONTAL;
 			gbc_panel.gridx = 0;
-			gbc_panel.gridy = 0;
+			gbc_panel.gridy = 1;
 			contentPanel.add(panel, gbc_panel);
 			panel.setLayout(new BorderLayout(0, 0));
 			{
@@ -89,8 +128,8 @@ public class AnalyseRegistreDePresence extends Dialogue implements LoggedDialog,
 				panel.add(lblEntree, BorderLayout.WEST);
 			}
 			{
-				JButton btnDossier = new JButton("Fichier...");
-				btnDossier.addActionListener(new ActionListener() {
+				JButton btnFichier = new JButton("Fichier...");
+				btnFichier.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						fcEntree.setDialogTitle("Répertoire de données");
 						fcEntree.setApproveButtonText("Go");
@@ -105,7 +144,7 @@ public class AnalyseRegistreDePresence extends Dialogue implements LoggedDialog,
 						}
 					}
 				});
-				panel.add(btnDossier, BorderLayout.EAST);
+				panel.add(btnFichier, BorderLayout.EAST);
 			}
 		}
 		{
@@ -116,7 +155,7 @@ public class AnalyseRegistreDePresence extends Dialogue implements LoggedDialog,
 			gbc_panel.insets = new Insets(0, 0, 5, 0);
 			gbc_panel.fill = GridBagConstraints.HORIZONTAL;
 			gbc_panel.gridx = 0;
-			gbc_panel.gridy = 1;
+			gbc_panel.gridy = 2;
 			contentPanel.add(panel, gbc_panel);
 			panel.setLayout(new BorderLayout(0, 0));
 			{
@@ -147,7 +186,7 @@ public class AnalyseRegistreDePresence extends Dialogue implements LoggedDialog,
 						public void actionPerformed(ActionEvent e) {
 							fcSortie.setDialogTitle("Fichier de sortie");
 							fcSortie.setApproveButtonText("Export");
-							fcSortie.setCurrentDirectory(new File("./données"));
+							fcSortie.setCurrentDirectory(fSortie.getParentFile());
 							fcSortie.setFileSelectionMode(JFileChooser.FILES_ONLY);
 							fcSortie.setSelectedFile(fSortie);
 							fcSortie.removeChoosableFileFilter(fcSortie.getFileFilter());
@@ -169,7 +208,7 @@ public class AnalyseRegistreDePresence extends Dialogue implements LoggedDialog,
 			GridBagConstraints gbc_panel = new GridBagConstraints();
 			gbc_panel.fill = GridBagConstraints.BOTH;
 			gbc_panel.gridx = 0;
-			gbc_panel.gridy = 2;
+			gbc_panel.gridy = 3;
 			contentPanel.add(panel, gbc_panel);
 			panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
 			{
@@ -260,7 +299,7 @@ public class AnalyseRegistreDePresence extends Dialogue implements LoggedDialog,
 			if (ret) {
 				logger_.info("Lancement");
 				try {
-					en.go(null, fEntree, fModele, fSortie, null, false, Params.getb(Consts.PARAMS_ANONYMISER, false));
+					en.go(fEntreeP, fEntree, fModele, fSortie, null, false, Params.getb(Consts.PARAMS_ANONYMISER, false));
 					btnOuvrir.maj();
 				} catch (Exception e) {
 					logger_.error(Logging.dumpStack(null, e));
@@ -292,5 +331,8 @@ public class AnalyseRegistreDePresence extends Dialogue implements LoggedDialog,
 	}
 	public BoutonOuvrir getBtnOuvrir() {
 		return btnOuvrir;
+	}
+	protected JLabel getLblEntreeP() {
+		return lblEntreeP;
 	}
 }

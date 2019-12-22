@@ -242,12 +242,12 @@ public class AnalyseCEC extends Dialogue implements LoggedDialog, GuiCommand {
 	@Override
 	public boolean check() {
 		logger_.info("Vérification des paramètres");
-		if (fEntreeAnnee == null) {
-			logger_.error("Entrée données année non-sélectionnée");
-			return false;
-		}
 		if (fEntreeAnneeP == null) {
 			logger_.error("Entrée donnée année précédente non-sélectionnée");
+			return false;
+		}
+		if (fEntreeAnnee == null) {
+			logger_.error("Entrée données année non-sélectionnée");
 			return false;
 		}
 		if (fModele == null) {
@@ -277,7 +277,7 @@ public class AnalyseCEC extends Dialogue implements LoggedDialog, GuiCommand {
 			if (ret) {
 				logger_.info("Lancement");
 				try {
-					en.go(fEntreeAnnee, fEntreeAnneeP, fSortie, fModele, Params.getb(Consts.PARAMS_ANONYMISER, false));
+					en.go(fEntreeAnneeP, fEntreeAnnee, fSortie, fModele, Params.getb(Consts.PARAMS_ANONYMISER, false));
 				} catch (Exception e) {
 					logger_.error(Logging.dumpStack(null, e));
 				}

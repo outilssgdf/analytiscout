@@ -14,6 +14,7 @@ import org.leplan73.analytiscout.gui.Template;
 import org.leplan73.analytiscout.gui.cec.AnalyseCEC;
 import org.leplan73.analytiscout.gui.cec.AnalyseCECEnligne;
 import org.leplan73.analytiscout.gui.registredepresence.AnalyseRegistreDePresence;
+import org.leplan73.analytiscout.gui.registredepresence.AnalyseRegistreDePresenceCivile;
 import org.leplan73.analytiscout.gui.registredepresence.AnalyseRegistreDePresenceEnLigne;
 import org.leplan73.analytiscout.gui.utils.ElementFactory;
 
@@ -42,9 +43,9 @@ public class RegistrePresence extends Template {
 		JPanel panel = new JPanel();
 		panel_1.add(panel, BorderLayout.SOUTH);
 		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[]{135, 139, 0};
+		gbl_panel.columnWidths = new int[]{135, 139, 0, 0};
 		gbl_panel.rowHeights = new int[]{37, 0};
-		gbl_panel.columnWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
+		gbl_panel.columnWeights = new double[]{1.0, 1.0, 1.0, Double.MIN_VALUE};
 		gbl_panel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 		
@@ -71,10 +72,23 @@ public class RegistrePresence extends Template {
 			}
 		});
 		GridBagConstraints gbc_btnextraireEtAnalyserdes_1 = new GridBagConstraints();
+		gbc_btnextraireEtAnalyserdes_1.insets = new Insets(0, 0, 0, 5);
 		gbc_btnextraireEtAnalyserdes_1.fill = GridBagConstraints.BOTH;
 		gbc_btnextraireEtAnalyserdes_1.gridx = 1;
 		gbc_btnextraireEtAnalyserdes_1.gridy = 0;
 		panel.add(btnextraireEtAnalyserdes_1, gbc_btnextraireEtAnalyserdes_1);
+		
+		JButton btnanneCalendaire = new JButton("<html><p style=\"text-align:center;\">Analyser des données<br>(Année civile)</p>");
+		btnanneCalendaire.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new AnalyseRegistreDePresenceCivile().setVisible(true);
+			}
+		});
+		GridBagConstraints gbc_btnanneCalendaire = new GridBagConstraints();
+		gbc_btnanneCalendaire.fill = GridBagConstraints.BOTH;
+		gbc_btnanneCalendaire.gridx = 2;
+		gbc_btnanneCalendaire.gridy = 0;
+		panel.add(btnanneCalendaire, gbc_btnanneCalendaire);
 
 		JPanel panel_title2 = ElementFactory.createActionTitle("<html><b>CEC</b></html>");
 		GridBagLayout gbl_panel_title2 = (GridBagLayout) panel_title2.getLayout();

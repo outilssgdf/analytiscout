@@ -189,4 +189,8 @@ public class RegistrePresenceUnite extends UniteSimple {
 		activites_.forEach(v -> v.getChefs(chefs));
 		return chefs;
 	}
+
+	public void purger(int anneeFin) {
+		activites_.removeIf((RegistrePresenceActivite activite) -> activite.getDebutAnnee() != anneeFin);
+	}
 }

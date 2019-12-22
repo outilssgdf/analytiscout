@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.Date;
 
+import com.jcabi.manifests.Manifests;
+
 public class General {
 	
 	private Date now = Date.from(Instant.now());
@@ -23,5 +25,17 @@ public class General {
 	public String getVersion()
 	{
 		return version_;
+	}
+	
+	static public General generer()
+	{
+		String version = "";
+		try {
+			version = Manifests.read("version");
+		} catch (java.lang.IllegalArgumentException e) {
+		}
+		General general = new General(version);
+		
+		return general;
 	}
 }

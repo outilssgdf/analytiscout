@@ -116,7 +116,7 @@ public class ExtractionAdherents extends ExtractionIntranet {
 	       				throw ex;
 	       			}
 	       		}
-	       		tbStructure = structure != ExtractionIntranet.STRUCTURE_TOUT ? structureMap.get(structure) : 0;
+	       		tbStructure = structureMap.get(structure);
 	       	}
 		       
 	       	HttpPost httppost = new HttpPost(ExtractionIntranet.getIntranet()+"/Specialisation/Sgdf/adherents/ExtraireAdherents.aspx");

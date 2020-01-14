@@ -128,6 +128,11 @@ public class AdherentForme extends Adherent {
 		{
 			alertes.ajouter(this, Alerte.Severite.MOYENNE, Alerte.ALERTE_TYPE_JS, "AnimSF titulaire mais déclaré \"Animateur SF stagiaire\"");
 		}
+		String modifJs = this.getModifjs();
+		if (getChef() && modifJs.isEmpty())
+		{
+			alertes.ajouter(this, Alerte.Severite.HAUTE, Alerte.ALERTE_TYPE_JS, "Responsable non déclaré dans TAM");
+		}
 	}
 	
 	public boolean getFarfadet()
@@ -694,6 +699,11 @@ public class AdherentForme extends Adherent {
 			return f;
 		}
 		return new Diplome();
+	}
+	
+	public String getModifjs()
+	{
+		return this.get(colonnes_.getModifjs());
 	}
 	
 	public String getDiplomejs()

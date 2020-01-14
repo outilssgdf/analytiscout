@@ -35,6 +35,7 @@ public class ColonnesAdherents {
 	private int diplomeJs = -1;
 	private int diplomeDetailsJs = -1;
 	private int qualiteJs = -1;
+	private int modifJs = -1;
 	private int stuctureNom = -1;
 	private int structureCode = -1;
 	private int delegations = -1;
@@ -59,6 +60,10 @@ public class ColonnesAdherents {
 			if (ids_.get(key).compareTo("IntervenantJS.QualiteJS") == 0)
 			{
 				qualiteJs = key;
+			}
+			if (ids_.get(key).compareTo("IntervenantJS.DerniereModification") == 0)
+			{
+				modifJs = key;
 			}
 			if (ids_.get(key).compareTo("Individu.DroitImage") == 0)
 			{
@@ -282,6 +287,10 @@ public class ColonnesAdherents {
 
 	public int getQualitejs() {
 		return qualiteJs;
+	}
+
+	public int getModifjs() {
+		return modifJs;
 	}
 
 	public Set<String> noms() {

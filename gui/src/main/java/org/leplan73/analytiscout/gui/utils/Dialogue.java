@@ -100,11 +100,14 @@ public class Dialogue extends JDialog implements LoggedDialog {
 
 	@Override
 	public void addLog(String message) {
-		String texte = txtLog.getText();
-		if (texte.length() > 0)
-			txtLog.append("\n");
-		if (txtLog != null) txtLog.append(message);
-		if (txtLog != null) txtLog.setCaretPosition(txtLog.getDocument().getLength());
+		if (txtLog != null)
+		{
+			String texte = txtLog.getText();
+			if (texte.length() > 0)
+				txtLog.append("\n");
+			txtLog.append(message);
+			txtLog.setCaretPosition(txtLog.getDocument().getLength());
+		}
 	}
 	
 	protected int[] construitStructures()

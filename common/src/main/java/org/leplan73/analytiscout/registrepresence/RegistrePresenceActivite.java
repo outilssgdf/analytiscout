@@ -32,7 +32,7 @@ public class RegistrePresenceActivite {
 	private Map<String, Integer> presencesJeunes_ = new TreeMap<String, Integer>();
 	private long dureeFortaitaire_;
 
-	final static SimpleDateFormat parser_ = new SimpleDateFormat("EEEEE dd/MM/yyyy HH:mm");
+	private final static SimpleDateFormat parser_ = new SimpleDateFormat("EEEEE dd/MM/yyyy HH:mm");
 
 	public RegistrePresenceActivite(String type) {
 		type_ = type;
@@ -127,8 +127,11 @@ public class RegistrePresenceActivite {
 	public void complete(UniteSimple unite) {
 		try {
 			unite_ = unite;
-			debut_ = parser_.parse(ddate_ + " " + dheure_);
-			fin_ = parser_.parse(fdate_ + " " + fheure_);
+			synchronized(parser_)
+			{
+				debut_ = parser_.parse(ddate_ + " " + dheure_);
+				fin_ = parser_.parse(fdate_ + " " + fheure_);
+			}
 		} catch (ParseException e) {
 		}
 	}

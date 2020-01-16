@@ -18,7 +18,7 @@ import org.leplan73.analytiscout.extraction.Parent;
 import org.leplan73.analytiscout.extraction.Parents;
 import org.leplan73.analytiscout.outils.SmartStream;
 
-public class ArchiveFormatteur {
+public class ArchiveFormateur {
 	
 	private void listeEmailFichier(ColonnesAdherents colonnes, Adherents adherents, Unite unite, File dir, String fichier, ZipOutputStream zout) throws IOException
 	{

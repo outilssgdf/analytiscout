@@ -29,7 +29,7 @@ import org.leplan73.analytiscout.ExtracteurIndividusHtml;
 import org.leplan73.analytiscout.ExtractionException;
 import org.leplan73.analytiscout.Progress;
 import org.leplan73.analytiscout.extraction.ColonnesAdherents;
-import org.leplan73.analytiscout.formatage.CsvMySqlFormatteur;
+import org.leplan73.analytiscout.formatage.CsvMySqlFormateur;
 import org.leplan73.analytiscout.intranet.ExtractionAdherents;
 import org.leplan73.analytiscout.intranet.ExtractionIntranet;
 import org.leplan73.analytiscout.intranet.LoginEngineException;
@@ -173,7 +173,7 @@ public class EngineExtracteurBatch extends EngineConnecte {
 					{
 						ExtracteurIndividusHtml groupe = groupes.get(codeGroupe);
 						
-						CsvMySqlFormatteur f = new CsvMySqlFormatteur();
+						CsvMySqlFormateur f = new CsvMySqlFormateur();
 						
 						int id = diplome;
 						if (id == ExtractionIntranet.DIPLOME_TOUT)

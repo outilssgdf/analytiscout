@@ -18,7 +18,7 @@ import org.leplan73.analytiscout.Consts;
 import org.leplan73.analytiscout.ExtracteurIndividusHtml;
 import org.leplan73.analytiscout.ExtractionException;
 import org.leplan73.analytiscout.Progress;
-import org.leplan73.analytiscout.formatage.VCardFormatteur;
+import org.leplan73.analytiscout.formatage.VCardFormateur;
 import org.leplan73.analytiscout.intranet.ExtractionAdherents;
 import org.leplan73.analytiscout.intranet.ExtractionIntranet;
 import org.leplan73.analytiscout.intranet.LoginEngineException;
@@ -54,7 +54,7 @@ public class EngineGenerateurVCard extends EngineConnecte {
 		// Génération de l'archive
 		logger_.info("Génération de l'archive "+sortie.getName());
 		PrintStream fout = new PrintStream(new BufferedOutputStream(new FileOutputStream(sortie)),false, Consts.ENCODING_UTF8);
-		VCardFormatteur f = new VCardFormatteur();
+		VCardFormateur f = new VCardFormateur();
 		
 	    f.genereEmail(x.getUnites(), x.getAdherents(), x.getColonnes(), properties, fout);
 	    fout.flush();

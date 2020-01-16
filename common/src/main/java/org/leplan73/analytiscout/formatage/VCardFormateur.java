@@ -16,7 +16,7 @@ import org.leplan73.analytiscout.extraction.Adherent;
 import org.leplan73.analytiscout.extraction.Adherents;
 import org.leplan73.analytiscout.extraction.ColonnesAdherents;
 
-public class VCardFormatteur {
+public class VCardFormateur {
 	
 	class Categorie
 	{

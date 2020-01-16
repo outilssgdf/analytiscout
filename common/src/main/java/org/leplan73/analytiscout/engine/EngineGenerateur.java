@@ -14,7 +14,7 @@ import org.jdom2.JDOMException;
 import org.leplan73.analytiscout.ExtracteurIndividusHtml;
 import org.leplan73.analytiscout.ExtractionException;
 import org.leplan73.analytiscout.Progress;
-import org.leplan73.analytiscout.formatage.ArchiveFormatteur;
+import org.leplan73.analytiscout.formatage.ArchiveFormateur;
 import org.leplan73.analytiscout.intranet.ExtractionAdherents;
 import org.leplan73.analytiscout.intranet.ExtractionIntranet;
 import org.leplan73.analytiscout.intranet.LoginEngineException;
@@ -38,7 +38,7 @@ public class EngineGenerateur extends EngineConnecte {
 		// Génération de l'archive zip
 		logger_.info("Génération de l'archive "+sortie.getName());
 		ZipOutputStream zipOut = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(sortie)));
-		ArchiveFormatteur f = new ArchiveFormatteur();
+		ArchiveFormateur f = new ArchiveFormateur();
 	    f.genereEmail(x.getUnites(), x.getParents(), x.getAdherents(), x.getColonnes(), null, zipOut);
 	    zipOut.flush();
 	    zipOut.close();

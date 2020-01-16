@@ -2,8 +2,6 @@ package org.leplan73.analytiscout.formatage;
 
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
@@ -16,95 +14,7 @@ import org.leplan73.analytiscout.extraction.Adherent;
 import org.leplan73.analytiscout.extraction.Adherents;
 import org.leplan73.analytiscout.extraction.ColonnesAdherents;
 
-public class VCardFormateur {
-	
-	class Categorie
-	{
-		private String nom;
-		private Set<Integer> membres;
-		private Set<String> codes;
-	}
-	
-	class Email
-	{
-		private String adresse;
-		private String nom;
-		private int force;
-		private Set<String> categories;
-	}
-	
-	private List<Email> chargeEmails(Properties props)
-	{
-		List<Email> emails = new ArrayList<Email>();
-		
-		int index = 1;
-		for (;;) {
-			String adresse = props.getProperty(Consts.VCARD_EMAILS_ADRESSE+index);
-			if (adresse == null) {
-				break;
-			}
-			String categories = props.getProperty(Consts.VCARD_EMAILS_CATEGORIES+index);
-			String force = props.getProperty(Consts.VCARD_EMAILS_FORCE+index,"0");
-			Email email = new Email();
-			email.adresse = adresse;
-			email.force = Integer.parseInt(force);
-			String nom = props.getProperty(Consts.VCARD_EMAILS_NOM+index);
-			if (nom != null) {
-				email.nom = nom;
-			}
-			if (categories != null)
-			{
-				email.categories = new HashSet<String>();
-				String categoriess[] = categories.split(",");
-				for (String categorie : categoriess)
-				{
-					email.categories.add(categorie);
-				}
-			}
-			emails.add(email);
-			index++;
-		}
-		return emails;
-	}
-	
-	private List<Categorie> chargeCategories(Properties props)
-	{
-		List<Categorie> cats = new ArrayList<Categorie>();
-		
-		int index = 1;
-		for (;;) {
-			String nom = props.getProperty(Consts.VCARD_CATEGORIE_NOM+index);
-			if (nom == null) {
-				break;
-			}
-			String membresp = props.getProperty(Consts.VCARD_CATEGORIE_MEMBRES+index);
-			Categorie categorie = new Categorie();
-			categorie.nom = nom;
-			if (membresp != null)
-			{
-				categorie.membres = new HashSet<Integer>();
-				String membress[] = membresp.split(",");
-				for (String membres : membress)
-				{
-					Integer code = Integer.parseInt(membres);
-					categorie.membres.add(code);
-				}
-			}
-			String codesp = props.getProperty(Consts.VCARD_CATEGORIE_CODE+index);
-			if (codesp != null)
-			{
-				categorie.codes = new HashSet<String>();
-				String codes[] = codesp.split(",");
-				for (String code : codes)
-				{
-					categorie.codes.add(code);
-				}
-			}
-			cats.add(categorie);
-			index++;
-		}
-		return cats;
-	}
+public class VCardFormateur extends Formateur {
 	
 	private void listeVCardEmail(List<Email> emails, PrintStream out, Set<String> cvardEmails)
 	{

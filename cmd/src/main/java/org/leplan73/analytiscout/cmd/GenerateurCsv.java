@@ -17,8 +17,8 @@ import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
-@Command(name = "generateurarchivecsv", mixinStandardHelpOptions = true, versionProvider = CommonParamsG.class)
-public class GenerateurArchiveCsv extends CommonParamsIntranet {
+@Command(name = "generateurcsv", mixinStandardHelpOptions = true, versionProvider = CommonParamsG.class)
+public class GenerateurCsv extends CommonParamsIntranet {
 
 	@Option(names = "-sortie", required=true, description = "Fichier de sortie")
 	private File sortie;

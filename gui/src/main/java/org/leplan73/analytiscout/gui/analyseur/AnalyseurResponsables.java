@@ -7,6 +7,7 @@ import org.leplan73.analytiscout.gui.utils.Preferences;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@SuppressWarnings("serial")
 public class AnalyseurResponsables extends Analyseur {
 
 	private static Logger logger_ = LoggerFactory.getLogger(AnalyseurResponsables.class);

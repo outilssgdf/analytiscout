@@ -17,6 +17,7 @@ import org.leplan73.analytiscout.gui.registredepresence.ExportRegistreDePresence
 import org.leplan73.analytiscout.gui.registredepresence.ExtractionRegistreDePresence;
 import org.leplan73.analytiscout.gui.utils.ElementFactory;
 
+@SuppressWarnings("serial")
 public class RegistrePresence2 extends Template {
 
 	/**

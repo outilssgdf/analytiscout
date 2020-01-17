@@ -13,6 +13,7 @@ import org.leplan73.analytiscout.gui.analyseurenligne.AnalyseurEnLigneJeunes;
 import org.leplan73.analytiscout.gui.analyseurenligne.AnalyseurEnLigneResponsables;
 import org.leplan73.analytiscout.gui.utils.ElementFactory;
 
+@SuppressWarnings("serial")
 public class AnalysesEnLigne extends Template {
 
 	/**

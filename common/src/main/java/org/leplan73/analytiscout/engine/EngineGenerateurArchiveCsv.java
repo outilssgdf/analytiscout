@@ -44,7 +44,7 @@ public class EngineGenerateurArchiveCsv extends EngineConnecte {
 		
 		String extractionRecusif = properties.getProperty(Consts.VCARD_EXTRACTION_RECURSIF,"1");
 		
-		logger_.info("Extraction VCard (structure="+structure+")");
+		logger_.info("Extraction CSV (structure="+structure+")");
 		String donnees = app.extract(structure, (extractionRecusif.compareTo("1") == 0), ExtractionIntranet.TYPE_INSCRIT, true, null, ExtractionIntranet.SPECIALITE_SANS_IMPORTANCE, extractionCategoriev, ExtractionIntranet.DIPLOME_TOUT,ExtractionIntranet.QUALIFICATION_TOUT,ExtractionIntranet.FORMATION_TOUT, ExtractionIntranet.FORMAT_INDIVIDU,false);
 		
 		logger_.info("Conversion");

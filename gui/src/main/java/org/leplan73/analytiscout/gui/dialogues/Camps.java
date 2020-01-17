@@ -7,6 +7,7 @@ import javax.swing.SwingConstants;
 
 import org.leplan73.analytiscout.gui.Template;
 
+@SuppressWarnings("serial")
 public class Camps extends Template {
 
 	/**

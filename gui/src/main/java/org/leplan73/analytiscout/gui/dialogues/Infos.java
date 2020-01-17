@@ -22,6 +22,7 @@ import org.leplan73.analytiscout.intranet.ExtractionIntranet;
 
 import com.jcabi.manifests.Manifests;
 
+@SuppressWarnings("serial")
 public class Infos extends JDialog {
 
 	/**

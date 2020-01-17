@@ -25,7 +25,7 @@ import javax.swing.border.TitledBorder;
 
 import org.leplan73.analytiscout.Consts;
 import org.leplan73.analytiscout.Progress;
-import org.leplan73.analytiscout.engine.EngineGenerateur;
+import org.leplan73.analytiscout.engine.EngineGenerateurArchiveCsv;
 import org.leplan73.analytiscout.gui.GuiProgress;
 import org.leplan73.analytiscout.gui.utils.Appender;
 import org.leplan73.analytiscout.gui.utils.Dialogue;
@@ -37,22 +37,26 @@ import org.leplan73.analytiscout.gui.utils.Preferences;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Generateur extends Dialogue implements LoggedDialog, GuiCommand {
+@SuppressWarnings("serial")
+public class GenerateurCSV extends Dialogue implements LoggedDialog, GuiCommand {
 
 	private final JPanel contentPanel = new JPanel();
 
-	private Logger logger_ = LoggerFactory.getLogger(Generateur.class);
+	private Logger logger_ = LoggerFactory.getLogger(GenerateurCSV.class);
 	private JTextField txfCodeStructure;
+	private JFileChooser fcModele;
+	private File fModele = new File("conf/"+Consts.FICHIER_CONF_EXPORT);
 	private JFileChooser fcSortie;
 	private File fSortie = new File(Preferences.lit(Consts.REPERTOIRE_SORTIE, "données", false),"archive.zip");
 	private JLabel lblSortie;
+	private JLabel lblModele;
 
 	/**
 	 * Create the dialog.
 	 */
-	public Generateur() {
+	public GenerateurCSV() {
 		super();
-		setTitle("Générateur");
+		setTitle("Générateur CSV");
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 
 		Appender.setLoggedDialog(this);
@@ -65,9 +69,9 @@ public class Generateur extends Dialogue implements LoggedDialog, GuiCommand {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		GridBagLayout gbl_contentPanel = new GridBagLayout();
 		gbl_contentPanel.columnWidths = new int[]{0, 0};
-		gbl_contentPanel.rowHeights = new int[]{0, 0, 0, 0};
+		gbl_contentPanel.rowHeights = new int[]{0, 0, 0, 0, 0};
 		gbl_contentPanel.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gbl_contentPanel.rowWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_contentPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		contentPanel.setLayout(gbl_contentPanel);
 		{
 			JPanel panel = new JPanel();
@@ -89,13 +93,51 @@ public class Generateur extends Dialogue implements LoggedDialog, GuiCommand {
 		}
 		{
 			JPanel panel = new JPanel();
+			panel.setBorder(new TitledBorder(null, "Mod\u00E8le", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			GridBagConstraints gbc_panel = new GridBagConstraints();
+			gbc_panel.anchor = GridBagConstraints.NORTH;
+			gbc_panel.insets = new Insets(0, 0, 5, 0);
+			gbc_panel.fill = GridBagConstraints.HORIZONTAL;
+			gbc_panel.gridx = 0;
+			gbc_panel.gridy = 1;
+			contentPanel.add(panel, gbc_panel);
+			panel.setLayout(new BorderLayout(0, 0));
+			{
+				lblModele = new JLabel(fModele.getAbsolutePath());
+				panel.add(lblModele, BorderLayout.WEST);
+			}
+			{
+				JButton button = new JButton("Fichier...");
+				button.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						fcModele = new JFileChooser();
+						fcModele.setDialogTitle("Modèle");
+						fcModele.setApproveButtonText("Modèle");
+						fcModele.setCurrentDirectory(fModele.getParentFile());
+						fcModele.setSelectedFile(fModele);
+						fcModele.setFileSelectionMode(JFileChooser.FILES_ONLY);
+						fcModele.removeChoosableFileFilter(fcModele.getFileFilter());
+						fcModele.removeChoosableFileFilter(fcModele.getAcceptAllFileFilter());
+						fcModele.addChoosableFileFilter(new ExportFileFilter("properties"));
+						int result = fcModele.showDialog(panel, "OK");
+						if (result == JFileChooser.APPROVE_OPTION) {
+							fModele = fcModele.getSelectedFile();
+							lblModele.setText(fModele.getPath());
+						}
+					}
+				});
+				panel.add(button, BorderLayout.EAST);
+			}
+		}
+		{
+			JPanel panel = new JPanel();
 			panel.setBorder(new TitledBorder(null, "Sortie", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			GridBagConstraints gbc_panel = new GridBagConstraints();
 			gbc_panel.insets = new Insets(0, 0, 5, 0);
 			gbc_panel.anchor = GridBagConstraints.NORTH;
 			gbc_panel.fill = GridBagConstraints.HORIZONTAL;
 			gbc_panel.gridx = 0;
-			gbc_panel.gridy = 1;
+			gbc_panel.gridy = 2;
 			contentPanel.add(panel, gbc_panel);
 			panel.setLayout(new BorderLayout(0, 0));
 			{
@@ -114,7 +156,7 @@ public class Generateur extends Dialogue implements LoggedDialog, GuiCommand {
 						fcSortie.setFileSelectionMode(JFileChooser.FILES_ONLY);
 						fcSortie.removeChoosableFileFilter(fcSortie.getFileFilter());
 						fcSortie.removeChoosableFileFilter(fcSortie.getAcceptAllFileFilter());
-						fcSortie.addChoosableFileFilter(new ExportFileFilter("zip"));
+						fcSortie.addChoosableFileFilter(new ExportFileFilter("vcf"));
 						int result = fcSortie.showDialog(panel, "OK");
 						if (result == JFileChooser.APPROVE_OPTION) {
 							fSortie = ajouteExtensionFichier(fcSortie, lblSortie, "zip");
@@ -130,7 +172,7 @@ public class Generateur extends Dialogue implements LoggedDialog, GuiCommand {
 			GridBagConstraints gbc_panel = new GridBagConstraints();
 			gbc_panel.fill = GridBagConstraints.BOTH;
 			gbc_panel.gridx = 0;
-			gbc_panel.gridy = 2;
+			gbc_panel.gridy = 3;
 			contentPanel.add(panel, gbc_panel);
 			panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
 			{
@@ -211,8 +253,8 @@ public class Generateur extends Dialogue implements LoggedDialog, GuiCommand {
 			if (ret) {
 				try {
 					int structures[] = construitStructures();
-					EngineGenerateur en = new EngineGenerateur(progress, logger_);
-					en.go(identifiant_, motdepasse_, fSortie, structures[0], structures);
+					EngineGenerateurArchiveCsv en = new EngineGenerateurArchiveCsv(progress, logger_);
+					en.go(identifiant_, motdepasse_, fModele, fSortie, structures[0], structures);
 				} catch (Exception e) {
 					logger_.error(Logging.dumpStack(null, e));
 				}

@@ -34,6 +34,7 @@ import org.leplan73.analytiscout.gui.utils.Logging;
 import org.leplan73.analytiscout.gui.utils.Preferences;
 import org.slf4j.LoggerFactory;
 
+@SuppressWarnings("serial")
 public class AnalyseCEC extends Dialogue implements LoggedDialog, GuiCommand {
 
 	private final JPanel contentPanel = new JPanel();

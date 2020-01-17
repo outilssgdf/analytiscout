@@ -37,6 +37,7 @@ import org.slf4j.LoggerFactory;
 import javax.swing.border.EtchedBorder;
 import java.awt.Color;
 
+@SuppressWarnings("serial")
 public class AnalyseRegistreDePresenceCivile extends Dialogue implements LoggedDialog, GuiCommand {
 
 	private final JPanel contentPanel = new JPanel();

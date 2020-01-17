@@ -40,6 +40,7 @@ import org.leplan73.analytiscout.gui.utils.Preferences;
 import org.leplan73.analytiscout.outils.ResetableFileInputStream;
 import org.slf4j.Logger;
 
+@SuppressWarnings("serial")
 abstract public class Analyseur extends Dialogue implements LoggedDialog, GuiCommand {
 
 	private final JPanel contentPanel = new JPanel();

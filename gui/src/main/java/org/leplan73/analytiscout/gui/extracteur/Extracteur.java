@@ -58,6 +58,7 @@ import org.leplan73.analytiscout.intranet.ExtractionIntranet;
 import org.leplan73.analytiscout.intranet.LoginEngineException;
 import org.slf4j.LoggerFactory;
 
+@SuppressWarnings("serial")
 public class Extracteur extends Dialogue implements LoggedDialog, GuiCommand {
 
 	private final JPanel contentPanel = new JPanel();

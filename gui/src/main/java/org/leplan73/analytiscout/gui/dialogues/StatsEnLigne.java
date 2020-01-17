@@ -12,6 +12,7 @@ import org.leplan73.analytiscout.gui.Template;
 import org.leplan73.analytiscout.gui.stats.Stats;
 import org.leplan73.analytiscout.gui.utils.ElementFactory;
 
+@SuppressWarnings("serial")
 public class StatsEnLigne extends Template {
 
 	/**

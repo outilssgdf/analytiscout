@@ -17,6 +17,7 @@ import org.leplan73.analytiscout.gui.extracteur.ExtracteurBatchJeunes;
 import org.leplan73.analytiscout.gui.extracteur.ExtracteurBatchResponsables;
 import org.leplan73.analytiscout.gui.utils.ElementFactory;
 
+@SuppressWarnings("serial")
 public class Analyses extends Template {
 
 	/**

@@ -12,10 +12,11 @@ import javax.swing.JPanel;
 
 import org.leplan73.analytiscout.gui.Template;
 import org.leplan73.analytiscout.gui.extracteur.Extracteur;
-import org.leplan73.analytiscout.gui.generateur.Generateur;
+import org.leplan73.analytiscout.gui.generateur.GenerateurCSV;
 import org.leplan73.analytiscout.gui.generateur.GenerateurVCard;
 import org.leplan73.analytiscout.gui.utils.ElementFactory;
 
+@SuppressWarnings("serial")
 public class ExportAdherents extends Template {
 
 	/**
@@ -98,7 +99,7 @@ public class ExportAdherents extends Template {
 												JButton btnNewButton_1 = new JButton("Générer une archive zip");
 												btnNewButton_1.addActionListener(new ActionListener() {
 													public void actionPerformed(ActionEvent e) {
-														new Generateur().setVisible(true);
+														new GenerateurCSV().setVisible(true);
 													}
 												});
 												GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();

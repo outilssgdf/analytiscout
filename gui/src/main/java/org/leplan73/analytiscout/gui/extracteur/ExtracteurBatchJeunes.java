@@ -5,6 +5,7 @@ import java.io.File;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@SuppressWarnings("serial")
 public class ExtracteurBatchJeunes extends ExtracteurBatch {
 
 	private static Logger logger_ = LoggerFactory.getLogger(ExtracteurBatchJeunes.class);

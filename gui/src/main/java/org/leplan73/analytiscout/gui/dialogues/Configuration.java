@@ -34,6 +34,7 @@ import org.leplan73.analytiscout.gui.utils.Preferences;
 import org.leplan73.analytiscout.intranet.LoginEngineException;
 import org.slf4j.LoggerFactory;
 
+@SuppressWarnings("serial")
 public class Configuration extends Dialogue {
 
 	private final JPanel contentPanel = new JPanel();

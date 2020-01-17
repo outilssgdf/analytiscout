@@ -37,6 +37,7 @@ import org.leplan73.analytiscout.gui.utils.Preferences;
 import org.leplan73.analytiscout.intranet.ExtractionIntranet;
 import org.slf4j.Logger;
 
+@SuppressWarnings("serial")
 abstract public class ExtracteurBatch extends Dialogue implements LoggedDialog, GuiCommand {
 
 	private final JPanel contentPanel = new JPanel();

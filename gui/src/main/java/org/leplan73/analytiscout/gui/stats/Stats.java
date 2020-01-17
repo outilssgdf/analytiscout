@@ -42,6 +42,7 @@ import org.leplan73.analytiscout.gui.utils.Preferences;
 import org.leplan73.analytiscout.outils.ResetableFileInputStream;
 import org.slf4j.LoggerFactory;
 
+@SuppressWarnings("serial")
 public class Stats extends Dialogue implements LoggedDialog, GuiCommand {
 
 	private final JPanel contentPanel = new JPanel();

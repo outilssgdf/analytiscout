@@ -129,7 +129,7 @@ public class AdherentForme extends Adherent {
 			alertes.ajouter(this, Alerte.Severite.MOYENNE, Alerte.ALERTE_TYPE_JS, "AnimSF titulaire mais déclaré \"Animateur SF stagiaire\"");
 		}
 		String modifJs = this.getModifjs();
-		if (getChef() && modifJs.isEmpty())
+		if (getChef() && modifJs != null && modifJs.isEmpty())
 		{
 			alertes.ajouter(this, Alerte.Severite.HAUTE, Alerte.ALERTE_TYPE_JS, "Responsable non déclaré dans TAM");
 		}

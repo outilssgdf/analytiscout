@@ -1,6 +1,6 @@
 # AnalytiScout
 
-Un outils en Java pour faciliter l'analyse des maitrises de l'intranet SGDF ([Scouts et Guides de France](https://www.sgdf.fr))
+Un outil en Java pour faciliter l'analyse des maitrises de l'intranet SGDF ([Scouts et Guides de France](https://www.sgdf.fr))
 
 ## Présentation
 Ce document donne une description de l’outil analytiscout, développé pour faciliter l’extraction et l’analyse des maîtrises et le contrôle de l’âge des adhérents à partir de l’Intranet SGDF.

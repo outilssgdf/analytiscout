@@ -11,6 +11,7 @@ import org.leplan73.analytiscout.outils.PasswdCrypt;
 
 public class Preferences {
 	
+	private static final String ANALYTISCOUT = "analytiscout";
 	private static final String ANALYTISCOUT_PROPERTIES = "analytiscout.properties";
 	
 	static private File file_;
@@ -59,7 +60,7 @@ public class Preferences {
 	{
 		p_.setProperty(nom, String.valueOf(d));
 		try {
-			p_.store(new FileOutputStream(file_), "outilsgdf");
+			p_.store(new FileOutputStream(file_), ANALYTISCOUT);
 		} catch (IOException e) {
 		}
 	}
@@ -68,7 +69,7 @@ public class Preferences {
 	{
 		p_.setProperty(nom, String.valueOf(d));
 		try {
-			p_.store(new FileOutputStream(file_), "outilsgdf");
+			p_.store(new FileOutputStream(file_), ANALYTISCOUT);
 		} catch (IOException e) {
 		}
 	}
@@ -77,7 +78,7 @@ public class Preferences {
 	{
 		p_.setProperty(nom, String.valueOf(d));
 		try {
-			p_.store(new FileOutputStream(file_), "outilsgdf");
+			p_.store(new FileOutputStream(file_), ANALYTISCOUT);
 		} catch (IOException e) {
 		}
 	}
@@ -103,7 +104,7 @@ public class Preferences {
 				d = PasswdCrypt.encrypt(d);
 			}
 			p_.setProperty(nom, d);
-			p_.store(new FileOutputStream(file_), "outilsgdf");
+			p_.store(new FileOutputStream(file_), ANALYTISCOUT);
 		} catch (IOException | CryptoException e) {
 		}
 	}

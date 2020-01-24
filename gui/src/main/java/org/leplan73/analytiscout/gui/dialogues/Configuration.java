@@ -55,7 +55,7 @@ public class Configuration extends Dialogue {
 
 		double x = Preferences.litd(Consts.FENETRE_CONFIGURATION_X, 100);
 		double y = Preferences.litd(Consts.FENETRE_CONFIGURATION_Y, 100);
-		setBounds((int)x, (int)y, 430, 280);
+		setBounds((int)x, (int)y, 430, 230);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);

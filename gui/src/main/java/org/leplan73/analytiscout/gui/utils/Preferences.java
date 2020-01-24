@@ -11,12 +11,25 @@ import org.leplan73.analytiscout.outils.PasswdCrypt;
 
 public class Preferences {
 	
+	private static final String ANALYTISCOUT_PROPERTIES = "analytiscout.properties";
+	
 	static private File file_;
 	static private Properties p_ = new Properties();
 	
+	static private void migration()
+	{
+		File fichierOutilSgdf = new File(System.getProperty("user.home")+"/"+"outilssgdf.properties");
+		if (fichierOutilSgdf.exists())
+		{
+			File fichierAnalytiScout = new File(System.getProperty("user.home")+"/"+ANALYTISCOUT_PROPERTIES);
+			fichierOutilSgdf.renameTo(fichierAnalytiScout);
+		}
+	}
+	
 	static public void init()
 	{
-		file_ = new File(System.getProperty("user.home")+"/"+"outilssgdf.properties");
+		migration();
+		file_ = new File(System.getProperty("user.home")+"/"+ANALYTISCOUT_PROPERTIES);
 		try {
 			file_.createNewFile();
 			p_.load(new FileInputStream(file_));

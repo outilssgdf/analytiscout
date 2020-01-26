@@ -42,7 +42,7 @@ public class VersionCheck {
 	{
 		Reader reader = null;
 		try {
-			URL url = new URL("https://analytiscout.github.io/outilssgdf.version.properties");
+			URL url = new URL("https://outilssgdf.github.io/outilssgdf.version.properties");
 			InputStream in = url.openStream();
 			reader = new InputStreamReader(in, "UTF-8");
 			 

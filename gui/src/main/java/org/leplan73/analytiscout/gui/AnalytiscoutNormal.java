@@ -88,7 +88,7 @@ public class AnalytiscoutNormal extends Analytiscout {
 			JPanel panel_1 = new JPanel();
 			panel.add(panel_1, BorderLayout.EAST);
 			panel_1.setLayout(new BorderLayout(0, 0));
-			btnNewButton_2 = new JHyperlink("Lien", "https://www.facebook.com/groups/analytiscout");
+			btnNewButton_2 = new JHyperlink("Lien", "https://www.facebook.com/groups/outilssgdf");
 			panel_1.add(btnNewButton_2, BorderLayout.CENTER);
 			btnNewButton_2.setText("Consultez le groupe Facebook : analytiscout");
 			

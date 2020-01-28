@@ -19,7 +19,7 @@ public class GuiCmd extends GuiParams
 {
 	public void go(String[] args)
 	{
-		Logging.initLogger(avance ? AnalytiscoutNormal.class: AnalytiscoutAdvanced.class);
+		Logging.initLogger(avance ? AnalytiscoutNormal.class: AnalytiscoutAdvanced.class, nologfile);
 		Params.init();
 		
 		boolean avance = false;

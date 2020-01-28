@@ -15,16 +15,16 @@ public class Logging {
 
 	public static Logger logger_;
 
-	public static void initLogger(Class<?> classn, boolean debug)
+	public static void initLogger(Class<?> classn, boolean debugintranet, boolean noFile)
 	{
-		System.setProperty(ContextInitializer.CONFIG_FILE_PROPERTY, "logback-cmd.xml");
-		if (debug)
+		System.setProperty(ContextInitializer.CONFIG_FILE_PROPERTY, noFile ? "logback-console.xml" : "logback-cmd.xml");
+		if (debugintranet)
 		{
 			System.setProperty("org.slf4j.simpleLogger.log.org.apache.http", "debug");
 			System.setProperty("org.slf4j.simpleLogger.log.org.apache.http.wire", "debug");
 		}
 		logger_ = LoggerFactory.getLogger(classn);
-		if (debug)
+		if (debugintranet)
 		{
 			ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger) org.slf4j.LoggerFactory.getLogger("org.leplan73.analytiscout.intranet");
 			root.setLevel(Level.DEBUG);

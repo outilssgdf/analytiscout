@@ -19,10 +19,10 @@ import picocli.CommandLine.PicocliException;
 public class CmdParams implements IVersionProvider {
 
 	@Option(names = "-debugintranet", description = "debug (Valeur par défaut: ${DEFAULT-VALUE})")
-	protected boolean debugintranet = false;
+	public boolean debugintranet = false;
 	
-	@Option(names = "-log", description = "log (Valeur par défaut: ${DEFAULT-VALUE})")
-	protected boolean log = false;
+	@Option(names = "-nologfile", description = "pas de log dans un fichier (Valeur par défaut: ${DEFAULT-VALUE})", hidden = true)
+	public boolean nologfile = false;
 	
 	@Option(names = "-anonymiser", description = "anonymiser les nom, prénoms et code (Valeur par défaut: ${DEFAULT-VALUE})", hidden = true)
 	protected boolean anonymiser = false;
@@ -48,7 +48,7 @@ public class CmdParams implements IVersionProvider {
 	
 	protected void go(String[] args, Class<?> classn)
 	{
-		Logging.initLogger(classn, debugintranet);
+		Logging.initLogger(classn, debugintranet, nologfile);
 		try
 		{
 			CommandLine commandLine = new CommandLine(this);

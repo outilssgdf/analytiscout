@@ -1,0 +1,21 @@
+<configuration>
+
+	<appender name="appender"
+		class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<logger name="com.jcabi.manifests" level="OFF"></logger>
+	<logger name="org.apache.commons.jexl2.JexlEngine" level="OFF"></logger>
+	<logger name="net.sf.jett" level="OFF"></logger>
+
+	<logger name="org.leplan73.analytiscout.cmd" level="info" additivity="false">
+		<appender-ref ref="appender" />
+	</logger>
+  
+  <logger name="org.leplan73.analytiscout.intranet" level="info" additivity="false">
+	<appender-ref ref="appender" />
+  </logger>
+</configuration>

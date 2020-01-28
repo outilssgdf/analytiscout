@@ -22,7 +22,6 @@ public class CmdLine extends CmdParams {
 	@Override
 	protected void go(String[] args, Class<?> classn)
 	{
-		Logging.initLogger(classn, debugintranet);
 		try
 		{
 			CommandLine commandLine = new CommandLine(this);
@@ -75,7 +74,7 @@ public class CmdLine extends CmdParams {
 		}
 		
 		CmdParams cmd = (CmdParams)commandLine.getCommand();
-		
+		Logging.initLogger(this.getClass(), cmd.debugintranet, cmd.nologfile);		
 		try
 		{
 			cmd.run(commandLine);

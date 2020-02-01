@@ -17,15 +17,8 @@ public class Logging {
 
 	public static void initLogger(Class<?> classn, boolean noFile)
 	{
-		System.setProperty(ContextInitializer.CONFIG_FILE_PROPERTY, "logback-gui.xml");
+		System.setProperty(ContextInitializer.CONFIG_FILE_PROPERTY, noFile ? "logback-console.xml" : "logback-gui.xml");
 		logger_ = LoggerFactory.getLogger(classn);
-	
-		if (noFile)
-		{
-			ch.qos.logback.classic.Logger logger = (ch.qos.logback.classic.Logger) org.slf4j.LoggerFactory.getLogger("org.leplan73.analytiscout.gui");
-			logger.detachAppender("FILE");
-			logger.detachAppender("FILE_DEBUG");
-		}
 	}
 	
 	public static void debugintranet(boolean debug)

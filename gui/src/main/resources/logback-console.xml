@@ -1,0 +1,16 @@
+<configuration>
+
+  <appender name="appender" class="org.leplan73.analytiscout.gui.utils.Appender">
+  </appender>
+  
+	<logger name="com.jcabi.manifests" level="OFF"></logger>
+	<logger name="org.apache.commons.jexl2.JexlEngine" level="OFF"></logger>
+	<logger name="net.sf.jett" level="OFF"></logger>
+  
+  <logger name="org.leplan73.analytiscout.gui" level="info" additivity="false">
+   <appender-ref ref="appender" />
+  </logger>
+  
+  <logger name="org.leplan73.analytiscout.intranet" level="info" additivity="false">
+  </logger>
+</configuration>

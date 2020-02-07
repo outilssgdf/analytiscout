@@ -71,7 +71,7 @@ public class UniteSimple implements Comparable<UniteSimple> {
 	public String getBranche()
 	{
 		String unite = this.getCodebranche();
-		if (unite.compareTo("FARFADET") == 5)
+		if (unite.compareTo("7") == 0)
 		{
 			return "F";
 		}
@@ -91,7 +91,7 @@ public class UniteSimple implements Comparable<UniteSimple> {
 		{
 			return "C";
 		}
-		return "T";
+		return "R";
 	}
 	
 	public String getCodebranche()

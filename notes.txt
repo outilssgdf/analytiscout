@@ -58,22 +58,24 @@ Version 1.2.0 :
 	- Ajout d'une option pour garder les fichiers téléchargés
 Version 1.3.0 :
 	- Extraction du registre de présence (pas encore bon... on désactive pour le moment)
-	- Ajout de l'expiration des qualif directeur SF temporaires
-	- Ajout du noeud de tisserand
-	- Ajout d'une alerte au lancement quant à l'export de données (le même que sur l'intranet)
-	- Mutualisation du panneau intégrant l'identifiant, le mot de passe et le code de structure (avec détection automatique)
-	- Ajout de la formation de responsable farfadets
-	- Ajout d'un onglet Farfadets et Compas dans les analyses responsables
-	- Mémorisation des répertoires d'entrée et de sortie
-	- Fusion PSC1/AFPS
-	- L'extension xlsx ou csv est automatiquement ajouté si elle est absente
-	- Possibilité de générer les fiches pour chaque groupe séparément à partir d'une seule extraction au niveau territorial
+	- Responsables : Ajout de l'expiration des qualif directeur SF temporaires
+	- Responsables : Ajout du noeud de tisserand
+	- RGPD : Ajout d'une alerte au lancement quant à l'export de données (le même que sur l'intranet)
+	- Général : Mutualisation du panneau intégrant l'identifiant, le mot de passe et le code de structure (avec détection automatique)
+	- Responsables : Ajout de la formation de responsable farfadets
+	- Responsables :  Ajout d'un onglet Farfadets et Compas dans les analyses responsables
+	- Général : Mémorisation des répertoires d'entrée et de sortie
+	- Responsables : Fusion PSC1/AFPS
+	- Général : L'extension xlsx ou csv est automatiquement ajouté si elle est absente
+	- Responsables / Jeunes : Possibilité de générer les fiches pour chaque groupe séparément à partir d'une seule extraction au niveau territorial
 	- Génération de stats de structure
-	- Erreur de génération du fichier si le nom du groupe contient /
+	- Responsables / Jeunes : Erreur de génération du fichier si le nom du groupe contient /
 	- Registre de présence : Ajout du temps "jeunes"
 	- Registre de présence : Correction du nom de la structure
 	- Registre de présence : Analyse en année civile
 	- Alertes : Ajout de la détection de responsable non déclaré dans TAM
 	- Générateur : Ajout d'un format d'export en csv
-	- Ajout de couleurs pour les branches
-	- Ajout des grilles d'impression
+	- Responsables / Jeunes : Ajout de couleurs pour les branches
+	- Responsables / Jeunes : Ajout des grilles d'impression
+	- Responsables : Ajout d'une option pour générer les informations d'aide à la déclaration DDCS
+	- Alertes : Une qualif expirée depuis plus de 2 ans ne génère plus d'alerte   

@@ -331,47 +331,50 @@ public class Adherent {
 	public String getBranche()
 	{
 		String brancheCalcule = calculBranche();
-		
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-		try {
-			String date = get(colonnes_.getDatedeNaissanceId());
-			Date dn = simpleDateFormat.parse(date);
-			Date debutFindDec = Params.getDateLimiteJeune();
-			double diffFindDec = ((debutFindDec.getTime() - dn.getTime())/1000);
-			diffFindDec = diffFindDec/(3600*365.25*24);
-			if (diffFindDec < 8)
-			{
-				if (brancheCalcule.compareTo("F") != 0)
-					return brancheCalcule;
-				return "F";
+		if (this.getJeune())
+		{
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+			try {
+				String date = get(colonnes_.getDatedeNaissanceId());
+				Date dn = simpleDateFormat.parse(date);
+				Date debutFindDec = Params.getDateLimiteJeune();
+				double diffFindDec = ((debutFindDec.getTime() - dn.getTime())/1000);
+				diffFindDec = diffFindDec/(3600*365.25*24);
+				if (diffFindDec < 8)
+				{
+					if (brancheCalcule.compareTo("F") != 0)
+						return brancheCalcule;
+					return "F";
+				}
+				if (diffFindDec < 11)
+				{
+					if (brancheCalcule.compareTo("LJ") != 0)
+						return brancheCalcule;
+					return "LJ";
+				}
+				if (diffFindDec < 14)
+				{
+					if (brancheCalcule.compareTo("SG") != 0)
+						return brancheCalcule;
+					return "SG";
+				}
+				if (diffFindDec < 17)
+				{
+					if (brancheCalcule.compareTo("PC") != 0)
+						return brancheCalcule;
+					return "PC";
+				}
+				if (diffFindDec < 22)
+				{
+					if (brancheCalcule.compareTo("C") != 0)
+						return brancheCalcule;
+					return "C";
+				}
+			} catch (ParseException e) {
 			}
-			if (diffFindDec < 11)
-			{
-				if (brancheCalcule.compareTo("LJ") != 0)
-					return brancheCalcule;
-				return "LJ";
-			}
-			if (diffFindDec < 14)
-			{
-				if (brancheCalcule.compareTo("SG") != 0)
-					return brancheCalcule;
-				return "SG";
-			}
-			if (diffFindDec < 17)
-			{
-				if (brancheCalcule.compareTo("PC") != 0)
-					return brancheCalcule;
-				return "PC";
-			}
-			if (diffFindDec < 22)
-			{
-				if (brancheCalcule.compareTo("C") != 0)
-					return brancheCalcule;
-				return "C";
-			}
-		} catch (ParseException e) {
+			return "R";
 		}
-		return "R";
+		return brancheCalcule;
 	}
 	
 	public String getBrancheanneeprochaine()

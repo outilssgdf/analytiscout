@@ -59,7 +59,8 @@ public class AdherentForme extends Adherent {
 			}
 			if (qdirfs.getDejaexpire())
 			{
-				alertes.ajouter(this, Alerte.Severite.HAUTE, Alerte.ALERTE_TYPE_QUALIFICATION, "DirSF expirée");
+				if (qdirfs.getExpiration() < 365*2)
+					alertes.ajouter(this, Alerte.Severite.HAUTE, Alerte.ALERTE_TYPE_QUALIFICATION, "DirSF expirée");
 				
 			}
 			else if (qdirfs.getExpireavantcamp())
@@ -341,6 +342,7 @@ public class AdherentForme extends Adherent {
 		private String fin_validite_;
 		private String nom_;
 		private boolean dejaExpire_;
+		private long expiration_;
 		private boolean expireAvantCamp_;
 		
 		public Qualification(ChefExtra extra) {
@@ -389,6 +391,11 @@ public class AdherentForme extends Adherent {
 		public boolean getDejaexpire()
 		{
 			return dejaExpire_;
+		}
+
+		public long getExpiration()
+		{
+			return expiration_;
 		}
 
 		public boolean getExpireavantcamp()
@@ -444,6 +451,8 @@ public class AdherentForme extends Adherent {
 						defini_ = false;
 						titulaire_ = false;
 						dejaExpire_ = true;
+						
+						expiration_ = ((date_aujourdhui.getTime() - date.getTime())/1000)/86400;
 					}
 					
 					// Qualif qui expirera bientôt

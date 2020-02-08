@@ -11,6 +11,7 @@ import java.util.Set;
 import java.util.TreeMap;
 
 import org.jdom2.JDOMException;
+import org.leplan73.analytiscout.Consts;
 import org.leplan73.analytiscout.ExtracteurExtraHtml;
 import org.leplan73.analytiscout.ExtracteurIndividusHtml;
 import org.leplan73.analytiscout.ExtractionException;
@@ -33,7 +34,7 @@ public class EngineAnalyseur extends Engine {
 		super(progress, logger);
 	}
 	
-	private boolean gopriv(Properties pbatch, ParamEntree entree, InputStream batch, InputStream modele, int structure, boolean age, String batch_type, ParamSortie sortie, boolean anonymiser, boolean pargroupe) throws TransformeurException, ExtractionException, IOException, JDOMException
+	private boolean gopriv(Properties pbatch, ParamEntree entree, InputStream batch, InputStream modele, int structure, boolean age, String batch_type, ParamSortie sortie, boolean anonymiser, boolean pargroupe, boolean generer_ddcs) throws TransformeurException, ExtractionException, IOException, JDOMException
 	{
 		logger_.info("Traitement de la structure "+Structure.formatStructure(structure));
 		
@@ -145,12 +146,17 @@ public class EngineAnalyseur extends Engine {
 			FileOutputStream fosSortie = new FileOutputStream(fichier_sortie);
 			Transformeur.go(modele, beans, fosSortie);
 			fosSortie.close();
+			
+			if (!generer_ddcs)
+			{
+				Transformeur.retireOnglet(fichier_sortie, Consts.ONGLET_DDCS);
+			}
 		}
 		
 		return true;
 	}
 
-	public void go(ParamEntree entree, InputStream batch, InputStream modele, int[] structures, boolean age, String batch_type, ParamSortie sortie, boolean anonymiser, boolean pargroupe) throws EngineException {
+	public void go(ParamEntree entree, InputStream batch, InputStream modele, int[] structures, boolean age, String batch_type, ParamSortie sortie, boolean anonymiser, boolean pargroupe, boolean generer_ddcs) throws EngineException {
 		start();
 		
 		chargeParametres();
@@ -163,13 +169,13 @@ public class EngineAnalyseur extends Engine {
 			if (structures == null)
 			{
 				logger_.info("Traitement de la structure");
-				gopriv(pbatch, entree, batch, modele, 0, age, batch_type, sortie, anonymiser, pargroupe);
+				gopriv(pbatch, entree, batch, modele, 0, age, batch_type, sortie, anonymiser, pargroupe, generer_ddcs);
 			}
 			else
 				for (int structure : structures)
 				{
 					logger_.info("Traitement de la structure "+Structure.formatStructure(structure));
-					boolean ret = gopriv(pbatch, entree, batch, modele, structure, age, batch_type, sortie, anonymiser, pargroupe);
+					boolean ret = gopriv(pbatch, entree, batch, modele, structure, age, batch_type, sortie, anonymiser, pargroupe, generer_ddcs);
 					if (ret == false)
 						break;
 				}

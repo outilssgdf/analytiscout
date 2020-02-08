@@ -39,7 +39,7 @@ public class EngineAnalyseurEnLigne extends EngineConnecte {
 		super(progress, logger);
 	}
 
-	private boolean gopriv(ExtractionAdherents app, Properties pbatch, String identifiant, String motdepasse, InputStream modele, int structure, boolean age, String batch_type, ParamSortie sortie, boolean anonymiser, boolean garderFichiers, boolean pargroupe) throws ExtractionException, TransformeurException, ClientProtocolException, IOException, JDOMException
+	private boolean gopriv(ExtractionAdherents app, Properties pbatch, String identifiant, String motdepasse, InputStream modele, int structure, boolean age, String batch_type, ParamSortie sortie, boolean anonymiser, boolean garderFichiers, boolean pargroupe, boolean generer_ddcs) throws ExtractionException, TransformeurException, ClientProtocolException, IOException, JDOMException
 	{
 		Map<ExtraKey, ExtracteurExtraHtml> extraMap = new TreeMap<ExtraKey, ExtracteurExtraHtml>();
 		
@@ -162,6 +162,11 @@ public class EngineAnalyseurEnLigne extends EngineConnecte {
 				FileOutputStream fosSortie = new FileOutputStream(fichier_sortie);
 				Transformeur.go(modele, beans, fosSortie);
 				fosSortie.close();
+				
+				if (!generer_ddcs)
+				{
+					Transformeur.retireOnglet(fichier_sortie, Consts.ONGLET_DDCS);
+				}
 			};
 			progress_.setProgress(80);
 		}
@@ -207,14 +212,17 @@ public class EngineAnalyseurEnLigne extends EngineConnecte {
 				FileOutputStream fosSortie = new FileOutputStream(fichier_sortie);
 				Transformeur.go(modele, beans, fosSortie);
 				fosSortie.close();
+				
+				if (!generer_ddcs)
+				{
+					Transformeur.retireOnglet(fichier_sortie, Consts.ONGLET_DDCS);
+				}
 			}
 		}
-		
-		
 		return true;
 	}
 
-	public void go(String identifiant, String motdepasse, InputStream batch, InputStream modele, int structure, boolean age, String batch_type, boolean recursif, ParamSortie sortie, boolean anonymiser, boolean garderFichiers, boolean pargroupe) throws EngineException, LoginEngineException
+	public void go(String identifiant, String motdepasse, InputStream batch, InputStream modele, int structure, boolean age, String batch_type, boolean recursif, ParamSortie sortie, boolean anonymiser, boolean garderFichiers, boolean pargroupe, boolean generer_ddcs) throws EngineException, LoginEngineException
 	{
 		start();
 		try
@@ -228,7 +236,7 @@ public class EngineAnalyseurEnLigne extends EngineConnecte {
 			progress_.setProgress(40);
 			
 			logger_.info("Traitement de la structure "+Structure.formatStructure(structure));
-			gopriv(app, pbatch, identifiant, motdepasse, modele, structure, age, batch_type, sortie, anonymiser, garderFichiers, pargroupe);
+			gopriv(app, pbatch, identifiant, motdepasse, modele, structure, age, batch_type, sortie, anonymiser, garderFichiers, pargroupe, generer_ddcs);
 			logout();
 		} catch (IOException | JDOMException | ExtractionException | TransformeurException e) {
 			throw new EngineException("Exception dans "+this.getClass().getName(),e);
@@ -243,7 +251,7 @@ public class EngineAnalyseurEnLigne extends EngineConnecte {
 		}
 	}
 
-	public void go(String identifiant, String motdepasse, InputStream batch, InputStream modele, int[] structures, boolean age, String batch_type, boolean recursif, ParamSortie sortie, boolean anonymiser, boolean garderFichiers, boolean pargroupe) throws EngineException, LoginEngineException
+	public void go(String identifiant, String motdepasse, InputStream batch, InputStream modele, int[] structures, boolean age, String batch_type, boolean recursif, ParamSortie sortie, boolean anonymiser, boolean garderFichiers, boolean pargroupe, boolean generer_ddcs) throws EngineException, LoginEngineException
 	{
 		start();
 		try
@@ -259,7 +267,7 @@ public class EngineAnalyseurEnLigne extends EngineConnecte {
 			for (int structure : structures)
 			{
 				logger_.info("Traitement de la structure "+Structure.formatStructure(structure));
-				boolean ret = gopriv(app, pbatch, identifiant, motdepasse, modele, structure, age, batch_type, sortie, anonymiser, garderFichiers, pargroupe);
+				boolean ret = gopriv(app, pbatch, identifiant, motdepasse, modele, structure, age, batch_type, sortie, anonymiser, garderFichiers, pargroupe, generer_ddcs);
 				if (ret == false)
 					break;
 			}

@@ -39,6 +39,9 @@ public class Analyseur extends CommonParamsG {
 	@Option(names = "-pargroupe", description = "Générer un fichier par groupe (Valeur par défaut: ${DEFAULT-VALUE})")
 	private boolean pargroupe = false;
 	
+	@Option(names = "-ddcs", description = "Ajouter l'onglet d'aide à la déclaration trimestrielle de la DDCS (Valeur par défaut: ${DEFAULT-VALUE})")
+	private boolean ddcs = false;
+	
 	@Override
 	public void run(CommandLine commandLine) throws CmdLineException
 	{
@@ -49,7 +52,7 @@ public class Analyseur extends CommonParamsG {
 			
 			ParamEntree pentree = new ParamEntree(entree, structures);
 			ParamSortie psortie = new ParamSortie(sortie, pargroupe || structures.length > 1, Consts.NOM_FICHIER_ANALYSE_RESPONSABLES);
-			en.go(pentree, new ResetableFileInputStream(new FileInputStream(batch)), new ResetableFileInputStream(new FileInputStream(modele)), structures, age, "tout_responsables" , psortie, anonymiser, pargroupe);
+			en.go(pentree, new ResetableFileInputStream(new FileInputStream(batch)), new ResetableFileInputStream(new FileInputStream(modele)), structures, age, "tout_responsables" , psortie, anonymiser, pargroupe, ddcs);
 		} catch (EngineException | FileNotFoundException e) {
 			Logging.logError(e);
 		}

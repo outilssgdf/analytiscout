@@ -121,7 +121,11 @@ abstract public class AnalyseurEnLigne extends Dialogue implements LoggedDialog,
 			panel.setLayout(new BorderLayout(0, 0));
 			{
 				chkAge = new JCheckBox("Gestion de l'âge");
-				panel.add(chkAge, BorderLayout.WEST);
+				panel.add(chkAge, BorderLayout.NORTH);
+			}
+			{
+				chcDdcs = new JCheckBox("Générer les informations d'aide à la déclaration DDCS");
+				panel.add(chcDdcs, BorderLayout.CENTER);
 			}
 		}
 		{
@@ -277,6 +281,7 @@ abstract public class AnalyseurEnLigne extends Dialogue implements LoggedDialog,
 	private JCheckBox chkGarderFichiers;
 	private JCheckBox chkGenererParGroupe;
 	private JButton btnFichier;
+	private JCheckBox chcDdcs;
 
 	@Override
 	public boolean check() {
@@ -315,7 +320,7 @@ abstract public class AnalyseurEnLigne extends Dialogue implements LoggedDialog,
 					int structures[] = construitStructures();
 					EngineAnalyseurEnLigne en = new EngineAnalyseurEnLigne(progress, logger_);
 					ParamSortie psortie = chkGenererParGroupe.isSelected() ? new ParamSortie(fSortieRepertoire, true, nomFichier_) : new ParamSortie(fSortieFichier);
-					en.go(identifiant_, motdepasse_, new ResetableFileInputStream(new FileInputStream(fBatch)), new ResetableFileInputStream(new FileInputStream(fModele)), structures, chkAge.isSelected(), "tout_responsables", true, psortie ,Params.getb(Consts.PARAMS_ANONYMISER, false), chkGarderFichiers.isSelected(), chkGenererParGroupe.isSelected());
+					en.go(identifiant_, motdepasse_, new ResetableFileInputStream(new FileInputStream(fBatch)), new ResetableFileInputStream(new FileInputStream(fModele)), structures, chkAge.isSelected(), "tout_responsables", true, psortie ,Params.getb(Consts.PARAMS_ANONYMISER, false), chkGarderFichiers.isSelected(), chkGenererParGroupe.isSelected(), chcDdcs.isSelected());
 					btnOuvrir.maj();
 				} catch (Exception e) {
 					logger_.error(Logging.dumpStack(null, e));
@@ -353,5 +358,8 @@ abstract public class AnalyseurEnLigne extends Dialogue implements LoggedDialog,
 	}
 	protected JButton getBtnFichier() {
 		return btnFichier;
+	}
+	protected JCheckBox getChcDdcs() {
+		return chcDdcs;
 	}
 }

@@ -2,6 +2,8 @@ package org.leplan73.analytiscout;
 
 public class Consts {
 
+	public static final String ONGLET_DDCS = "Déclaration DDCS";
+	
 	public static final String PARAMS_ANONYMISER = "params.anonymiser";
 	
 	public static final String STRUCTURE_NATIONAL = "000000000";

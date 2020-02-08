@@ -60,6 +60,7 @@ abstract public class Analyseur extends Dialogue implements LoggedDialog, GuiCom
 	private JButton btnFichier;
 	private BoutonOuvrir btnOuvrir;
 	private JCheckBox chkGenererParGroupe;
+	private JCheckBox chcDdcs;
 
 	/**
 	 * Create the dialog.
@@ -138,6 +139,10 @@ abstract public class Analyseur extends Dialogue implements LoggedDialog, GuiCom
 			{
 				chcAge = new JCheckBox("Gestion de l'âge");
 				panel.add(chcAge, BorderLayout.NORTH);
+			}
+			{
+				chcDdcs = new JCheckBox("Générer les informations d'aide à la déclaration DDCS");
+				panel.add(chcDdcs, BorderLayout.CENTER);
 			}
 		}
 		{
@@ -326,7 +331,7 @@ abstract public class Analyseur extends Dialogue implements LoggedDialog, GuiCom
 					ParamEntree pentree = new ParamEntree(fEntree);
 					ParamSortie psortie = chkGenererParGroupe.isSelected() ? new ParamSortie(fSortieRepertoire, true, nomFichier_) : new ParamSortie(fSortieFichier);
 					
-					en.go(pentree, new ResetableFileInputStream(new FileInputStream(fBatch)), new ResetableFileInputStream(new FileInputStream(fModele)), null, getChcAge().isSelected(), "tout_responsables", psortie, Params.getb(Consts.PARAMS_ANONYMISER, false), chkGenererParGroupe.isSelected());
+					en.go(pentree, new ResetableFileInputStream(new FileInputStream(fBatch)), new ResetableFileInputStream(new FileInputStream(fModele)), null, getChcAge().isSelected(), "tout_responsables", psortie, Params.getb(Consts.PARAMS_ANONYMISER, false), chkGenererParGroupe.isSelected(), chcDdcs.isSelected());
 					btnOuvrir.maj();
 				} catch (Exception e) {
 					logger_.error(Logging.dumpStack(null, e));
@@ -362,5 +367,8 @@ abstract public class Analyseur extends Dialogue implements LoggedDialog, GuiCom
 	}
 	protected JButton getBtnFichier() {
 		return btnFichier;
+	}
+	protected JCheckBox getChcDdcs() {
+		return chcDdcs;
 	}
 }

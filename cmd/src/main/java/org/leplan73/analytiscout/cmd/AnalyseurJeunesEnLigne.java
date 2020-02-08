@@ -40,6 +40,9 @@ public class AnalyseurJeunesEnLigne extends CommonParamsIntranet {
 	@Option(names = "-pargroupe", description = "Générer un fichier par groupe (Valeur par défaut: ${DEFAULT-VALUE})")
 	private boolean pargroupe = false;
 	
+	@Option(names = "-ddcs", description = "Ajouter l'onglet d'aide à la déclaration trimestrielle de la DDCS (Valeur par défaut: ${DEFAULT-VALUE})")
+	private boolean ddcs = false;
+	
 	@Override
 	public void run(CommandLine commandLine) throws CmdLineException
 	{
@@ -56,7 +59,7 @@ public class AnalyseurJeunesEnLigne extends CommonParamsIntranet {
 			CmdProgress progress = new CmdProgress();
 			EngineAnalyseurEnLigne en = new EngineAnalyseurEnLigne(progress, Logging.logger_);
 			ParamSortie psortie = new ParamSortie(sortie, pargroupe || structures.length > 1, "jeunes_");
-			en.go(identifiant,motdepasse, new ResetableFileInputStream(new FileInputStream(batch)), new ResetableFileInputStream(new FileInputStream(modele)), structures, age, "tout_jeunes", recursif, psortie, anonymiser, garder, pargroupe);
+			en.go(identifiant,motdepasse, new ResetableFileInputStream(new FileInputStream(batch)), new ResetableFileInputStream(new FileInputStream(modele)), structures, age, "tout_jeunes", recursif, psortie, anonymiser, garder, pargroupe, ddcs);
 		} catch (Exception e) {
 			Logging.logger_.error(Logging.dumpStack(null, e));
 		}

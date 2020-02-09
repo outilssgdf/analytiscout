@@ -67,11 +67,11 @@ public class Database {
 				ParamSortie psortie = new ParamSortie(outputStream);
 				if (responsables)
 				{
-					en.go(identifiant, motdepasse, fBatch, fModele, code_structure, age, "tout_responsables", recursif, psortie, anonymiser, false, pargroupe);
+					en.go(identifiant, motdepasse, fBatch, fModele, code_structure, age, "tout_responsables", recursif, psortie, anonymiser, false, pargroupe, false);
 				}
 				else
 				{
- 					en.go(identifiant, motdepasse, fBatch, fModele, code_structure, age, "tout_jeunes", recursif, psortie, anonymiser, false, pargroupe);
+ 					en.go(identifiant, motdepasse, fBatch, fModele, code_structure, age, "tout_jeunes", recursif, psortie, anonymiser, false, pargroupe, false);
 				}
 				
 				byte[] fichier = outputStream.toByteArray();

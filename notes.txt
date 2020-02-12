@@ -78,4 +78,5 @@ Version 1.3.0 :
 	- Responsables / Jeunes : Ajout de couleurs pour les branches
 	- Responsables / Jeunes : Ajout des grilles d'impression
 	- Responsables : Ajout d'une option pour générer les informations d'aide à la déclaration DDCS
-	- Alertes : Une qualif expirée depuis plus de 2 ans ne génère plus d'alerte   
+	- Alertes : Une qualif expirée depuis plus de 2 ans ne génère plus d'alerte
+	- Responsables / Jeunes : Ajout du scoutisme marin

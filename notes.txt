@@ -80,3 +80,4 @@ Version 1.3.0 :
 	- Responsables : Ajout d'une option pour générer les informations d'aide à la déclaration DDCS
 	- Alertes : Une qualif expirée depuis plus de 2 ans ne génère plus d'alerte
 	- Responsables / Jeunes : Ajout du scoutisme marin
+	- Responsables : Ajout de la formation initiale des RG (FIRG) 

@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
@@ -40,6 +41,7 @@ public class EngineAnalyseur extends Engine {
 		
 		Map<ExtraKey, ExtracteurExtraHtml> extraMap = new TreeMap<ExtraKey, ExtracteurExtraHtml>();
 		File fichierAdherents = null;
+		Set<String> retirer_code = null;
 
 		File dossierStructure = entree.construit(structure);
 		dossierStructure.mkdirs();
@@ -51,7 +53,7 @@ public class EngineAnalyseur extends Engine {
 			if (generateur == null) {
 				break;
 			}
-
+			
 			ExtraKey extra = new ExtraKey(
 					pbatch.getProperty("fichier." + index, pbatch.getProperty("nom." + index, "")),
 					pbatch.getProperty("nom." + index, ""),
@@ -62,6 +64,14 @@ public class EngineAnalyseur extends Engine {
 
 			if (extra.ifTout()) {
 				fichierAdherents = fichier_entree;
+				String retirer_code_p = pbatch.getProperty("retirer_code." + index);
+				if (retirer_code_p != null)
+				{
+					retirer_code = new HashSet<>();
+					for (String name : retirer_code_p.split(",")) {
+						retirer_code.add(name);
+					}
+				}
 			} else
 				extraMap.put(extra, new ExtracteurExtraHtml(fichier_entree, age));
 			index++;
@@ -69,7 +79,7 @@ public class EngineAnalyseur extends Engine {
 		
 		progress_.setProgress(50);
 		logger_.info("Chargement du fichier \"" + fichierAdherents.getName() + "\"");
-		ExtracteurIndividusHtml adherents = new ExtracteurIndividusHtml(fichierAdherents, extraMap, age, anonymiser);
+		ExtracteurIndividusHtml adherents = new ExtracteurIndividusHtml(fichierAdherents, extraMap, age, anonymiser, retirer_code);
 		
 		General general = General.generer();
 		

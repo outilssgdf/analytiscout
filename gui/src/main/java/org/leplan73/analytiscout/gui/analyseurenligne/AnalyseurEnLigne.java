@@ -53,7 +53,7 @@ abstract public class AnalyseurEnLigne extends Dialogue implements LoggedDialog,
 	protected File fBatch = new File("conf/batch_responsables.txt");
 	protected File fModele = new File("conf/modele_responsables.xlsx");
 	protected String nomFichier_;
-
+	
 	/**
 	 * Create the dialog.
 	 * @param fModele 
@@ -62,7 +62,7 @@ abstract public class AnalyseurEnLigne extends Dialogue implements LoggedDialog,
 	 * @param logger 
 	 * @throws URISyntaxException 
 	 */
-	public AnalyseurEnLigne(String titre, Logger logger, File pfSortieFichier, File pfSortieRepertoire, String nomFichier, File pfBatch, File pfModele) {
+	public AnalyseurEnLigne(String titre, Logger logger, File pfSortieFichier, File pfSortieRepertoire, String nomFichier, File pfBatch, File pfModele, boolean cacherOptions) {
 		super();
 		this.logger_ = logger;
 		this.fSortieFichier = pfSortieFichier;
@@ -109,23 +109,28 @@ abstract public class AnalyseurEnLigne extends Dialogue implements LoggedDialog,
 			}
 		}
 		{
-			JPanel panel = new JPanel();
-			panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Options", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-			GridBagConstraints gbc_panel = new GridBagConstraints();
-			gbc_panel.insets = new Insets(0, 0, 5, 0);
-			gbc_panel.anchor = GridBagConstraints.NORTH;
-			gbc_panel.fill = GridBagConstraints.HORIZONTAL;
-			gbc_panel.gridx = 0;
-			gbc_panel.gridy = 1;
-			contentPanel.add(panel, gbc_panel);
-			panel.setLayout(new BorderLayout(0, 0));
+			JPanel panelOptions = new JPanel();
+			panelOptions.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Options", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+			GridBagConstraints gbc_panelOptions = new GridBagConstraints();
+			gbc_panelOptions.insets = new Insets(0, 0, 5, 0);
+			gbc_panelOptions.anchor = GridBagConstraints.NORTH;
+			gbc_panelOptions.fill = GridBagConstraints.HORIZONTAL;
+			gbc_panelOptions.gridx = 0;
+			gbc_panelOptions.gridy = 1;
+			contentPanel.add(panelOptions, gbc_panelOptions);
+			panelOptions.setLayout(new BorderLayout(0, 0));
 			{
 				chkAge = new JCheckBox("Gestion de l'âge");
-				panel.add(chkAge, BorderLayout.NORTH);
+				panelOptions.add(chkAge, BorderLayout.NORTH);
 			}
 			{
 				chcDdcs = new JCheckBox("Générer les informations d'aide à la déclaration DDCS");
-				panel.add(chcDdcs, BorderLayout.CENTER);
+				panelOptions.add(chcDdcs, BorderLayout.CENTER);
+			}
+			
+			if (cacherOptions)
+			{
+				panelOptions.setVisible(false);
 			}
 		}
 		{

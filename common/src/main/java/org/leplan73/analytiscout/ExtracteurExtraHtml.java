@@ -30,7 +30,7 @@ public class ExtracteurExtraHtml {
 	public ExtracteurExtraHtml(InputStream input, boolean age) throws ExtractionException, IOException, JDOMException {
 		charge(input, age);
 	}
-	
+
 	public ExtracteurExtraHtml(File fichier, boolean age) throws ExtractionException, IOException, JDOMException {
 		charge(fichier, age);
 	}
@@ -121,7 +121,7 @@ public class ExtracteurExtraHtml {
         	if (index % nbColumns == 0)
         	{
             	adherent.init(age);
-				adherents_.add(new AdherentForme(adherent));
+           		adherents_.add(new AdherentForme(adherent));
         	}
 		}
 	}

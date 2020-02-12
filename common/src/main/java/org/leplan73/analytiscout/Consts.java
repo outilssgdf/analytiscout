@@ -33,6 +33,7 @@ public class Consts {
 	
 	static final public String NOM_FICHIER_ANALYSE_RESPONSABLES = "responsables_";
 	static final public String NOM_FICHIER_ANALYSE_JEUNES = "jeunes_";
+	static final public String NOM_FICHIER_ANALYSE_MARINS = "marins_";
 	
 	static final public String GROUPE_PARENTS = "Parents";
 	

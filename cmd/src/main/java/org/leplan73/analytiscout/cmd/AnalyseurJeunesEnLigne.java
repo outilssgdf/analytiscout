@@ -3,6 +3,7 @@ package org.leplan73.analytiscout.cmd;
 import java.io.File;
 import java.io.FileInputStream;
 
+import org.leplan73.analytiscout.Consts;
 import org.leplan73.analytiscout.ParamSortie;
 import org.leplan73.analytiscout.cmd.utils.CmdLineException;
 import org.leplan73.analytiscout.cmd.utils.CommonParamsG;
@@ -58,7 +59,7 @@ public class AnalyseurJeunesEnLigne extends CommonParamsIntranet {
 			check();
 			CmdProgress progress = new CmdProgress();
 			EngineAnalyseurEnLigne en = new EngineAnalyseurEnLigne(progress, Logging.logger_);
-			ParamSortie psortie = new ParamSortie(sortie, pargroupe || structures.length > 1, "jeunes_");
+			ParamSortie psortie = new ParamSortie(sortie, pargroupe || structures.length > 1, Consts.NOM_FICHIER_ANALYSE_JEUNES);
 			en.go(identifiant,motdepasse, new ResetableFileInputStream(new FileInputStream(batch)), new ResetableFileInputStream(new FileInputStream(modele)), structures, age, "tout_jeunes", recursif, psortie, anonymiser, garder, pargroupe, ddcs);
 		} catch (Exception e) {
 			Logging.logger_.error(Logging.dumpStack(null, e));

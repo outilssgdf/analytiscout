@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
@@ -44,6 +45,7 @@ public class EngineAnalyseurEnLigne extends EngineConnecte {
 		Map<ExtraKey, ExtracteurExtraHtml> extraMap = new TreeMap<ExtraKey, ExtracteurExtraHtml>();
 		
 		String donneesAdherents=null;
+		Set<String> retirer_code = null;
 		int index = 1;
 		for (;;) {
 			
@@ -107,6 +109,14 @@ public class EngineAnalyseurEnLigne extends EngineConnecte {
 			
 			if (extra.ifTout()) {
 				donneesAdherents = donnees;
+				String retirer_code_p = pbatch.getProperty("retirer_code." + index);
+				if (retirer_code_p != null)
+				{
+					retirer_code = new HashSet<>();
+					for (String name : retirer_code_p.split(",")) {
+						retirer_code.add(name);
+					}
+				}
 			} else {
 				InputStream in = new ByteArrayInputStream(donnees.getBytes(Consts.ENCODING_UTF8));
 				extraMap.put(extra, new ExtracteurExtraHtml(in, age));
@@ -116,7 +126,7 @@ public class EngineAnalyseurEnLigne extends EngineConnecte {
 		progress_.setProgress(50);
 		
 		InputStream in = new ByteArrayInputStream(donneesAdherents.getBytes(Consts.ENCODING_UTF8));
-		ExtracteurIndividusHtml adherents = new ExtracteurIndividusHtml(in, extraMap,age, anonymiser);
+		ExtracteurIndividusHtml adherents = new ExtracteurIndividusHtml(in, extraMap,age, anonymiser, retirer_code);
  
 		AdherentsFormes adherentsFormes = new AdherentsFormes();
 		adherentsFormes.charge(adherents,extraMap);

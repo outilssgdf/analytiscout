@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -49,14 +50,14 @@ public class ExtracteurIndividusHtml {
 		adherents_ = new Adherents();
 	}
 	
-	public ExtracteurIndividusHtml(InputStream input, Map<ExtraKey, ExtracteurExtraHtml> extras, boolean age, boolean anonymiser) throws ExtractionException, IOException, JDOMException {
+	public ExtracteurIndividusHtml(InputStream input, Map<ExtraKey, ExtracteurExtraHtml> extras, boolean age, boolean anonymiser, Set<String> retirer_codes) throws ExtractionException, IOException, JDOMException {
 		extras_ = extras;
-		charge(input, age, anonymiser);
+		charge(input, age, anonymiser, retirer_codes);
 	}
 	
-	public ExtracteurIndividusHtml(File fichier, Map<ExtraKey, ExtracteurExtraHtml> extras, boolean age, boolean anonymiser) throws ExtractionException, IOException, JDOMException {
+	public ExtracteurIndividusHtml(File fichier, Map<ExtraKey, ExtracteurExtraHtml> extras, boolean age, boolean anonymiser, Set<String> retirer_codes) throws ExtractionException, IOException, JDOMException {
 		extras_ = extras;
-		charge(fichier, age, anonymiser);
+		charge(fichier, age, anonymiser, retirer_codes);
 	}
 
 	public Map<String, ExtracteurIndividusHtml> genereGroupes() {
@@ -150,14 +151,21 @@ public class ExtracteurIndividusHtml {
 	public void charge(final String donnnes, boolean age, boolean anonymiser) throws ExtractionException, IOException, JDOMException
 	{
    		ByteArrayInputStream excelFile = new ByteArrayInputStream(donnnes.getBytes());
-   		charge(excelFile, age, anonymiser);
+   		charge(excelFile, age, anonymiser, null);
 		excelFile.close();
 	}
 	
 	public void charge(final File fichier, boolean age, boolean anonymiser) throws ExtractionException, IOException, JDOMException
 	{
    		FileInputStream excelFile = new FileInputStream(fichier);
-   		charge(excelFile, age, anonymiser);
+   		charge(excelFile, age, anonymiser, null);
+		excelFile.close();
+	}
+	
+	public void charge(final File fichier, boolean age, boolean anonymiser, Set<String> retirer_codes) throws ExtractionException, IOException, JDOMException
+	{
+   		FileInputStream excelFile = new FileInputStream(fichier);
+   		charge(excelFile, age, anonymiser, retirer_codes);
 		excelFile.close();
 	}
 	
@@ -359,21 +367,26 @@ public class ExtracteurIndividusHtml {
 		});
 	}
 	
-	public void charge(List<InputStream> streams, boolean age) throws ExtractionException, IOException, JDOMException
+	public void charge(List<InputStream> streams, boolean age, Set<String> retirer_codes) throws ExtractionException, IOException, JDOMException
 	{
 		// Chargement des lignes d'adherents
         adherents_ = new Adherents();
 
 		for (InputStream stream : streams) 
 		{
-			chargeStream(stream, age);
+			chargeStream(stream, age, retirer_codes);
 		}
 		complete();
 	}
 	
 	public void charge(final InputStream stream, boolean age, boolean anonymiser) throws ExtractionException, IOException, JDOMException
 	{
-		chargeStream(stream, age);
+		charge(stream, age ,anonymiser, null);
+	}
+	
+	public void charge(final InputStream stream, boolean age, boolean anonymiser, Set<String> retirer_codes) throws ExtractionException, IOException, JDOMException
+	{
+		chargeStream(stream, age, retirer_codes);
 		if (anonymiser)
 		{
 			Anonymizer anon = new Anonymizer();
@@ -545,7 +558,7 @@ public class ExtracteurIndividusHtml {
 		return null;
 	}
 	
-	private void chargeStream(final InputStream stream, boolean age) throws JDOMException, IOException, ExtractionException
+	private void chargeStream(final InputStream stream, boolean age, Set<String> retirer_codes) throws JDOMException, IOException, ExtractionException
 	{
 		XPathFactory xpfac = XPathFactory.instance();
 		SAXBuilder builder = new SAXBuilder();
@@ -591,6 +604,15 @@ public class ExtracteurIndividusHtml {
 				{
 					marins_ = true;
 				}
+				
+				if (retirer_codes != null)
+            	{
+            		if (retirer_codes.contains(adherent.getFonctioncomplet()) == true)
+            		{
+            			continue;
+            		}
+            	}
+				
 				if (adherent.getChef())
 				{
 					AdherentForme chef = new AdherentForme(adherent);

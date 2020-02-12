@@ -325,3 +325,13 @@ nom.36=responsable_farfadets
 fichier.36=responsable_farfadets
 adherents.36=true
 batchtype.36=formation
+
+generateur.37=xml
+format.37=4
+diplome.37=
+qualif.37=
+formation.37=287
+nom.37=firg
+fichier.37=firg
+adherents.37=true
+batchtype.37=formation

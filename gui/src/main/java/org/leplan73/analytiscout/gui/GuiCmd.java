@@ -19,9 +19,6 @@ public class GuiCmd extends GuiParams
 {
 	public void go(String[] args)
 	{
-		Logging.initLogger(avance ? AnalytiscoutNormal.class: AnalytiscoutAdvanced.class, nologfile);
-		Params.init();
-		
 		boolean avance = false;
 		
 		CommandLine commandLine = new CommandLine(this);
@@ -43,7 +40,11 @@ public class GuiCmd extends GuiParams
 			{
 				Params.set(Consts.PARAMS_ANONYMISER, "true");
 			}
+			
+			Logging.initLogger(cmd.avance ? AnalytiscoutNormal.class: AnalytiscoutAdvanced.class, cmd.nologfile);
 		}
+
+		Params.init();
 		
 		Preferences.init();
 		try {

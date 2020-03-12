@@ -17,19 +17,13 @@ import org.slf4j.Logger;
 
 public class EngineDetection extends EngineConnecte {
 
-	public class Utilisateur
-	{
-		public String structure;
-		public String email;
-	}
-	
 	public EngineDetection(Progress progress, Logger logger) {
 		super(progress, logger);
 	}
 	
-	public Utilisateur go(String identifiant, String motdepasse) throws EngineException, LoginEngineException
+	public EngineConnexion go(String identifiant, String motdepasse) throws EngineException, LoginEngineException
 	{
-		Utilisateur utilisateur = new Utilisateur();
+		EngineConnexion utilisateur = new EngineConnexion();
 		
 		start();
 		try

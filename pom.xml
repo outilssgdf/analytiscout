@@ -44,10 +44,10 @@
 		<htmlunit.version>2.36.0</htmlunit.version>
 	</properties>
 	<modules>
-		<module>common</module>
-		<module>cmd</module>
-		<module>gui</module>
-    	<module>assembly</module>
+		<module>analytiscout-common</module>
+		<module>analytiscout-cmd</module>
+		<module>analytiscout-gui</module>
+    	<module>analytiscout-assembly</module>
 	</modules>
   <build>
   <plugins>

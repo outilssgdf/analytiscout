@@ -6,8 +6,7 @@
 		<artifactId>analytiscout</artifactId>
 		<version>1.4.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>cmd</artifactId>
-	<name>cmd</name>
+	<artifactId>analytiscout-cmd</artifactId>
 	<dependencies>
 		<dependency>
 			<groupId>org.leplan73</groupId>

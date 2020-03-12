@@ -5,7 +5,7 @@
   <formats>
     <format>zip</format>
   </formats>
-  <baseDirectory>analytiscout</baseDirectory>
+  <baseDirectory>.</baseDirectory>
   <files>
     <file>
       <source>../LICENSE</source>
@@ -44,11 +44,11 @@
       <outputDirectory>.</outputDirectory>
     </file>
     <file>
-      <source>../cmd/target/analytiscout-cmd.jar</source>
+      <source>../analytiscout-cmd/target/analytiscout-cmd.jar</source>
       <outputDirectory>./app</outputDirectory>
     </file>
     <file>
-      <source>../gui/target/analytiscout-gui.jar</source>
+      <source>../analytiscout-gui/target/analytiscout-gui.jar</source>
       <outputDirectory>./app</outputDirectory>
     </file>
   </files>

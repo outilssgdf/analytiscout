@@ -6,8 +6,7 @@
 		<artifactId>analytiscout</artifactId>
 		<version>1.4.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>gui</artifactId>
-	<name>gui</name>
+	<artifactId>analytiscout-gui</artifactId>
 	<dependencies>
 		<dependency>
 			<groupId>org.leplan73</groupId>

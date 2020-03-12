@@ -6,9 +6,8 @@
 		<artifactId>analytiscout</artifactId>
 		<version>1.4.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>assembly</artifactId>
+	<artifactId>analytiscout-assembly</artifactId>
 	<packaging>pom</packaging>
-	<name>assembly</name>
 	<dependencies>
 		<dependency>
 			<groupId>org.leplan73</groupId>

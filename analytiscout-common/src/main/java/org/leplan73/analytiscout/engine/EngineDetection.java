@@ -13,6 +13,8 @@ import org.leplan73.analytiscout.extraction.Adherents;
 import org.leplan73.analytiscout.intranet.ExtractionAdherents;
 import org.leplan73.analytiscout.intranet.ExtractionIntranet;
 import org.leplan73.analytiscout.intranet.LoginEngineException;
+import org.leplan73.analytiscout.outils.CryptoException;
+import org.leplan73.analytiscout.outils.PasswdCrypt;
 import org.slf4j.Logger;
 
 public class EngineDetection extends EngineConnecte {
@@ -50,11 +52,13 @@ public class EngineDetection extends EngineConnecte {
 			Adherents adherents = x.getAdherents();
 			Adherent adherent = adherents.get(Integer.parseInt(identifiant));
 			utilisateur.structure = adherent.getCodestructure();
-			utilisateur.email = adherent.getEmailPersonnel();
+			utilisateur.email_encrypte = adherent.getEmailPersonnel();
+			utilisateur.identifiant_encrypte = PasswdCrypt.encrypt(identifiant);
+			utilisateur.motdepasse_encrypte = PasswdCrypt.encrypt(motdepasse);
 			
 			app.close();
 			progress_.stop();
-		} catch (IOException | JDOMException | ExtractionException e) {
+		} catch (IOException | JDOMException | ExtractionException | CryptoException e) {
 			throw new EngineException("Exception dans "+this.getClass().getName(),e);
 		}
 		finally  {

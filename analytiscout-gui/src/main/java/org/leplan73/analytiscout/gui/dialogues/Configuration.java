@@ -24,9 +24,9 @@ import javax.swing.border.TitledBorder;
 
 import org.leplan73.analytiscout.Consts;
 import org.leplan73.analytiscout.Progress;
+import org.leplan73.analytiscout.engine.EngineConnexion;
 import org.leplan73.analytiscout.engine.EngineDetection;
 import org.leplan73.analytiscout.engine.EngineException;
-import org.leplan73.analytiscout.engine.EngineDetection.Utilisateur;
 import org.leplan73.analytiscout.gui.GuiProgress;
 import org.leplan73.analytiscout.gui.utils.Dialogue;
 import org.leplan73.analytiscout.gui.utils.Logging;
@@ -182,7 +182,7 @@ public class Configuration extends Dialogue {
 				try {
 					EngineDetection engine = new EngineDetection(progress, logger_);
 					try {
-						Utilisateur utilisateur = engine.go(txfIdentifiant.getText(), new String(txfMotdepasse.getPassword()));
+						EngineConnexion utilisateur = engine.go(txfIdentifiant.getText(), new String(txfMotdepasse.getPassword()));
 						txfCodeStructure.setText(utilisateur.structure);
 						okButton.setEnabled(txfCodeStructure.getText().isEmpty() == false);
 					} catch (EngineException e1) {

@@ -11,17 +11,17 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.leplan73</groupId>
-			<artifactId>common</artifactId>
+			<artifactId>analytiscout-common</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.leplan73</groupId>
-			<artifactId>cmd</artifactId>
+			<artifactId>analytiscout-cmd</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.leplan73</groupId>
-			<artifactId>gui</artifactId>
+			<artifactId>analytiscout-gui</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 	</dependencies>

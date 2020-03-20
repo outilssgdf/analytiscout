@@ -10,7 +10,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.leplan73</groupId>
-			<artifactId>common</artifactId>
+			<artifactId>analytiscout-common</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>

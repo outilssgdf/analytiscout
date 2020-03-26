@@ -62,7 +62,7 @@ abstract public class AnalyseurEnLigne extends Dialogue implements LoggedDialog,
 	 * @param logger 
 	 * @throws URISyntaxException 
 	 */
-	public AnalyseurEnLigne(String titre, Logger logger, File pfSortieFichier, File pfSortieRepertoire, String nomFichier, File pfBatch, File pfModele, boolean cacherOptions) {
+	public AnalyseurEnLigne(String titre, Logger logger, File pfSortieFichier, File pfSortieRepertoire, String nomFichier, File pfBatch, File pfModele, boolean cacherDdcs, boolean cacherOptions) {
 		super();
 		this.logger_ = logger;
 		this.fSortieFichier = pfSortieFichier;
@@ -131,6 +131,10 @@ abstract public class AnalyseurEnLigne extends Dialogue implements LoggedDialog,
 			if (cacherOptions)
 			{
 				panelOptions.setVisible(false);
+			}
+			if (cacherDdcs)
+			{
+				chcDdcs.setVisible(false);
 			}
 		}
 		{

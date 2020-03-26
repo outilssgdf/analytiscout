@@ -13,6 +13,6 @@ public class AnalyseurEnLigneMarins extends AnalyseurEnLigne {
 	private static Logger logger_ = LoggerFactory.getLogger(AnalyseurEnLigneMarins.class);
 
 	public AnalyseurEnLigneMarins() {
-		super("Analyseur en ligne (Marins)", logger_, new File(Preferences.lit(Consts.REPERTOIRE_SORTIE, "données", false),"analyse_marins.xlsx"), new File(Preferences.lit(Consts.REPERTOIRE_SORTIE, "données", false)), Consts.NOM_FICHIER_ANALYSE_MARINS, new File("conf/batch_marins.txt"), new File("conf/modele_marins.xlsx"), true);
+		super("Analyseur en ligne (Marins)", logger_, new File(Preferences.lit(Consts.REPERTOIRE_SORTIE, "données", false),"analyse_marins.xlsx"), new File(Preferences.lit(Consts.REPERTOIRE_SORTIE, "données", false)), Consts.NOM_FICHIER_ANALYSE_MARINS, new File("conf/batch_marins.txt"), new File("conf/modele_marins.xlsx"), true, true);
 	}
 }

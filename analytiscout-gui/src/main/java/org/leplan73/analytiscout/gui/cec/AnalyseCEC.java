@@ -160,7 +160,7 @@ public class AnalyseCEC extends Dialogue implements LoggedDialog, GuiCommand {
 				panel.add(lblSortie, BorderLayout.WEST);
 			}
 			{
-				JButton button = new JButton("Fichier...");
+				JButton button = new JButton("Répertoire...");
 				button.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						fcSortie.setDialogTitle("Répertoire de sortie");

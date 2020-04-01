@@ -84,4 +84,7 @@ Version 1.3.0 :
 Version 1.3.1 :
 	- Responsables : Correction d'erreur de quotas
 	- Jeunes : Le panneau DDCS s'affichait
+Version 1.3.2 :
+	- Registre de présence : Anonymisation
+	- Alertes : Ajout d'une alerte si APF depuis moins de 2 and et pas de qualif 
 Prochaine version :

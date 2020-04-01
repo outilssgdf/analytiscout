@@ -1,5 +1,7 @@
 package org.leplan73.analytiscout.calcul;
 
+import java.util.Map;
+
 public class UniteSimple implements Comparable<UniteSimple> {
 	protected String nomcomplet_;
 	protected String nom_;
@@ -9,12 +11,7 @@ public class UniteSimple implements Comparable<UniteSimple> {
 	
 	public UniteSimple(String nomcomplet)
 	{
-		if (nomcomplet.isEmpty() == false) {
-			nomcomplet_ = nomcomplet;
-			nom_ = nomcomplet.substring(nomcomplet.indexOf(" - ")+3);
-			codeStructure_ = nomcomplet.substring(0,nomcomplet.indexOf(" - "));
-			groupe_ = new Groupe(nomcomplet);
-		}
+		changeNomcomplet(nomcomplet);
 	}
 	
 	public UniteSimple(String nom, String codeStructure, int fonction)
@@ -23,6 +20,20 @@ public class UniteSimple implements Comparable<UniteSimple> {
 		codeFonction_ = fonction;
 		codeStructure_ = codeStructure;
 		groupe_ = new Groupe(codeStructure);
+	}
+	
+	private void changeNomcomplet(String nomcomplet)
+	{
+		if (nomcomplet.isEmpty() == false) {
+			nomcomplet_ = nomcomplet;
+			nom_ = nomcomplet.substring(nomcomplet.indexOf(" - ")+3);
+			codeStructure_ = nomcomplet.substring(0,nomcomplet.indexOf(" - "));
+			groupe_ = new Groupe(nomcomplet);
+		}
+	}
+
+	public void anonymiserStructure(Map<String, String> tableDeTraductionNoms, Map<String, String> tableDeTraductionCode, int codeStructure) {
+		changeNomcomplet(codeStructure + " - " + tableDeTraductionNoms.getOrDefault(nom_, nom_));
 	}
 	
 	public boolean estGroupe()

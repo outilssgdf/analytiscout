@@ -3,11 +3,13 @@ package org.leplan73.analytiscout.registrepresence;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
 import org.apache.commons.csv.CSVRecord;
 import org.influxdb.InfluxDB;
+import org.leplan73.analytiscout.Anonymizer;
 import org.leplan73.analytiscout.calcul.UniteSimple;
 
 public class RegistrePresenceUnite extends UniteSimple {
@@ -24,6 +26,11 @@ public class RegistrePresenceUnite extends UniteSimple {
 		groupe_.setNom(groupe);
 	}
 	
+	public void anonymiserStructure(Map<String, String> tableDeTraductionNoms, Map<String, String> tableDeTraductionCode, int codeStructure, Anonymizer anon) {
+		super.anonymiserStructure(tableDeTraductionNoms, tableDeTraductionCode, codeStructure);
+		activites_.forEach(activite -> activite.anonymiser(anon));
+	}
+
 	public void exportInfluxDb(String groupe, PrintStream os) {
 		String prefix = "activite,unitecomplet="+nomcomplet_+",unite="+nom_+",structure="+codeStructure_+",code_groupe="+this.getCodegroupe()+",groupe="+groupe;
 		activites_.forEach(v -> v.exportInfluxDbReel(prefix,os));

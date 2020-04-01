@@ -8,14 +8,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 import org.influxdb.InfluxDB;
+import org.leplan73.analytiscout.Anonymizer;
 import org.leplan73.analytiscout.Consts;
 
 public class ExtracteurRegistrePresence {
@@ -97,10 +100,157 @@ public class ExtracteurRegistrePresence {
 			throw e;
 		} finally {
 		}
+		
+		if (anonymiser)
+		{
+			Anonymizer anon = new Anonymizer();
+			anon.init();
+			
+			Map<String, String> tableDeTraductionNoms = new TreeMap<String, String>();
+			Map<String, String> tableDeTraductionCode = new TreeMap<String, String>();
+			
+			Map<String, List<String>> unites = new TreeMap<String, List<String>>();
+			unites_.forEach((code, activiteUnite) ->
+			{
+				String c = activiteUnite.getBranche() + "-" + activiteUnite.getCodegroupe();
+				List<String> us = unites.get(c);
+				if (us == null)
+				{
+					us = new ArrayList<String>();
+					unites.put(c, us);
+				}
+				int index = us.indexOf(activiteUnite.getCodestructure());
+				if (index == -1)
+					us.add(activiteUnite.getCodestructure());
+			});
+			
+			AtomicInteger groupeId = new AtomicInteger();
+			
+			unites_.forEach((id, activiteUnite) ->
+			{
+				String structure = activiteUnite.getCodegroupe();
+				String uniteIt = activiteUnite.getNom();
+				
+				if (tableDeTraductionNoms.containsKey(uniteIt) == false)
+				{
+					if (uniteIt.startsWith("TERRITOIRE "))
+					{
+						uniteIt = "TERRITOIRE "+ "UNIVERS";
+						tableDeTraductionNoms.put(activiteUnite.getNom(), uniteIt);
+					}
+					else if (uniteIt.startsWith("GROUPE "))
+					{
+						uniteIt = "GROUPE A"+ groupeId.incrementAndGet();
+						tableDeTraductionNoms.put(activiteUnite.getNom(), uniteIt);
+						tableDeTraductionCode.put(structure, uniteIt);
+					}
+				}
+			});
+			
+			unites_.forEach((id, activiteUnite) ->
+			{
+				String structure = activiteUnite.getNom();
+				String c = activiteUnite.getBranche() + "-" + activiteUnite.getCodegroupe();
+				
+				if (structure.startsWith("RÉSEAU IMPEESA"))
+				{
+					structure = "RÉSEAU IMPEESA "+ tableDeTraductionCode.get(activiteUnite.getCodegroupe());
+					tableDeTraductionNoms.put(activiteUnite.getNom(), structure);
+				}
+				else
+				{
+					String branche = activiteUnite.getBranche();
+					List<String> us = unites.get(c);
+					if (branche.compareTo("F") == 0)
+					{
+						if (us.size() == 1)
+						{
+							tableDeTraductionNoms.put(activiteUnite.getNom(), "FARFADETS "+tableDeTraductionCode.get(activiteUnite.getCodegroupe()));
+						}
+						else
+						{
+							int index = us.indexOf(activiteUnite.getCodestructure());
+							tableDeTraductionNoms.put(activiteUnite.getNom(), "FARFADETS "+tableDeTraductionCode.get(activiteUnite.getCodegroupe())+" UNITE "+(index+1));
+						}
+					}
+					if (branche.compareTo("LJ") == 0)
+					{
+						if (us.size() == 1)
+						{
+							tableDeTraductionNoms.put(activiteUnite.getNom(), "LOUVETEAUX JEANNETTES "+tableDeTraductionCode.get(activiteUnite.getCodegroupe()));
+						}
+						else
+						{
+							int index = us.indexOf(activiteUnite.getCodestructure());
+							tableDeTraductionNoms.put(activiteUnite.getNom(), "LOUVETEAUX JEANNETTES "+tableDeTraductionCode.get(activiteUnite.getCodegroupe())+" UNITE "+(index+1));
+						}
+					}
+					if (branche.compareTo("SG") == 0)
+					{
+						if (us.size() == 1)
+						{
+							tableDeTraductionNoms.put(activiteUnite.getNom(), "SCOUTS GUIDES "+tableDeTraductionCode.get(activiteUnite.getCodegroupe()));
+						}
+						else
+						{
+							int index = us.indexOf(activiteUnite.getCodestructure());
+							tableDeTraductionNoms.put(activiteUnite.getNom(), "SCOUTS GUIDES "+tableDeTraductionCode.get(activiteUnite.getCodegroupe())+" UNITE "+(index+1));
+						}
+					}
+					if (branche.compareTo("PC") == 0)
+					{
+						if (us.size() == 1)
+						{
+							tableDeTraductionNoms.put(activiteUnite.getNom(), "PIONNNERS CARAVELLES "+tableDeTraductionCode.get(activiteUnite.getCodegroupe()));
+						}
+						else
+						{
+							int index = us.indexOf(activiteUnite.getCodestructure());
+							tableDeTraductionNoms.put(activiteUnite.getNom(), "PIONNNERS CARAVELLES "+tableDeTraductionCode.get(activiteUnite.getCodegroupe())+" UNITE "+(index+1));
+						}
+					}
+					if (branche.compareTo("C") == 0)
+					{
+						if (us.size() == 1)
+						{
+							tableDeTraductionNoms.put(activiteUnite.getNom(), "COMPAGNONS "+tableDeTraductionCode.get(activiteUnite.getCodegroupe()));
+						}
+						else
+						{
+							int index = us.indexOf(activiteUnite.getCodestructure());
+							tableDeTraductionNoms.put(activiteUnite.getNom(), "COMPAGNONS "+tableDeTraductionCode.get(activiteUnite.getCodegroupe())+" UNITE "+(index+1));
+						}
+					}
+				}
+			}
+			);
+			
+			int codePremiereUnite = Integer.parseInt(premiereUnite.getCodestructure());
+			codePremiereUnite+=100000000;
+			
+			premiereUnite.anonymiserStructure(tableDeTraductionNoms, tableDeTraductionCode, codePremiereUnite, anon);
+			
+			List<RegistrePresenceUnite> adds = new ArrayList<RegistrePresenceUnite>();
+			unites_.forEach((id, activiteUnite) ->
+			{
+				adds.add(activiteUnite);
+				
+				// Code structure
+				int codeStructure = Integer.parseInt(activiteUnite.getCodestructure());
+				codeStructure+=100000000;
+				
+				// Nom de la structure
+				activiteUnite.anonymiserStructure(tableDeTraductionNoms, tableDeTraductionCode, codeStructure, anon);
+			});
+			unites_.clear();
+			adds.forEach(activiteUnite-> unites_.put(activiteUnite.getNom(), activiteUnite));
+		}
+		
 		if (premiereUnite != null)
 		{
 			groupe_ = premiereUnite.getNom();
 		}
+		
 		return anneeDebut;
 	}
 

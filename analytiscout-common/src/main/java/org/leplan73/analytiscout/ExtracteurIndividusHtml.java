@@ -410,7 +410,6 @@ public class ExtracteurIndividusHtml {
 					us.add(adherent.getCodestructure());
 			});
 			
-			
 			AtomicInteger groupeId = new AtomicInteger();
 			adherents_.forEach((id, adherent) ->
 			{

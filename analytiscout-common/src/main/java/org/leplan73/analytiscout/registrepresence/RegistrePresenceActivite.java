@@ -15,6 +15,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import org.influxdb.InfluxDB;
 import org.influxdb.dto.Point;
+import org.leplan73.analytiscout.Anonymizer;
 import org.leplan73.analytiscout.calcul.Groupe;
 import org.leplan73.analytiscout.calcul.UniteSimple;
 
@@ -378,5 +379,23 @@ public class RegistrePresenceActivite {
 	public long getDureereeltotaljeune() {
 		long v = (fin_.getTime() - debut_.getTime())/1000/3600;
 		return v*getPresencejeunes();
+	}
+
+	public void anonymiser(Anonymizer anon) {
+		Map<String, Integer> presencesChefsA = new TreeMap<String, Integer>();
+		presencesChefs_.forEach((nom,v) -> {
+			String nnom = anon.prochainNom() + " " + anon.prochainPrenom();
+			presencesChefsA.put(nnom, v);
+		});
+		presencesChefs_.clear();
+		presencesChefs_.putAll(presencesChefsA);
+		
+		Map<String, Integer> presencesJeunesA = new TreeMap<String, Integer>();
+		presencesJeunes_.forEach((nom,v) -> {
+			String nnom = anon.prochainNom() + " " + anon.prochainPrenom();
+			presencesJeunesA.put(nnom, v);
+		});
+		presencesJeunes_.clear();
+		presencesJeunes_.putAll(presencesJeunesA);
 	}
 }

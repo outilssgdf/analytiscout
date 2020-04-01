@@ -1,5 +1,7 @@
 package org.leplan73.analytiscout.calcul;
 
+import java.util.Map;
+
 public class Groupe implements Comparable<Groupe> {
 	protected String nomcomplet_;
 	protected String nom_;

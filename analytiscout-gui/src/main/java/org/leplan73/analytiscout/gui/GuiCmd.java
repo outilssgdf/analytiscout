@@ -27,6 +27,8 @@ public class GuiCmd extends GuiParams
 		{
 			commandLine = parsed.get(0);
 			GuiParams cmd = (GuiParams) commandLine.getCommand();
+			Logging.initLogger(cmd.avance ? AnalytiscoutAdvanced.class: AnalytiscoutNormal.class, cmd.nologfile);
+			
 			if (cmd.qualifications == true)
 			{
 				ExtractionIntranet.setQualifications(true);
@@ -40,8 +42,6 @@ public class GuiCmd extends GuiParams
 			{
 				Params.set(Consts.PARAMS_ANONYMISER, "true");
 			}
-			
-			Logging.initLogger(cmd.avance ? AnalytiscoutNormal.class: AnalytiscoutAdvanced.class, cmd.nologfile);
 		}
 
 		Params.init();

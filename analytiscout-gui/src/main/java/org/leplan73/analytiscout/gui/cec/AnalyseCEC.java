@@ -99,6 +99,8 @@ public class AnalyseCEC extends Dialogue implements LoggedDialog, GuiCommand {
 						fcEntreeAnnee.setSelectedFile(fEntreeAnnee);
 						fcEntreeAnnee.setCurrentDirectory(fEntreeAnnee.getParentFile());
 						fcEntreeAnnee.setFileSelectionMode(JFileChooser.FILES_ONLY);
+						fcEntreeAnnee.removeChoosableFileFilter(fcEntreeAnnee.getFileFilter());
+						fcEntreeAnnee.removeChoosableFileFilter(fcEntreeAnnee.getAcceptAllFileFilter());
 						fcEntreeAnnee.addChoosableFileFilter(new ExportFileFilter("csv"));
 						int result = fcEntreeAnnee.showDialog(panel, "OK");
 						if (result == JFileChooser.APPROVE_OPTION) {
@@ -133,6 +135,8 @@ public class AnalyseCEC extends Dialogue implements LoggedDialog, GuiCommand {
 						fcEntreeAnneeP.setCurrentDirectory(fEntreeAnneeP.getParentFile());
 						fcEntreeAnneeP.setSelectedFile(fEntreeAnneeP);
 						fcEntreeAnneeP.setFileSelectionMode(JFileChooser.FILES_ONLY);
+						fcEntreeAnneeP.removeChoosableFileFilter(fcEntreeAnneeP.getFileFilter());
+						fcEntreeAnneeP.removeChoosableFileFilter(fcEntreeAnneeP.getAcceptAllFileFilter());
 						fcEntreeAnneeP.addChoosableFileFilter(new ExportFileFilter("csv"));
 						int result = fcEntreeAnneeP.showDialog(panel, "OK");
 						if (result == JFileChooser.APPROVE_OPTION) {

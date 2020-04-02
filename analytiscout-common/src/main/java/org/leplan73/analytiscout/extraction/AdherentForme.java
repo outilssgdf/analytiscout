@@ -103,7 +103,7 @@ public class AdherentForme extends Adherent {
 			}
 		}
 		
-		Formation formationApf = getFormationNull("apf");
+		Formation formationApf = getFormationNull(new String[] {"apf","apf_chefs"});
 		if (formationApf != null)
 		{
 			Date date_aujourdhui = Date.from(Instant.now());
@@ -698,6 +698,19 @@ public class AdherentForme extends Adherent {
 		if (f != null)
 		{
 			return f;
+		}
+		return null;
+	}
+	
+	private Formation getFormationNull(String noms[])
+	{
+		for (int i=0;i<noms.length;i++)
+		{
+			Formation f = formations_.get(noms[i]);
+			if (f != null)
+			{
+				return f;
+			}
 		}
 		return null;
 	}

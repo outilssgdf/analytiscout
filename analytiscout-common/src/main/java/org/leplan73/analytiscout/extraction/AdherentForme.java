@@ -103,8 +103,14 @@ public class AdherentForme extends Adherent {
 			}
 		}
 		
+		Formation formationTech = getFormationNull("tech");
+		if (formationTech != null && qanimsf == null)
+		{
+			alertes.ajouter(this, Alerte.Severite.MOYENNE, Alerte.ALERTE_TYPE_QUALIFICATION, "Tech non qualifié animSF");
+		}
+		
 		Formation formationApf = getFormationNull(new String[] {"apf","apf_chefs"});
-		if (formationApf != null)
+		if (formationApf != null && formationTech == null)
 		{
 			Date date_aujourdhui = Date.from(Instant.now());
 			Date datef = formationApf.getDatefin();
@@ -113,12 +119,6 @@ public class AdherentForme extends Adherent {
 			{
 				alertes.ajouter(this, Alerte.Severite.MOYENNE, Alerte.ALERTE_TYPE_QUALIFICATION, "Anim SF stagiaire potentiel");
 			}
-		}
-		
-		Formation formationTech = getFormationNull("tech");
-		if (formationTech != null && qanimsf == null)
-		{
-			alertes.ajouter(this, Alerte.Severite.MOYENNE, Alerte.ALERTE_TYPE_QUALIFICATION, "Tech non qualifié animSF");
 		}
 		
 		if (this.getBafapotentiel() && testJs("Scout Anim","CAFA SF","Anim titulaire-Stagiaire BAFA") == false)

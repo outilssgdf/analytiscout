@@ -50,9 +50,13 @@ public class EngineAnalyseurRegistreDePresenceEnLigne extends EngineConnecte {
 		}
 		
 		ExtracteurRegistrePresence ex = new ExtracteurRegistrePresence();
-		int anneeDebut = ex.charge(in, anonymiser)+1;
+		int anneeDebut = ex.charge(in)+1;
 		progress_.setProgress(40, "Chargement des fichiers");
 		logger_.info("Chargement des fichiers");
+		if (anonymiser)
+		{
+			ex.anonymiser();
+		}
 		
 		List<RegistrePresenceActiviteHeure> activites_personnes = new ArrayList<RegistrePresenceActiviteHeure>();
 		List<RegistrePresenceActiviteHeure> activites_cec = new ArrayList<RegistrePresenceActiviteHeure>();

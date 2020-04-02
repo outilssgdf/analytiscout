@@ -26,9 +26,13 @@ public class RegistrePresenceUnite extends UniteSimple {
 		groupe_.setNom(groupe);
 	}
 	
-	public void anonymiserStructure(Map<String, String> tableDeTraductionNoms, Map<String, String> tableDeTraductionCode, int codeStructure, Anonymizer anon) {
+	public void anonymiserStructure(Map<String, String> tableDeTraductionNoms, Map<String, String> tableDeTraductionCode, Map<String, String> tableDeTraductionNom, int codeStructure, Anonymizer anon) {
 		super.anonymiserStructure(tableDeTraductionNoms, tableDeTraductionCode, codeStructure);
-		activites_.forEach(activite -> activite.anonymiser(anon));
+		if (tableDeTraductionNom != null) activites_.forEach(activite -> activite.anonymiser(tableDeTraductionNom, anon));
+	}
+
+	public void anonymiserNoms(Map<String, String> tableDeTraductionNom, Anonymizer anon) {
+		activites_.forEach(activite -> activite.anonymiserNoms(tableDeTraductionNom, anon));
 	}
 
 	public void exportInfluxDb(String groupe, PrintStream os) {

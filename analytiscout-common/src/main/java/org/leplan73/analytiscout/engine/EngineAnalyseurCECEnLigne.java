@@ -47,10 +47,14 @@ public class EngineAnalyseurCECEnLigne extends EngineConnecte {
 		ExtracteurRegistrePresence ex = new ExtracteurRegistrePresence();
 		logger_.info("Chargement des données de l'année " + annee + "\"");
 		progress_.setProgress(30);
-		int anneeDebut = ex.charge(new ByteArrayInputStream(donneesAnnee.getBytes()), anonymiser)+1;
+		int anneeDebut = ex.charge(new ByteArrayInputStream(donneesAnnee.getBytes()))+1;
 		logger_.info("Chargement des données de l'année " + (annee-1) + "\"");
-		ex.charge(new ByteArrayInputStream(donneesAnneeP.getBytes()), anonymiser);
+		ex.charge(new ByteArrayInputStream(donneesAnneeP.getBytes()));
 		progress_.setProgress(40);
+		if (anonymiser)
+		{
+			ex.anonymiser();
+		}
 
 		Collection<RegistrePresenceUnite> unites = ex.getUnites();
 		for (RegistrePresenceUnite unite : unites)

@@ -381,10 +381,10 @@ public class RegistrePresenceActivite {
 		return v*getPresencejeunes();
 	}
 
-	public void anonymiser(Anonymizer anon) {
+	public void anonymiser(Map<String, String> tableDeTraductionNom, Anonymizer anon) {
 		Map<String, Integer> presencesChefsA = new TreeMap<String, Integer>();
 		presencesChefs_.forEach((nom,v) -> {
-			String nnom = anon.prochainNom() + " " + anon.prochainPrenom();
+			String nnom = tableDeTraductionNom.get(nom);
 			presencesChefsA.put(nnom, v);
 		});
 		presencesChefs_.clear();
@@ -392,10 +392,27 @@ public class RegistrePresenceActivite {
 		
 		Map<String, Integer> presencesJeunesA = new TreeMap<String, Integer>();
 		presencesJeunes_.forEach((nom,v) -> {
-			String nnom = anon.prochainNom() + " " + anon.prochainPrenom();
+			String nnom = tableDeTraductionNom.get(nom);
 			presencesJeunesA.put(nnom, v);
 		});
 		presencesJeunes_.clear();
 		presencesJeunes_.putAll(presencesJeunesA);
+	}
+
+	public void anonymiserNoms(Map<String, String> tableDeTraductionNom, Anonymizer anon) {
+		presencesChefs_.forEach((nom,v) -> {
+			if (!tableDeTraductionNom.containsKey(nom))
+			{
+				String nnom = anon.prochainNom() + " " + anon.prochainPrenom();
+				tableDeTraductionNom.put(nom, nnom);
+			}
+		});
+		presencesJeunes_.forEach((nom,v) -> {
+			if (!tableDeTraductionNom.containsKey(nom))
+			{
+				String nnom = anon.prochainNom() + " " + anon.prochainPrenom();
+				tableDeTraductionNom.put(nom, nnom);
+			}
+		});
 	}
 }

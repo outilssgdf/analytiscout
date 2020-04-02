@@ -103,6 +103,18 @@ public class AdherentForme extends Adherent {
 			}
 		}
 		
+		Formation formationApf = getFormationNull("apf");
+		if (formationApf != null)
+		{
+			Date date_aujourdhui = Date.from(Instant.now());
+			Date datef = formationApf.getDatefin();
+			long delta = ((date_aujourdhui.getTime() - datef.getTime())/1000)/86400;
+			if (delta <= 2 && qanimsf == null)
+			{
+				alertes.ajouter(this, Alerte.Severite.MOYENNE, Alerte.ALERTE_TYPE_QUALIFICATION, "Anim SF stagiaire potentiel");
+			}
+		}
+		
 		Formation formationTech = getFormationNull("tech");
 		if (formationTech != null && qanimsf == null)
 		{

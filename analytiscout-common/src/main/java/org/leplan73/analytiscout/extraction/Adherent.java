@@ -309,6 +309,10 @@ public class Adherent {
 		{
 			return "F";
 		}
+		if (unite.contains("VENT DU LARGE"))
+		{
+			return "V";
+		}
 		if (unite.contains("LOUVETEAU") || unite.contains("JEANNETTE") || unite.contains("MOUSSAILLON"))
 		{
 			return "LJ";

@@ -30,6 +30,7 @@ public class Consts {
 	static final public int CODE_VIOLETS = 300;
 	static final public int CODE_COMPAS_T1T2 = 140;
 	static final public int CODE_COMPAS_T3 = 141;
+	static final public int CODE_COMPAS_VENTDULARGE = 190;
 	
 	static final public String NOM_FICHIER_ANALYSE_RESPONSABLES = "responsables_";
 	static final public String NOM_FICHIER_ANALYSE_JEUNES = "jeunes_";

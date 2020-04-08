@@ -13,8 +13,10 @@ import javax.swing.JPanel;
 import org.leplan73.analytiscout.gui.Template;
 import org.leplan73.analytiscout.gui.analyseur.AnalyseurJeunes;
 import org.leplan73.analytiscout.gui.analyseur.AnalyseurMarins;
+import org.leplan73.analytiscout.gui.analyseur.AnalyseurResponsables;
 import org.leplan73.analytiscout.gui.extracteur.ExtracteurBatchJeunes;
 import org.leplan73.analytiscout.gui.extracteur.ExtracteurBatchMarins;
+import org.leplan73.analytiscout.gui.extracteur.ExtracteurBatchResponsables;
 import org.leplan73.analytiscout.gui.utils.ElementFactory;
 
 @SuppressWarnings("serial")
@@ -62,6 +64,11 @@ public class Analyses extends Template {
 
 		JButton button_3 = new JButton(
 				"<html><p style=\"text-align:center;\">Analyser des données<br>déjà extraites</p>");
+		button_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new AnalyseurResponsables().setVisible(true);
+			}
+		});
 		GridBagConstraints gbc_button_3 = new GridBagConstraints();
 		gbc_button_3.fill = GridBagConstraints.HORIZONTAL;
 		gbc_button_3.anchor = GridBagConstraints.NORTH;
@@ -71,6 +78,11 @@ public class Analyses extends Template {
 		panel_11.add(button_3, gbc_button_3);
 
 		JButton button_4 = new JButton("<html><p style=\"text-align:center;\">Exporter des données<br>en batch</p>");
+		button_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new ExtracteurBatchResponsables().setVisible(true);
+			}
+		});
 		GridBagConstraints gbc_button_4 = new GridBagConstraints();
 		gbc_button_4.fill = GridBagConstraints.HORIZONTAL;
 		gbc_button_4.anchor = GridBagConstraints.NORTH;

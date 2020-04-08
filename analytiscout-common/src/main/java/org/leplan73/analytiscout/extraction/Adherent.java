@@ -165,7 +165,7 @@ public class Adherent {
 	
 	public boolean getJeune()
 	{
-		return !getJeune();
+		return !getChef();
 	}
 	
 	public boolean getCompa()

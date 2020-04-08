@@ -25,6 +25,7 @@ public class Consts {
 	static final public int CODE_CHEFS_PIOK = 230;
 	static final public int CODE_ACCOMPAGNATEUR_COMPAS = 240;
 	static final public int CODE_RESPONSABLES = 200;
+	static final public int CODE_IMPEESA = 180;
 	static final public int CODE_RESPONSABLE_FARFADETS = 270;
 	static final public int CODE_PARENTS_FARFADETS = 271;
 	static final public int CODE_VIOLETS = 300;

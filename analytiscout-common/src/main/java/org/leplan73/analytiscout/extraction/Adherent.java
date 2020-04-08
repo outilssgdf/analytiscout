@@ -165,8 +165,7 @@ public class Adherent {
 	
 	public boolean getJeune()
 	{
-		int fonction = extraitCodeFonction();
-		return fonction < Consts.CODE_RESPONSABLES ? true : false;
+		return !getJeune();
 	}
 	
 	public boolean getCompa()
@@ -181,7 +180,7 @@ public class Adherent {
 	public boolean getChef()
 	{
 		int fonction = extraitCodeFonction();
-		return fonction >= Consts.CODE_RESPONSABLES ? true : false;
+		return fonction == Consts.CODE_IMPEESA || fonction >= Consts.CODE_RESPONSABLES ? true : false;
 	}
 	
 	public String getChamp(String nom)
@@ -592,7 +591,7 @@ public class Adherent {
 		if (unite != null && unitAdherent.compareTo(unite.getNom()) != 0) return false;
 		
 		int code = this.getFonction();
-		if (code >= Consts.CODE_RESPONSABLES)
+		if (this.getChef())
 		{
 			String nomIndividu = (String)this.get(colonnes.getNomIndividuId());
 			String prenomIndividu = (String)this.get(colonnes.getPrenomIndividuId());
@@ -646,9 +645,7 @@ public class Adherent {
 	public void listeEmailChef(ColonnesAdherents colonnes, Unite unite, PrintStream os) {
 		String unitAdherent = (String)this.get(colonnes.getUniteId());
 		if (unite != null && unitAdherent.compareTo(unite.getNom()) != 0) return;
-		
-		int code = this.getFonction();
-		if (code >= Consts.CODE_RESPONSABLES)
+		if (this.getChef())
 		{
 			String emailIndividu = (String)this.get(colonnes.getEmailPersonnelIndividuId());
 			if (emailIndividu != null && !emailIndividu.isEmpty())

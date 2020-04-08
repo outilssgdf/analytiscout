@@ -26,11 +26,14 @@ public class Version {
 		return "0.0.0";
 	}
 	
+	private long getVersionNb()
+	{
+		return major_*1000*1000+minor_*1000+subminor_;
+	}
+	
 	public boolean compare(Version v)
 	{
-		if (v.major_ > this.major_) return true;
-		if (v.minor_ > this.minor_) return true;
-		if (v.subminor_ > this.subminor_) return true;
+		if (v.getVersionNb() > this.getVersionNb()) return true;
 		return false;
 	}
 	

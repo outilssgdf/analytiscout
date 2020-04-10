@@ -87,5 +87,6 @@ Version 1.3.1 :
 Version 1.3.2 :
 	- Registre de présence : Anonymisation
 	- Alertes : Ajout d'une alerte si APF depuis moins de 2 and et pas de qualif
-	- Responsables / Jeunes : Détection de la proposition "vent du large"
+	- Corrections Linux + MacOS
 Prochaine version :
+	- Responsables / Jeunes : Détection de la proposition "vent du large"

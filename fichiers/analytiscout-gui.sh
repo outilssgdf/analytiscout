@@ -38,7 +38,7 @@ MAVEN_HOME=`cd "$MAVEN_HOME" && pwd`
 
 cd "$saveddir"
 
-ANALYTISCOUT_JAR=$ANALYTISCOUT_HOME/app/ANALYTISCOUT-gui.jar
+ANALYTISCOUT_JAR=$ANALYTISCOUT_HOME/app/analytiscout-gui.jar
 ANALYTISCOUT_LAUNCHER=org.leplan73.analytiscout.gui.GuiCmd
 
 # detection de l'OS

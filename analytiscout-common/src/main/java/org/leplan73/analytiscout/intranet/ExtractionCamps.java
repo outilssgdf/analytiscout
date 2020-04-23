@@ -205,6 +205,7 @@ public class ExtractionCamps extends ExtractionIntranet {
 			formparams.add(new BasicNameValuePair("ctl00$MainContent$ChercheurCamps1$_ddlEtatGeneralDuDossier", "0"));
 			formparams.add(new BasicNameValuePair("ctl00$MainContent$ChercheurCamps1$_ddlVisasMarins", "0"));
 			formparams.add(new BasicNameValuePair("ctl00$MainContent$ChercheurCamps1$_ddlVisasPourLEtranger", "0"));
+			formparams.add(new BasicNameValuePair("ctl00$MainContent$ChercheurCamps1$_cbEtendreExport","on"));
 			formparams.add(new BasicNameValuePair("ctl00$_hidReferenceStatistiqueUtilisation", "-1"));
 			formparams.add(new BasicNameValuePair("ctl00$_hfSuggestionAvisUtilisateur", "hidden"));
 			formparams.add(new BasicNameValuePair("ctl00$_ddDelegations", "0"));

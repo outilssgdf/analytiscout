@@ -36,6 +36,7 @@ import org.leplan73.analytiscout.gui.GuiProgress;
 import org.leplan73.analytiscout.gui.utils.Appender;
 import org.leplan73.analytiscout.gui.utils.BoutonOuvrir;
 import org.leplan73.analytiscout.gui.utils.Dialogue;
+import org.leplan73.analytiscout.gui.utils.ExportFileFilter;
 import org.leplan73.analytiscout.gui.utils.GuiCommand;
 import org.leplan73.analytiscout.gui.utils.LoggedDialog;
 import org.leplan73.analytiscout.gui.utils.Logging;
@@ -154,6 +155,23 @@ public class Extracteur extends Dialogue implements LoggedDialog, GuiCommand {
 				panel.add(panel_1, BorderLayout.EAST);
 				{
 					JButton button = new JButton("Fichier...");
+					button.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							fcSortie = new JFileChooser();
+							fcSortie.setDialogTitle("Export");
+							fcSortie.setApproveButtonText("Export");
+							fcSortie.setCurrentDirectory(fSortie);
+							fcSortie.setSelectedFile(fSortie);
+							fcSortie.setFileSelectionMode(JFileChooser.FILES_ONLY);
+							fcSortie.removeChoosableFileFilter(fcSortie.getFileFilter());
+							fcSortie.removeChoosableFileFilter(fcSortie.getAcceptAllFileFilter());
+							fcSortie.addChoosableFileFilter(new ExportFileFilter("xls"));
+							int result = fcSortie.showDialog(panel, "OK");
+							if (result == JFileChooser.APPROVE_OPTION) {
+								fSortie = ajouteExtensionFichier(fcSortie, lblSortie, "xls");
+							}
+						}
+					});
 					panel_1.add(button);
 				}
 				{

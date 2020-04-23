@@ -33,6 +33,12 @@
 			<artifactId>logback-classic</artifactId>
 			<version>${logback.version}</version>
 		</dependency>
+		<dependency>
+    <groupId>org.jdatepicker</groupId>
+    <artifactId>jdatepicker</artifactId>
+    <version>${jdatepicker.version}</version>
+</dependency>
+		
 	</dependencies>
 	<build>
 		<plugins>

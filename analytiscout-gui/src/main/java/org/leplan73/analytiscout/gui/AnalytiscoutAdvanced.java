@@ -14,15 +14,12 @@ import javax.swing.border.EmptyBorder;
 
 import org.leplan73.analytiscout.Consts;
 import org.leplan73.analytiscout.gui.dialogues.Analyses;
+import org.leplan73.analytiscout.gui.dialogues.Camps;
 import org.leplan73.analytiscout.gui.dialogues.ExportAdherents;
 import org.leplan73.analytiscout.gui.dialogues.RegistrePresence2;
 import org.leplan73.analytiscout.gui.utils.Images;
 import org.leplan73.analytiscout.gui.utils.JHyperlink;
 import org.leplan73.analytiscout.gui.utils.Preferences;
-import org.leplan73.analytiscout.gui.utils.Version;
-import org.leplan73.analytiscout.intranet.ExtractionIntranet;
-
-import com.jcabi.manifests.Manifests;
 
 public class AnalytiscoutAdvanced extends Analytiscout {
 
@@ -64,8 +61,8 @@ public class AnalytiscoutAdvanced extends Analytiscout {
 		RegistrePresence2 c = new RegistrePresence2();
 		tabbedPane.addTab("Registre de présence / CEC",c);
 		
-//		Camps d = new Camps();
-//		tabbedPane.addTab("Camps",d);
+		Camps d = new Camps();
+		tabbedPane.addTab("Camps", d);
 		
 		ExportAdherents b = new ExportAdherents();
 		tabbedPane.addTab("Exporter",b);

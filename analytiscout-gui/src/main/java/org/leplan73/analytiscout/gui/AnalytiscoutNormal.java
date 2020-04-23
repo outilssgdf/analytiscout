@@ -14,16 +14,13 @@ import javax.swing.border.EmptyBorder;
 
 import org.leplan73.analytiscout.Consts;
 import org.leplan73.analytiscout.gui.dialogues.AnalysesEnLigne;
+import org.leplan73.analytiscout.gui.dialogues.Camps;
 import org.leplan73.analytiscout.gui.dialogues.ExportAdherents;
 import org.leplan73.analytiscout.gui.dialogues.RegistrePresence;
 import org.leplan73.analytiscout.gui.dialogues.StatsEnLigne;
 import org.leplan73.analytiscout.gui.utils.Images;
 import org.leplan73.analytiscout.gui.utils.JHyperlink;
 import org.leplan73.analytiscout.gui.utils.Preferences;
-import org.leplan73.analytiscout.gui.utils.Version;
-import org.leplan73.analytiscout.intranet.ExtractionIntranet;
-
-import com.jcabi.manifests.Manifests;
 
 public class AnalytiscoutNormal extends Analytiscout {
 
@@ -65,8 +62,8 @@ public class AnalytiscoutNormal extends Analytiscout {
 		RegistrePresence c = new RegistrePresence();
 		tabbedPane.addTab("Registre de présence / CEC",c);
 		
-//		Camps d = new Camps();
-//		tabbedPane.addTab("Camps",d);
+		Camps camps = new Camps();
+		tabbedPane.addTab("Camps", camps);
 		
 		StatsEnLigne d = new StatsEnLigne();
 		tabbedPane.addTab("Stats de structure",d);

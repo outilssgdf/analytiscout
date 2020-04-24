@@ -16,6 +16,8 @@ public class Params extends Properties {
 	static private Params this_;
 	static private Logger logger_;
 	
+	static private Date dateDebutSaison_;
+	static private Date dateFinSaison_;
 	static private Date dateDebutCamp_;
 	static private Date dateLimiteJeune_;
 	static private Date dateLimiteJeuneSuivant_;
@@ -32,6 +34,13 @@ public class Params extends Properties {
 		int m = cal.get(Calendar.MONTH)+1;
 		int y = cal.get(Calendar.YEAR);
 		logger_.debug("Mois="+m+"/Année="+y);
+
+		try {
+			dateDebutSaison_ = simpleDateFormat.parse("01/09/"+(y-1));
+			dateFinSaison_ = simpleDateFormat.parse("31/08/"+y);
+		} catch (ParseException e) {
+			logger_.error(e.getLocalizedMessage());
+		}
 		
 		if (m <= 6 || m >= 9)
 		{
@@ -76,6 +85,14 @@ public class Params extends Properties {
 	{
 		String v = this_.getProperty(nom, String.valueOf(defaut));
 		return Boolean.parseBoolean(v);
+	}
+
+	public static Date getDateDebutSaison() {
+		return dateDebutSaison_;
+	}
+
+	public static Date getDateFinSaison() {
+		return dateFinSaison_;
 	}
 
 	public static Date getDateDebutCamp() {

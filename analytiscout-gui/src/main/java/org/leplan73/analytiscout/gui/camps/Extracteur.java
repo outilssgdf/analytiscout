@@ -8,7 +8,6 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.time.Instant;
 import java.util.Date;
 import java.util.Properties;
 
@@ -30,6 +29,7 @@ import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 import org.leplan73.analytiscout.Consts;
+import org.leplan73.analytiscout.Params;
 import org.leplan73.analytiscout.Progress;
 import org.leplan73.analytiscout.engine.EngineExtracteurCamps;
 import org.leplan73.analytiscout.gui.GuiProgress;
@@ -54,8 +54,8 @@ public class Extracteur extends Dialogue implements LoggedDialog, GuiCommand {
 	private JFileChooser fcSortie;
 	private File fSortie = new File(Preferences.lit(Consts.REPERTOIRE_SORTIE, "données", false),"camps.xls");
 	private JLabel lblSortie;
-	private UtilDateModel debutModel_ = new UtilDateModel(Date.from(Instant.now()));
-	private UtilDateModel finModel_ = new UtilDateModel(Date.from(Instant.now()));
+	private UtilDateModel debutModel_ = new UtilDateModel(Params.getDateDebutSaison());
+	private UtilDateModel finModel_ = new UtilDateModel(Params.getDateFinSaison());
 	private BoutonOuvrir btnOuvrir;
 
 	/**

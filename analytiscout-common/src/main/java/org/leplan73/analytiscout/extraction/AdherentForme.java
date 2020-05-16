@@ -44,6 +44,11 @@ public class AdherentForme extends Adherent {
 		{
 			return;
 		}
+		
+		String dateFinMission = this.get(colonnes_.getDateFinMissionId());
+		if (dateFinMission.isEmpty()) {
+			alertes.ajouter(this, Alerte.Severite.MOYENNE, Alerte.ALERTE_TYPE_INSCRIPTION, "L'adhérent n'a pas demandé sa nomination");
+		}
 
 		Qualification qanimsf = getQualifNull("animsf");
 		Qualification qdirfs = getQualifNull("dirsf");

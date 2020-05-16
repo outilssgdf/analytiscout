@@ -7,6 +7,7 @@ public class Alerte {
 	public static final String ALERTE_TYPE_AGE = "Age";
 	public static final String ALERTE_TYPE_QUALIFICATION = "Qualification";
 	public static final String ALERTE_TYPE_JS = "JS";
+	public static final String ALERTE_TYPE_INSCRIPTION = "Inscription";
 	
 	public enum Severite
 	{

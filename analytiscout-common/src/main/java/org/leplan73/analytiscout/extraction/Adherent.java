@@ -504,6 +504,10 @@ public class Adherent {
 				case Consts.CODE_PIOK:
 					if (ageCamp_ < 14) return false;
 				break;
+				case Consts.CODE_COMPAS_T1T2:
+				case Consts.CODE_COMPAS_T3:
+					if (ageCamp_ < 18) return false;
+				break;
 			}
 		}
 		return true;

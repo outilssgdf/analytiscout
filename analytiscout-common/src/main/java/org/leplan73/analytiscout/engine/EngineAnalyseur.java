@@ -1,11 +1,14 @@
 package org.leplan73.analytiscout.engine;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
@@ -16,6 +19,7 @@ import org.leplan73.analytiscout.Consts;
 import org.leplan73.analytiscout.ExtracteurExtraHtml;
 import org.leplan73.analytiscout.ExtracteurIndividusHtml;
 import org.leplan73.analytiscout.ExtractionException;
+import org.leplan73.analytiscout.Options;
 import org.leplan73.analytiscout.ParamEntree;
 import org.leplan73.analytiscout.ParamSortie;
 import org.leplan73.analytiscout.Progress;
@@ -35,12 +39,14 @@ public class EngineAnalyseur extends Engine {
 		super(progress, logger);
 	}
 	
-	private boolean gopriv(Properties pbatch, ParamEntree entree, InputStream batch, InputStream modele, int structure, boolean age, String batch_type, ParamSortie sortie, boolean anonymiser, boolean pargroupe, boolean generer_ddcs) throws TransformeurException, ExtractionException, IOException, JDOMException
+	private boolean gopriv(Properties pbatch, ParamEntree entree, InputStream batch, InputStream modele, int structure, boolean age, String batch_type, ParamSortie sortie, boolean anonymiser, boolean pargroupe, boolean generer_ddcs, Options options) throws TransformeurException, ExtractionException, IOException, JDOMException
 	{
 		logger_.info("Traitement de la structure "+Structure.formatStructure(structure));
 		
 		Map<ExtraKey, ExtracteurExtraHtml> extraMap = new TreeMap<ExtraKey, ExtracteurExtraHtml>();
-		File fichierAdherents = null;
+		
+		List<InputStream> lfis = new ArrayList<InputStream>();
+		List<String> lfiles = new ArrayList<String>();
 		Set<String> retirer_code = null;
 
 		File dossierStructure = entree.construit(structure);
@@ -58,18 +64,22 @@ public class EngineAnalyseur extends Engine {
 					pbatch.getProperty("fichier." + index, pbatch.getProperty("nom." + index, "")),
 					pbatch.getProperty("nom." + index, ""),
 					pbatch.getProperty("batchtype." + index, batch_type));
+			String optionsp = pbatch.getProperty("options." + index, null);
 			File fichier_entree = new File(dossierStructure, extra.fichier_ + "." + generateur);
 
 			logger_.info("Chargement du fichier \"" + fichier_entree.getName() + "\"");
 
 			if (extra.ifTout()) {
-				fichierAdherents = fichier_entree;
-				String retirer_code_p = pbatch.getProperty("retirer_code." + index);
-				if (retirer_code_p != null)
-				{
-					retirer_code = new HashSet<>();
-					for (String name : retirer_code_p.split(",")) {
-						retirer_code.add(name);
+				if (optionsp == null || (options != null && options.contains(optionsp))) {
+					lfis.add(new FileInputStream(fichier_entree));
+					lfiles.add(fichier_entree.getName());
+					String retirer_code_p = pbatch.getProperty("retirer_code." + index);
+					if (retirer_code_p != null)
+					{
+						retirer_code = new HashSet<>();
+						for (String name : retirer_code_p.split(",")) {
+							retirer_code.add(name);
+						}
 					}
 				}
 			} else
@@ -78,8 +88,23 @@ public class EngineAnalyseur extends Engine {
 		}
 		
 		progress_.setProgress(50);
-		logger_.info("Chargement du fichier \"" + fichierAdherents.getName() + "\"");
-		ExtracteurIndividusHtml adherents = new ExtracteurIndividusHtml(fichierAdherents, extraMap, age, anonymiser, retirer_code);
+		lfiles.forEach(v -> logger_.info("Chargement du fichier \"" + v + "\""));
+		
+		ExtracteurIndividusHtml adherents = null;
+		try {
+			adherents = new ExtracteurIndividusHtml(lfis, extraMap, age, anonymiser, retirer_code);
+		}
+		catch(IOException e) {
+			logger_.error("Erreur d'extraction : ",e);
+		}
+		finally {
+			lfis.forEach(v -> {
+				try {
+					v.close();
+				} catch (IOException e) {
+				}
+			});
+		}
 		
 		General general = General.generer();
 		
@@ -166,7 +191,7 @@ public class EngineAnalyseur extends Engine {
 		return true;
 	}
 
-	public void go(ParamEntree entree, InputStream batch, InputStream modele, int[] structures, boolean age, String batch_type, ParamSortie sortie, boolean anonymiser, boolean pargroupe, boolean generer_ddcs) throws EngineException {
+	public void go(ParamEntree entree, InputStream batch, InputStream modele, int[] structures, boolean age, String batch_type, ParamSortie sortie, boolean anonymiser, boolean pargroupe, boolean generer_ddcs, Options options) throws EngineException {
 		start();
 		
 		chargeParametres();
@@ -179,13 +204,13 @@ public class EngineAnalyseur extends Engine {
 			if (structures == null)
 			{
 				logger_.info("Traitement de la structure");
-				gopriv(pbatch, entree, batch, modele, 0, age, batch_type, sortie, anonymiser, pargroupe, generer_ddcs);
+				gopriv(pbatch, entree, batch, modele, 0, age, batch_type, sortie, anonymiser, pargroupe, generer_ddcs, options);
 			}
 			else
 				for (int structure : structures)
 				{
 					logger_.info("Traitement de la structure "+Structure.formatStructure(structure));
-					boolean ret = gopriv(pbatch, entree, batch, modele, structure, age, batch_type, sortie, anonymiser, pargroupe, generer_ddcs);
+					boolean ret = gopriv(pbatch, entree, batch, modele, structure, age, batch_type, sortie, anonymiser, pargroupe, generer_ddcs, options);
 					if (ret == false)
 						break;
 				}

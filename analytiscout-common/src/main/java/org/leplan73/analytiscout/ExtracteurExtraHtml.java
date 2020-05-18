@@ -1,6 +1,5 @@
 package org.leplan73.analytiscout;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -45,14 +44,7 @@ public class ExtracteurExtraHtml {
 		return colonnes_;
 	}
 	
-	public void charge(final String donnees, boolean age) throws ExtractionException, IOException, JDOMException
-	{
-   		ByteArrayInputStream excelFile = new ByteArrayInputStream(donnees.getBytes());
-   		charge(excelFile, age);
-		excelFile.close();
-	}
-	
-	public void charge(final File fichier, boolean age) throws ExtractionException, IOException, JDOMException
+	private void charge(final File fichier, boolean age) throws ExtractionException, IOException, JDOMException
 	{
    		FileInputStream excelFile = new FileInputStream(fichier);
    		charge(excelFile, age);

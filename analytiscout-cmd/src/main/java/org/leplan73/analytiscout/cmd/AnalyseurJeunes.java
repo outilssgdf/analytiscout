@@ -8,6 +8,7 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.jdom2.JDOMException;
 import org.leplan73.analytiscout.Consts;
 import org.leplan73.analytiscout.ExtractionException;
+import org.leplan73.analytiscout.Options;
 import org.leplan73.analytiscout.ParamEntree;
 import org.leplan73.analytiscout.ParamSortie;
 import org.leplan73.analytiscout.cmd.utils.CommonParamsG;
@@ -43,6 +44,9 @@ public class AnalyseurJeunes extends CommonParamsG {
 	
 	@Option(names = "-ddcs", description = "Ajouter l'onglet d'aide à la déclaration trimestrielle de la DDCS (Valeur par défaut: ${DEFAULT-VALUE})")
 	private boolean ddcs = false;
+	
+	@Option(names = "-preinscrits", description = "Inclure les adhérents préinscrits (Valeur par défaut: ${DEFAULT-VALUE})")
+	private boolean preinscrits = false;
 
 	@Override
 	public void run(CommandLine commandLine) throws IOException, ExtractionException, JDOMException, InvalidFormatException
@@ -52,9 +56,12 @@ public class AnalyseurJeunes extends CommonParamsG {
 			CmdProgress progress = new CmdProgress();
 			EngineAnalyseur en = new EngineAnalyseur(progress, Logging.logger_);
 			
+			Options options = new Options();
+			if (preinscrits) options.add(Options.OPTION_PREINSCRITS);
+			
 			ParamEntree pentree = new ParamEntree(entree, structures);
 			ParamSortie psortie = new ParamSortie(sortie, pargroupe || structures.length > 1, Consts.NOM_FICHIER_ANALYSE_JEUNES);
-			en.go(pentree, new ResetableFileInputStream(new FileInputStream(batch)), new ResetableFileInputStream(new FileInputStream(modele)), structures, age, "tout_jeunes" , psortie, anonymiser, pargroupe, ddcs);
+			en.go(pentree, new ResetableFileInputStream(new FileInputStream(batch)), new ResetableFileInputStream(new FileInputStream(modele)), structures, age, "tout_jeunes" , psortie, anonymiser, pargroupe, ddcs, options);
 		} catch (EngineException e) {
 			Logging.logError(e);
 		}

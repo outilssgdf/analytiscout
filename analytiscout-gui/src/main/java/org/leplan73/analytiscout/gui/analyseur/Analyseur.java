@@ -23,6 +23,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
 import org.leplan73.analytiscout.Consts;
+import org.leplan73.analytiscout.Options;
 import org.leplan73.analytiscout.ParamEntree;
 import org.leplan73.analytiscout.ParamSortie;
 import org.leplan73.analytiscout.Params;
@@ -61,6 +62,7 @@ abstract public class Analyseur extends Dialogue implements LoggedDialog, GuiCom
 	private BoutonOuvrir btnOuvrir;
 	private JCheckBox chkGenererParGroupe;
 	private JCheckBox chcDdcs;
+	private JCheckBox chcPreinscrits;
 
 	/**
 	 * Create the dialog.
@@ -143,6 +145,10 @@ abstract public class Analyseur extends Dialogue implements LoggedDialog, GuiCom
 			{
 				chcDdcs = new JCheckBox("Générer les informations d'aide à la déclaration DDCS");
 				panel.add(chcDdcs, BorderLayout.CENTER);
+			}
+			{
+				chcPreinscrits = new JCheckBox("Inclure les adhérents pré-inscrits");
+				panel.add(chcPreinscrits, BorderLayout.SOUTH);
 			}
 		}
 		{
@@ -321,6 +327,9 @@ abstract public class Analyseur extends Dialogue implements LoggedDialog, GuiCom
 		progress.setMillisToDecideToPopup(0);
 		
 		EngineAnalyseur en = new EngineAnalyseur(progress, logger_);
+		
+		Options options = new Options();
+		if (chcPreinscrits.isSelected()) options.add(Options.OPTION_PREINSCRITS);
 
 		new Thread(() -> {
 			initLog();
@@ -331,7 +340,7 @@ abstract public class Analyseur extends Dialogue implements LoggedDialog, GuiCom
 					ParamEntree pentree = new ParamEntree(fEntree);
 					ParamSortie psortie = chkGenererParGroupe.isSelected() ? new ParamSortie(fSortieRepertoire, true, nomFichier_) : new ParamSortie(fSortieFichier);
 					
-					en.go(pentree, new ResetableFileInputStream(new FileInputStream(fBatch)), new ResetableFileInputStream(new FileInputStream(fModele)), null, getChcAge().isSelected(), "tout_responsables", psortie, Params.getb(Consts.PARAMS_ANONYMISER, false), chkGenererParGroupe.isSelected(), chcDdcs.isSelected());
+					en.go(pentree, new ResetableFileInputStream(new FileInputStream(fBatch)), new ResetableFileInputStream(new FileInputStream(fModele)), null, getChcAge().isSelected(), "tout_responsables", psortie, Params.getb(Consts.PARAMS_ANONYMISER, false), chkGenererParGroupe.isSelected(), chcDdcs.isSelected(), options);
 					btnOuvrir.maj();
 				} catch (Exception e) {
 					logger_.error(Logging.dumpStack(null, e));
@@ -370,5 +379,8 @@ abstract public class Analyseur extends Dialogue implements LoggedDialog, GuiCom
 	}
 	protected JCheckBox getChcDdcs() {
 		return chcDdcs;
+	}
+	protected JCheckBox getChcPreinscrits() {
+		return chcPreinscrits;
 	}
 }

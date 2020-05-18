@@ -10,6 +10,8 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.net.URISyntaxException;
+import java.util.Map;
+import java.util.TreeMap;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -26,6 +28,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
 import org.leplan73.analytiscout.Consts;
+import org.leplan73.analytiscout.Options;
 import org.leplan73.analytiscout.ParamSortie;
 import org.leplan73.analytiscout.Params;
 import org.leplan73.analytiscout.Progress;
@@ -126,6 +129,10 @@ abstract public class AnalyseurEnLigne extends Dialogue implements LoggedDialog,
 			{
 				chcDdcs = new JCheckBox("Générer les informations d'aide à la déclaration DDCS");
 				panelOptions.add(chcDdcs, BorderLayout.CENTER);
+			}
+			{
+				chcPreinscrits = new JCheckBox("Inclure les adhérents pré-inscrits");
+				panelOptions.add(chcPreinscrits, BorderLayout.SOUTH);
 			}
 			
 			if (cacherOptions)
@@ -291,6 +298,7 @@ abstract public class AnalyseurEnLigne extends Dialogue implements LoggedDialog,
 	private JCheckBox chkGenererParGroupe;
 	private JButton btnFichier;
 	private JCheckBox chcDdcs;
+	private JCheckBox chcPreinscrits;
 
 	@Override
 	public boolean check() {
@@ -321,6 +329,9 @@ abstract public class AnalyseurEnLigne extends Dialogue implements LoggedDialog,
 		progress.setMillisToPopup(0);
 		progress.setMillisToDecideToPopup(0);
 		
+		Options options = new Options();
+		if (chcPreinscrits.isSelected()) options.add(Options.OPTION_PREINSCRITS);
+		
 		new Thread(() -> {
 			initLog();
 			boolean ret = check(txfCodeStructure);
@@ -329,7 +340,7 @@ abstract public class AnalyseurEnLigne extends Dialogue implements LoggedDialog,
 					int structures[] = construitStructures();
 					EngineAnalyseurEnLigne en = new EngineAnalyseurEnLigne(progress, logger_);
 					ParamSortie psortie = chkGenererParGroupe.isSelected() ? new ParamSortie(fSortieRepertoire, true, nomFichier_) : new ParamSortie(fSortieFichier);
-					en.go(identifiant_, motdepasse_, new ResetableFileInputStream(new FileInputStream(fBatch)), new ResetableFileInputStream(new FileInputStream(fModele)), structures, chkAge.isSelected(), "tout_responsables", true, psortie ,Params.getb(Consts.PARAMS_ANONYMISER, false), chkGarderFichiers.isSelected(), chkGenererParGroupe.isSelected(), chcDdcs.isSelected());
+					en.go(identifiant_, motdepasse_, new ResetableFileInputStream(new FileInputStream(fBatch)), new ResetableFileInputStream(new FileInputStream(fModele)), structures, chkAge.isSelected(), "tout_responsables", true, psortie ,Params.getb(Consts.PARAMS_ANONYMISER, false), chkGarderFichiers.isSelected(), chkGenererParGroupe.isSelected(), chcDdcs.isSelected(), options);
 					btnOuvrir.maj();
 				} catch (Exception e) {
 					logger_.error(Logging.dumpStack(null, e));
@@ -370,5 +381,8 @@ abstract public class AnalyseurEnLigne extends Dialogue implements LoggedDialog,
 	}
 	protected JCheckBox getChcDdcs() {
 		return chcDdcs;
+	}
+	protected JCheckBox getChcPreinscrits() {
+		return chcPreinscrits;
 	}
 }

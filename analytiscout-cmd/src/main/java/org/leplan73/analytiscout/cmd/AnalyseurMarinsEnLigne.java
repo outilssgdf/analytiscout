@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 
 import org.leplan73.analytiscout.Consts;
+import org.leplan73.analytiscout.Options;
 import org.leplan73.analytiscout.ParamSortie;
 import org.leplan73.analytiscout.cmd.utils.CmdLineException;
 import org.leplan73.analytiscout.cmd.utils.CommonParamsG;
@@ -38,6 +39,9 @@ public class AnalyseurMarinsEnLigne extends CommonParamsIntranet {
 	@Option(names = "-pargroupe", description = "Générer un fichier par groupe (Valeur par défaut: ${DEFAULT-VALUE})")
 	private boolean pargroupe = false;
 	
+	@Option(names = "-preinscrits", description = "Inclure les adhérents préinscrits (Valeur par défaut: ${DEFAULT-VALUE})")
+	private boolean preinscrits = false;
+	
 	@Override
 	public void run(CommandLine commandLine) throws CmdLineException
 	{
@@ -47,6 +51,9 @@ public class AnalyseurMarinsEnLigne extends CommonParamsIntranet {
 		}
 		Logging.logger_.info("Lancement");
 		chargeParametres();
+		
+		Options options = new Options();
+		if (preinscrits) options.add(Options.OPTION_PREINSCRITS);
 
 		try {
 			charge();
@@ -54,7 +61,7 @@ public class AnalyseurMarinsEnLigne extends CommonParamsIntranet {
 			CmdProgress progress = new CmdProgress();
 			EngineAnalyseurEnLigne en = new EngineAnalyseurEnLigne(progress, Logging.logger_);
 			ParamSortie psortie = new ParamSortie(sortie, pargroupe || structures.length > 1, Consts.NOM_FICHIER_ANALYSE_MARINS);
-			en.go(identifiant,motdepasse, new ResetableFileInputStream(new FileInputStream(batch)), new ResetableFileInputStream(new FileInputStream(modele)), structures, false, "tout_jeunes", recursif, psortie, anonymiser, garder, pargroupe, false);
+			en.go(identifiant,motdepasse, new ResetableFileInputStream(new FileInputStream(batch)), new ResetableFileInputStream(new FileInputStream(modele)), structures, false, "tout_jeunes", recursif, psortie, anonymiser, garder, pargroupe, false, options);
 		} catch (Exception e) {
 			Logging.logger_.error(Logging.dumpStack(null, e));
 		}

@@ -5,8 +5,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
@@ -18,6 +20,7 @@ import org.leplan73.analytiscout.Consts;
 import org.leplan73.analytiscout.ExtracteurExtraHtml;
 import org.leplan73.analytiscout.ExtracteurIndividusHtml;
 import org.leplan73.analytiscout.ExtractionException;
+import org.leplan73.analytiscout.Options;
 import org.leplan73.analytiscout.ParamSortie;
 import org.leplan73.analytiscout.Progress;
 import org.leplan73.analytiscout.Transformeur;
@@ -40,11 +43,11 @@ public class EngineAnalyseurEnLigne extends EngineConnecte {
 		super(progress, logger);
 	}
 
-	private boolean gopriv(ExtractionAdherents app, Properties pbatch, String identifiant, String motdepasse, InputStream modele, int structure, boolean age, String batch_type, ParamSortie sortie, boolean anonymiser, boolean garderFichiers, boolean pargroupe, boolean generer_ddcs) throws ExtractionException, TransformeurException, ClientProtocolException, IOException, JDOMException
+	private boolean gopriv(ExtractionAdherents app, Properties pbatch, String identifiant, String motdepasse, InputStream modele, int structure, boolean age, String batch_type, ParamSortie sortie, boolean anonymiser, boolean garderFichiers, boolean pargroupe, boolean generer_ddcs, Options options) throws ExtractionException, TransformeurException, ClientProtocolException, IOException, JDOMException
 	{
 		Map<ExtraKey, ExtracteurExtraHtml> extraMap = new TreeMap<ExtraKey, ExtracteurExtraHtml>();
 		
-		String donneesAdherents=null;
+		List<InputStream> lfis = new ArrayList<InputStream>();
 		Set<String> retirer_code = null;
 		int index = 1;
 		for (;;) {
@@ -92,6 +95,7 @@ public class EngineAnalyseurEnLigne extends EngineConnecte {
 					: Boolean.parseBoolean(pbatch.getProperty("adherents." + index));
 			String nom = pbatch.getProperty("nom." + index, "");
 			String fonction = pbatch.getProperty("fonction." + index);
+			String optionsp = pbatch.getProperty("options." + index, null);
 
 			ExtraKey extra = new ExtraKey(pbatch.getProperty("fichier." + index, nom), nom, pbatch.getProperty("batchtype." + index, "tout_responsables"));
 			
@@ -108,13 +112,15 @@ public class EngineAnalyseurEnLigne extends EngineConnecte {
 			}
 			
 			if (extra.ifTout()) {
-				donneesAdherents = donnees;
-				String retirer_code_p = pbatch.getProperty("retirer_code." + index);
-				if (retirer_code_p != null)
-				{
-					retirer_code = new HashSet<>();
-					for (String name : retirer_code_p.split(",")) {
-						retirer_code.add(name);
+				if (optionsp == null || (options != null && options.contains(optionsp))) {
+					lfis.add(new ByteArrayInputStream(donnees.getBytes(Consts.ENCODING_UTF8)));
+					String retirer_code_p = pbatch.getProperty("retirer_code." + index);
+					if (retirer_code_p != null)
+					{
+						retirer_code = new HashSet<>();
+						for (String name : retirer_code_p.split(",")) {
+							retirer_code.add(name);
+						}
 					}
 				}
 			} else {
@@ -125,9 +131,22 @@ public class EngineAnalyseurEnLigne extends EngineConnecte {
 		}
 		progress_.setProgress(50);
 		
-		InputStream in = new ByteArrayInputStream(donneesAdherents.getBytes(Consts.ENCODING_UTF8));
-		ExtracteurIndividusHtml adherents = new ExtracteurIndividusHtml(in, extraMap,age, anonymiser, retirer_code);
- 
+		ExtracteurIndividusHtml adherents = null;
+		try {
+			adherents = new ExtracteurIndividusHtml(lfis, extraMap, age, anonymiser, retirer_code);
+		}
+		catch(IOException e) {
+			logger_.error("Erreur d'extraction : ",e);
+		}
+		finally {
+			lfis.forEach(v -> {
+				try {
+					v.close();
+				} catch (IOException e) {
+				}
+			});
+		}
+		
 		AdherentsFormes adherentsFormes = new AdherentsFormes();
 		adherentsFormes.charge(adherents,extraMap);
 		progress_.setProgress(60);
@@ -232,7 +251,7 @@ public class EngineAnalyseurEnLigne extends EngineConnecte {
 		return true;
 	}
 
-	public void go(String identifiant, String motdepasse, InputStream batch, InputStream modele, int structure, boolean age, String batch_type, boolean recursif, ParamSortie sortie, boolean anonymiser, boolean garderFichiers, boolean pargroupe, boolean generer_ddcs) throws EngineException, LoginEngineException
+	public void go(String identifiant, String motdepasse, InputStream batch, InputStream modele, int structure, boolean age, String batch_type, boolean recursif, ParamSortie sortie, boolean anonymiser, boolean garderFichiers, boolean pargroupe, boolean generer_ddcs, Options options) throws EngineException, LoginEngineException
 	{
 		start();
 		try
@@ -246,7 +265,7 @@ public class EngineAnalyseurEnLigne extends EngineConnecte {
 			progress_.setProgress(40);
 			
 			logger_.info("Traitement de la structure "+Structure.formatStructure(structure));
-			gopriv(app, pbatch, identifiant, motdepasse, modele, structure, age, batch_type, sortie, anonymiser, garderFichiers, pargroupe, generer_ddcs);
+			gopriv(app, pbatch, identifiant, motdepasse, modele, structure, age, batch_type, sortie, anonymiser, garderFichiers, pargroupe, generer_ddcs, options);
 			logout();
 		} catch (IOException | JDOMException | ExtractionException | TransformeurException e) {
 			throw new EngineException("Exception dans "+this.getClass().getName(),e);
@@ -261,7 +280,7 @@ public class EngineAnalyseurEnLigne extends EngineConnecte {
 		}
 	}
 
-	public void go(String identifiant, String motdepasse, InputStream batch, InputStream modele, int[] structures, boolean age, String batch_type, boolean recursif, ParamSortie sortie, boolean anonymiser, boolean garderFichiers, boolean pargroupe, boolean generer_ddcs) throws EngineException, LoginEngineException
+	public void go(String identifiant, String motdepasse, InputStream batch, InputStream modele, int[] structures, boolean age, String batch_type, boolean recursif, ParamSortie sortie, boolean anonymiser, boolean garderFichiers, boolean pargroupe, boolean generer_ddcs, Options options) throws EngineException, LoginEngineException
 	{
 		start();
 		try
@@ -277,7 +296,7 @@ public class EngineAnalyseurEnLigne extends EngineConnecte {
 			for (int structure : structures)
 			{
 				logger_.info("Traitement de la structure "+Structure.formatStructure(structure));
-				boolean ret = gopriv(app, pbatch, identifiant, motdepasse, modele, structure, age, batch_type, sortie, anonymiser, garderFichiers, pargroupe, generer_ddcs);
+				boolean ret = gopriv(app, pbatch, identifiant, motdepasse, modele, structure, age, batch_type, sortie, anonymiser, garderFichiers, pargroupe, generer_ddcs, options);
 				if (ret == false)
 					break;
 			}

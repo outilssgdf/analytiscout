@@ -17,6 +17,7 @@ import org.leplan73.analytiscout.Params;
 import org.leplan73.analytiscout.alerte.Alerte;
 import org.leplan73.analytiscout.alerte.Alertes;
 import org.leplan73.analytiscout.calcul.Unite;
+import org.leplan73.analytiscout.intranet.ExtractionIntranet;
 
 public class Adherent {
 
@@ -378,6 +379,15 @@ public class Adherent {
 			return "R";
 		}
 		return brancheCalcule;
+	}
+	
+	public String getTypeadhesion()
+	{
+		String type = get(colonnes_.getTypeAdhesion());
+		if (type.compareTo(String.valueOf(ExtractionIntranet.TYPE_INSCRIT)) == 0) return "Adhérent";
+		if (type.compareTo(String.valueOf(ExtractionIntranet.TYPE_PREINSCRIT)) == 0) return "Pré-inscrit";
+		if (type.compareTo(String.valueOf(ExtractionIntranet.TYPE_INVITE)) == 0) return "Invité";
+		return "Inconnu";
 	}
 	
 	public String getBrancheanneeprochaine()

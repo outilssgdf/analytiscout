@@ -12,6 +12,7 @@ public class Colonnes {
 	static public String Individu_DateNaissance = "Individu.DateNaissance";
 	static public String Structure_CodeStructure = "Structure.CodeStructure";
 	static public String Structure_Nom = "Structure.Nom";
+	static public String Structure_Type = "Inscriptions.Type";
 	static public String Individu_CodeAdherent = "Individu.CodeAdherent";
 	static public String Individu_Nom = "Individu.Nom";
 	static public String Individu_Prenom = "Individu.Prenom";

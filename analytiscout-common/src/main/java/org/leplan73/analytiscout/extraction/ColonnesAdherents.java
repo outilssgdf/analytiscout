@@ -40,6 +40,7 @@ public class ColonnesAdherents {
 	private int structureCode = -1;
 	private int delegations = -1;
 	private int dateFinMission = -1;
+	private int typeAdhesion = -1;
 
 	public void add(int id, String nom) {
 		ids_.put(id, nom);
@@ -166,6 +167,10 @@ public class ColonnesAdherents {
 			{
 				dateFinMission = key;
 			}
+			else if (ids_.get(key).compareTo(Colonnes.Structure_Type) == 0)
+			{
+				typeAdhesion = key;
+			}
 		});
 		
 		// Quelques tests...
@@ -174,6 +179,10 @@ public class ColonnesAdherents {
 		if (nomIndividuId == -1) throw new ExtractionException("Erreur nomIndividuId");
 		if (prenomIndividuId == -1) throw new ExtractionException("Erreur prenomIndividuId");
 		if (fonctionCodeId == -1) throw new ExtractionException("Erreur fonctionCodeId");
+	}
+
+	public int getTypeAdhesion() {
+		return typeAdhesion;
 	}
 
 	public int getDateFinMissionId() {

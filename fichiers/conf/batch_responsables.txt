@@ -343,6 +343,6 @@ diplome.38=
 qualif.38=
 formation.38=
 nom.38=tout_responsables_preinscrits
-adherents.38=true
+adherents.38=false
 batchtype.38=tout
 options.38=preinscrits

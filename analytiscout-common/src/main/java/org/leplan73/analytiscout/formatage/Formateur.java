@@ -22,6 +22,7 @@ public class Formateur {
 		String nom;
 		Set<Integer> membres;
 		Set<String> codes;
+		Set<String> codes_regexp;
 	}
 	
 	class Email
@@ -97,6 +98,16 @@ public class Formateur {
 				for (String code : codes)
 				{
 					categorie.codes.add(code);
+				}
+			}
+			String codes_regexpp = props.getProperty(Consts.VCARD_CATEGORIE_CODE_REGEXP+index);
+			if (codes_regexpp != null)
+			{
+				categorie.codes_regexp = new HashSet<String>();
+				String codes_regexp[] = codes_regexpp.split(",");
+				for (String code_regexp : codes_regexp)
+				{
+					categorie.codes_regexp.add(code_regexp);
 				}
 			}
 			cats.add(categorie);

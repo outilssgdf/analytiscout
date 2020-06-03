@@ -93,5 +93,6 @@ Version 1.3.4 :
 	- Nouvelle option pour inclure les adhérents préinscrits
 	- Jeunes : Les compas avec un age < 18 ans n'étaient pas indiqués en rouge
 	- Alerte : Identifier les responsables n'ayant pas de date de fin de mission
-Prochaine version :
 	- Responsables / Jeunes : Détection de la proposition "vent du large"
+En cours :
+	- Générateur : Ajout de la sélection de code par regexp

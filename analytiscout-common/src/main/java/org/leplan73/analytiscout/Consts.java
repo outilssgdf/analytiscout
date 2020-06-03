@@ -74,6 +74,7 @@ public class Consts {
 	
 	public static final String VCARD_CATEGORIE_NOM = "categorie.nom.";
 	public static final String VCARD_CATEGORIE_CODE = "categorie.code.";
+	public static final String VCARD_CATEGORIE_CODE_REGEXP = "categorie.code_regexp.";
 	public static final String VCARD_CATEGORIE_MEMBRES = "categorie.membres.";
 	
 	public static final String VCARD_EMAILS_ADRESSE = "emails.adresse.";

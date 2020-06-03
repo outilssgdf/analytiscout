@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.zip.ZipOutputStream;
 
 import org.leplan73.analytiscout.Consts;
@@ -55,7 +57,7 @@ public class ArchiveCsvFormateur extends Formateur {
 			Set<String> cvardEmails = new TreeSet<String>();
 			adherents.forEach((key,adherent) -> {
 				try {
-					listeVCard(colonnes, adherent, categorie, emails, ajouterGroupe, cvardEmails);
+					listeEmail(colonnes, adherent, categorie, emails, ajouterGroupe, cvardEmails);
 				} catch (IOException e) {
 				}
 			});
@@ -65,7 +67,7 @@ public class ArchiveCsvFormateur extends Formateur {
 		}
 	}
 	
-	private void listeVCard(ColonnesAdherents colonnes, Adherent adherent, Categorie cat, List<Email> emails, boolean ajouterGroupe, Set<String> cvardEmails) throws IOException {
+	private void listeEmail(ColonnesAdherents colonnes, Adherent adherent, Categorie cat, List<Email> emails, boolean ajouterGroupe, Set<String> cvardEmails) throws IOException {
 		
 		if (adherent.getEmailPersonnel().isEmpty()) return;
 		
@@ -77,6 +79,15 @@ public class ArchiveCsvFormateur extends Formateur {
 		if (cat.codes != null && cat.codes.contains(adherent.getFonctioncomplet()))
 		{
 			cvardEmails.add(adherent.getEmailPersonnel().toLowerCase());
+		}
+		if (cat.codes_regexp != null) {
+			cat.codes_regexp.forEach(re -> {
+				Pattern pattern = Pattern.compile(re);
+				Matcher matcher = pattern.matcher(adherent.getFonctioncomplet());
+				if (matcher.find()) {
+					cvardEmails.add(adherent.getEmailPersonnel().toLowerCase());
+				}
+			});
 		}
 		
 		if (ajouterGroupe)

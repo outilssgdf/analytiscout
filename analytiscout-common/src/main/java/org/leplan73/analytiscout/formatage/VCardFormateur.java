@@ -47,7 +47,7 @@ public class VCardFormateur extends Formateur {
 		}
 	}
 	
-	private void listeVCard(ColonnesAdherents colonnes, Adherent adherent, List<Categorie> cats, List<Email> emails, PrintStream out, boolean ajouterGroupe, Set<String> cvardEmails) throws IOException {
+	private void listeEmail(ColonnesAdherents colonnes, Adherent adherent, List<Categorie> cats, List<Email> emails, PrintStream out, boolean ajouterGroupe, Set<String> cvardEmails) throws IOException {
 		out.println("BEGIN:VCARD");
 		out.println("VERSION:3.0");
 		out.println("N:"+adherent.getNom()+";"+adherent.getPrenom()+";;;");
@@ -134,7 +134,7 @@ public class VCardFormateur extends Formateur {
 		String ajouterGroupe = props.getProperty(Consts.VCARD_AJOUTER_GROUPE,"1");
 		adherents.forEach((key,adherent) -> {
 			try {
-				listeVCard(colonnes, adherent, cats, emails, out, (ajouterGroupe.compareTo("1") == 0), cvardEmails);
+				listeEmail(colonnes, adherent, cats, emails, out, (ajouterGroupe.compareTo("1") == 0), cvardEmails);
 			} catch (IOException e) {
 			}
 		});

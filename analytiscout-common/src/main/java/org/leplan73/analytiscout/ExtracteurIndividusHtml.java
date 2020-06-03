@@ -192,6 +192,11 @@ public class ExtracteurIndividusHtml {
 			String unite = adherent.getUnite();
 			Unite uniteObj = unites_.computeIfAbsent(unite, k -> new Unite(unite, adherent.getCodestructure(), adherent.getFonction()));
 			uniteObj.ajouter(adherent.getJeune(), adherent.getChef());
+			
+			if (adherent.getBranche().compareTo(adherent.getBrancheanneeprochaine()) != 0) {
+				// Changement de branche
+				uniteObj.ajouterMontees();
+			}
 
 			if (adherent.getFonction() >= Consts.CODE_VIOLETS)
 			{

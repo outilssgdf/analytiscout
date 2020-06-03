@@ -302,6 +302,24 @@ public class Adherent {
 		unite_ = tableDeTraductionNoms.getOrDefault(unite_, unite_);
 	}
 	
+	public int getTribranche()
+	{
+		String branche = this.getBranche();
+		if (branche.compareTo("F") == 0)
+			return 0;
+		if (branche.compareTo("LJ") == 0)
+			return 1;
+		if (branche.compareTo("SG") == 0)
+			return 2;
+		if (branche.compareTo("PC") == 0)
+			return 3;
+		if (branche.compareTo("C") == 0)
+			return 4;
+		if (branche.compareTo("VDL") == 0)
+			return 5;
+		return 999;
+	}
+	
 	private String calculBranche()
 	{
 		String unite = this.getUnite();
@@ -332,11 +350,20 @@ public class Adherent {
 		return "R";
 	}
 	
+	public String getTypeadhesion()
+	{
+		String type = get(colonnes_.getTypeAdhesion());
+		if (type.compareTo(String.valueOf(ExtractionIntranet.TYPE_INSCRIT)) == 0) return "Adhérent";
+		if (type.compareTo(String.valueOf(ExtractionIntranet.TYPE_PREINSCRIT)) == 0) return "Pré-inscrit";
+		if (type.compareTo(String.valueOf(ExtractionIntranet.TYPE_INVITE)) == 0) return "Invité";
+		return "Inconnu";
+	}
+	
 	public String getBranche()
 	{
-		String brancheCalcule = calculBranche();
 		if (this.getJeune())
 		{
+			String brancheCalcule = calculBranche();
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 			try {
 				String date = get(colonnes_.getDatedeNaissanceId());
@@ -376,54 +403,47 @@ public class Adherent {
 				}
 			} catch (ParseException e) {
 			}
-			return "R";
+			return brancheCalcule;
 		}
-		return brancheCalcule;
-	}
-	
-	public String getTypeadhesion()
-	{
-		String type = get(colonnes_.getTypeAdhesion());
-		if (type.compareTo(String.valueOf(ExtractionIntranet.TYPE_INSCRIT)) == 0) return "Adhérent";
-		if (type.compareTo(String.valueOf(ExtractionIntranet.TYPE_PREINSCRIT)) == 0) return "Pré-inscrit";
-		if (type.compareTo(String.valueOf(ExtractionIntranet.TYPE_INVITE)) == 0) return "Invité";
-		return "Inconnu";
+		return "R";
 	}
 	
 	public String getBrancheanneeprochaine()
 	{
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-		try {
-			String date = get(colonnes_.getDatedeNaissanceId());
-			Date dn = simpleDateFormat.parse(date);
-			Date debutFindDec = Params.getDateLimiteJeune();
-			double diffFindDec = ((debutFindDec.getTime() - dn.getTime())/1000);
-			diffFindDec = diffFindDec/(3600*365.25*24);
-			Date debutFindDecN1 = Params.getDateLimiteJeuneSuivant();
-			double diffFindDecN1 = ((debutFindDecN1.getTime() - dn.getTime())/1000);
-			diffFindDecN1 = diffFindDecN1/(3600*365.25*24);
-					
-			if (diffFindDecN1 < 8)
-			{
-				return "F";
+		if (this.getJeune()) {
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+			try {
+				String date = get(colonnes_.getDatedeNaissanceId());
+				Date dn = simpleDateFormat.parse(date);
+				Date debutFindDec = Params.getDateLimiteJeune();
+				double diffFindDec = ((debutFindDec.getTime() - dn.getTime())/1000);
+				diffFindDec = diffFindDec/(3600*365.25*24);
+				Date debutFindDecN1 = Params.getDateLimiteJeuneSuivant();
+				double diffFindDecN1 = ((debutFindDecN1.getTime() - dn.getTime())/1000);
+				diffFindDecN1 = diffFindDecN1/(3600*365.25*24);
+						
+				if (diffFindDecN1 < 8)
+				{
+					return "F";
+				}
+				if (diffFindDecN1 < 11)
+				{
+					return "LJ";
+				}
+				if (diffFindDecN1 < 14)
+				{
+					return "SG";
+				}
+				if (diffFindDecN1 < 17)
+				{
+					return "PC";
+				}
+				if (diffFindDecN1 < 22)
+				{
+					return "C";
+				}
+			} catch (ParseException e) {
 			}
-			if (diffFindDecN1 < 11)
-			{
-				return "LJ";
-			}
-			if (diffFindDecN1 < 14)
-			{
-				return "SG";
-			}
-			if (diffFindDecN1 < 17)
-			{
-				return "PC";
-			}
-			if (diffFindDecN1 < 22)
-			{
-				return "C";
-			}
-		} catch (ParseException e) {
 		}
 		return "R";
 	}

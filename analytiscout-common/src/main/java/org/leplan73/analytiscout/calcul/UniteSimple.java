@@ -8,6 +8,7 @@ public class UniteSimple implements Comparable<UniteSimple> {
 	protected int codeFonction_=999;
 	protected String codeStructure_;
 	protected Groupe groupe_;
+	protected int montees_;
 	
 	public UniteSimple(String nomcomplet)
 	{
@@ -34,6 +35,14 @@ public class UniteSimple implements Comparable<UniteSimple> {
 
 	public void anonymiserStructure(Map<String, String> tableDeTraductionNoms, Map<String, String> tableDeTraductionCode, int codeStructure) {
 		changeNomcomplet(codeStructure + " - " + tableDeTraductionNoms.getOrDefault(nom_, nom_));
+	}
+	
+	public void ajouterMontees() {
+		montees_++;
+	}
+	
+	public int getMontees() {
+		return montees_;
 	}
 	
 	public boolean estGroupe()
@@ -77,6 +86,24 @@ public class UniteSimple implements Comparable<UniteSimple> {
 	public String getCodegroupe()
 	{
 		return groupe_.getCode();
+	}
+	
+	public int getTribranche()
+	{
+		String branche = this.getBranche();
+		if (branche.compareTo("F") == 0)
+			return 0;
+		if (branche.compareTo("LJ") == 0)
+			return 1;
+		if (branche.compareTo("SG") == 0)
+			return 2;
+		if (branche.compareTo("PC") == 0)
+			return 3;
+		if (branche.compareTo("C") == 0)
+			return 4;
+		if (branche.compareTo("VDL") == 0)
+			return 5;
+		return 999;
 	}
 	
 	public String getBranche()

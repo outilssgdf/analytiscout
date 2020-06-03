@@ -126,6 +126,11 @@ public class ExtracteurXlsx {
 			String unite = ad.getUnite();
 			Unite uniteObj = unites_.computeIfAbsent(unite, k -> new Unite(unite, ad.getCodestructure(), ad.getFonction()));
 			uniteObj.ajouter(ad.getJeune(), ad.getChef());
+			
+			if (ad.getBranche().compareTo(ad.getBrancheanneeprochaine()) != 0) {
+				// Changement de branche
+				uniteObj.ajouterMontees();
+			}
 		});
 	}
 }

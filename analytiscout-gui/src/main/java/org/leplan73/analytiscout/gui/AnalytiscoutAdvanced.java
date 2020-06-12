@@ -16,6 +16,7 @@ import org.leplan73.analytiscout.Consts;
 import org.leplan73.analytiscout.gui.dialogues.Analyses;
 import org.leplan73.analytiscout.gui.dialogues.Camps;
 import org.leplan73.analytiscout.gui.dialogues.ExportAdherents;
+import org.leplan73.analytiscout.gui.dialogues.Formations;
 import org.leplan73.analytiscout.gui.dialogues.RegistrePresence2;
 import org.leplan73.analytiscout.gui.utils.Images;
 import org.leplan73.analytiscout.gui.utils.JHyperlink;
@@ -66,6 +67,9 @@ public class AnalytiscoutAdvanced extends Analytiscout {
 		
 		ExportAdherents b = new ExportAdherents();
 		tabbedPane.addTab("Exporter",b);
+		
+		Formations f = new Formations();
+		tabbedPane.addTab("Formations", f);
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new EmptyBorder(0, 5, 0, 0));

@@ -11,7 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import org.leplan73.analytiscout.gui.Template;
-import org.leplan73.analytiscout.gui.extracteur.Extracteur;
+import org.leplan73.analytiscout.gui.formations.ExtracteurFormations;
 import org.leplan73.analytiscout.gui.generateur.GenerateurCSV;
 import org.leplan73.analytiscout.gui.generateur.GenerateurVCard;
 import org.leplan73.analytiscout.gui.utils.ElementFactory;
@@ -62,7 +62,7 @@ public class ExportAdherents extends Template {
 										JButton btnNewButton = new JButton("Exporter des données");
 										btnNewButton.addActionListener(new ActionListener() {
 											public void actionPerformed(ActionEvent e) {
-												new Extracteur().setVisible(true);
+												new ExtracteurFormations().setVisible(true);
 											}
 										});
 										panel_1.setLayout(new BorderLayout(0, 0));

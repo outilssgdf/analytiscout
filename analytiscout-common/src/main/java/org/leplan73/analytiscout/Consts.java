@@ -83,6 +83,7 @@ public class Consts {
 	public static final String VCARD_EMAILS_CATEGORIES = "emails.categories.";
 	
 	public static final String VCARD_AJOUTER_GROUPE = "categorie.ajouter.groupe";
+	public static final String VCARD_AJOUTER_JEUNES = "ajouterjeunes";
 	public static final String VCARD_EXTRACTION_RECURSIF = "extraction.recursif";
 	public static final String VCARD_EXTRACTION_CATEGORIE = "extraction.categorie";
 }

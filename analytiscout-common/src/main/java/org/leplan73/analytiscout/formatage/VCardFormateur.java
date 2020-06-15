@@ -141,7 +141,8 @@ public class VCardFormateur extends Formateur {
 		String ajouterGroupe = props.getProperty(Consts.VCARD_AJOUTER_GROUPE,"1");
 		adherents.forEach((key,adherent) -> {
 			try {
-				listeEmail(colonnes, adherent, cats, emails, out, (ajouterGroupe.compareTo("1") == 0), cvardEmails);
+				if (adherent.getChef() || adherent.getCompa())
+					listeEmail(colonnes, adherent, cats, emails, out, (ajouterGroupe.compareTo("1") == 0), cvardEmails);
 			} catch (IOException e) {
 			}
 		});

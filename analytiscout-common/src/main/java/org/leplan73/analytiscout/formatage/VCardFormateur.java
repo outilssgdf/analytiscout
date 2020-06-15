@@ -77,6 +77,13 @@ public class VCardFormateur extends Formateur {
 				sb.append(cat.nom);
 				index++;
 			}
+			if (cat.codes != null && cat.codes.contains(adherent.getFonctionsecondairecomplet()))
+			{
+				if (index > 0)
+					sb.append(",");
+				sb.append(cat.nom);
+				index++;
+			}
 			
 			for (Email email : emails)
 			{

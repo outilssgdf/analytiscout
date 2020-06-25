@@ -26,7 +26,7 @@ public class EngineExtracteurFormations extends EngineConnecte {
 	private boolean gopriv(ExtractionFormations app, String identifiant, String motdepasse, File sortie, int structure, Date debut, Date fin) throws ClientProtocolException, IOException, JDOMException, InvalidFormatException, ExtractionException
 	{
 		logger_.info("Extraction Formations (debut="+debut.toString()+","+"fin="+fin.toString()+")");
-		String donnees = app.extract(structure, null, debut, fin, false);
+		String donnees = app.extract(structure, null, debut, fin, true);
 		
 		logger_.info("Sauvegarde");
 		PrintStream fout = new PrintStream(new BufferedOutputStream(new FileOutputStream(sortie)),false, Consts.ENCODING_UTF8);

@@ -23,7 +23,6 @@ import org.apache.http.util.EntityUtils;
 import org.jdom2.JDOMException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import com.jayway.jsonpath.Configuration;
@@ -107,7 +106,7 @@ public class ExtractionFormations extends ExtractionIntranet {
 			httppost.addHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
 			httppost.addHeader("Accept-Language","fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3");
 			List<NameValuePair> formparams = new ArrayList<NameValuePair>();
-				formparams.add(new BasicNameValuePair("__EVENTTARGET",""));
+			formparams.add(new BasicNameValuePair("__EVENTTARGET","ctl00$MainContent$_btnExporter"));
 			formparams.add(new BasicNameValuePair("__EVENTARGUMENT",""));
 			formparams.add(new BasicNameValuePair("__eo_obj_states","")); 
 			formparams.add(new BasicNameValuePair("__eo_sc",""));
@@ -136,6 +135,13 @@ public class ExtractionFormations extends ExtractionIntranet {
 			formparams.add(new BasicNameValuePair("ctl00$MainContent$_btnPopupLieu$_tbResult","")); 
 			formparams.add(new BasicNameValuePair("ctl00$MainContent$_dpbDateDebut$_tbDate",fdebut));
 			formparams.add(new BasicNameValuePair("ctl00$MainContent$_dpbDateFin$_tbDate",ffin));
+			if (logger_.isDebugEnabled())
+			{
+				formparams.forEach(k ->
+				{
+					logger_.debug("Param : " + k.getName() + " -> " + k.getValue());
+				});
+			}
 			  
 			HttpEntity entity = new UrlEncodedFormEntity(formparams, Consts.UTF_8);
 			httppost.setEntity(entity);

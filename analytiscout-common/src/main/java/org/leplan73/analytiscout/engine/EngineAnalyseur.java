@@ -65,6 +65,7 @@ public class EngineAnalyseur extends Engine {
 					pbatch.getProperty("nom." + index, ""),
 					pbatch.getProperty("batchtype." + index, batch_type));
 			String optionsp = pbatch.getProperty("options." + index, null);
+			
 			File fichier_entree = new File(dossierStructure, extra.fichier_ + "." + generateur);
 
 			logger_.info("Chargement du fichier \"" + fichier_entree.getName() + "\"");
@@ -110,7 +111,7 @@ public class EngineAnalyseur extends Engine {
 		
 		if (pargroupe)
 		{
-			Map<String,ExtracteurIndividusHtml> groupes = adherents.genereGroupes();
+			Map<String,ExtracteurIndividusHtml> groupes = adherents.genereGroupes(true);
 			
 			Set<String> codeGroupes = groupes.keySet();
 			for (String codeGroupe : codeGroupes)

@@ -123,12 +123,14 @@ public class EngineExtracteurBatch extends EngineConnecte {
 					OutputStreamWriter w = new OutputStreamWriter(new FileOutputStream(fichier, true), Charset.forName(Consts.ENCODING_WINDOWS));
 					final CSVPrinter out = CSVFormat.DEFAULT.withAllowMissingColumnNames().print(w);
 					
+					boolean isTout = (nfichier.compareTo("tout") == 0);
+						
 					ExtracteurIndividusHtml x = new ExtracteurIndividusHtml();
-					x.charge(new ByteArrayInputStream(donnees.getBytes(Charset.forName("UTF-8"))),true,false);
+					x.charge(new ByteArrayInputStream(donnees.getBytes(Charset.forName("UTF-8"))),true,false, isTout);
 					
-					Map<String,ExtracteurIndividusHtml> groupes = x.genereGroupes();
+					Map<String,ExtracteurIndividusHtml> groupes = x.genereGroupes(isTout);
 					
-					if (nfichier.compareTo("tout") == 0)
+					if (isTout)
 					{
 						// Creation des scripts sql
 						File sqlFichier = new File(dossierStructure, "creation.sql");
@@ -143,17 +145,17 @@ public class EngineExtracteurBatch extends EngineConnecte {
 							String nomSql2 = colonnes.getNom(id);
 							String nomSql = colonnes.getNom(id).replace(".", "_");
 							String typeSql = "text(1024) NULL";
-							if (nomSql2.compareTo("Individu_CodeAdherent") == 0 || nomSql2.compareTo("Structure_CodeStructure") == 0)
-								typeSql = "int NULL";
+							if (nomSql2.compareTo("Individu_CodeAdherent") == 0 || nomSql2.compareTo("Structure_CodeStructure") == 0 || nomSql2.compareTo("Fonction_Code") == 0)
+								typeSql = "UNSIGNED INT NOT NULL";
 							wSql.print("`"+nomSql+"` "+typeSql);
 							wSql.print(",");
 						}
-						wSql.print(" groupe_code INT NULL, groupe_nom text(1024) NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;");
+						wSql.print(" groupe_code UNSIGNED INT NOT NULL, groupe_nom text(1024) NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;");
 						wSql.println();
 						
-						wSql.println("CREATE TABLE qualifs (code INT NULL, nom text(1024) NULL, `Individu_CodeAdherent` INT NULL, `QualificationsQualificationJeunesseSports.Libelle` text(1024) NULL, `Qualifications_EstTitulaire` text(1024) NULL,`Qualifications_DateFinValidite` DATE NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;");
-						wSql.println("CREATE TABLE diplomes (code INT NULL, nom text(1024) NULL, `Individu_CodeAdherent` INT NULL,`DiplomesType_Libelle` text(1024) NULL,`Diplomes_Numero` text(1024) NULL,`Diplomes_DateObtention` DATE NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;");
-						wSql.println("CREATE TABLE formations (code INT NULL, nom text(1024) NULL, `Individu_CodeAdherent` INT NULL,`FormationsType_Libelle` text(1024) NULL,`Formations_Role` text(1024) NULL,`Formations_DateFin` DATE NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;");
+						wSql.println("CREATE TABLE qualifs (code UNSIGNED INT NOT NULL, nom text(1024) NULL, `Individu_CodeAdherent` UNSIGNED INT NOT NULL, `QualificationsQualificationJeunesseSports.Libelle` text(1024) NULL, `Qualifications_EstTitulaire` text(1024) NULL,`Qualifications_DateFinValidite` DATE NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;");
+						wSql.println("CREATE TABLE diplomes (code UNSIGNED INT NOT NULL, nom text(1024) NULL, `Individu_CodeAdherent` UNSIGNED INT NOT NULL,`DiplomesType_Libelle` text(1024) NULL,`Diplomes_Numero` text(1024) NULL,`Diplomes_DateObtention` DATE NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;");
+						wSql.println("CREATE TABLE formations (code UNSIGNED INT NOT NULL, nom text(1024) NULL, `Individu_CodeAdherent` UNSIGNED INT NOT NULL,`FormationsType_Libelle` text(1024) NULL,`Formations_Role` UNSIGNED INT NOT NULL,`Formations_DateFin` DATE NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;");
 						
 						wSql.flush();
 						wSql.close();

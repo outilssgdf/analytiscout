@@ -45,7 +45,7 @@ public class EngineDetection extends EngineConnecte {
 			progress_.setProgress(40);
 			String donnees = app.extract(ExtractionIntranet.STRUCTURE_TOUT, false, ExtractionIntranet.TYPE_INSCRIT, true, null, ExtractionIntranet.SPECIALITE_SANS_IMPORTANCE, ExtractionIntranet.CATEGORIE_RESPONSABLE, ExtractionIntranet.DIPLOME_TOUT,ExtractionIntranet.QUALIFICATION_TOUT,ExtractionIntranet.FORMATION_TOUT, ExtractionIntranet.FORMAT_INDIVIDU,false);
 			ExtracteurIndividusHtml x = new ExtracteurIndividusHtml();
-			x.charge(new ByteArrayInputStream(donnees.getBytes(Charset.forName("UTF-8"))),true,false);
+			x.charge(new ByteArrayInputStream(donnees.getBytes(Charset.forName("UTF-8"))),true,false,true);
 			
 			logger_.info("Recherche adhérent");
 			progress_.setProgress(60);

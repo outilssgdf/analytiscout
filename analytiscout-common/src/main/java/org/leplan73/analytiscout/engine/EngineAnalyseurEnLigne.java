@@ -96,7 +96,7 @@ public class EngineAnalyseurEnLigne extends EngineConnecte {
 			String nom = pbatch.getProperty("nom." + index, "");
 			String fonction = pbatch.getProperty("fonction." + index);
 			String optionsp = pbatch.getProperty("options." + index, null);
-
+			
 			ExtraKey extra = new ExtraKey(pbatch.getProperty("fichier." + index, nom), nom, pbatch.getProperty("batchtype." + index, "tout_responsables"));
 			
 			logger_.info("Extraction de \""+nom+"\"");
@@ -155,7 +155,7 @@ public class EngineAnalyseurEnLigne extends EngineConnecte {
 		
 		if (pargroupe)
 		{
-			Map<String,ExtracteurIndividusHtml> groupes = adherents.genereGroupes();
+			Map<String,ExtracteurIndividusHtml> groupes = adherents.genereGroupes(true);
 			
 			Set<String> codeGroupes = groupes.keySet();
 			for (String codeGroupe : codeGroupes)

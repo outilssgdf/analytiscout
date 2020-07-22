@@ -49,15 +49,15 @@ public class ExtracteurIndividusHtml {
 	
 	public ExtracteurIndividusHtml(List<InputStream> inputs, Map<ExtraKey, ExtracteurExtraHtml> extras, boolean age, boolean anonymiser, Set<String> retirer_codes) throws ExtractionException, IOException, JDOMException {
 		extras_ = extras;
-		charge(inputs, age, anonymiser, retirer_codes);
+		charge(inputs, age, anonymiser, retirer_codes, true);
 	}
 	
 	public ExtracteurIndividusHtml(InputStream input, Map<ExtraKey, ExtracteurExtraHtml> extras, boolean age, boolean anonymiser, Set<String> retirer_codes) throws ExtractionException, IOException, JDOMException {
 		extras_ = extras;
-		charge(input, age, anonymiser, retirer_codes);
+		charge(input, age, anonymiser, retirer_codes, true);
 	}
 
-	public Map<String, ExtracteurIndividusHtml> genereGroupes() {
+	public Map<String, ExtracteurIndividusHtml> genereGroupes(boolean tout) {
 		Map<String, ExtracteurIndividusHtml> groupes = new HashMap<String,ExtracteurIndividusHtml>();
 		adherents_.forEach((code,adherent) ->
 		{
@@ -72,7 +72,7 @@ public class ExtracteurIndividusHtml {
 		});
 		
 		groupes.forEach((k,v) -> {
-			v.complete();
+			v.complete(tout);
 		});
 		return groupes;
 	}
@@ -170,7 +170,7 @@ public class ExtracteurIndividusHtml {
         return nbColumns;
 	}
 	
-	private void complete()
+	private void complete(boolean tout)
 	{
 		adherents_.forEach((code,adherent) ->
 		{
@@ -193,22 +193,24 @@ public class ExtracteurIndividusHtml {
 			Unite uniteObj = unites_.computeIfAbsent(unite, k -> new Unite(unite, adherent.getCodestructure(), adherent.getFonction()));
 			uniteObj.ajouter(adherent.getJeune(), adherent.getChef());
 			
-			if (adherent.getBranche().compareTo(adherent.getBrancheanneeprochaine()) != 0) {
-				// Changement de branche
-				uniteObj.ajouterMontees();
-			}
-
-			if (adherent.getFonction() >= Consts.CODE_VIOLETS)
-			{
-				if (adherent.getFonction() > codeMax.get())
-				{
-					codeMax.set(adherent.getFonction());
-					groupe_ = adherent.getUnite();
+			if (tout) {
+				if (adherent.getBranche().compareTo(adherent.getBrancheanneeprochaine()) != 0) {
+					// Changement de branche
+					uniteObj.ajouterMontees();
 				}
-			}
-			if (adherent.getMarin())
-			{
-				marins_ = true;
+
+				if (adherent.getFonction() >= Consts.CODE_VIOLETS)
+				{
+					if (adherent.getFonction() > codeMax.get())
+					{
+						codeMax.set(adherent.getFonction());
+						groupe_ = adherent.getUnite();
+					}
+				}
+				if (adherent.getMarin())
+				{
+					marins_ = true;
+				}
 			}
 		});
 		
@@ -493,7 +495,7 @@ public class ExtracteurIndividusHtml {
 		adds.forEach(adherent-> adherents_.put(adherent.getCode(), adherent));
 	}
 	
-	public void charge(List<InputStream> streams, boolean age, boolean anonymiser, Set<String> retirer_codes) throws ExtractionException, IOException, JDOMException
+	public void charge(List<InputStream> streams, boolean age, boolean anonymiser, Set<String> retirer_codes, boolean tout) throws ExtractionException, IOException, JDOMException
 	{
         adherents_ = new Adherents();
 		for (InputStream stream : streams) 
@@ -503,22 +505,22 @@ public class ExtracteurIndividusHtml {
 		if (anonymiser) {
 			anonymiserDonnees();
 		}
-		complete();
+		complete(tout);
 	}
 	
-	public void charge(final InputStream stream, boolean age, boolean anonymiser) throws ExtractionException, IOException, JDOMException
+	public void charge(final InputStream stream, boolean age, boolean anonymiser, boolean tout) throws ExtractionException, IOException, JDOMException
 	{
-		charge(stream, age,anonymiser, null);
+		charge(stream, age,anonymiser, null, tout);
 	}
 	
-	public void charge(final InputStream stream, boolean age, boolean anonymiser, Set<String> retirer_codes) throws ExtractionException, IOException, JDOMException
+	public void charge(final InputStream stream, boolean age, boolean anonymiser, Set<String> retirer_codes, boolean tout) throws ExtractionException, IOException, JDOMException
 	{
         adherents_ = new Adherents();
 		chargeStream(stream, age, retirer_codes);
 		if (anonymiser) {
 			anonymiserDonnees();
 		}
-		complete();
+		complete(tout);
 	}
 	
 	private List<ChefExtra> extra(int code)

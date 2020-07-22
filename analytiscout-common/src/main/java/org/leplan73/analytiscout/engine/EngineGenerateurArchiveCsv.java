@@ -49,7 +49,7 @@ public class EngineGenerateurArchiveCsv extends EngineConnecte {
 		
 		logger_.info("Conversion");
 		ExtracteurIndividusHtml x = new ExtracteurIndividusHtml();
-		x.charge(new ByteArrayInputStream(donnees.getBytes(Charset.forName("UTF-8"))),true,false);
+		x.charge(new ByteArrayInputStream(donnees.getBytes(Charset.forName("UTF-8"))),true,false,true);
 		
 		// Génération de l'archive
 		logger_.info("Génération de l'archive "+sortie.getName());

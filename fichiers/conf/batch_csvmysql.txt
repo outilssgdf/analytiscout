@@ -335,14 +335,3 @@ nom.37=firg
 fichier.37=firg
 adherents.37=true
 batchtype.37=formation
-
-generateur.38=csvmysql
-format.38=21
-type.38=2
-diplome.38=
-qualif.38=
-formation.38=
-nom.38=tout_responsables_preinscrits
-adherents.38=false
-batchtype.38=tout
-options.38=preinscrits

@@ -135,7 +135,6 @@ public class ExtractionAdherents extends ExtractionIntranet {
 			formparams.add(new BasicNameValuePair("ctl00$_tbRechStructure","")); 
 			formparams.add(new BasicNameValuePair("eo_version","11.0.20.2"));
 			formparams.add(new BasicNameValuePair("eo_style_keys","/wFk"));
-			formparams.add(new BasicNameValuePair("ctl00$_ddDelegations","0"));
 			formparams.add(new BasicNameValuePair("ctl00$MainContent$_ddlRequetesExistantes","-1"));
 			formparams.add(new BasicNameValuePair("ctl00$MainContent$_tbNomNouvelleRequete",""));
 			if (structure != 0)

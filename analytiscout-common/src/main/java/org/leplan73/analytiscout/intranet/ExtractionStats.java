@@ -1,9 +1,11 @@
 package org.leplan73.analytiscout.intranet;
 
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.leplan73.analytiscout.Params;
 import org.leplan73.analytiscout.calcul.Groupe;
 import org.leplan73.analytiscout.outils.Structure;
 import org.leplan73.analytiscout.stats.Effectifs;
@@ -102,6 +104,10 @@ public class ExtractionStats extends ExtractionIntranet {
 			index++;
 		}
 		
+		Calendar d = Calendar.getInstance();
+		d.setTime(Params.getDateDebutSaison());
+		int y = d.get(Calendar.YEAR)+1;
+		
 		b = page3.getElementById("ctl00_ctl00_MainContent_DivsContent__table__gvResultat").getFirstElementChild();
 		nodes2 = b.getChildElements();
 		nn = b.getChildElementCount();
@@ -120,14 +126,14 @@ public class ExtractionStats extends ExtractionIntranet {
 					Groupe groupe = indexGroupes.get(index);
 					
 					Map<Integer, Effectifs> effs = effectifs.get(groupe);
-					Effectifs eff = effs.get(2019-j);
+					Effectifs eff = effs.get(y-j);
 					if (eff == null)
 					{
 						eff = new Effectifs();
 						eff.responsables = nr;
 						eff.jeunes = nj;
 						eff.membresAssocies = nma;
-						effs.put(2019-j, eff);
+						effs.put(y-j, eff);
 					}
 				}
 			}

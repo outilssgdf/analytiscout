@@ -8,3 +8,14 @@ nom.1=tout
 fichier.1=tout_jeunes
 adherents.1=true
 batchtype.1=tout
+
+generateur.2=xml
+format.2=5
+type.2=2
+diplome.2=
+qualif.2=
+formation.2=
+nom.2=tout_jeunes_preinscrits
+adherents.2=false
+batchtype.2=tout
+options.2=preinscrits

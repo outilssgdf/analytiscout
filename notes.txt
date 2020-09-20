@@ -98,4 +98,6 @@ Version 1.4.0 :
 	- Générateur : Ajout de la sélection de code par regexp
 	- Modification du modèle pour l'année 2020
 	- Permettre une extraction depuis une fonction secondaire
+Version 1.4.1 :
+	- Nouvelle option pour inclure les adhérents préinscrits (jeunes, compas et farfadets)
 En cours :

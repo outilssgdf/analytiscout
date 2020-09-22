@@ -16,7 +16,7 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.PicocliException;
 
 @Command(name = "analytiscout", mixinStandardHelpOptions = true, versionProvider = CommonParamsG.class,
-	subcommands = {Analyseur.class, AnalyseurJeunes.class, AnalyseurJeunesEnLigne.class, AnalyseurMarinsEnLigne.class, AnalyseurMarins.class, Extracteur.class, ExtracteurBatch.class, GenerateurVCard.class, GenerateurCsv.class, AnalyseurEnLigne.class, ExtracteurRegistreDePresence.class, AnalyseurRegistreDePresence.class, AnalyseurRegistreDePresenceCivile.class, AnalyseurCEC.class, AnalyseurCECEnLigne.class, StatsStructure.class})
+	subcommands = {AnalyseurJeunesEnLigne.class, AnalyseurMarinsEnLigne.class, Extracteur.class, GenerateurVCard.class, AnalyseurRegistreDePresence.class, AnalyseurRegistreDePresenceCivile.class, GenerateurCsv.class, AnalyseurEnLigne.class, ExtracteurRegistreDePresence.class, AnalyseurCEC.class, AnalyseurCECEnLigne.class, StatsStructure.class})
 public class CmdLine extends CmdParams {
 	
 	@Override

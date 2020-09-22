@@ -217,6 +217,14 @@ public class Adherent {
 		return codeGroupe;
 	}
 	
+	public String getCodeterritoire()
+	{
+		String codeStructure = this.get(colonnes_.getStructureCode());
+		String codeTerritoire = codeStructure.substring(0, codeStructure.length()-4);
+		codeTerritoire+="0000";
+		return codeTerritoire;
+	}
+	
 	public String getCodebranche()
 	{
 		String codeStructure = this.get(colonnes_.getStructureCode());
@@ -779,8 +787,7 @@ public class Adherent {
 		});
 		if (id == -1)
 		{
-			out.print(getCodegroupe());
-			out.print(groupe);
+			out.print(getCodeterritoire());
 		}
 		out.println();
 	}

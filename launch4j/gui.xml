@@ -2,7 +2,6 @@
 <launch4jConfig>
   <dontWrapJar>true</dontWrapJar>
   <headerType>gui</headerType>
-  <jar>app/analytiscout-gui.jar</jar>
   <outfile>../fichiers/analytiscout-gui.exe</outfile>
   <errTitle></errTitle>
   <cmdLine></cmdLine>
@@ -16,6 +15,8 @@
   <icon>icone.ico</icon>
   <classPath>
     <mainClass>org.leplan73.analytiscout.gui.GuiCmd</mainClass>
+    <cp>app/patch.jar</cp>
+    <cp>app/analytiscout-gui.jar</cp>
   </classPath>
   <jre>
     <path></path>

@@ -2,7 +2,6 @@
 <launch4jConfig>
   <dontWrapJar>true</dontWrapJar>
   <headerType>console</headerType>
-  <jar>app\analytiscout-cmd.jar</jar>
   <outfile>../fichiers/analytiscout.exe</outfile>
   <errTitle></errTitle>
   <cmdLine></cmdLine>
@@ -16,6 +15,8 @@
   <icon>icone.ico</icon>
   <classPath>
     <mainClass>org.leplan73.analytiscout.cmd.CmdLine</mainClass>
+    <cp>app/patch.jar</cp>
+  	<cp>app/analytiscout-cmd.jar</cp>
   </classPath>
   <jre>
     <path></path>

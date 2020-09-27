@@ -100,4 +100,5 @@ Version 1.4.0 :
 	- Permettre une extraction depuis une fonction secondaire
 Version 1.4.1 :
 	- Nouvelle option pour inclure les adhérents préinscrits (jeunes, compas et farfadets)
+	- Bug : StringIndexOutOfBoundsException lors de l'analyse des registres de présence
 En cours :

@@ -57,7 +57,7 @@ public class ExtracteurRegistrePresence {
 			
 			String groupe = null;
 			for (CSVRecord record : records) {
-				if (record.size() == 2)
+				if (record.size() == 1)
 				{
 					if (unite != null)
 					{

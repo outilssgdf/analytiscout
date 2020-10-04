@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
+import java.util.TreeSet;
 
 import org.leplan73.analytiscout.Consts;
 
@@ -31,6 +32,22 @@ public class Formateur {
 		String nom;
 		int force;
 		Set<String> categories;
+	}
+	
+	protected Set<Integer> chargeAdherentRetires(Properties props)
+	{
+		Set<Integer> codes = new TreeSet<Integer>();
+		
+		int index = 1;
+		for (;;) {
+			String code = props.getProperty(Consts.VCARD_ADHERENT_RETIRER+index);
+			if (code == null) {
+				break;
+			}
+			codes.add(Integer.parseInt(code));
+			index++;
+		}
+		return codes;
 	}
 	
 	protected List<Email> chargeEmails(Properties props)

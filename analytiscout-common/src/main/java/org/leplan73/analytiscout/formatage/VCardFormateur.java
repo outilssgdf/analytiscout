@@ -136,14 +136,17 @@ public class VCardFormateur extends Formateur {
 		
 		List<Categorie> cats = chargeCategories(props);
 		List<Email> emails = chargeEmails(props);
+		Set<Integer> adherentsRetires = chargeAdherentRetires(props);
 		
 		Set<String> cvardEmails = new TreeSet<String>();
 		String ajouterGroupe = props.getProperty(Consts.VCARD_AJOUTER_GROUPE,"1");
 		adherents.forEach((key,adherent) -> {
-			try {
-				if (adherent.getChef() || adherent.getCompa())
-					listeEmail(colonnes, adherent, cats, emails, out, (ajouterGroupe.compareTo("1") == 0), cvardEmails);
-			} catch (IOException e) {
+			if (!adherentsRetires.contains(key)) {
+				try {
+					if (adherent.getChef() || adherent.getCompa())
+						listeEmail(colonnes, adherent, cats, emails, out, (ajouterGroupe.compareTo("1") == 0), cvardEmails);
+				} catch (IOException e) {
+				}
 			}
 		});
 		

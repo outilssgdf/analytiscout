@@ -81,6 +81,7 @@ public class Consts {
 	public static final String VCARD_EMAILS_NOM = "emails.nom.";
 	public static final String VCARD_EMAILS_FORCE = "emails.force.";
 	public static final String VCARD_EMAILS_CATEGORIES = "emails.categories.";
+	public static final String VCARD_ADHERENT_RETIRER = "adherent.retirer.";
 	
 	public static final String VCARD_AJOUTER_GROUPE = "categorie.ajouter.groupe";
 	public static final String VCARD_AJOUTER_JEUNES = "ajouterjeunes";

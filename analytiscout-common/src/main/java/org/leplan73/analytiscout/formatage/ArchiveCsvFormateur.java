@@ -100,7 +100,7 @@ public class ArchiveCsvFormateur extends Formateur {
 		
 		for (Email email : emails)
 		{
-			if (email.adresse.compareTo(adherent.getEmailPersonnel()) == 0)
+			if (adherent.getEmailPersonnel() != null && email.adresse.compareTo(adherent.getEmailPersonnel()) == 0)
 			{
 				for (String catEmail : email.categories)
 				{
@@ -110,7 +110,7 @@ public class ArchiveCsvFormateur extends Formateur {
 					}
 				}
 			}
-			if (email.adresse.compareTo(adherent.getEmailProfessionnel()) == 0)
+			if (adherent.getEmailProfessionnel() != null && email.adresse.compareTo(adherent.getEmailProfessionnel()) == 0)
 			{
 				for (String catEmail : email.categories)
 				{

@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.leplan73</groupId>
 		<artifactId>analytiscout</artifactId>
-		<version>1.5.0-SNAPSHOT</version>
+		<version>1.4.3</version>
 	</parent>
 	<artifactId>analytiscout-cmd</artifactId>
 	<dependencies>

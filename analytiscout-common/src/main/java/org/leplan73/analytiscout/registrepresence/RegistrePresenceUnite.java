@@ -58,9 +58,9 @@ public class RegistrePresenceUnite extends UniteSimple {
 		return activites_;
 	}
 
-	public int charge(CSVRecord record) {
+	public Integer charge(CSVRecord record) {
 		String nom = record.get(0);
-		int anneeDebut = -1;
+		Integer anneeDebut = null;
 		if (nom.compareTo("Activités") == 0)
 		{
 			for (int i=2;i<record.size();i++)

@@ -45,6 +45,7 @@ public class EngineAnalyseurRegistreDePresence extends Engine {
 		}
 		if (fEntreeAnnee != null)
 		{
+			logger_.info("Chargement du fichier \"" + fEntreeAnnee.getName() + "\"");
 			int ann = ex.charge(new FileInputStream(fEntreeAnnee))+1;
 			if (anneeDebut != 0) anneeDebut = ann;
 			anneeFin = ann;

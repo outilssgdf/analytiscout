@@ -93,9 +93,11 @@ public class ExtracteurRegistrePresence {
 				{
 					if (unite != null)
 					{
-						int a = unite.charge(record);
-						if (anneeDebut == -1)
-							anneeDebut = a;
+						Integer a = unite.charge(record);
+						if (a != null) {
+							if (anneeDebut == -1 || a < anneeDebut)
+								anneeDebut = a;
+						}
 					}
 				}
 			}

@@ -101,4 +101,6 @@ Version 1.4.0 :
 Version 1.4.2 :
 	- Nouvelle option pour inclure les adhérents préinscrits (jeunes, compas et farfadets)
 	- Bug : StringIndexOutOfBoundsException lors de l'analyse des registres de présence
+Version 1.4.3 :
+	- Registre de présence : Bug de détection de début d'activité
 En cours :

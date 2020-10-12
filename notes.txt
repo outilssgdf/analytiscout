@@ -103,4 +103,6 @@ Version 1.4.2 :
 	- Bug : StringIndexOutOfBoundsException lors de l'analyse des registres de présence
 Version 1.4.3 :
 	- Registre de présence : Bug de détection de début d'activité
+Version 1.4.4 :
+	- Registre de présence : Bug de détection de début d'activité (calcul de l'année uniquement) 
 En cours :

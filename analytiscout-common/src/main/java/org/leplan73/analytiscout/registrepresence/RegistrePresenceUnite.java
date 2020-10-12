@@ -17,6 +17,7 @@ public class RegistrePresenceUnite extends UniteSimple {
 	private List<RegistrePresenceActivite> activites_ = new ArrayList<RegistrePresenceActivite>();
 	private boolean animateurs_;
 	private boolean jeunes_;
+	private int indexAjout = 0;
 	
 	public RegistrePresenceUnite(String nom) {
 		super(nom);
@@ -58,7 +59,7 @@ public class RegistrePresenceUnite extends UniteSimple {
 		return activites_;
 	}
 
-	public Integer charge(CSVRecord record) {
+	public Integer charge(CSVRecord record, boolean ajout) {
 		String nom = record.get(0);
 		Integer anneeDebut = null;
 		if (nom.compareTo("Activités") == 0)
@@ -130,8 +131,10 @@ public class RegistrePresenceUnite extends UniteSimple {
 				int index = activites_.size()-record.size()+i;
 				activites_.get(index).complete(this);
 			}
-			if (activites_.isEmpty() == false)
-				anneeDebut = activites_.get(0).getDebutAnnee();
+			if (activites_.isEmpty() == false) {
+				anneeDebut = activites_.get(indexAjout).getDebutAnnee();
+				indexAjout = activites_.size();
+			}
 		}
 		if (nom.compareTo("Volume horaire forfaitaire") == 0)
 		{
@@ -140,8 +143,10 @@ public class RegistrePresenceUnite extends UniteSimple {
 				int index = activites_.size()-record.size()+i;
 				activites_.get(index).complete(this);
 			}
-			if (activites_.isEmpty() == false)
-				anneeDebut = activites_.get(0).getDebutAnnee();
+			if (activites_.isEmpty() == false) {
+				anneeDebut = activites_.get(indexAjout).getDebutAnnee();
+				indexAjout = activites_.size();
+			}
 		}
 		if (nom.compareTo("Animateurs") == 0)
 		{

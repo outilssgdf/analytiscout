@@ -24,7 +24,7 @@ public class EngineExportRegistreDePresence extends Engine {
 			progress_.setProgress(20,"Chargement des fichiers");
 			ExtracteurRegistrePresence ex = new ExtracteurRegistrePresence();
 			logger_.info("Chargement du fichier \"" + entree.getName() + "\"");
-			ex.charge(new FileInputStream(entree));
+			ex.charge(new FileInputStream(entree), false);
 			if (anonymiser)
 			{
 				ex.anonymiser();

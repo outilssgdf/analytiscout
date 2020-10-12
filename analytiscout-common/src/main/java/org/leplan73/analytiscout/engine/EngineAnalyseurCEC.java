@@ -32,9 +32,9 @@ public class EngineAnalyseurCEC extends Engine {
 		progress_.setProgress(30);
 		try {
 			logger_.info("Chargement du fichier \"" + fEntreeAnneeP.getName() + "\"");
-			int anneeDebut = ex.charge(new FileInputStream(fEntreeAnneeP))+1;
+			int anneeDebut = ex.charge(new FileInputStream(fEntreeAnneeP), false)+1;
 			logger_.info("Chargement du fichier \"" + fEntreeAnnee.getName() + "\"");
-			ex.charge(new FileInputStream(fEntreeAnnee));
+			ex.charge(new FileInputStream(fEntreeAnnee), true);
 			if (anonymiser)
 			{
 				ex.anonymiser();

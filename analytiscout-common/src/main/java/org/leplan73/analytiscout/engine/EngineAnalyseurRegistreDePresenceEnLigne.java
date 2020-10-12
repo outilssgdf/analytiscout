@@ -50,7 +50,7 @@ public class EngineAnalyseurRegistreDePresenceEnLigne extends EngineConnecte {
 		}
 		
 		ExtracteurRegistrePresence ex = new ExtracteurRegistrePresence();
-		int anneeDebut = ex.charge(in)+1;
+		int anneeDebut = ex.charge(in, false)+1;
 		progress_.setProgress(40, "Chargement des fichiers");
 		logger_.info("Chargement des fichiers");
 		if (anonymiser)

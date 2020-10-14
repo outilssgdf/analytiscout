@@ -2,6 +2,7 @@ package org.leplan73.analytiscout.extraction;
 
 import java.io.IOException;
 import java.io.PrintStream;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -754,6 +755,8 @@ public class Adherent {
 	}
 
 	public void liste(int id, String nom, CSVPrinter out, String groupe) throws IOException {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");  
 		if (id != -1)
 		{
 			out.print(id);
@@ -764,17 +767,43 @@ public class Adherent {
 				String n = colonnes_.getNom(key);
 				if (id != -1)
 				{
+					if (n.startsWith("QualificationsQualificationJeunesseSports.Libelle"))
+					{
+						out.print(value);
+					}
 					if (n.startsWith("Qualifications.EstTitulaire"))
+					{
+						out.print(value);
+					}
+					if (n.startsWith("QualificationsType.Libelle"))
+					{
+						out.print(value);
+					}
+					if (n.startsWith("FormationsType.Libelle"))
+					{
+						out.print(value);
+					}
+					if (n.startsWith("DiplomesType.Libelle"))
 					{
 						out.print(value);
 					}
 					if (n.startsWith("Qualifications.DateFinValidite"))
 					{
-						out.print(value);
+						try {
+							Date d = simpleDateFormat.parse(value);
+							out.print(dateFormat.format(d));
+						} catch (ParseException e) {
+							out.print("");
+						}
 					}
 					if (n.startsWith("Formations.DateFin"))
 					{
-						out.print(value);
+						try {
+							Date d = simpleDateFormat.parse(value);
+							out.print(dateFormat.format(d));
+						} catch (ParseException e) {
+							out.print("");
+						}
 					}
 					if (n.startsWith("Formations.Role"))
 					{
@@ -782,7 +811,12 @@ public class Adherent {
 					}
 					if (n.startsWith("Diplomes.DateObtention"))
 					{
-						out.print(value);
+						try {
+							Date d = simpleDateFormat.parse(value);
+							out.print(dateFormat.format(d));
+						} catch (ParseException e) {
+							out.print("");
+						}
 					}
 				}
 			} catch (IOException e) {

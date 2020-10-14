@@ -754,7 +754,7 @@ public class Adherent {
 		}
 	}
 
-	public void liste(int id, String nom, CSVPrinter out, String groupe) throws IOException {
+	public void liste(int id, String nom, CSVPrinter out) throws IOException {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");  
 		if (id != -1)

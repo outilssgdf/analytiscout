@@ -757,37 +757,68 @@ public class Adherent {
 		if (id != -1)
 		{
 			out.print(id);
-			out.print(nom);
+			out.print(this.getCode());
 		}
 		data_.forEach((key,value) -> {
 			try {
 				String n = colonnes_.getNom(key);
 				if (id != -1)
 				{
-					if (n.startsWith("Formations") || n.startsWith("Qualifications") || n.startsWith("Diplomes") || n.startsWith("Individu.CodeAdherent"))
+					if (n.startsWith("Qualifications.EstTitulaire"))
 					{
-						if (n.compareTo("Qualifications.DateFinValidite") == 0 || n.compareTo("Diplomes.DateObtention") == 0 || n.compareTo("Formations.DateFin") == 0)
-						{
-							String parts[] = value.split("/");
-							if (parts.length==3)
-								out.print(parts[2]+"-"+parts[1]+"-"+parts[0]);
-							else
-								out.print(value);
-						}
-						else
-							out.print(value);
+						out.print(value);
 					}
-				}
-				else
-				{
-					out.print(value);
+					if (n.startsWith("Qualifications.DateFinValidite"))
+					{
+						out.print(value);
+					}
+					if (n.startsWith("Formations.DateFin"))
+					{
+						out.print(value);
+					}
+					if (n.startsWith("Formations.Role"))
+					{
+						out.print(value);
+					}
+					if (n.startsWith("Diplomes.DateObtention"))
+					{
+						out.print(value);
+					}
 				}
 			} catch (IOException e) {
 			}
 		});
-		if (id == -1)
-		{
-			out.print(getCodeterritoire());
+		String territoire = getCodeterritoire();
+		out.print(territoire);
+		if (territoire.startsWith("10")) {
+			out.print(2);
+		}
+		if (territoire.startsWith("11")) {
+			out.print(3);
+		}
+		if (territoire.startsWith("2")) {
+			out.print(4);
+		}
+		if (territoire.startsWith("3")) {
+			out.print(5);
+		}
+		if (territoire.startsWith("4")) {
+			out.print(6);
+		}
+		if (territoire.startsWith("5")) {
+			out.print(7);
+		}
+		if (territoire.startsWith("6")) {
+			out.print(8);
+		}
+		if (territoire.startsWith("7")) {
+			out.print(9);
+		}
+		if (territoire.startsWith("8")) 
+			out.print(10);{
+		}
+		if (territoire.startsWith("9")) {
+			out.print(1);
 		}
 		out.println();
 	}

@@ -9,12 +9,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
-import org.influxdb.InfluxDB;
-import org.influxdb.dto.Point;
 import org.leplan73.analytiscout.Anonymizer;
 import org.leplan73.analytiscout.calcul.Groupe;
 import org.leplan73.analytiscout.calcul.UniteSimple;
@@ -227,71 +224,6 @@ public class RegistrePresenceActivite {
 			});
 			t.addAndGet(3600);
 		}
-	}
-
-	public void exportInfluxDbReel(InfluxDB influxDB, String serie, String nomcomplet, String unite, String structure, String code_groupe, String groupe) {
-		long debut = debut_.getTime()/1000;
-		long fin = fin_.getTime()/1000;
-		
-		AtomicLong t = new AtomicLong(debut);
-		while(t.longValue() < fin)
-		{
-			Calendar cal = Calendar.getInstance();
-			cal.setTimeInMillis(t.longValue()*1000);
-			presencesChefs_.forEach((k,v) -> {
-				Point point = Point.measurement(serie).time(t.longValue()*1000, TimeUnit.MILLISECONDS).tag("nomcomplet", nomcomplet).tag("unite", unite).tag("structure", structure).tag("code_groupe", code_groupe).tag("groupe", groupe)
-						.tag("type", type_)
-						.tag("personne", k)
-						.tag("mois", ""+cal.get(Calendar.MONTH)+1)
-						.tag("chef", "1")
-						.addField("presence", v)
-						.build();
-				influxDB.write(point);
-			});
-			presencesJeunes_.forEach((k,v) -> {
-				Point point = Point.measurement(serie).time(t.longValue()*1000, TimeUnit.MILLISECONDS).tag("nomcomplet", nomcomplet).tag("unite", unite).tag("structure", structure).tag("code_groupe", code_groupe).tag("groupe", groupe)
-						.tag("type", type_)
-						.tag("personne", k)
-						.tag("mois", ""+cal.get(Calendar.MONTH)+1)
-						.tag("chef", "0")
-						.addField("presence", v)
-						.build();
-				influxDB.write(point);
-			});
-			t.addAndGet(3600);
-		}
-	}
-
-	public void exportInfluxDbForfaitaire(InfluxDB influxDB, String serie, String nomcomplet, String unite, String structure, String code_groupe, String groupe) {
-		long debut = debut_.getTime()/1000;
-		Calendar cal = Calendar.getInstance();
-		cal.setTimeInMillis(debut*1000);
-		presencesChefs_.forEach((k,v) -> {
-			if (v== 1)
-			{
-				Point point = Point.measurement(serie).time(debut*1000, TimeUnit.MILLISECONDS).tag("nomcomplet", nomcomplet).tag("unite", unite).tag("structure", structure).tag("code_groupe", code_groupe).tag("groupe", groupe)
-						.tag("nom", "type_")
-						.tag("personne", k)
-						.tag("mois", ""+cal.get(Calendar.MONTH)+1)
-						.tag("chef", "1")
-						.addField("forfait", dureeFortaitaire_)
-						.build();
-				influxDB.write(point);
-			}
-		});
-		presencesJeunes_.forEach((k,v) -> {
-			if (v== 1)
-			{
-				Point point = Point.measurement(serie).time(debut*1000, TimeUnit.MILLISECONDS).tag("nomcomplet", nomcomplet).tag("unite", unite).tag("structure", structure).tag("code_groupe", code_groupe).tag("groupe", groupe)
-						.tag("nom", "type_")
-						.tag("personne", k)
-						.tag("mois", ""+cal.get(Calendar.MONTH)+1)
-						.tag("chef", "0")
-						.addField("forfait", dureeFortaitaire_)
-						.build();
-				influxDB.write(point);
-			}
-		});
 	}
 
 	public void generer(UniteSimple unite, String structure, Groupe groupe, List<RegistrePresenceActiviteHeure> activites) {

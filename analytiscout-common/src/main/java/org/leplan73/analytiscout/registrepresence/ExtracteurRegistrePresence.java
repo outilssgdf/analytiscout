@@ -1,13 +1,9 @@
 package org.leplan73.analytiscout.registrepresence;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -17,7 +13,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
-import org.influxdb.InfluxDB;
 import org.leplan73.analytiscout.Anonymizer;
 import org.leplan73.analytiscout.Consts;
 
@@ -264,55 +259,6 @@ public class ExtracteurRegistrePresence {
 		if (premiereUnite_ != null)
 		{
 			groupe_ = premiereUnite_.getNom();
-		}
-	}
-
-	public void exportInfluxDb(InfluxDB influxDB) {
-		unites_.forEach((k,v) -> {
-			String groupe;
-			boolean est_groupe = v.estGroupe();
-			if (est_groupe == false)
-			{
-				RegistrePresenceUnite u = unites_.get(v.getCodegroupe());
-				groupe = u.getNom();
-			}
-			else
-			{
-				groupe = v.getNom();
-			}
-			v.exportInfluxDb(groupe,influxDB);	
-		});
-	}
-
-	public void exportInfluxDb(File out) throws FileNotFoundException {
-		PrintStream os;
-		try {
-			os = new PrintStream(new FileOutputStream(out));
-			os.println("# DDL");
-			os.println("CREATE DATABASE import");
-			os.println();
-			os.println("# DML");
-			os.println("# CONTEXT-DATABASE: import");
-			os.println();
-			
-			unites_.forEach((k,v) -> {
-				String groupe;
-				boolean est_groupe = v.estGroupe();
-				if (est_groupe == false)
-				{
-					RegistrePresenceUnite u = unites_.get(v.getCodegroupe());
-					groupe = u.getNom();
-				}
-				else
-				{
-					groupe = v.getNom();
-				}
-				v.exportInfluxDb(groupe,os);	
-			});
-			os.flush();
-			os.close();
-		} catch (FileNotFoundException e) {
-			throw e;
 		}
 	}
 

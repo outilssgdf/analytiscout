@@ -8,7 +8,6 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.apache.commons.csv.CSVRecord;
-import org.influxdb.InfluxDB;
 import org.leplan73.analytiscout.Anonymizer;
 import org.leplan73.analytiscout.calcul.UniteSimple;
 
@@ -40,12 +39,6 @@ public class RegistrePresenceUnite extends UniteSimple {
 		String prefix = "activite,unitecomplet="+nomcomplet_+",unite="+nom_+",structure="+codeStructure_+",code_groupe="+this.getCodegroupe()+",groupe="+groupe;
 		activites_.forEach(v -> v.exportInfluxDbReel(prefix,os));
 		activites_.forEach(v -> v.exportInfluxDbForfaitaire(prefix,os));
-	}
-
-	public void exportInfluxDb(String groupe, InfluxDB influxDB) {
-
-		activites_.forEach(v -> v.exportInfluxDbReel(influxDB, "activites_reel", nomcomplet_, nom_, codeStructure_, this.getCodegroupe(), groupe));
-		activites_.forEach(v -> v.exportInfluxDbForfaitaire(influxDB, "activites_forfaitaire", nomcomplet_, nom_, codeStructure_, this.getCodegroupe(), groupe));
 	}
 	
 	@Override

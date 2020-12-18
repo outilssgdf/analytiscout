@@ -31,7 +31,6 @@ import org.jdatepicker.impl.UtilDateModel;
 import org.leplan73.analytiscout.Consts;
 import org.leplan73.analytiscout.Params;
 import org.leplan73.analytiscout.Progress;
-import org.leplan73.analytiscout.engine.EngineExtracteurCamps;
 import org.leplan73.analytiscout.engine.EngineExtracteurFormations;
 import org.leplan73.analytiscout.gui.GuiProgress;
 import org.leplan73.analytiscout.gui.camps.FormatteurDate;

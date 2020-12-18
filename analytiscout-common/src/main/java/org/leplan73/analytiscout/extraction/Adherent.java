@@ -775,15 +775,15 @@ public class Adherent {
 					{
 						out.print(value);
 					}
-					if (n.startsWith("QualificationsType.Libelle"))
-					{
-						out.print(value);
-					}
 					if (n.startsWith("FormationsType.Libelle"))
 					{
 						out.print(value);
 					}
 					if (n.startsWith("DiplomesType.Libelle"))
+					{
+						out.print(value);
+					}
+					if (n.startsWith("QualificationsType.Libelle"))
 					{
 						out.print(value);
 					}

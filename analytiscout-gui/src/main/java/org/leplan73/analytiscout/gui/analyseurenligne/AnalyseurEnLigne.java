@@ -10,8 +10,6 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.net.URISyntaxException;
-import java.util.Map;
-import java.util.TreeMap;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;

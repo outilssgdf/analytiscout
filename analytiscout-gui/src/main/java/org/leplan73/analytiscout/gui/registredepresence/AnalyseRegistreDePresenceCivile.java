@@ -1,6 +1,7 @@
 package org.leplan73.analytiscout.gui.registredepresence;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -18,6 +19,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ProgressMonitor;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 import org.leplan73.analytiscout.Consts;
@@ -34,8 +36,6 @@ import org.leplan73.analytiscout.gui.utils.LoggedDialog;
 import org.leplan73.analytiscout.gui.utils.Logging;
 import org.leplan73.analytiscout.gui.utils.Preferences;
 import org.slf4j.LoggerFactory;
-import javax.swing.border.EtchedBorder;
-import java.awt.Color;
 
 @SuppressWarnings("serial")
 public class AnalyseRegistreDePresenceCivile extends Dialogue implements LoggedDialog, GuiCommand {

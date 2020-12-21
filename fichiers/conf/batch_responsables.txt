@@ -346,3 +346,13 @@ nom.38=tout_responsables_preinscrits
 adherents.38=false
 batchtype.38=tout
 options.38=preinscrits
+
+generateur.39=xml
+format.39=4
+diplome.39=
+qualif.39=
+formation.39=95
+nom.39=firg
+fichier.39=fac
+adherents.39=true
+batchtype.39=formation

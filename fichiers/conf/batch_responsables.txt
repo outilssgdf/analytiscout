@@ -356,3 +356,13 @@ nom.39=firg
 fichier.39=fac
 adherents.39=true
 batchtype.39=formation
+
+generateur.40=xml
+format.40=4
+diplome.40=
+qualif.40=
+formation.40=68
+nom.40=fits
+fichier.40=fac
+adherents.40=true
+batchtype.40=formation

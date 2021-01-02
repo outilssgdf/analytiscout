@@ -25,8 +25,6 @@
 		<commons-compress.version>1.18</commons-compress.version>
 		<httpclient.version>4.5.9</httpclient.version>
 		<httpmime.version>4.5.9</httpmime.version>
-		<jett.version>0.11.3</jett.version>
-		<poi.version>4.0.1</poi.version>
 		<slf4j.version>1.7.30</slf4j.version>
 		<picocli.version>3.9.6</picocli.version>
 		<jersey.version>2.27</jersey.version>
@@ -46,6 +44,7 @@
 		<module>analytiscout-cmd</module>
 		<module>analytiscout-gui</module>
     	<module>analytiscout-assembly</module>
+    	<module>analytiscout-jett</module>
 	</modules>
   <build>
   <plugins>

@@ -20,10 +20,6 @@ L’outil est disponible pour les équipes territoriales sur la plateforme colla
 - Eclipse
 
 ## Build
-- git clone https://github.com/outilssgdf/jett-poi4.git
-- cd jett-poi4
-- git checkout -b slf4j_migration
-- mvn install
 - git clone https://github.com/outilssgdf/analytiscout.git
 - cd analytiscout
 - mvn install

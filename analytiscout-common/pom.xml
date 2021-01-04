@@ -13,7 +13,7 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-compress</artifactId>
-			<version>${commons-compress.version}</version>
+			<version>1.18</version>
 		</dependency>
 		<dependency>
 			<groupId>org.leplan73</groupId>
@@ -30,19 +30,19 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-csv</artifactId>
-			<version>${commons-csv.version}</version>
+			<version>1.6</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.jdom/jdom2 -->
 		<dependency>
 			<groupId>org.jdom</groupId>
 			<artifactId>jdom2</artifactId>
-			<version>${jdom.version}</version>
+			<version>2.0.6</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
-			<version>${httpclient.version}</version>
+			<version>4.5.9</version>
 			<exclusions>
 				<exclusion>
 					<groupId>commons-logging</groupId>
@@ -54,39 +54,39 @@
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpmime</artifactId>
-			<version>${httpmime.version}</version>
+			<version>4.5.9</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.jsoup/jsoup -->
 		<dependency>
 			<groupId>org.jsoup</groupId>
 			<artifactId>jsoup</artifactId>
-			<version>${jsoup.version}</version>
+			<version>1.12.1</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/jaxen/jaxen -->
 		<dependency>
 			<groupId>jaxen</groupId>
 			<artifactId>jaxen</artifactId>
-			<version>${jaxen.version}</version>
+			<version>1.2.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.jayway.jsonpath</groupId>
 			<artifactId>json-path</artifactId>
-			<version>${json-path.version}</version>
+			<version>2.4.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.jcabi</groupId>
 			<artifactId>jcabi-manifests</artifactId>
-			<version>${jcabi.version}</version>
+			<version>1.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>jcl-over-slf4j</artifactId>
-			<version>${slf4j.version}</version>
+			<version>1.7.30</version>
 		</dependency>
 		<dependency>
 	    <groupId>net.sourceforge.htmlunit</groupId>
 	    <artifactId>htmlunit</artifactId>
-	    <version>${htmlunit.version}</version>
+	    <version>2.36.0</version>
 			<exclusions>
 				<exclusion>
 					<groupId>commons-logging</groupId>

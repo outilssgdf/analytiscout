@@ -1,4 +1,4 @@
-# AnalytiScout
+MIT License# AnalytiScout
 
 Un outil en Java pour faciliter l'analyse des maitrises de l'intranet SGDF ([Scouts et Guides de France](https://www.sgdf.fr))
 
@@ -25,4 +25,4 @@ L’outil est disponible pour les équipes territoriales sur la plateforme colla
 - mvn install
 
 ## Licence
-Apache v2.0
+MIT License

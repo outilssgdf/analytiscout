@@ -10,7 +10,7 @@ batchtype.1=tout
 retirer_code.1=170,110,110M,120,120M
 
 generateur.2=xml
-format.2=4
+format.2=1
 diplome.2=604
 qualif.2=
 formation.2=
@@ -20,7 +20,7 @@ batchtype.2=diplome
 fichier.2=dpe
 
 generateur.3=xml
-format.3=4
+format.3=1
 diplome.3=605
 qualif.3=
 formation.3=
@@ -30,7 +30,7 @@ batchtype.3=diplome
 fichier.3=dcq
 
 generateur.4=xml
-format.4=4
+format.4=1
 diplome.4=606
 qualif.4=
 formation.4=
@@ -40,7 +40,7 @@ batchtype.4=diplome
 fichier.4=dcf
 
 generateur.5=xml
-format.5=4
+format.5=1
 diplome.5=
 qualif.5=
 formation.5=259
@@ -50,7 +50,7 @@ batchtype.5=formation
 fichier.5=fpe
 
 generateur.6=xml
-format.6=4
+format.6=1
 diplome.6=
 qualif.6=
 formation.6=260
@@ -60,7 +60,7 @@ batchtype.6=formation
 fichier.6=fcq
 
 generateur.7=xml
-format.7=4
+format.7=1
 diplome.7=
 qualif.7=
 formation.7=261

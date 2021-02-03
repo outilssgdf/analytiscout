@@ -1,5 +1,5 @@
 generateur.1=xml
-format.1=4
+format.1=1
 diplome.1=
 qualif.1=1
 formation.1=
@@ -8,7 +8,7 @@ adherents.1=true
 batchtype.1=qualif
 
 generateur.2=xml
-format.2=4
+format.2=1
 diplome.2=
 qualif.2=2
 formation.2=
@@ -17,7 +17,7 @@ adherents.2=true
 batchtype.2=qualif
 
 generateur.3=xml
-format.3=4
+format.3=1
 diplome.3=73
 qualif.3=
 formation.3=
@@ -26,7 +26,7 @@ adherents.3=true
 batchtype.3=diplome
 
 generateur.4=xml
-format.4=4
+format.4=1
 diplome.4=603
 qualif.4=
 formation.4=
@@ -35,7 +35,7 @@ adherents.4=true
 batchtype.4=diplome
 
 generateur.5=xml
-format.5=4
+format.5=1
 diplome.5=
 qualif.5=
 formation.5=248
@@ -44,7 +44,7 @@ adherents.5=true
 batchtype.5=formation
 
 generateur.6=xml
-format.6=4
+format.6=1
 diplome.6=
 qualif.6=
 formation.6=52
@@ -53,7 +53,7 @@ adherents.6=true
 batchtype.6=formation
 
 generateur.7=xml
-format.7=4
+format.7=1
 diplome.7=
 qualif.7=
 formation.7=244
@@ -62,7 +62,7 @@ adherents.7=true
 batchtype.7=formation
 
 generateur.8=xml
-format.8=4
+format.8=1
 diplome.8=
 qualif.8=
 formation.8=243
@@ -81,7 +81,7 @@ adherents.9=true
 batchtype.9=tout
 
 generateur.10=xml
-format.10=4
+format.10=1
 diplome.10=
 qualif.10=
 formation.10=53
@@ -90,7 +90,7 @@ adherents.10=true
 batchtype.10=formation
 
 generateur.11=xml
-format.11=4
+format.11=1
 diplome.11=140
 qualif.11=
 formation.11=
@@ -99,7 +99,7 @@ adherents.11=true
 batchtype.11=diplome
 
 generateur.12=xml
-format.12=4
+format.12=1
 diplome.12=
 qualif.12=
 formation.12=77
@@ -108,7 +108,7 @@ adherents.12=true
 batchtype.12=formation
 
 generateur.13=xml
-format.13=4
+format.13=1
 diplome.13=
 qualif.13=
 formation.13=42
@@ -117,7 +117,7 @@ adherents.13=true
 batchtype.13=formation
 
 generateur.14=xml
-format.14=4
+format.14=1
 diplome.14=185
 qualif.14=
 formation.14=
@@ -126,7 +126,7 @@ adherents.14=true
 batchtype.14=diplome
 
 generateur.15=xml
-format.15=4
+format.15=1
 diplome.15=612
 qualif.15=
 formation.15=
@@ -135,7 +135,7 @@ adherents.15=true
 batchtype.15=diplome
 
 generateur.16=xml
-format.16=4
+format.16=1
 diplome.16=613
 qualif.16=
 formation.16=
@@ -144,7 +144,7 @@ adherents.16=true
 batchtype.16=diplome
 
 generateur.17=xml
-format.17=4
+format.17=1
 diplome.17=619
 qualif.17=
 formation.17=
@@ -153,7 +153,7 @@ adherents.17=true
 batchtype.17=diplome
 
 generateur.18=xml
-format.18=4
+format.18=1
 diplome.18=
 qualif.18=
 formation.18=219
@@ -162,7 +162,7 @@ adherents.18=true
 batchtype.18=formation
 
 generateur.19=xml
-format.19=4
+format.19=1
 diplome.19=
 qualif.19=
 formation.19=250
@@ -171,7 +171,7 @@ adherents.19=true
 batchtype.19=formation
 
 generateur.20=xml
-format.20=4
+format.20=1
 diplome.20=
 qualif.20=
 formation.20=251
@@ -180,7 +180,7 @@ adherents.20=true
 batchtype.20=formation
 
 generateur.21=xml
-format.21=4
+format.21=1
 diplome.21=
 qualif.21=
 formation.21=263
@@ -189,7 +189,7 @@ adherents.21=true
 batchtype.21=formation
 
 generateur.22=xml
-format.22=4
+format.22=1
 diplome.22=
 qualif.22=
 formation.22=265
@@ -198,7 +198,7 @@ adherents.22=true
 batchtype.22=formation
 
 generateur.23=xml
-format.23=4
+format.23=1
 diplome.23=
 qualif.23=
 formation.23=226
@@ -207,7 +207,7 @@ adherents.23=true
 batchtype.23=formation
 
 generateur.24=xml
-format.24=4
+format.24=1
 diplome.24=
 qualif.24=
 formation.24=242
@@ -216,7 +216,7 @@ adherents.24=true
 batchtype.24=formation
 
 generateur.25=xml
-format.25=4
+format.25=1
 diplome.25=
 qualif.25=
 formation.25=274
@@ -225,7 +225,7 @@ adherents.25=true
 batchtype.25=formation
 
 generateur.26=xml
-format.26=4
+format.26=1
 diplome.26=
 qualif.26=
 formation.26=282
@@ -234,7 +234,7 @@ adherents.26=true
 batchtype.26=formation
 
 generateur.27=xml
-format.27=4
+format.27=1
 diplome.27=
 qualif.27=
 formation.27=221
@@ -243,7 +243,7 @@ adherents.27=true
 batchtype.27=formation
 
 generateur.28=xml
-format.28=4
+format.28=1
 diplome.28=
 qualif.28=
 formation.28=278
@@ -252,7 +252,7 @@ adherents.28=true
 batchtype.28=formation
 
 generateur.29=xml
-format.29=4
+format.29=1
 diplome.29=
 qualif.29=
 formation.29=247
@@ -261,7 +261,7 @@ adherents.29=true
 batchtype.29=formation
 
 generateur.30=xml
-format.30=4
+format.30=1
 diplome.30=
 qualif.30=
 formation.30=286
@@ -270,7 +270,7 @@ adherents.30=true
 batchtype.30=formation
 
 generateur.31=xml
-format.31=4
+format.31=1
 diplome.31=
 qualif.31=
 formation.31=223
@@ -279,7 +279,7 @@ adherents.31=true
 batchtype.31=formation
 
 generateur.32=xml
-format.32=4
+format.32=1
 diplome.32=
 qualif.32=
 formation.32=279
@@ -288,7 +288,7 @@ adherents.32=true
 batchtype.32=formation
 
 generateur.33=xml
-format.33=4
+format.33=1
 diplome.33=
 qualif.33=
 formation.33=276
@@ -298,7 +298,7 @@ adherents.33=true
 batchtype.33=formation
 
 generateur.34=xml
-format.34=4
+format.34=1
 diplome.34=
 qualif.34=
 formation.34=277
@@ -308,7 +308,7 @@ adherents.34=true
 batchtype.34=formation
 
 generateur.35=xml
-format.35=4
+format.35=1
 diplome.35=629
 qualif.35=
 formation.35=
@@ -317,7 +317,7 @@ adherents.35=true
 batchtype.35=diplome
 
 generateur.36=xml
-format.36=4
+format.36=1
 diplome.36=
 qualif.36=
 formation.36=252
@@ -327,7 +327,7 @@ adherents.36=true
 batchtype.36=formation
 
 generateur.37=xml
-format.37=4
+format.37=1
 diplome.37=
 qualif.37=
 formation.37=287
@@ -348,7 +348,7 @@ batchtype.38=tout
 options.38=preinscrits
 
 generateur.39=xml
-format.39=4
+format.39=1
 diplome.39=
 qualif.39=
 formation.39=95
@@ -358,7 +358,7 @@ adherents.39=true
 batchtype.39=formation
 
 generateur.40=xml
-format.40=4
+format.40=1
 diplome.40=
 qualif.40=
 formation.40=68

@@ -104,5 +104,8 @@ Version 1.4.2 :
 Version 1.4.3 :
 	- Registre de présence : Bug de détection de début d'activité
 Version 1.4.4 :
-	- Registre de présence : Bug de détection de début d'activité (calcul de l'année uniquement) 
+	- Registre de présence : Bug de détection de début d'activité (calcul de l'année uniquement)
+Version 1.4.5 :
+	Contournement lié à une évolution dans l'intranet qui bloque les extractions
+	Ajout des formations FAC et FITS 
 En cours :

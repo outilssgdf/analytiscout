@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.leplan73</groupId>
     <artifactId>analytiscout</artifactId>
-    <version>1.5.0-SNAPSHOT</version>
+    <version>1.4.6</version>
   </parent>
   <artifactId>analytiscout-jett</artifactId>
   <name>analytiscout-jett</name>

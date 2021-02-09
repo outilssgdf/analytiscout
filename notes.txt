@@ -108,4 +108,6 @@ Version 1.4.4 :
 Version 1.4.5 :
 	Contournement lié à une évolution dans l'intranet qui bloque les extractions
 	Ajout des formations FAC et FITS 
+Version 1.4.6 :
+	Correction liée à Apache Poi 4.1.2
 En cours :
